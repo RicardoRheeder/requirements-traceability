@@ -1,0 +1,38 @@
+image: gcc:4.9
+
+workflow:
+  rules:
+    -if: '$CI_COMMIT_BRANCH'
+
+before_script:
+  - apt update && apt -y install make autoconf
+
+# deploy:
+#   script:
+#     - echo "build deployment artifacts here"
+#   artifacts:
+#     paths:
+#       -public
+#   rules:
+#     - if: '$CI_COMMIT_BRANCH == "master"'
+
+build:
+  stage: test
+  script:
+    - make clean
+    - make build
+  artifacts:
+    paths:
+      - sum_test
+  cache:
+    paths:
+      - "*.o"
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "master"'
+
+test:
+  stage: test
+  script:
+    - make test
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "master"'
