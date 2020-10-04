@@ -49,7 +49,7 @@ class Router extends Component {
         return (
             <Route exact={exact} path={path}>
                 {
-                    this.props.loggedIn && isAuthorized
+                    isAuthorized //&& this.props.loggedIn
                         ?
                         children
                         :
