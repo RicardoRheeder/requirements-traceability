@@ -1,0 +1,42 @@
+--------------------------------------------------------------------------------------
+HOW TO GUIDE
+--------------
+
+A "how to" guide with information on how to run different files within the project.
+
+This file, './', is the working directory. All 'npm' commands must be done from here.
+
+--------------------------------------------------------------------------------------
+STARTING REACT
+--------------
+
+After cloning the repository, and when initiating the project for the first time for your system, from within the terminal run:
+
+- npm install         = Generate all node module dependencies
+
+After installing, you can runL
+
+- npm start           = Start your application with your special configuration options
+
+Visually, in the terminal, you will see your project build and should display: "Project is running at http://localhost:9090/"
+Navigating to http://localhost:9090/ should display your project.
+
+* "src" is the primary/only folder that developers will need to edit
+* do not mess around with the 'build' or 'build-config' folders  
+
+--------------------------------------------------------------------------------------
+RECOMMENDATIONS
+--------------
+
+It is recommended to use Visual Studio Code as an IDE. VS Code allows for the installation of extensions. 
+
+"ES7 React/Redux/GraphQL/React-Native snippets"
+    - This extension provides built-in snippets to generate REACT-ready code.
+    - e.g. "rcc", "rce", "rcep", "est", "redux", "sst", "props", etc... (all provided in the documentation of the extension)
+
+"Prettier"
+    - Automatically formats your code to the defined code-style
+
+"HTML Snippets"
+    - Allows for the quick typing of HTML elements
+    - e.g. head ==> <head><head/>
