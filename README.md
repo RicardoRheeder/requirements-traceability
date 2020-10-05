@@ -1,7 +1,5 @@
 # Requirements Traceability
 
-# Requirements Traceability
-
 ## Front-end (REACT) Usage
 
 Ensure that you have Node.js installed on your local machine: https://treehouse.github.io/installation-guides/windows/node-windows.html.
