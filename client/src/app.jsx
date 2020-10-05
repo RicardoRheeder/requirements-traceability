@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 // Root Stylesheet
-import './sass/main';
+import './sass/main.scss';
 
 import Router from './Router';
 
