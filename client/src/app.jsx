@@ -2,8 +2,12 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
 // Root Stylesheet
+<<<<<<< HEAD
 import './sass/main.scss'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
+=======
+import './sass/main.scss';
+>>>>>>> added .test for app, app currently fails .test
 
 import Router from './Router'
 
