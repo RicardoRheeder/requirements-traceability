@@ -11,7 +11,7 @@ const NODE_NAME = "Example Requirement";
 const NODE_DESCRIPTION = "Example description for new requirement";
 
 //Login page values
-const LOGIN_PAGE_PATH = "Login.jsx";
+const LOGIN_PAGE_PATH = "Login.jsx"; //Path to login page
 const LOGIN_USERFIELD_ID = "username-field";
 const LOGIN_PASSFIELD_ID = "password-field";
 const LOGIN_BUTTON_ID = "login-button";
