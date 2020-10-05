@@ -6,21 +6,21 @@ Ensure that you have Node.js installed on your local machine: https://treehouse.
 
 Clone the repository to your local machine.
 
-git clone https://git.cs.usask.ca/CMPT371-01-2020/requirements-traceability.git
+`git clone https://git.cs.usask.ca/CMPT371-01-2020/requirements-traceability.git`
 
 Using terminal application for command-line users (e.g. git bash), navigate to the cloned repository.
 
 Change directory to "client".
 
-cd client
+`cd client`
 
 Download and install the project's dependencies defined in the package.json file and generates a node_modules folder with the installed modules.
 
-npm install
+`npm install`
 
 Run the application.
 
-npm start
+`npm start`
 
 The localhost URL will be visually displayed within the terminal window (http://localhost:9090/ by default). 
 
