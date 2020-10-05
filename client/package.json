@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "react-boilerplate",
   "version": "0.0.1",
   "description": "a simple react boilerplate",
@@ -81,72 +80,4 @@
       "\\.(css|scss)$": "<rootDir>/__mocks__/styleMocks.js"
     }
   }
-=======
-    "name": "react-boilerplate",
-    "jest": {
-        "verbose": true,
-        "automock": false,
-        "clearMocks": true,
-        "collectCoverage": true,
-        "transform": {
-            "^.+\\.[jt]sx?$": "babel-jest"
-        },
-        "moduleNameMapper": {
-            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-            "\\.(css|scss)$": "<rootDir>/__mocks__/styleMocks.js"
-        }
-    },
-    "version": "0.0.1",
-    "description": "a simple react boilerplate",
-    "main": "/src/app.jsx",
-    "scripts": {
-        "start": "npm run clean && webpack-dev-server --config ./build-config/webpack.dev.config.js",
-        "build": "npm run clean && webpack --config ./build-config/webpack.config.js",
-        "deploy": "npm run build && gh-pages -d build",
-        "clean": "rm -Rf ./build/bundle.js ./build/index.html",
-        "reset": "npm run clean && rm -Rf ./node_modules ./package-lock.json",
-        "test": "jest --watchAll"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "MIT",
-    "dependencies": {
-        "core-js": "^3.1.4",
-        "enzyme-adapter-react-16": "^1.15.5",
-        "enzyme-to-json": "^3.6.1",
-        "react": "^16.8.6",
-        "react-icons": "^3.9.0",
-        "react-loading": "^2.0.3",
-        "react-redux": "^7.1.0",
-        "react-router-dom": "^5.0.1",
-        "redux": "^4.0.2",
-        "redux-thunk": "^2.3.0"
-    },
-    "devDependencies": {
-        "@babel/core": "^7.11.6",
-        "@babel/plugin-proposal-class-properties": "^7.8.3",
-        "@babel/preset-env": "^7.11.5",
-        "@babel/preset-react": "^7.10.4",
-        "babel-jest": "^26.5.2",
-        "babel-loader": "^8.0.6",
-        "css-loader": "^3.0.0",
-        "enzyme": "^3.11.0",
-        "gh-pages": "^2.0.1",
-        "html-loader": "^0.5.5",
-        "html-webpack-harddisk-plugin": "^1.0.1",
-        "html-webpack-plugin": "^3.2.0",
-        "identity-obj-proxy": "^3.0.0",
-        "jest": "^26.5.3",
-        "node-sass": "^4.12.0",
-        "react-addons-test-utils": "^15.6.2",
-        "react-dom": "^16.13.1",
-        "react-test-renderer": "^16.13.1",
-        "redux-devtools-extension": "^2.13.8",
-        "sass-loader": "^7.1.0",
-        "style-loader": "^0.23.1",
-        "webpack": "^4.35.2",
-        "webpack-cli": "^3.3.5",
-        "webpack-dev-server": "^3.7.2"
-    }
->>>>>>> added .test for app, app currently fails .test
 }
