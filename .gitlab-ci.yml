@@ -1,38 +1,33 @@
-image: gcc:4.9
+image: node:14.12.0
 
-workflow:
-  rules:
-    -if: '$CI_COMMIT_BRANCH'
-
-before_script:
-  - apt update && apt -y install make autoconf
-
-# deploy:
-#   script:
-#     - echo "build deployment artifacts here"
-#   artifacts:
-#     paths:
-#       -public
+# workflow:
 #   rules:
-#     - if: '$CI_COMMIT_BRANCH == "master"'
+#     - if: '$CI_COMMIT_BRANCH'
 
-build:
-  stage: test
+stages:
+  - build
+  - test
+
+cache:
+  paths:
+    - node_modules
+
+install_dependencies:
+  stage: build
   script:
-    - make clean
-    - make build
+    - npm install
   artifacts:
     paths:
-      - sum_test
-  cache:
-    paths:
-      - "*.o"
-  rules:
-    - if: '$CI_COMMIT_BRANCH != "master"'
+      - node_modules/
 
-test:
+run_tests:
   stage: test
   script:
-    - make test
-  rules:
-    - if: '$CI_COMMIT_BRANCH != "master"'
+    - cd client
+    - npm test
+  artifacts:
+    paths:
+      - test_reports/
+#   rules:
+#     - if: '$CI_COMMIT_BRANCH != "master"'
+
