@@ -30,7 +30,7 @@ Navigate to the localhost URL.
 
 Change directory to "backend" 
 
-`cd bacend`
+`cd backend`
 
 Download and install the project's dependencies defined in the package.json file and generates a node_modules folder with the installed modules.
 
