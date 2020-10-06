@@ -25,3 +25,19 @@ Run the application.
 The localhost URL will be visually displayed within the terminal window (http://localhost:9090/ by default). 
 
 Navigate to the localhost URL.
+
+## Back-end Usage
+
+Change directory to "backend" 
+
+`cd bacend`
+
+Download and install the project's dependencies defined in the package.json file and generates a node_modules folder with the installed modules.
+
+`npm install` 
+
+Run the application 
+
+`node run server.js` 
+
+Open your preffered browser and go to (http://localhost:5000)
