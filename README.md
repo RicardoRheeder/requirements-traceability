@@ -38,6 +38,6 @@ Download and install the project's dependencies defined in the package.json file
 
 Run the application 
 
-`node run server.js` 
+`node server` 
 
 Open your preferred browser and go to (http://localhost:5000)
