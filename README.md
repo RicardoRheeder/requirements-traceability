@@ -40,4 +40,4 @@ Run the application
 
 `node run server.js` 
 
-Open your preffered browser and go to (http://localhost:5000)
+Open your preferred browser and go to (http://localhost:5000)
