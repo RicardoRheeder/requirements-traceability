@@ -6,15 +6,15 @@ class LogIn extends Component {
 
     LogIn = () => {
         this.props.setLoggedIn(true);
-        setTimeout(() => {
-            this.props.history.push('/');
-        }, 100);
+        // setTimeout(() => {
+        //     this.props.history.push('/');
+        // }, 100);
     }
 
     render() {
         return (
             <div>
-                <button onClick={() => { this.LogIn(); }}>
+                <button id="LogInButton" onClick={() => { this.LogIn(); }}>
                     Log in
                 </button>
             </div>

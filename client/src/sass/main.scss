@@ -9,6 +9,9 @@ body {
 
 // import components- contains each self-contained component in its own .scss partial
 @import './components/ReactComponent';
+@import './components/NavBar';
 
 // import pages contains page-specific styling
 @import './pages/ReactPage';
+@import './pages/Editor';
+

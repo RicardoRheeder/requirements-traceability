@@ -11,8 +11,12 @@ import {
     Home,
     NotFound,
     ReactPage,
-    LogIn
+    LogIn,
+    Editor
 } from './pages';
+
+import { NavBar } from './components'
+
 import { connect } from './redux';
 
 class Router extends Component {
@@ -24,38 +28,31 @@ class Router extends Component {
             <div className="app-root">
                 <HashRouter>
                     <Switch>
-                        <SecureRoute
-                            exact={true} path='/'
-                            children={<Home />}
-                        />
-                        <Route
-                            exact path='/login'
-                            children={<LogIn />}
-                        />
-                        <SecureRoute
-                            path="*"
-                            children={<NotFound />}
-                        />
+                        {!loggedIn ? (
+                            <Route path="*">
+                                <LogIn />{/** Shows logging in page */}
+                            </Route>
+                        ) : (
+                                <>
+                                    < NavBar />
+                                    <Route
+                                        exact={true} path='/'
+                                        children={<Home />}
+                                    />
+                                    <Route
+                                        exact={true} path='/editor'
+                                        children={<Editor />}
+                                    />
+                                    {/* <Route
+                                        path="*"
+                                        children={<NotFound />}
+                                    /> */}
+                                </>
+                            )}
+
                     </Switch>
                 </HashRouter>
             </div>
-        )
-    }
-
-    SecureRoute = (props) => {
-        const DEFAULT_REDIRECT_PATH = '/login';
-        const { isAuthorized = true, path, redirectTo = DEFAULT_REDIRECT_PATH, children, exact = false } = props;
-
-        return (
-            <Route exact={exact} path={path}>
-                {
-                    this.props.loggedIn && isAuthorized
-                        ?
-                        children
-                        :
-                        <Redirect to={redirectTo} />
-                }
-            </Route>
         )
     }
 }
