@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 // Root Stylesheet
 import './sass/main';
+import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
 
 import Router from './Router';
 

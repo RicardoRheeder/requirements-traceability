@@ -1,0 +1,55 @@
+.root-div{
+    overflow: auto;
+}
+
+.tree-utilities{
+    flex: 0 0 auto; 
+    padding: 0 15px;
+}
+
+.tree-visual{
+    flex: 1 0 50%;
+    padding: 0 0 0 15px;
+}
+
+.search-panel{
+    font-size: 20px;
+    font-weight: 200;
+}
+
+.search-box{
+    width: 100px;
+}
+
+.tree-node-styling > * {
+    background: cyan;
+}
+
+.tree-node-styling {
+    background: cyan !important;
+    border:2px solid cyan;
+    font-size: 18px;
+    border-radius: 17px;    
+    // &.type-a {
+    //     background-color: red;
+    // }
+    z-index: 100;
+}
+
+.rstcustom__rowWrapper {
+    padding: 1px 1px 1px 0;
+}
+
+.rstcustom__rowContents {
+    border-radius: 12px;
+}
+
+.rstcustom__rowTitle {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.rstcustom__rowSubtitle {
+    font-size: 15px;
+    line-height: 1;
+}

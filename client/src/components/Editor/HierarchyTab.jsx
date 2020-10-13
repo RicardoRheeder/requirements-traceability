@@ -27,12 +27,12 @@ export default class HierarchyTab extends Component {
         }
     }
     handleMouseMove = (e) =>{
-        if(e){
-            console.log(
-                'onMouseMove',
-                e.nativeEvent.clientX, e.nativeEvent.clientY
-            )
-        }
+        // if(e){
+        //     console.log(
+        //         'onMouseMove',
+        //         e.nativeEvent.clientX, e.nativeEvent.clientY
+        //     )
+        // }
     }
     handleMouseLeave = (e) =>{
         if(e){

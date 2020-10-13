@@ -21,9 +21,12 @@
         "react-loading": "^2.0.3",
         "react-redux": "^7.1.0",
         "react-router-dom": "^5.0.1",
+        "react-sortable-tree": "^2.8.0",
+        "react-sortable-tree-theme-full-node-drag": "^1.1.0",
         "react-split-pane": "^0.1.92",
         "redux": "^4.0.2",
-        "redux-thunk": "^2.3.0"
+        "redux-thunk": "^2.3.0",
+        "tree-data-structure": "^0.2.0"
     },
     "devDependencies": {
         "@babel/core": "^7.5.0",
