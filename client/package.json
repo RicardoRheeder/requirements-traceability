@@ -110,10 +110,11 @@
         "redux-thunk": "^2.3.0"
     },
     "devDependencies": {
-        "@babel/core": "^7.5.0",
+        "@babel/core": "^7.11.6",
         "@babel/plugin-proposal-class-properties": "^7.8.3",
-        "@babel/preset-env": "^7.5.0",
-        "@babel/preset-react": "^7.0.0",
+        "@babel/preset-env": "^7.11.5",
+        "@babel/preset-react": "^7.10.4",
+        "babel-jest": "^26.5.2",
         "babel-loader": "^8.0.6",
         "css-loader": "^3.0.0",
         "enzyme": "^3.11.0",
@@ -121,16 +122,31 @@
         "html-loader": "^0.5.5",
         "html-webpack-harddisk-plugin": "^1.0.1",
         "html-webpack-plugin": "^3.2.0",
-        "jest": "^26.5.0",
+        "identity-obj-proxy": "^3.0.0",
+        "jest": "^26.5.3",
         "node-sass": "^4.12.0",
         "react-addons-test-utils": "^15.6.2",
         "react-dom": "^16.13.1",
+        "react-test-renderer": "^16.13.1",
         "redux-devtools-extension": "^2.13.8",
         "sass-loader": "^7.1.0",
         "style-loader": "^0.23.1",
         "webpack": "^4.35.2",
         "webpack-cli": "^3.3.5",
         "webpack-dev-server": "^3.7.2"
+    },
+    "jest": {
+        "verbose": true,
+        "clearMocks": true,
+        "collectCoverage": true,
+        "setupTestFrameworkScriptFile": "<rootDir>/config/setupTest.js",
+        "transform": {
+            "^.+\\.js$": "babel-jest"
+        },
+        "moduleNameMapper": {
+            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+            "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
+        }
     }
 >>>>>>> added .test for app, app currently fails .test
 }
