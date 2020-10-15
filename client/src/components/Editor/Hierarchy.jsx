@@ -3,21 +3,16 @@ import React, { useState } from 'react'
 import SortableTree, { toggleExpandedForAll } from 'react-sortable-tree';
 import FileExplorerTheme from 'react-sortable-tree-theme-full-node-drag';
 
+import { useSelector } from 'react-redux'
+
 export default function HierarchyRFC() {
+    const storeTreeData = useSelector(state => state.common.treeData);
+    const [ customTreeData, setTreeData] = useState(storeTreeData)
+
     const [searchString, setSearchString] = useState('');
     const [searchFocusIndex, setSearchFocusIndex] = useState(0)
     const [searchFoundCount, setSearchFoundCount] = useState(null);
 
-    const [ customTreeData, setTreeData] = useState([
-        { title: 'HLRQ1' },
-        { title: 'HLRQ2' },
-        {
-            title: 'HLRQ3',
-            subtitle: 'subtitle',
-            dragDisabled: true,
-        },
-        { title: 'HLRQ4', children: [{ title: 'LLRQ4' }], customField:'dfsfd' },
-    ])
 
     const alertNodeInfo = ({ node, path, treeIndex }) => {
         const objectString = Object.keys(node)
@@ -39,17 +34,11 @@ export default function HierarchyRFC() {
 
     const selectNextMatch = () => searchFocusIndex !== null ? setSearchFocusIndex((searchFocusIndex + 1) % searchFoundCount) : setSearchFocusIndex(0);
 
-    const expand = (expanded) => {
-        setTreeData( toggleExpandedForAll({ customTreeData, expanded, }))
-    }
+    const expand = (expanded) => setTreeData( toggleExpandedForAll({ customTreeData, expanded, }))
 
-    const expandAll = () => {
-        expand(true);
-    }
+    const expandAll = () => expand(true);
     
-    const collapseAll = () => {
-        expand(false);
-    }
+    const collapseAll = () => expand(false);
 
     return (
         <div className="root-div" style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>

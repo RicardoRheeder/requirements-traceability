@@ -1,10 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Hierarchy } from '../components'
 
 import SplitPane from 'react-split-pane';
 
+import { useSelector } from 'react-redux'
+
 export default function Editor() {
+    const storeTreeData = useSelector(state => state.common.treeData);
+
+    const ParseTreeData = () => 
+        storeTreeData.map(({ title }) => (
+            <div>
+                <div>{ title }</div>
+                <input type="text" className="editor-input" />
+            </div>
+        ))
+    
+
     return (
         <div>
              <div className="editor-root">
@@ -21,9 +34,7 @@ export default function Editor() {
                     <div>
                         <form>
                             Editor
-                            <div>
-                                <input type="text" className="editor-input" />
-                            </div>
+                            {ParseTreeData()}
                         </form>
                     </div>
 
