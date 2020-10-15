@@ -9,14 +9,20 @@ import { useSelector } from 'react-redux'
 export default function Editor() {
     const storeTreeData = useSelector(state => state.common.treeData);
 
-    const ParseTreeData = () => 
-        storeTreeData.map(({ title }) => (
-            <div>
+    const ParseTreeData = (struct, level, treeIndex) => 
+    {
+        var indentVal = String(level * 20)+"px";
+        level += 1;
+
+        console.log(indentVal)
+        return struct.map(({ title, text, children }) => (
+            <div style={ { marginLeft: indentVal } } key={ title }>
                 <div>{ title }</div>
-                <input type="text" className="editor-input" />
+                <input type="text" className="editor-input" value={ text } onChange={()=>{}}></input>
+                { children != null ? ParseTreeData(children, level) : <></>}
             </div>
         ))
-    
+    }
 
     return (
         <div>
@@ -34,7 +40,7 @@ export default function Editor() {
                     <div>
                         <form>
                             Editor
-                            {ParseTreeData()}
+                            { ParseTreeData(storeTreeData, 0) }
                         </form>
                     </div>
 
