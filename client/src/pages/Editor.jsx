@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import { Hierarchy } from '../components'
 
 import SplitPane from 'react-split-pane';
 
-export default class Editor extends Component {
-    render() {
-        return (
-            <div className="editor-root">
+export default function Editor() {
+    return (
+        <div>
+             <div className="editor-root">
                 <SplitPane
                     split="vertical"
                     minSize={150}
@@ -29,6 +29,6 @@ export default class Editor extends Component {
 
                 </SplitPane>
             </div>
-        )
-    }
+        </div>
+    )
 }

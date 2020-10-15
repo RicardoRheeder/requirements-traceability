@@ -1,32 +1,16 @@
-import React, { Component } from 'react';
-import { connect } from '../redux';
-import { withRouter } from "react-router-dom";
+import React from 'react';
 
-class LogIn extends Component {
+import { setLoggedIn } from '../redux/stores/common/actions'
+import { useDispatch } from 'react-redux'
 
-    LogIn = () => {
-        this.props.setLoggedIn(true);
-        // setTimeout(() => {
-        //     this.props.history.push('/');
-        // }, 100);
-    }
+export default function LogIn() {
+    const dispatch = useDispatch()
 
-    render() {
-        return (
-            <div>
-                <button id="LogInButton" onClick={() => { this.LogIn(); }}>
-                    Log in
-                </button>
-            </div>
-        )
-    }
+    return (
+        <div>
+            <button id="LogInButton" onClick={() => { dispatch(setLoggedIn(true)) }}>
+                Log in
+            </button>
+        </div>
+    )
 }
-
-export default withRouter(connect({
-    props: {
-        common: ["loggedIn"]
-    },
-    actions: {
-        common: ["setLoggedIn"],
-    }
-})(LogIn));
