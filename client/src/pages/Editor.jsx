@@ -1,13 +1,32 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 
 import { Hierarchy } from '../components'
 
 import SplitPane from 'react-split-pane';
 
-export default class Editor extends Component {
-    render() {
-        return (
-            <div className="editor-root">
+import { useSelector } from 'react-redux'
+
+export default function Editor() {
+    const storeTreeData = useSelector(state => state.common.treeData);
+
+    const ParseTreeData = (struct, level, treeIndex) => 
+    {
+        var indentVal = String(level * 20)+"px";
+        level += 1;
+
+        console.log(indentVal)
+        return struct.map(({ title, text, children }) => (
+            <div style={ { marginLeft: indentVal } } key={ title }>
+                <div>{ title }</div>
+                <input type="text" className="editor-input" value={ text } onChange={()=>{}}></input>
+                { children != null ? ParseTreeData(children, level) : <></>}
+            </div>
+        ))
+    }
+
+    return (
+        <div>
+             <div className="editor-root">
                 <SplitPane
                     split="vertical"
                     minSize={150}
@@ -21,14 +40,12 @@ export default class Editor extends Component {
                     <div>
                         <form>
                             Editor
-                            <div>
-                                <input type="text" className="editor-input" />
-                            </div>
+                            { ParseTreeData(storeTreeData, 0) }
                         </form>
                     </div>
 
                 </SplitPane>
             </div>
-        )
-    }
+        </div>
+    )
 }
