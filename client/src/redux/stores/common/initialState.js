@@ -1,5 +1,5 @@
 export default {
-  loggedIn: true,
+  loggedIn: false,
   treeData: [
     { title: "HLRQ1", text: "hlrq1 text" },
     { title: "HLRQ2", text: "hlrq2 text" },
