@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import SortableTree, { toggleExpandedForAll } from 'react-sortable-tree';
 import FileExplorerTheme from 'react-sortable-tree-theme-full-node-drag';
 
 import { useSelector } from 'react-redux'
+import { updateDataTree } from '../../redux/stores/common/actions';
 
 export default function HierarchyRFC() {
+    const dispatch = useDispatch()
+
     const storeTreeData = useSelector(state => state.common.treeData);
     const [ customTreeData, setTreeData] = useState(storeTreeData)
 
     const [searchString, setSearchString] = useState('');
     const [searchFocusIndex, setSearchFocusIndex] = useState(0)
     const [searchFoundCount, setSearchFoundCount] = useState(null);
-
 
     const alertNodeInfo = ({ node, path, treeIndex }) => {
         const objectString = Object.keys(node)
@@ -39,6 +42,11 @@ export default function HierarchyRFC() {
     const expandAll = () => expand(true);
     
     const collapseAll = () => expand(false);
+
+    const updateTreeData = () => { 
+        dispatch(updateDataTree(customTreeData));
+        return setTreeData;
+    }
 
     return (
         <div className="root-div" style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
@@ -102,7 +110,7 @@ export default function HierarchyRFC() {
         <SortableTree
             theme={FileExplorerTheme}
             treeData={customTreeData}
-            onChange={setTreeData}
+            onChange={updateTreeData()}
             rowHeight ={40}
             canDrag={({ node }) => !node.dragDisabled}
             
