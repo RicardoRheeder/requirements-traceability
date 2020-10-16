@@ -8,7 +8,8 @@
         "build": "npm run clean && webpack --config ./build-config/webpack.config.js",
         "deploy": "npm run build && gh-pages -d build",
         "clean": "rm -Rf ./build/bundle.js ./build/index.html",
-        "reset": "npm run clean && rm -Rf ./node_modules ./package-lock.json"
+        "reset": "npm run clean && rm -Rf ./node_modules ./package-lock.json",
+        "confidence-test": "node src/smoke.test.js & npm start"
     },
     "keywords": [],
     "author": "",
