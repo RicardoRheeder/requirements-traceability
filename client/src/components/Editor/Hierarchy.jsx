@@ -47,21 +47,22 @@ export default function Hierarchy() {
       ? setSearchFocusIndex((searchFocusIndex + 1) % searchFoundCount)
       : setSearchFocusIndex(0);
 
-  const expand = (expanded) =>
-    setTreeData(toggleExpandedForAll({ customTreeData, expanded }));
+  const expand = (expanded) => {
+    setTreeData(toggleExpandedForAll({ customTreeData, expanded }))
+  };
 
   const expandAll = () => expand(true);
 
   const collapseAll = () => expand(false);
 
   const insertNode = () => {
-    Tree_InsertNode(selectedNodeId);
-  }
+    Tree_InsertNode(customTreeData, selectedNodeId);
+  };
 
   const deleteNode = () => {
-    Tree_DeleteNode(selectedNodeId);
-  }
-  
+    Tree_DeleteNode(customTreeData, selectedNodeId);
+  };
+
   const updateTree = () => {
     let updatedTree = Tree_Update(customTreeData);
 
@@ -155,7 +156,6 @@ export default function Hierarchy() {
           onChange={updateTree()}
           rowHeight={40}
           canDrag={({ node }) => !node.dragDisabled}
-          onClick={() => console.log("test")}
           searchQuery={searchString}
           searchFocusOffset={searchFocusIndex}
           searchFinishCallback={(matches) => {
