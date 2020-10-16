@@ -1,20 +1,23 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import SortableTree, { toggleExpandedForAll } from "react-sortable-tree";
 import FileExplorerTheme from "react-sortable-tree-theme-full-node-drag";
 
-import { useSelector } from "react-redux";
-import { updateDataTree } from "../../redux/stores/common/actions";
+import {
+  updateDataTree,
+  updateSelectedNodeID,
+} from "../../redux/stores/common/actions";
 
 import { Tree_Update, Tree_InsertNode, Tree_DeleteNode } from "../../utils";
 
 export default function Hierarchy() {
   const dispatch = useDispatch();
-
+  const selectedNodeId = useSelector((state) => state.common.selectedID);
   const storeTreeData = useSelector((state) => state.common.treeData);
+
   const [customTreeData, setTreeData] = useState(storeTreeData);
-  const [selectedNodeId, setSelectedNodeId] = useState(1);
+  // const [selectedNodeId, setSelectedNodeId] = useState(0);
   const [searchString, setSearchString] = useState("");
   const [searchFocusIndex, setSearchFocusIndex] = useState(0);
   const [searchFoundCount, setSearchFoundCount] = useState(null);
@@ -51,10 +54,23 @@ export default function Hierarchy() {
 
   const collapseAll = () => expand(false);
 
-  const updateTreeData = () => {
-    let modifiedTreeData = Tree_Update(customTreeData);
-    dispatch(updateDataTree(modifiedTreeData));
+  const insertNode = () => {
+    Tree_InsertNode(selectedNodeId);
+  }
+
+  const deleteNode = () => {
+    Tree_DeleteNode(selectedNodeId);
+  }
+  
+  const updateTree = () => {
+    let updatedTree = Tree_Update(customTreeData);
+
+    dispatch(updateDataTree(updatedTree));
     return setTreeData;
+  };
+
+  const setSelectedNodeId = (id) => {
+    dispatch(updateSelectedNodeID(id));
   };
 
   const nodeClicked = (event, node) => {
@@ -82,6 +98,10 @@ export default function Hierarchy() {
         <div>
           <button onClick={expandAll}>Expand All</button>
           <button onClick={collapseAll}>Collapse All</button>
+        </div>
+        <div>
+          <button onClick={insertNode}>Insert Node</button>
+          <button onClick={deleteNode}>Delete Node</button>
         </div>
         <form
           style={{ display: "inline-block" }}
@@ -132,7 +152,7 @@ export default function Hierarchy() {
         <SortableTree
           theme={FileExplorerTheme}
           treeData={customTreeData}
-          onChange={updateTreeData()}
+          onChange={updateTree()}
           rowHeight={40}
           canDrag={({ node }) => !node.dragDisabled}
           onClick={() => console.log("test")}
@@ -164,7 +184,6 @@ export default function Hierarchy() {
                 "selected-tree-node" + " " + nodeProps.className;
               console.log(nodeProps.className);
             }
-
             return nodeProps;
           }}
         />

@@ -19,7 +19,7 @@ export default function Router() {
     <div className="app-root">
       <HashRouter>
         <Switch>
-          {!user ? (
+          {/* {!user ? (
             <Route path="*">
               <LandingPage />
             </Route>
@@ -29,13 +29,13 @@ export default function Router() {
               <Route exact={true} path="/" children={<Home />} />
               <Route exact={true} path="/editor" children={<Editor />} />
             </>
-          )}
+          )} */}
 
-          {/* <>
+          <>
             <NavBar />
             <Route exact={true} path="/" children={<Home />} />
             <Route exact={true} path="/editor" children={<Editor />} />
-          </> */}
+          </>
         </Switch>
       </HashRouter>
     </div>
