@@ -1,55 +1,66 @@
-.root-div{
-    overflow: auto;
+.root-div {
+  overflow: auto;
 }
 
-.tree-utilities{
-    flex: 0 0 auto; 
-    padding: 0 15px;
+.tree-utilities {
+  flex: 0 0 auto;
+  padding: 0 15px;
 }
 
-.tree-visual{
-    flex: 1 0 50%;
-    padding: 0 0 0 15px;
+.tree-visual {
+  flex: 1 0 50%;
+  padding: 0 0 0 15px;
 }
 
-.search-panel{
-    font-size: 20px;
-    font-weight: 200;
+.search-panel {
+  font-size: 20px;
+  font-weight: 200;
 }
 
-.search-box{
-    width: 100px;
+.search-box {
+  width: 100px;
 }
 
 .tree-node-styling > * {
-    background: cyan;
+  background: rgb(68, 211, 255);
 }
 
 .tree-node-styling {
-    background: cyan !important;
-    border:2px solid cyan;
-    font-size: 18px;
-    border-radius: 17px;    
-    // &.type-a {
-    //     background-color: red;
-    // }
-    z-index: 100;
+  background: cyan;
+  border: 2px solid cyan;
+  font-size: 18px;
+  border-radius: 17px;
+  // &.type-a {
+  //     background-color: red;
+  // }
+  z-index: 100;
+}
+
+.selected-tree-node > * {
+  background: red;
+}
+
+.selected-tree-node {
+  background: red !important;
+  border: 2px solid red;
 }
 
 .rstcustom__rowWrapper {
-    padding: 1px 1px 1px 0;
+  padding: 1px 1px 1px 0;
 }
 
 .rstcustom__rowContents {
-    border-radius: 12px;
+  border-radius: 12px;
+  min-width: 100px;
+  width: 150px;
 }
 
 .rstcustom__rowTitle {
-    font-weight: bold;
-    font-size: 20px;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .rstcustom__rowSubtitle {
-    font-size: 15px;
-    line-height: 1;
+  font-size: 15px;
+  line-height: 1;
 }

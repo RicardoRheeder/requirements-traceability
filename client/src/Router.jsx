@@ -22,19 +22,20 @@ export default function Router() {
           {!user ? (
             <Route path="*">
               <LogIn />
-              {/** Shows logging in page */}
             </Route>
           ) : (
             <>
               <NavBar />
               <Route exact={true} path="/" children={<Home />} />
               <Route exact={true} path="/editor" children={<Editor />} />
-              {/* <Route
-                                    path="*"
-                                    children={<NotFound />}
-                                /> */}
             </>
           )}
+
+          {/* <>
+            <NavBar />
+            <Route exact={true} path="/" children={<Home />} />
+            <Route exact={true} path="/editor" children={<Editor />} />
+          </> */}
         </Switch>
       </HashRouter>
     </div>

@@ -34,9 +34,9 @@ export default function Editor() {
         <SplitPane
           split="vertical"
           minSize={200}
-          defaultSize={200}
-          // defaultSize={parseInt(localStorage.getItem('splitPos'), 200)}
-          // onChange={(size) => localStorage.setItem('splitPos', size)}
+          // defaultSize={201}
+          defaultSize={parseInt(localStorage.getItem("splitPos"), 200)}
+          onChange={(size) => localStorage.setItem("splitPos", size)}
         >
           <div>
             <Hierarchy />
