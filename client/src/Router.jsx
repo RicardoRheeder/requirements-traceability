@@ -2,7 +2,7 @@ import React from "react";
 
 import { HashRouter, Switch, Route, Redirect } from "react-router-dom";
 
-import { Home, NotFound, ReactPage, LogIn, Editor } from "./pages";
+import { Home, NotFound, ReactPage, LandingPage, Editor } from "./pages";
 
 import { NavBar } from "./components";
 
@@ -12,7 +12,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Router() {
   // const loggedIn = useSelector((state) => state.common.loggedIn);
-  const { user } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
   //   console.log(user);
 
   return (
@@ -21,7 +21,7 @@ export default function Router() {
         <Switch>
           {!user ? (
             <Route path="*">
-              <LogIn />
+              <LandingPage />
             </Route>
           ) : (
             <>
