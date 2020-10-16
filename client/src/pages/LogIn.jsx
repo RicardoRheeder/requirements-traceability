@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export default function LogIn() {
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { loginWithRedirect } = useAuth0();
 
   return (
@@ -13,7 +13,7 @@ export default function LogIn() {
       <button
         id="LogInButton"
         onClick={() => {
-          //   dispatch(setLoggedIn(true));
+          // dispatch(setLoggedIn(true));
           loginWithRedirect();
         }}
       >

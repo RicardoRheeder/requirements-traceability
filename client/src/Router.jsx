@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Router() {
-  const loggedIn = useSelector((state) => state.common.loggedIn);
+  // const loggedIn = useSelector((state) => state.common.loggedIn);
   const { user } = useAuth0();
   //   console.log(user);
 
