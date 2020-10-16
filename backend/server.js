@@ -25,11 +25,6 @@ if (app.get("env") === "production") {
 // middleware
 app.use(cors());
 app.use(express.json());
-app.use(session(sess));
-
-// using passport
-app.use(passport.initialize());
-app.use(passport.session());
 
 // connect to mongoDB atlas
 const uri = process.env.ATLAS_URI;
@@ -45,8 +40,6 @@ app.get("/", (req, res) => {
 });
 
 // using routes
-const authRouter = require("./routes/auth");
-app.use("/auth", authRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
