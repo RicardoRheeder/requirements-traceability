@@ -208,8 +208,8 @@ export default function Hierarchy() {
               ? setSearchFocusIndex(searchFocusIndex % matches.length)
               : setSearchFocusIndex(0);
           }}
-          generateNodeProps={(rowInfo, row, path, node) => {
-            console.log(rowInfo.path);
+          generateNodeProps={(rowInfo) => {
+            // console.log(rowInfo.path);
             let nodeProps = {
               onClick: (event) => nodeClicked(event, rowInfo.node),
               title: (

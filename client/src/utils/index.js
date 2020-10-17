@@ -5,12 +5,10 @@ export function Tree_Update(customTreeData) {
     Object.keys(TreeData).forEach((index) => {
       TreeData[index]['id'] = idCounter;
       idCounter += 1;
-
       if (TreeData[index]["children"] != null && TreeData[index]["children"] != []) {
         parseData(TreeData[index]['children'])
       }
-
-      console.log(index, TreeData[index]);
+      // console.log(index, TreeData[index]);
     });
     return TreeData;
   }
@@ -73,7 +71,7 @@ export function Tree_DeleteNode(customTreeData, attr, targetID ) {
 }
 
 
-// Returns an object of the tree with the selected ID's node deleted
+// Returns an object of the tree with the selected ID's title updated
 export function Tree_UpdateNodeName(customTreeData, targetID, title ) {
   function parseData(TreeData){
     var i = TreeData.length;
@@ -89,6 +87,27 @@ export function Tree_UpdateNodeName(customTreeData, targetID, title ) {
     }
     return TreeData;
   }
-  var treeWithDeletedChild = parseData(customTreeData)
-  return treeWithDeletedChild;
+  var treeWithRenamedNode = parseData(customTreeData)
+  return treeWithRenamedNode;
+}
+
+
+// Returns an object of the tree with the selected ID's text updated
+export function Tree_UpdateNodeText(customTreeData, targetID, text ) {
+  function parseData(TreeData){
+    var i = TreeData.length;
+    while(i--){
+      if( TreeData[i]
+        && TreeData[i].hasOwnProperty('id')
+        && (TreeData[i]['id'] === targetID ) ){
+          TreeData[i]['text'] = text
+          break
+      } else if (TreeData[i].hasOwnProperty('children')){
+        parseData(TreeData[i]['children'])
+      }
+    }
+    return TreeData;
+  }
+  var treeWithNewText = parseData(customTreeData)
+  return treeWithNewText;
 }
