@@ -78,12 +78,13 @@ export default function Hierarchy() {
   // Delete a node in the structure, then calls the updateTree function on it
   const deleteNode = () => {
     // TreeData retrieved from function - has deleted node
-    var td = Tree_DeleteNode(customTreeData, selectedNodeId);
-    console.log("DELETE");
-    console.log(td);
+    var td = Tree_DeleteNode(customTreeData, "id", selectedNodeId);
+    // Get new id to focus on
+    let newSelectedNodeID = selectedNodeId - 1;
+    if (newSelectedNodeID < 0) newSelectedNodeID = 0;
+    setSelectedNodeId(newSelectedNodeID);
     // NewTree - just used so that REACT knows to fucking rerender
     var nt = [].concat(td);
-
     updateTree(nt);
   };
 

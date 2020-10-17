@@ -54,51 +54,29 @@ export function Tree_InsertNode(customTreeData, selectedNodeID ) {
         // console.log(index, TreeData[index]);
       }
     });
-
     return TreeData;
   }
-
   var treeWithAddedChild = parseData(customTreeData);
-
   return treeWithAddedChild;
 }
 
-
-
-export function Tree_DeleteNode(customTreeData, selectedNodeID ) {
-  console.log("delete" + selectedNodeID)
-  let continueWalk = true
-
+export function Tree_DeleteNode(customTreeData, attr, targetID ) {
   function parseData(TreeData){
-    Object.keys(TreeData).forEach((index) => {
-      if (continueWalk){
-        if (TreeData[index]['children'] != null){
-          parseData(TreeData[index]['children'])
-        }
-        
-        if (TreeData[index]['id'] == selectedNodeID){
-          continueWalk = false
-          TreeData[index] = {}
-        }
-      }
-    });
+    var i = TreeData.length;
+    while(i--){
+      if( TreeData[i] 
+        && TreeData[i].hasOwnProperty(attr) 
+        && (TreeData[i][attr] === targetID ) ){ 
 
+          TreeData.splice(i,1);
+          break
+
+      } else if (TreeData[i].hasOwnProperty('children')){
+        parseData(TreeData[i]['children'])
+      }
+    }
     return TreeData;
   }
-
-  var treeWithDeletedChild = parseData(customTreeData);
-
-  console.log("jere")
-  console.log(treeWithDeletedChild)
-
+  var treeWithDeletedChild = parseData(customTreeData)
   return treeWithDeletedChild;
 }
-
-
-// {
-//   title: "HLRQ4",
-//   id: 4,
-//   text: "hlrq4 text",
-//   children: [{ title: "LLRQ4", text: "llrq4 text", id: 5 }],
-//   customField: "test",
-// },
