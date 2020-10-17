@@ -1,58 +1,62 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-import { Hierarchy } from "../components";
+import { Hierarchy } from '../components'
 
-import SplitPane from "react-split-pane";
+import SplitPane from 'react-split-pane'
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux'
 
-import { Tree_Update, Tree_UpdateNodeText } from "../utils";
+import { Tree_Update, Tree_UpdateNodeText } from '../utils'
 
 import {
   updateDataTree,
   updateSelectedNodeID,
-} from "../redux/stores/common/actions";
+} from '../redux/stores/common/actions'
 
 export default function Editor() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const storeTreeData = useSelector((state) => state.common.treeData);
-  const selectedNodeId = useSelector((state) => state.common.selectedID);
+  const storeTreeData = useSelector((state) => state.common.treeData)
+  const selectedNodeId = useSelector((state) => state.common.selectedID)
 
   // Updates the tree's ID's and pushes to Redux store
-  const updateTree = (tree) => dispatch(updateDataTree(Tree_Update(tree)));
+  const updateTree = (tree) => dispatch(updateDataTree(Tree_Update(tree)))
 
   const updateNodeText = (event) => {
     var td = Tree_UpdateNodeText(
       storeTreeData,
       selectedNodeId,
       event.target.value
-    );
+    )
 
     // NewTree - just used so that REACT knows to fucking rerender
-    var nt = [].concat(td);
+    var nt = [].concat(td)
     // console.log("HERE");
     // console.log(nt);
-    updateTree(nt);
-  };
+    updateTree(nt)
+  }
 
-  const ParseTreeData = (struct, level, treeIndex) => {
-    var indentVal = String(level * 20) + "px";
-    level += 1;
+  const ParseTreeData = (struct, level) => {
+    var indentVal = String(level * 20) + 'px'
+    level += 1
     // console.log(indentVal);
-    return struct.map(({ title, text, children }) => (
-      <div style={{ marginLeft: indentVal }} key={title}>
-        <div>{title}</div>
-        <textarea
-          type="text"
-          className="editor-input"
-          value={text}
-          onChange={updateNodeText}
-        ></textarea>
-        {children != null ? ParseTreeData(children, level) : <></>}
-      </div>
-    ));
-  };
+    return struct.map(({ title, text, children, id }) => {
+      console.log(id)
+      return (
+        <div style={{ marginLeft: indentVal }} key={title}>
+          <div>{title}</div>
+          <textarea
+            type="text"
+            className="editor-input"
+            value={text}
+            onChange={updateNodeText}
+            onFocus={() => dispatch(updateSelectedNodeID(id))            }
+          ></textarea>
+          {children != null ? ParseTreeData(children, level) : <></>}
+        </div>
+      )
+    })
+  }
 
   return (
     <div>
@@ -61,8 +65,8 @@ export default function Editor() {
           split="vertical"
           minSize={200}
           // defaultSize={201}
-          defaultSize={parseInt(localStorage.getItem("splitPos"), 200)}
-          onChange={(size) => localStorage.setItem("splitPos", size)}
+          defaultSize={parseInt(localStorage.getItem('splitPos'), 200)}
+          onChange={(size) => localStorage.setItem('splitPos', size)}
         >
           <div>
             <Hierarchy />
@@ -76,5 +80,5 @@ export default function Editor() {
         </SplitPane>
       </div>
     </div>
-  );
+  )
 }
