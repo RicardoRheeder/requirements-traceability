@@ -20,7 +20,7 @@ import {
   Tree_UpdateNodeName,
 } from '../../utils'
 
-export default function Hierarchy() {
+export default function Hierarchy({scrollFunction}) {
   const dispatch = useDispatch()
 
   // Keeps track of which node ID is selected: Value will update with the selectedID stored in Redux
@@ -130,6 +130,11 @@ export default function Hierarchy() {
     }
   }
 
+  const executeScroll = () => {
+    scrollFunction()
+    // console.log('Double click')
+  }
+
   return (
     <div
       className="root-div"
@@ -212,7 +217,7 @@ export default function Hierarchy() {
             // console.log(rowInfo.path);
             let nodeProps = {
               onClick: (event) => nodeClicked(event, rowInfo.node),
-              onDoubleClick: () => {console.log('Double click')},
+              onDoubleClick: executeScroll,
               title: (
                 <input
                   style={{ fontSize: '1.1rem' }}

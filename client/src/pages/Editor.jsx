@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import { Hierarchy } from '../components'
 
@@ -36,21 +36,35 @@ export default function Editor() {
     updateTree(nt)
   }
 
+  const SectionToFocus = useRef(null)
+  const scrollToRef = () => {
+    console.log('SCROLL')
+    window.scrollTo(0, SectionToFocus.current.offsetTop)
+  }
+
   const ParseTreeData = (struct, level) => {
     var indentVal = String(level * 20) + 'px'
     level += 1
     // console.log(indentVal);
     return struct.map(({ title, text, children, id }) => {
-      console.log(id)
+      if (parseInt(id) == parseInt(selectedNodeId)) {
+        console.log('Found : ' + title)
+      }
+
       return (
-        <div style={{ marginLeft: indentVal }} key={title}>
+        <div
+          ref={parseInt(id) == parseInt(selectedNodeId) ? SectionToFocus : null}
+          style={{ marginLeft: indentVal }}
+          key={title}
+          className={parseInt(id) == parseInt(selectedNodeId) ? 'test' : 'not'}
+        >
           <div>{title}</div>
           <textarea
             type="text"
             className="editor-input"
             value={text}
             onChange={updateNodeText}
-            onFocus={() => dispatch(updateSelectedNodeID(id))            }
+            onFocus={() => dispatch(updateSelectedNodeID(id))}
           ></textarea>
           {children != null ? ParseTreeData(children, level) : <></>}
         </div>
@@ -69,13 +83,11 @@ export default function Editor() {
           onChange={(size) => localStorage.setItem('splitPos', size)}
         >
           <div>
-            <Hierarchy />
+            <Hierarchy scrollFunction={scrollToRef} />
           </div>
           <div>
-            <form>
-              Editor
-              {ParseTreeData(storeTreeData, 0)}
-            </form>
+            Editor
+            {ParseTreeData(storeTreeData, 0)}
           </div>
         </SplitPane>
       </div>

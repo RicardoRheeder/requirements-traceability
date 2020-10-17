@@ -25,10 +25,10 @@ class App extends Component {
 }
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Auth0ProviderWithHistory>
+  // <BrowserRouter>
+  //   <Auth0ProviderWithHistory>
       <App />
-    </Auth0ProviderWithHistory>
-  </BrowserRouter>,
-  document.getElementById('root')
+  //   </Auth0ProviderWithHistory>
+  // </BrowserRouter>,
+  ,document.getElementById('root')
 )
