@@ -1,0 +1,33 @@
+image: node:14.12.0
+
+# workflow:
+#   rules:
+#     - if: '$CI_COMMIT_BRANCH'
+
+stages:
+  - build
+  - test
+
+cache:
+  paths:
+    - node_modules
+
+install_dependencies:
+  stage: build
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+
+run_tests:
+  stage: test
+  script:
+    - cd client
+    - npm test
+  artifacts:
+    paths:
+      - test_reports/
+#   rules:
+#     - if: '$CI_COMMIT_BRANCH != "master"'
+
