@@ -5,8 +5,7 @@ export default {
     { title: "HLRQ2", text: "hlrq2 text", id: 2 },
     {
       title: "HLRQ3",
-      subtitle: "subtitle",
-      dragDisabled: true,
+      // dragDisabled: true,
       text: "hlrq3 text",
       id: 3
     },

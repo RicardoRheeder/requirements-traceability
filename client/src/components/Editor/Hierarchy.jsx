@@ -17,6 +17,7 @@ import {
   Tree_InsertNode,
   Tree_DeleteNode,
   Tree_ExpandData,
+  Tree_UpdateNodeName,
 } from "../../utils";
 
 export default function Hierarchy() {
@@ -83,6 +84,15 @@ export default function Hierarchy() {
     let newSelectedNodeID = selectedNodeId - 1;
     if (newSelectedNodeID < 0) newSelectedNodeID = 0;
     setSelectedNodeId(newSelectedNodeID);
+    // NewTree - just used so that REACT knows to fucking rerender
+    var nt = [].concat(td);
+    updateTree(nt);
+  };
+
+  const updateNodeName = (name) => {
+    console.log(name);
+    var td = Tree_UpdateNodeName(customTreeData, selectedNodeId, name);
+
     // NewTree - just used so that REACT knows to fucking rerender
     var nt = [].concat(td);
     updateTree(nt);
@@ -199,10 +209,20 @@ export default function Hierarchy() {
               : setSearchFocusIndex(0);
           }}
           generateNodeProps={(rowInfo, row, path, node) => {
-            // console.log(rowInfo);
+            console.log(rowInfo.path);
             let nodeProps = {
               onClick: (event) => nodeClicked(event, rowInfo.node),
-              className: "",
+              title: (
+                <input
+                  style={{ fontSize: "1.1rem" }}
+                  class="row_inputfield"
+                  value={rowInfo.node.title}
+                  onChange={(event) => {
+                    const name = event.target.value;
+                    updateNodeName(name);
+                  }}
+                />
+              ),
               buttons: [
                 <button onClick={() => alertNodeInfo(rowInfo)}>i</button>,
               ],
