@@ -5,7 +5,7 @@ export function Tree_Update(customTreeData) {
       TreeData[index]['id'] = idCounter;
       idCounter += 1;
 
-      if (TreeData[index]['children'] != null){
+      if (TreeData[index]["children"] != null && TreeData[index]["children"] != []) {
         parseData(TreeData[index]['children'])
       }
 
@@ -21,10 +21,21 @@ export function Tree_Update(customTreeData) {
   return treeWithCorrectIDs;
 }
 
+export function Tree_ExpandData(TreeData, expanded) {
+  Object.keys(TreeData).forEach((index) => {
+    if (TreeData[index]["children"] != null && TreeData[index]["children"] != []) {
+      TreeData[index]["expanded"] = expanded;
+      Tree_ExpandData(TreeData[index]["children"], expanded);
+    }
+  });
+
+  return TreeData;
+};
+
 export function Tree_InsertNode(customTreeData, selectedNodeID ) {
   console.log("insert" + selectedNodeID)
 
-  var newNode = {title: "New Node", id: 999, text:"Text here"}
+  var newNode = {title: "New Node", id: 999, text:"Text here", expanded: false}
   // let updatedTree = customTreeData
 
   function parseData(TreeData){
@@ -34,12 +45,12 @@ export function Tree_InsertNode(customTreeData, selectedNodeID ) {
       }
       
       if (TreeData[index]['id'] == selectedNodeID){
-        if (TreeData[index]['children'] == null){
+        if (TreeData[index]['children'] == null  && TreeData[index]["children"] != []){
             TreeData[index]['children'] = []
         }
         
         TreeData[index]['children'].push(newNode)
-        
+        TreeData[index]['expanded'] = true;
         // console.log(index, TreeData[index]);
       }
     });
@@ -48,16 +59,39 @@ export function Tree_InsertNode(customTreeData, selectedNodeID ) {
   }
 
   var treeWithAddedChild = parseData(customTreeData);
-  var treeWithCorrectIDs = Tree_Update(treeWithAddedChild);
-  console.log(treeWithCorrectIDs)
 
-  return treeWithCorrectIDs;
+  return treeWithAddedChild;
 }
 
 
 
-export function Tree_DeleteNode(customTreeData, id ) {
-  console.log("delete" + id)
+export function Tree_DeleteNode(customTreeData, selectedNodeID ) {
+  console.log("delete" + selectedNodeID)
+  let continueWalk = true
+
+  function parseData(TreeData){
+    Object.keys(TreeData).forEach((index) => {
+      if (continueWalk){
+        if (TreeData[index]['children'] != null){
+          parseData(TreeData[index]['children'])
+        }
+        
+        if (TreeData[index]['id'] == selectedNodeID){
+          continueWalk = false
+          TreeData[index] = {}
+        }
+      }
+    });
+
+    return TreeData;
+  }
+
+  var treeWithDeletedChild = parseData(customTreeData);
+
+  console.log("jere")
+  console.log(treeWithDeletedChild)
+
+  return treeWithDeletedChild;
 }
 
 

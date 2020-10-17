@@ -1,7 +1,7 @@
 export default {
   loggedIn: false,
   treeData: [
-    { title: "HLRQ1", text: "hlrq1 text", id: 1 },
+    { title: "HLRQ1", text: "hlrq1 text", id: 1},
     { title: "HLRQ2", text: "hlrq2 text", id: 2 },
     {
       title: "HLRQ3",
@@ -16,6 +16,7 @@ export default {
       text: "hlrq4 text",
       children: [{ title: "LLRQ4", text: "llrq4 text", id: 5 }],
       customField: "test",
+      expanded :false,
     },
   ],
   selectedID: 0,

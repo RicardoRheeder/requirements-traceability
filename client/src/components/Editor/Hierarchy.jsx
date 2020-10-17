@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import SortableTree, { toggleExpandedForAll } from "react-sortable-tree";
+import SortableTree, {
+  toggleExpandedForAll,
+  removeNodeAtPath,
+} from "react-sortable-tree";
 import FileExplorerTheme from "react-sortable-tree-theme-full-node-drag";
 
 import {
@@ -9,24 +12,35 @@ import {
   updateSelectedNodeID,
 } from "../../redux/stores/common/actions";
 
-import { Tree_Update, Tree_InsertNode, Tree_DeleteNode } from "../../utils";
+import {
+  Tree_Update,
+  Tree_InsertNode,
+  Tree_DeleteNode,
+  Tree_ExpandData,
+} from "../../utils";
 
 export default function Hierarchy() {
   const dispatch = useDispatch();
+
+  // Keeps track of which node ID is selected: Value will update with the selectedID stored in Redux
   const selectedNodeId = useSelector((state) => state.common.selectedID);
-  const storeTreeData = useSelector((state) => state.common.treeData);
 
-  const [customTreeData, setTreeData] = useState(storeTreeData);
-  // const [selectedNodeId, setSelectedNodeId] = useState(0);
-  const [searchString, setSearchString] = useState("");
-  const [searchFocusIndex, setSearchFocusIndex] = useState(0);
-  const [searchFoundCount, setSearchFoundCount] = useState(null);
+  const useCustomTreeData = () =>
+    useSelector((state) => state.common.treeData, []);
+  // customTreeData is the tree object stored in Redux
+  const customTreeData = useCustomTreeData();
+  // For testing, this should be called whenever customTreeData updates
+  // console.log(customTreeData);
 
+  const [searchString, setSearchString] = useState(""); // String in the search box
+  const [searchFocusIndex, setSearchFocusIndex] = useState(0); // Which tree index to focus on
+  const [searchFoundCount, setSearchFoundCount] = useState(null); // Cound of searched items found
+
+  // The 'i' button's function to display more info for a node
   const alertNodeInfo = ({ node, path, treeIndex }) => {
     const objectString = Object.keys(node)
       .map((k) => (k === "children" ? "children: Array" : `${k}: '${node[k]}'`))
       .join(",\n   ");
-
     global.alert(
       "Info passed to the icon and button generators:\n\n" +
         `node: {\n   ${objectString}\n},\n` +
@@ -35,45 +49,64 @@ export default function Hierarchy() {
     );
   };
 
+  // Goes to the prev searched item
   const selectPrevMatch = () =>
     searchFocusIndex !== null
       ? setSearchFocusIndex(
           (searchFoundCount + searchFocusIndex - 1) % searchFoundCount
         )
       : setSearchFocusIndex(searchFoundCount - 1);
-
+  // Goes to the next searched item
   const selectNextMatch = () =>
     searchFocusIndex !== null
       ? setSearchFocusIndex((searchFocusIndex + 1) % searchFoundCount)
       : setSearchFocusIndex(0);
 
+  // Updates the tree's ID's and pushes to Redux store
+  const updateTree = (tree) => dispatch(updateDataTree(Tree_Update(tree)));
+
+  // Inserts a new node in the structure, then calls the updateTree function on it
+  const insertNode = () => {
+    // TreeData retrieved from function - has inserted node
+    var td = Tree_InsertNode(customTreeData, selectedNodeId);
+    // NewTree - just used so that REACT knows to fucking rerender
+    var nt = [].concat(td);
+
+    updateTree(nt);
+  };
+
+  // Delete a node in the structure, then calls the updateTree function on it
+  const deleteNode = () => {
+    // TreeData retrieved from function - has deleted node
+    var td = Tree_DeleteNode(customTreeData, selectedNodeId);
+    console.log("DELETE");
+    console.log(td);
+    // NewTree - just used so that REACT knows to fucking rerender
+    var nt = [].concat(td);
+
+    updateTree(nt);
+  };
+
+  // Expands/Collapses all the data in the tree
   const expand = (expanded) => {
-    setTreeData(toggleExpandedForAll({ customTreeData, expanded }))
+    var td = Tree_ExpandData(customTreeData, expanded); // Goes through tree and sets expanded of all nodes
+
+    // NewTree - just used so that REACT knows to fucking rerender
+    var nt = [].concat(td);
+
+    updateTree(nt);
   };
 
   const expandAll = () => expand(true);
 
   const collapseAll = () => expand(false);
 
-  const insertNode = () => {
-    Tree_InsertNode(customTreeData, selectedNodeId);
-  };
-
-  const deleteNode = () => {
-    Tree_DeleteNode(customTreeData, selectedNodeId);
-  };
-
-  const updateTree = () => {
-    let updatedTree = Tree_Update(customTreeData);
-
-    dispatch(updateDataTree(updatedTree));
-    return setTreeData;
-  };
-
+  // Sends the clicked node's ID to Redux's selectedID
   const setSelectedNodeId = (id) => {
     dispatch(updateSelectedNodeID(id));
   };
 
+  // The handler for node click events
   const nodeClicked = (event, node) => {
     if (
       event.target.className.includes("collapseButton") ||
@@ -153,7 +186,7 @@ export default function Hierarchy() {
         <SortableTree
           theme={FileExplorerTheme}
           treeData={customTreeData}
-          onChange={updateTree()}
+          onChange={updateTree}
           rowHeight={40}
           canDrag={({ node }) => !node.dragDisabled}
           searchQuery={searchString}
@@ -165,7 +198,7 @@ export default function Hierarchy() {
               : setSearchFocusIndex(0);
           }}
           generateNodeProps={(rowInfo, row, path, node) => {
-            console.log(rowInfo);
+            // console.log(rowInfo);
             let nodeProps = {
               onClick: (event) => nodeClicked(event, rowInfo.node),
               className: "",
@@ -179,10 +212,10 @@ export default function Hierarchy() {
                 (rowInfo.node.customField ? " type-a" : ""),
             };
             if (rowInfo.node && selectedNodeId === rowInfo.node.id) {
-              console.log(nodeProps);
+              // console.log(nodeProps);
               nodeProps.className =
                 "selected-tree-node" + " " + nodeProps.className;
-              console.log(nodeProps.className);
+              // console.log(nodeProps.className);
             }
             return nodeProps;
           }}
