@@ -32,17 +32,21 @@ router.route("/get:id").get((req, res)=>{
     })
 });
 
-// Get all requirements
+// Get all requirements given an id
 router.route("/get-requirements/:id").get((req, res)=>{
 
      const id = req.params.id;
 
      Document.findById(id).populate("requirements").exec().then((doc)=>{
-         
+         res.json(doc);                  
+     }).catch((err)=>{
+         res.status(400).json("Error: could not find requirements given "+ id);
      })
-     
-
 })
+
+// Get all users
+
+
 
 
 
