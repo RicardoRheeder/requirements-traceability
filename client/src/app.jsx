@@ -22,6 +22,12 @@ class App extends Component {
       </Provider>
     )
   }
+
+  
+}
+
+export const add = (x,y) => {
+  return x+y
 }
 
 ReactDOM.render(
