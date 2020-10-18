@@ -139,12 +139,13 @@ export default function Hierarchy({ scrollToElementFunction }) {
 
   return (
     <div
-      className="root-div"
       style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}
     >
       {/* Tree Utilities */}
       <div className="tree-utilities">
-        <div>Hierarchy</div>
+        <div>
+          <h1>Hierarchy</h1>
+        </div>
 
         {/* Expand/Collapse buttons */}
         <div>

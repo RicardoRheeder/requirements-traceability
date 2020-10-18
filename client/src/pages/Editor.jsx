@@ -57,7 +57,9 @@ export default function Editor() {
           id={id}
         >
           <div>
-            {order} {title}
+            <h2 className="section-headers">
+              {order} {title}
+            </h2>
           </div>
           <textarea
             type="text"
@@ -82,17 +84,17 @@ export default function Editor() {
         defaultSize={parseInt(localStorage.getItem('splitPos'), 200)}
         onChange={(size) => localStorage.setItem('splitPos', size)}
       >
-        <div>
+        <div className="hierarchy-root-div">
           <Hierarchy
             scrollToElementFunction={(el) =>
               scrollToElement(paneRef.current.pane2.querySelector('.selected'))
             }
           />
         </div>
-        <>
-          Editor
+        <div className="editor-root-div">
+          <h1>Editor</h1>
           {ParseTreeData(Tree_Update(storeTreeData), 0)}
-        </>
+        </div>
       </SplitPane>
     </div>
   )
