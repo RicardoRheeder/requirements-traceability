@@ -15,17 +15,19 @@
       width: 100px;
     }
   }
+
   .tree-visual {
     flex: 1 0 50%;
     padding: 0 0 0 15px;
 
     .tree-node-styling > * {
-      background: rgb(68, 211, 255);
+      background: #434f5b;
+      border-color: transparent;
     }
 
     .tree-node-styling {
-      background: cyan;
-      border: 2px solid cyan;
+      background: #434f5b;
+      border: 2px solid transparent;
       font-size: 18px;
       border-radius: 17px;
       // &.type-a {
@@ -35,12 +37,27 @@
     }
 
     .selected-tree-node > * {
-      background: red;
+      background: #f96302;
+      color: #212a3f;
+
+      input {
+        color: #212a3f;
+      }
     }
 
     .selected-tree-node {
-      background: red !important;
-      border: 2px solid red;
+      background: #f96302 !important;
+      border: 2px solid #f96302;
+    }
+
+    .node-ordering-title {
+      margin: 0 2px 0 0;
+    }
+
+    .node-info-button {
+      border-radius: 25px;
+      padding: 0px 5px;
+      font-weight: 600;
     }
 
     .rstcustom__rowWrapper {
@@ -51,10 +68,15 @@
       border-radius: 12px;
       min-width: 100px;
       width: 150px;
+      padding: 0 3px 0 3px;
     }
 
     .row_inputfield {
-      width: 125px;
+      width: 100%;
+      background: transparent;
+      border: none;
+      font-size: 1.1rem;
+      color: #f2f2f2;
     }
 
     .rstcustom__rowTitle {
@@ -65,6 +87,25 @@
     .rstcustom__rowSubtitle {
       font-size: 15px;
       line-height: 1;
+    }
+
+    .rst__lineHalfHorizontalRight::before,
+    .rst__lineFullVertical::after,
+    .rst__lineHalfVerticalTop::after,
+    .rst__lineHalfVerticalBottom::after {
+      position: absolute;
+      content: '';
+      background-color: #f96302;
+    }
+
+    .rst__lineFullVertical::after,
+    .rst__lineHalfVerticalTop::after,
+    .rst__lineHalfVerticalBottom::after {
+      width: 2px;
+    }
+
+    .rst__lineHalfHorizontalRight::before {
+      height: 2px;
     }
   }
 }

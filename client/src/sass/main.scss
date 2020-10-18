@@ -32,7 +32,9 @@ h3 {
   line-height: 15.4px;
 }
 p,
-textarea {
+textarea,
+span,
+input {
   font-family: monospace;
   font-size: 14px;
   font-style: normal;
@@ -77,6 +79,15 @@ pre {
     transparent,
     transparent
   );
+}
+
+.Resizer {
+  background: #212a3f !important;
+  // opacity: 1 !important;
+}
+
+.Resizer.vertical {
+  width: 15px !important;
 }
 
 // import components- contains each self-contained component in its own .scss partial

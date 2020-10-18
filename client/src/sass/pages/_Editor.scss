@@ -1,6 +1,6 @@
 // editor root contains both editor-root-div and hierarchy-root-div (found in Hierarchy.scss)
 .editor-root {
-  color: white;
+  color: #f2f2f2;
 
   .Pane {
     overflow: auto;
@@ -11,9 +11,14 @@
 
       .editor-input {
         width: 99%;
+        color: #f2f2f2;
       }
       .selected {
         background: #212a3f;
+
+        .section-headers {
+          color: #f96302;
+        }
       }
 
       .section-headers {

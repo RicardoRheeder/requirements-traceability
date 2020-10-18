@@ -138,9 +138,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
   }
 
   return (
-    <div
-      style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}
-    >
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       {/* Tree Utilities */}
       <div className="tree-utilities">
         <div>
@@ -223,9 +221,11 @@ export default function Hierarchy({ scrollToElementFunction }) {
               onDoubleClick: executeScroll,
               title: (
                 <span>
-                  <span>{rowInfo.node.order}</span>
+                  <span className="node-ordering-title">
+                    {rowInfo.node.order}
+                  </span>
                   <input
-                    style={{ fontSize: '1.1rem' }}
+                    style={{}}
                     className="row_inputfield"
                     value={rowInfo.node.title}
                     onChange={(event) => {
@@ -236,7 +236,12 @@ export default function Hierarchy({ scrollToElementFunction }) {
                 </span>
               ),
               buttons: [
-                <button onClick={() => alertNodeInfo(rowInfo)}>i</button>,
+                <button
+                  className="node-info-button"
+                  onClick={() => alertNodeInfo(rowInfo)}
+                >
+                  i
+                </button>,
               ],
               listIndex: 0,
               lowerSiblingCounts: [],
