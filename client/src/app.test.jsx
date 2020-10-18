@@ -1,17 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import app from './app.jsx';    
+import {add} from './app.jsx';    
 
-import Enzyme, { shallow } from 'enzyme';
+import Enzyme, { shallow, mount } from 'enzyme';
 import toJson from 'enzyme-to-json'; 
 import Adapter from 'enzyme-adapter-react-16';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe('<app />', () => {
-    it('renders the test component', () => {
-        const testcomp = shallow(<app />);
-        expect(testcomp.type).toEqual(app);
-    });
+console.log(add(1,3))
 
+test('add function', () =>{
+    const val = add(1,2)
+    expect(val).toBe(3)
 });
