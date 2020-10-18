@@ -15,12 +15,13 @@ import {
 
 export default function Editor() {
   const dispatch = useDispatch()
+  const paneRef = useRef(null)
 
-  const storeTreeData = useSelector((state) => state.common.treeData)
+  const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedNodeId = useSelector((state) => state.common.selectedID)
 
   // Updates the tree's ID's and pushes to Redux store
-  const updateTree = (tree) => dispatch(updateDataTree(Tree_Update(tree)))
+  const updateTree = (tree) => dispatch(updateDataTree(tree))
 
   const updateNodeText = (event) => {
     var td = Tree_UpdateNodeText(
@@ -28,35 +29,32 @@ export default function Editor() {
       selectedNodeId,
       event.target.value
     )
-
-    // NewTree - just used so that REACT knows to fucking rerender
+    // NewTree - just used so that REACT knows to rerender
     var nt = [].concat(td)
-    // console.log("HERE");
-    // console.log(nt);
     updateTree(nt)
   }
 
-  const SectionToFocus = useRef(null)
-  const scrollToRef = () => {
-    console.log('SCROLL')
-    window.scrollTo(0, SectionToFocus.current.offsetTop)
+  const scrollToElement = (element) => {
+    element.scrollIntoView(true, { behavior: 'smooth' })
   }
 
   const ParseTreeData = (struct, level) => {
+    window.test = paneRef
+
     var indentVal = String(level * 20) + 'px'
     level += 1
     // console.log(indentVal);
     return struct.map(({ title, text, children, id }) => {
-      if (parseInt(id) == parseInt(selectedNodeId)) {
-        console.log('Found : ' + title)
-      }
-
       return (
         <div
-          ref={parseInt(id) == parseInt(selectedNodeId) ? SectionToFocus : null}
           style={{ marginLeft: indentVal }}
-          key={title}
-          className={parseInt(id) == parseInt(selectedNodeId) ? 'test' : 'not'}
+          key={title + '' + id}
+          className={
+            parseInt(id) == parseInt(selectedNodeId)
+              ? 'selected ' + parseInt(id)
+              : 'not-selected ' + parseInt(id)
+          }
+          id={id}
         >
           <div>{title}</div>
           <textarea
@@ -73,24 +71,27 @@ export default function Editor() {
   }
 
   return (
-    <div>
-      <div className="editor-root">
-        <SplitPane
-          split="vertical"
-          minSize={200}
-          // defaultSize={201}
-          defaultSize={parseInt(localStorage.getItem('splitPos'), 200)}
-          onChange={(size) => localStorage.setItem('splitPos', size)}
-        >
-          <div>
-            <Hierarchy scrollFunction={scrollToRef} />
-          </div>
-          <div>
-            Editor
-            {ParseTreeData(storeTreeData, 0)}
-          </div>
-        </SplitPane>
-      </div>
+    <div className="editor-root">
+      <SplitPane
+        split="vertical"
+        minSize={200}
+        ref={paneRef}
+        // defaultSize={201}
+        defaultSize={parseInt(localStorage.getItem('splitPos'), 200)}
+        onChange={(size) => localStorage.setItem('splitPos', size)}
+      >
+        <div>
+          <Hierarchy
+            scrollToElementFunction={(el) =>
+              scrollToElement(paneRef.current.pane2.querySelector('.selected'))
+            }
+          />
+        </div>
+        <>
+          Editor
+          {ParseTreeData(Tree_Update(storeTreeData), 0)}
+        </>
+      </SplitPane>
     </div>
   )
 }

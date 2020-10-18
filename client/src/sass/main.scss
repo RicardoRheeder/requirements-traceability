@@ -1,11 +1,11 @@
 body {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
+  overflow: hidden;
 }
 
 .app-root {
-    font-size: 2em;
+  font-size: 2em;
 }
-
 
 // import components- contains each self-contained component in its own .scss partial
 @import './components/ReactComponent';
@@ -17,4 +17,3 @@ body {
 // import pages contains page-specific styling
 @import './pages/ReactPage';
 @import './pages/Editor';
-

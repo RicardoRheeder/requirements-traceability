@@ -8,11 +8,11 @@ export function Tree_Update(customTreeData) {
       if (TreeData[index]["children"] != null && TreeData[index]["children"] != []) {
         parseData(TreeData[index]['children'])
       }
-      // console.log(index, TreeData[index]);
     });
     return TreeData;
   }
-  var treeWithCorrectIDs = parseData(customTreeData);
+  var treeWithCorrectIDs = parseData(customTreeData); 
+  // JSON.parse(JSON.stringify(parseData(customTreeData)));
   return treeWithCorrectIDs;
 }
 

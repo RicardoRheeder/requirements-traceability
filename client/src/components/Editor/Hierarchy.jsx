@@ -20,14 +20,14 @@ import {
   Tree_UpdateNodeName,
 } from '../../utils'
 
-export default function Hierarchy({scrollFunction}) {
+export default function Hierarchy({ scrollToElementFunction }) {
   const dispatch = useDispatch()
 
   // Keeps track of which node ID is selected: Value will update with the selectedID stored in Redux
   const selectedNodeId = useSelector((state) => state.common.selectedID)
 
   const useCustomTreeData = () =>
-    useSelector((state) => state.common.treeData, [])
+    Tree_Update(useSelector((state) => state.common.treeData))
   // customTreeData is the tree object stored in Redux
   const customTreeData = useCustomTreeData()
   // For testing, this should be called whenever customTreeData updates
@@ -64,7 +64,8 @@ export default function Hierarchy({scrollFunction}) {
       : setSearchFocusIndex(0)
 
   // Updates the tree's ID's and pushes to Redux store
-  const updateTree = (tree) => dispatch(updateDataTree(Tree_Update(tree)))
+  const updateTree = (tree) =>
+    dispatch(updateDataTree(JSON.parse(JSON.stringify(Tree_Update(tree)))))
 
   // Inserts a new node in the structure, then calls the updateTree function on it
   const insertNode = () => {
@@ -131,7 +132,8 @@ export default function Hierarchy({scrollFunction}) {
   }
 
   const executeScroll = () => {
-    scrollFunction()
+    console.log(selectedNodeId)
+    scrollToElementFunction()
     // console.log('Double click')
   }
 
