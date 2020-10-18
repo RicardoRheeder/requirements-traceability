@@ -221,15 +221,18 @@ export default function Hierarchy({ scrollToElementFunction }) {
               onClick: (event) => nodeClicked(event, rowInfo.node),
               onDoubleClick: executeScroll,
               title: (
-                <input
-                  style={{ fontSize: '1.1rem' }}
-                  className="row_inputfield"
-                  value={rowInfo.node.title}
-                  onChange={(event) => {
-                    const name = event.target.value
-                    updateNodeName(name)
-                  }}
-                />
+                <span>
+                  <span>{rowInfo.node.order}</span>
+                  <input
+                    style={{ fontSize: '1.1rem' }}
+                    className="row_inputfield"
+                    value={rowInfo.node.title}
+                    onChange={(event) => {
+                      const name = event.target.value
+                      updateNodeName(name)
+                    }}
+                  />
+                </span>
               ),
               buttons: [
                 <button onClick={() => alertNodeInfo(rowInfo)}>i</button>,

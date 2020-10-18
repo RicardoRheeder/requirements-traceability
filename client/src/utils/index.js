@@ -1,17 +1,25 @@
 // Returns an object of the tree with reorganised ID values
 export function Tree_Update(customTreeData) {
   var idCounter = 1;
-  function parseData(TreeData){
+
+  function parseData(TreeData, strOrdering){
+    var OrderingCounter = 1;
+
     Object.keys(TreeData).forEach((index) => {
       TreeData[index]['id'] = idCounter;
+
+      TreeData[index]['order'] = strOrdering + '' + OrderingCounter + '.';
+      OrderingCounter += 1;
+
       idCounter += 1;
       if (TreeData[index]["children"] != null && TreeData[index]["children"] != []) {
-        parseData(TreeData[index]['children'])
+        parseData(TreeData[index]['children'], TreeData[index]['order'])
       }
     });
     return TreeData;
   }
-  var treeWithCorrectIDs = parseData(customTreeData); 
+
+  var treeWithCorrectIDs = parseData(customTreeData, ''); 
   // JSON.parse(JSON.stringify(parseData(customTreeData)));
   return treeWithCorrectIDs;
 }

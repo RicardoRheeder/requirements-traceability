@@ -44,7 +44,7 @@ export default function Editor() {
     var indentVal = String(level * 20) + 'px'
     level += 1
     // console.log(indentVal);
-    return struct.map(({ title, text, children, id }) => {
+    return struct.map(({ title, text, children, id, order }) => {
       return (
         <div
           style={{ marginLeft: indentVal }}
@@ -56,7 +56,9 @@ export default function Editor() {
           }
           id={id}
         >
-          <div>{title}</div>
+          <div>
+            {order} {title}
+          </div>
           <textarea
             type="text"
             className="editor-input"
