@@ -19,6 +19,12 @@ class App extends Component {
       </Provider>
     )
   }
+
+  
 }
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+export const add = (x,y) => {
+  return x+y
+}
+
+
