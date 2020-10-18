@@ -83,6 +83,19 @@
   }
 =======
     "name": "react-boilerplate",
+    "jest": {
+        "verbose": true,
+        "automock": false,
+        "clearMocks": true,
+        "collectCoverage": true,
+        "transform": {
+            "^.+\\.[jt]sx?$": "babel-jest"
+        },
+        "moduleNameMapper": {
+            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+            "\\.(css|scss)$": "<rootDir>/__mocks__/styleMocks.js"
+        }
+    },
     "version": "0.0.1",
     "description": "a simple react boilerplate",
     "main": "/src/app.jsx",
@@ -92,7 +105,7 @@
         "deploy": "npm run build && gh-pages -d build",
         "clean": "rm -Rf ./build/bundle.js ./build/index.html",
         "reset": "npm run clean && rm -Rf ./node_modules ./package-lock.json",
-        "test": "jest"
+        "test": "jest --watchAll"
     },
     "keywords": [],
     "author": "",
@@ -134,19 +147,6 @@
         "webpack": "^4.35.2",
         "webpack-cli": "^3.3.5",
         "webpack-dev-server": "^3.7.2"
-    },
-    "jest": {
-        "verbose": true,
-        "clearMocks": true,
-        "collectCoverage": true,
-        "setupTestFrameworkScriptFile": "<rootDir>/config/setupTest.js",
-        "transform": {
-            "^.+\\.js$": "babel-jest"
-        },
-        "moduleNameMapper": {
-            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-            "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
-        }
     }
 >>>>>>> added .test for app, app currently fails .test
 }
