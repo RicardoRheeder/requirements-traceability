@@ -12,7 +12,6 @@ const requirementSchema = new Schema(
     isDeleted: {type: Boolean, required: true},
     versions: [{ type: Schema.Types.ObjectId, ref: "Requirement"}],
     dependencies: [{ type: Schema.Types.ObjectId, ref: "Requirement"}],
-    createdTime: {type: Date, required: true},
     isBeingEdited: {type: Boolean, required: true},
     isChanged: {type: Boolean, required: true},
   },
