@@ -35,6 +35,24 @@ router.route("/get/:id").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// Update Routes*****************************************
+
+// updating a specific user
+router.route("/update/:id").put((req, res) => {
+  User.findById(req.params.id)
+    .then((user) => {
+      (user.username = req.body.username),
+        (user.email = req.body.email),
+        (user.documents = user.body.documents);
+
+      user
+        .save()
+        .then((user) => res.json("User updated: " + user))
+        .catch((err) => res.status(400).json("Error: " + err));
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 // Delete Routes*****************************************
 
 // deleting a specific user
