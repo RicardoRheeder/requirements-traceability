@@ -30,9 +30,24 @@ router.route("/").get((req, res) => {
 
 // getting a specific user
 router.route("/get/:id").get((req, res) => {
-  console.log(req.params.id);
   User.findById(req.params.id)
     .then((user) => res.json(user))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
+// Delete Routes*****************************************
+
+// deleting a specific user
+router.route("/delete/:id").delete((req, res) => {
+  User.findByIdAndDelete(req.params.id)
+    .then((user) => res.json("User deleted: " + user))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
+// delete all users (for testing)
+router.route("/deleteAll").delete((req, res) => {
+  User.deleteMany({})
+    .then(() => res.json("All users deleted"))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
