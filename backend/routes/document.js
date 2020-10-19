@@ -80,6 +80,13 @@ router.route("/add-user/:id").patch((req, res) => {
 
 // Delete Routes*****************************************
 
+// delete a single doc
+router.route("/delete/:id").delete((req, res) => {
+  Document.findByIdAndDelete(req.params.id)
+    .then((doc) => res.json("Document deleted: " + doc))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 // delete all docs (for testing)
 router.route("/deleteAll").delete((req, res) => {
   Document.deleteMany({})
