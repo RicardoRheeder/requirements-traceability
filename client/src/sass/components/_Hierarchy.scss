@@ -107,5 +107,32 @@
     .rst__lineHalfHorizontalRight::before {
       height: 2px;
     }
+
+    .rst__nodeContent {
+      width: fit-content;
+    }
+    .rstcustom__rowWrapper {
+      width: fit-content;
+    }
+
+    .rstcustom__row {
+      width: fit-content;
+    }
+
+    .rstcustom__rowContents {
+      width: fit-content;
+    }
+
+    .rstcustom__rowLabel {
+      width: fit-content;
+      padding: 0px;
+    }
+
+    .rstcustom__rowTitle {
+      width: fit-content;
+    }
+    .node-row-text {
+      width: fit-content;
+    }
   }
 }
