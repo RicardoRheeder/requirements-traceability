@@ -61,13 +61,20 @@ router.route("/get-requirements/:id").get((req, res) => {
 
 // Update Routes*****************************************
 
-// adding a user to a document
+// adding a user to a document and adding a document to the user
 router.route("/add-user/:id").patch((req, res) => {
   Document.findByIdAndUpdate(
     { _id: req.params.id },
     { $addToSet: { collaborators: req.body.userId } }
   )
-    .then((doc) => res.json(doc))
+    .then((doc) => {
+      User.findByIdAndUpdate(
+        { _id: req.body.userId },
+        { $addToSet: { documents: req.params.id } }
+      )
+        .then((user) => res.json("User added to doc: " + doc))
+        .catch((err) => res.status(400).json("Error: " + err));
+    })
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
