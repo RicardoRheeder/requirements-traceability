@@ -22,14 +22,14 @@ router.route("/create-requirement").post((req, res)=>{
     }).catch((err)=>res.status(400).json("Error occured: Coudl not save "+ err))
 });
 
-// Update a Requirement
+// TO DO: Update a Requirement
 
-// Get all Requirements
+// TO DO: Get all Requirements
 
-// Get a specific Requirement
+// TO DO: Get a specific Requirement
 
-// Get all versions of a Requirement (and populate)
+// TO DO: Get all versions of a Requirement (and populate)
 
-// Delete a Requirement
+// TO DO: Delete a Requirement
 
-// Delete all Requirements
+// TO DO: Delete all Requirements
