@@ -19,7 +19,7 @@ router.route("/create-requirement").post((req, res)=>{
 
     newRequirement.save().then((newRequirement)=>{
         res.json("Requirement saved to db " + newRequirement)
-    }).catch((err)=>res.status(400).json("Error occured: Coudl not save "+ err))
+    }).catch((err)=>res.status(400).json("Error occured: Could not save "+ err))
 });
 
 // TO DO: Update a Requirement
