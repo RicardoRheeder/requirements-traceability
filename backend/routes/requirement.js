@@ -57,6 +57,30 @@ router.route("/update-isChanged/:id").patch((req, res) => {
     .catch((err) => res.json("Error: " + err));
 });
 
+// updating isBeingEdited
+router.route("/update-isBeingEdited/:id").patch((req, res) => {
+  Requirement.findByIdAndUpdate(
+    { _id: req.params.id },
+    { $set: { isBeingEdited: req.body.value } }
+  )
+    .then((requirement) =>
+      res.json("requirement isBeingEdited status updated: " + requirement)
+    )
+    .catch((err) => res.json("Error: " + err));
+});
+
+// updating isDeleted
+router.route("/update-isDeleted/:id").patch((req, res) => {
+  Requirement.findByIdAndUpdate(
+    { _id: req.params.id },
+    { $set: { isDeleted: req.body.value } }
+  )
+    .then((requirement) =>
+      res.json("requirement isDeleted status updated: " + requirement)
+    )
+    .catch((err) => res.json("Error: " + err));
+});
+
 // updating the req body
 router.route("/update-body/:id").patch((req, res) => {
   Requirement.findByIdAndUpdate(
@@ -67,6 +91,22 @@ router.route("/update-body/:id").patch((req, res) => {
       res.json("requirement text body updated: " + requirement)
     )
     .catch((err) => res.json("Error: " + err));
+});
+
+// Delete routes*****************************************
+
+// deleting a specific requirement
+router.route("/delete-requirement/:id").delete((req, res) => {
+  Requirement.findByIdAndDelete(req.params.id)
+    .then((requirement) => res.json("Requirement deleted: " + requirement))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
+// delete all req. (for testing)
+router.route("/deleteAll").delete((req, res) => {
+  Requirement.deleteMany({})
+    .then(() => res.json("All requirements deleted"))
+    .catch((err) => res.status(400).json("Error: " + err));
 });
 
 module.exports = router;
