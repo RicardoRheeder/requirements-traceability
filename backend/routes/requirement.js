@@ -93,6 +93,18 @@ router.route("/update-body/:id").patch((req, res) => {
     .catch((err) => res.json("Error: " + err));
 });
 
+// updating the req name
+router.route("/update-name/:id").patch((req, res) => {
+  Requirement.findByIdAndUpdate(
+    { _id: req.params.id },
+    { $set: { name: req.body.value } }
+  )
+    .then((requirement) =>
+      res.json("requirement text name updated: " + requirement)
+    )
+    .catch((err) => res.json("Error: " + err));
+});
+
 // Delete routes*****************************************
 
 // deleting a specific requirement
