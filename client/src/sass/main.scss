@@ -9,7 +9,7 @@ body {
 
 h1 {
   font-family: monospace;
-  font-size: 24px;
+  font-size: 24px !important;
   font-style: normal;
   font-variant: normal;
   font-weight: 700;
@@ -17,7 +17,7 @@ h1 {
 }
 h2 {
   font-family: monospace;
-  font-size: 18px;
+  font-size: 18px !important;
   font-style: normal;
   font-variant: normal;
   font-weight: 700;
@@ -25,7 +25,7 @@ h2 {
 }
 h3 {
   font-family: monospace;
-  font-size: 14px;
+  font-size: 14px !important;
   font-style: normal;
   font-variant: normal;
   font-weight: 700;
@@ -36,7 +36,7 @@ textarea,
 span,
 input {
   font-family: monospace;
-  font-size: 14px;
+  font-size: 14px !important;
   font-style: normal;
   font-variant: normal;
   font-weight: 400;
@@ -44,7 +44,7 @@ input {
 }
 blockquote {
   font-family: monospace;
-  font-size: 21px;
+  font-size: 21px !important;
   font-style: normal;
   font-variant: normal;
   font-weight: 400;
@@ -52,11 +52,14 @@ blockquote {
 }
 pre {
   font-family: monospace;
-  font-size: 13px;
+  font-size: 13px !important;
   font-style: normal;
   font-variant: normal;
   font-weight: 400;
   line-height: 18.5714px;
+}
+button {
+  font-size: 16px !important;
 }
 
 *::-webkit-scrollbar {
@@ -99,3 +102,6 @@ pre {
 // import pages contains page-specific styling
 @import './pages/ReactPage';
 @import './pages/Editor';
+
+@import './vendors/bootstrap.min.css';
+@import './vendors/login.css';

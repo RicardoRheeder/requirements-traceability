@@ -1,11 +1,12 @@
 // editor root contains both editor-root-div and hierarchy-root-div (found in Hierarchy.scss)
 .editor-root {
   color: #f2f2f2;
-
   .Pane {
     overflow: auto;
+    top: 100px;
 
     .editor-root-div {
+      padding: 10px;
       background: #434f5b;
       overflow: auto;
 
