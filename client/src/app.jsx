@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
 // Root Stylesheet
+<<<<<<< HEAD
 import './sass/main'
+=======
+import './sass/main.scss'
+>>>>>>> adding snapshot testing framework and early integration testing
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
 
 import Router from './Router'
@@ -25,12 +29,15 @@ class App extends Component {
 
   
 }
+<<<<<<< HEAD
 
 export const add = (x,y) => {
   return x+y
 }
 
 <<<<<<< HEAD
+=======
+>>>>>>> adding snapshot testing framework and early integration testing
 ReactDOM.render(
   <BrowserRouter>
     <Auth0ProviderWithHistory>
