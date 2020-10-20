@@ -26,9 +26,7 @@ class App extends Component {
   
 }
 
-export const add = (x,y) => {
-  return x+y
-}
+
 
 ReactDOM.render(
   <BrowserRouter>
