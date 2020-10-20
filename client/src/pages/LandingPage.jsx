@@ -3,7 +3,7 @@ import { LoginButton } from "../components";
 
 export default function LandingPage() {
   return (
-    <div>
+    <div className="landing-page-root"> 
       <LoginButton />
     </div>
   );
