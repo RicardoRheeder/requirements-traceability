@@ -99,7 +99,11 @@ router.route("/update-body/:id").patch((req, res) => {
 // Delete routes*****************************************
 
 // TODO: deleting a specific requirement
-
+router.route("/delete-requirement/:id").delete((req, res) => {
+  Requirement.findByIdAndDelete(req.params.id)
+    .then((requirement) => res.json("Requirement deleted: "+ requirement))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
 
 // TODO: deleting all requirements
 
