@@ -3,11 +3,16 @@ import ReactDOM from 'react-dom'
 
 // Root Stylesheet
 <<<<<<< HEAD
+<<<<<<< HEAD
 import './sass/main.scss'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
 =======
 import './sass/main.scss';
 >>>>>>> added .test for app, app currently fails .test
+=======
+import './sass/main.scss'
+import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
+>>>>>>> adding snapshot testing framework and early integration testing
 
 import Router from './Router'
 
