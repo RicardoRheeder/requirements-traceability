@@ -58,10 +58,30 @@ router.route("/update-isChanged/:id").patch((req, res) => {
 });
 
 
-// TODO: updating isBeingEdited
+// updating isBeingEdited
+router.route("/update-isBeingEdited/:id").patch((req, res) => {
+  Requirement.findByIdAndUpdate(
+    { _id: req.params.id },
+    { $set: { isBeingEdited: req.body.value } }
+  )
+    .then((requirement) =>
+      res.json("requirement isBeingEdited status updated: " + requirement)
+    )
+    .catch((err) => res.json("Error: " + err));
+});
 
 
-// TODO: updating isDeleted
+// updating isDeleted
+router.route("/update-isDeleted/:id").patch((req, res) => {
+  Requirement.findByIdAndUpdate(
+    { _id: req.params.id },
+    { $set: { isDeleted: req.body.value } }
+  )
+    .then((requirement) =>
+      res.json("requirement isDeleted status updated: " + requirement)
+    )
+    .catch((err) => res.json("Error: " + err));
+});
 
 
 // updating the req body
