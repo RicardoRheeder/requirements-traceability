@@ -20,7 +20,7 @@ router.route("/create-document").post((req, res) => {
       res.json("Document saved to db " + newDocument);
     })
     .catch((err) =>
-      res.status(400).json("Error occured: Could not save " + err)
+      res.status(400).json("Error occurred: Could not save " + err)
     );
 });
 
@@ -44,7 +44,7 @@ router.route("/get/:id").get((req, res) => {
     });
 });
 
-// Get all requirements given an id
+// Get all requirements in a document given the doc id
 router.route("/get-requirements/:id").get((req, res) => {
   const id = req.params.id;
 
