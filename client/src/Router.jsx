@@ -1,70 +1,41 @@
-import React, { Component } from 'react';
+import React from 'react'
 
-import {
-    HashRouter,
-    Switch,
-    Route,
-    Redirect
-} from "react-router-dom";
+import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
 
-import {
-    Home,
-    NotFound,
-    ReactPage,
-    LogIn
-} from './pages';
-import { connect } from './redux';
+import { Home, NotFound, ReactPage, LandingPage, Editor } from './pages'
 
-class Router extends Component {
-    render() {
-        const { SecureRoute } = this;
-        const { loggedIn } = this.props;
+import { NavBar } from './components'
 
-        return (
-            <div className="app-root">
-                <HashRouter>
-                    <Switch>
-                        <SecureRoute
-                            exact={true} path='/'
-                            children={<Home />}
-                        />
-                        <Route
-                            exact path='/login'
-                            children={<LogIn />}
-                        />
-                        <SecureRoute
-                            path="*"
-                            children={<NotFound />}
-                        />
-                    </Switch>
-                </HashRouter>
-            </div>
-        )
-    }
+import { useSelector } from 'react-redux'
 
-    SecureRoute = (props) => {
-        const DEFAULT_REDIRECT_PATH = '/login';
-        const { isAuthorized = true, path, redirectTo = DEFAULT_REDIRECT_PATH, children, exact = false } = props;
+import { useAuth0 } from '@auth0/auth0-react'
 
-        return (
-            <Route exact={exact} path={path}>
-                {
-                    this.props.loggedIn && isAuthorized
-                        ?
-                        children
-                        :
-                        <Redirect to={redirectTo} />
-                }
+export default function Router() {
+  const { isAuthenticated } = useAuth0()
+
+  return (
+    <div className="app-root">
+      <HashRouter>
+        <Switch>
+          {!isAuthenticated ? (
+            <Route path="*">
+              <LandingPage />
             </Route>
-        )
-    }
-}
+          ) : (
+            <>
+              <NavBar />
+              <Route exact={true} path="/" children={<Home />} />
+              <Route exact={true} path="/editor" children={<Editor />} />
+            </>
+          )}
 
-export default connect({
-    props: {
-        common: ["loggedIn"]
-    },
-    actions: {
-        common: ["setLoggedIn"],
-    }
-})(Router);
+          {/* <>
+            <NavBar />
+            <Route exact={true} path="/" children={<Home />} />
+            <Route exact={true} path="/editor" children={<Editor />} />
+          </> */}
+        </Switch>
+      </HashRouter>
+    </div>
+  )
+}
