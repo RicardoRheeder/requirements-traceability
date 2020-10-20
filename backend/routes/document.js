@@ -78,6 +78,23 @@ router.route("/add-user/:id").patch((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// removing user from document and removing document form user
+router.route("/remove-user/:id").patch((req, res) => {
+  Document.findByIdAndUpdate(
+    { _id: req.params.id },
+    { $pull: { collaborators: req.body.userId } }
+  )
+    .then((doc) => {
+      User.findByIdAndUpdate(
+        { _id: req.body.userId },
+        { $pull: { documents: req.params.id } }
+      )
+        .then((user) => res.json("User removed from the doc: " + doc))
+        .catch((err) => res.status(400).json("Error: " + err));
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 // Delete Routes*****************************************
 
 // delete a single doc
