@@ -8,7 +8,8 @@
     "build": "npm run clean && webpack --config ./build-config/webpack.config.js",
     "deploy": "npm run build && gh-pages -d build",
     "clean": "rm -Rf ./build/bundle.js ./build/index.html",
-    "reset": "npm run clean && rm -Rf ./node_modules ./package-lock.json"
+    "reset": "npm run clean && rm -Rf ./node_modules ./package-lock.json",
+    "confidence-test": "node src/smoke.test.js & npm start"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
   "dependencies": {
     "@auth0/auth0-react": "^1.1.0",
     "core-js": "^3.1.4",
+    "jest": "^26.5.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-icons": "^3.9.0",
@@ -26,7 +28,8 @@
     "react-sortable-tree-theme-full-node-drag": "^1.1.0",
     "react-split-pane": "^0.1.92",
     "redux": "^4.0.2",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "selenium-webdriver": "^4.0.0-alpha.7"
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",
