@@ -21,20 +21,9 @@ class App extends Component {
         <Router />
       </Provider>
     )
-<<<<<<< HEAD
   }  
-=======
-  }
-
-  
 }
 
-export const add = (x,y) => {
-  return x+y
->>>>>>> adding full support for Integration testing and a more fleshed out unit test
-}
-
-<<<<<<< HEAD
 ReactDOM.render(
   <BrowserRouter>
     <Auth0ProviderWithHistory>
@@ -43,10 +32,4 @@ ReactDOM.render(
    </BrowserRouter>
   ,document.getElementById('root')
 )
-<<<<<<< HEAD
 
-=======
-=======
-
->>>>>>> adding full support for Integration testing and a more fleshed out unit test
->>>>>>> adding full support for Integration testing and a more fleshed out unit test
