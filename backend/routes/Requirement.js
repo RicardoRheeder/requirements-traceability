@@ -57,6 +57,13 @@ router.route("/update-isChanged/:id").patch((req, res) => {
     .catch((err) => res.json("Error: " + err));
 });
 
+
+// TODO: updating isBeingEdited
+
+
+// TODO: updating isDeleted
+
+
 // updating the req body
 router.route("/update-body/:id").patch((req, res) => {
   Requirement.findByIdAndUpdate(
@@ -68,5 +75,13 @@ router.route("/update-body/:id").patch((req, res) => {
     )
     .catch((err) => res.json("Error: " + err));
 });
+
+// Delete routes*****************************************
+
+// TODO: deleting a specific requirement
+
+
+// TODO: deleting all requirements
+
 
 module.exports = router;
