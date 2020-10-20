@@ -2,12 +2,8 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
 // Root Stylesheet
-<<<<<<< HEAD
-import './sass/main'
+import './sass/main.scss'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
-=======
-import './sass/main.scss';
->>>>>>> 5b2783cd2f1b692dc7f5e058b35be51dc371105b
 
 import Router from './Router'
 
@@ -29,11 +25,6 @@ class App extends Component {
 
   
 }
-
-export const add = (x,y) => {
-  return x+y
-}
-
 ReactDOM.render(
   <BrowserRouter>
     <Auth0ProviderWithHistory>
