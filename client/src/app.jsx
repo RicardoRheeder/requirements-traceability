@@ -25,12 +25,6 @@ class App extends Component {
 
   
 }
-
-export const add = (x,y) => {
-  return x+y
-}
-
-<<<<<<< HEAD
 ReactDOM.render(
   <BrowserRouter>
     <Auth0ProviderWithHistory>
@@ -39,6 +33,4 @@ ReactDOM.render(
    </BrowserRouter>
   ,document.getElementById('root')
 )
-=======
 
->>>>>>> adding full support for Integration testing and a more fleshed out unit test
