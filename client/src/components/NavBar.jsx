@@ -23,13 +23,13 @@ export default function NavBar() {
           <div>
             <ul className="navbar-nav text-uppercase">
               <li className="nav-item">
-                <NavLink to={'/'} id="NavToHome nav-link">
-                  Home
+                <NavLink to={'/'} id="NavToHome">
+                  <div className="nav-link">Home</div>
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink to={'/editor'} id="NavToEditor nav-link">
-                  Editor
+                <NavLink to={'/editor'} id="NavToEditor">
+                  <div className="nav-link">Editor</div>
                 </NavLink>
               </li>
 
