@@ -2,6 +2,19 @@
   font-size: 2em;
 }
 
+// .body-root {
+//   height: 100%;
+// }
+
+html,
+body,
+#app,
+#root,
+.app-root,
+#app > div {
+  height: 100%;
+}
+
 body {
   background-color: #f2f2f2;
   overflow: hidden;
