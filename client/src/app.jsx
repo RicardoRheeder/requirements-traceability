@@ -1,12 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-<<<<<<< HEAD
-=======
-
-// Root Stylesheet
->>>>>>> adding simple testing for pages
 import './sass/main.scss'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
+
 
 
 import Router from './Router'
@@ -26,11 +22,7 @@ class App extends Component {
       </Provider>
     )
 
-  }  
 
-}
-
-  
 ReactDOM.render(
   <BrowserRouter>
     <Auth0ProviderWithHistory>
