@@ -1,50 +1,72 @@
-const router = require('express').Router();
-const Requirement = require('../models/requirement.model');
+const router = require("express").Router();
+const Requirement = require("../models/requirement.model");
 
+// Post Routes*****************************************
 
-// Create a new Requirement
-router.route("/create-requirement").post((req, res)=>{
+// create a new requirement
+router.route("/create-requirement").post((req, res) => {
+  const name = req.body.name;
+  const creator = req.body.creator;
+  const currentVersion = 1;
+  const isDeleted = false;
+  const isBeingEdited = true; //TODO: ask front end guys about req. creation flow (will it be edited right away?)
+  const isChanged = false;
 
-    const title = req.body.title;
-    const user = req.body.user;
+  const newRequirement = new Requirement({
+    name,
+    creator,
+    currentVersion,
+    isDeleted,
+    isBeingEdited,
+    isChanged,
+  });
 
-    // TO DO Check syntax
-    const newRequirement = new Requirement({
-        name: title,
-        creator: user,
-        currentVersion: '1',
-        isDeleted: false,
-        isBeingEdited: false,   // TO DO Double check if creation automatically begins editing
-        isChanged: false
-    })
-
-    newRequirement.save().then((newRequirement)=>{
-        res.json("Requirement saved to db " + newRequirement)
-    }).catch((err)=>res.status(400).json("Error occured: Could not save "+ err))
+  newRequirement
+    .save()
+    .then((requirement) => res.json("Requirement was added " + requirement))
+    .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// Get Routes*****************************************
 
-// TO DO: Update a Requirement
-
-
-// TO DO: Get all Requirements
-
-
-// TO DO: Get a specific Requirement
-router.route("/get:id").get((req,res)=>{
-
-    const id = req.params.id;
-
-    Requirement.findById(id).then((doc)=> res.json(doc)).catch((err)=>{
-        res.status(400).json("Error occured: could not find Requirement with "+ id);
-    })
+// get all req.
+router.route("/").get((req, res) => {
+  Requirement.find()
+    .then((reqs) => res.json(reqs))
+    .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// get specific req.
+router.route("/get-requirement/:id").get((req, res) => {
+  Requirement.findById(req.params.id)
+    .then((requirement) => res.json(requirement))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
 
-// TO DO: Get all versions of a Requirement (and populate)
+// Update Routes*****************************************
 
+// updating isChanged status
+router.route("/update-isChanged/:id").patch((req, res) => {
+  Requirement.findByIdAndUpdate(
+    { _id: req.params.id },
+    { $set: { isChanged: req.body.value } }
+  )
+    .then((requirement) =>
+      res.json("requirement isChanged status updated: " + requirement)
+    )
+    .catch((err) => res.json("Error: " + err));
+});
 
-// TO DO: Delete a Requirement
+// updating the req body
+router.route("/update-body/:id").patch((req, res) => {
+  Requirement.findByIdAndUpdate(
+    { _id: req.params.id },
+    { $set: { body: req.body.value } }
+  )
+    .then((requirement) =>
+      res.json("requirement text body updated: " + requirement)
+    )
+    .catch((err) => res.json("Error: " + err));
+});
 
-
-// TO DO: Delete all Requirements
+module.exports = router;
