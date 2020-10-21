@@ -14,6 +14,13 @@ Change directory to "client".
 
 `cd client`
 
+**Important**: The front-end will not run if you do not have the '.env' file within the 'client' folder. The '.env' file IS NOT pushed to the repository - it contains sensitive config info. Instead, it is pinned on the 'front-end' chat on Discord.
+
+- Download the pinned env file from the front-end chat in Discord.
+- Move the downloaded env to the client folder.
+  - (the env file should be in the same directory as the package.json file)
+- Rename the env file to '.env'
+
 Download and install the project's dependencies defined in the package.json file and generates a node_modules folder with the installed modules.
 
 `npm install`
