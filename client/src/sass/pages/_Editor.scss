@@ -1,6 +1,10 @@
 // editor root contains both editor-root-div and hierarchy-root-div (found in Hierarchy.scss)
 .editor-root {
   color: #f2f2f2;
+
+  .SplitPane {
+  }
+
   .Pane {
     overflow: auto;
     // top: 100px;
