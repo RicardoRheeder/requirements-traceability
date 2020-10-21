@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-<<<<<<< HEAD
-=======
-
-// Root Stylesheet
->>>>>>> fdd7f13513b0e0b60b1aa06af2d1edbb3ffbfab9
 import './sass/main.scss'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
 
