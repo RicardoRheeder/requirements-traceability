@@ -166,21 +166,21 @@ export default function Hierarchy({ scrollToElementFunction }) {
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       {/* Tree Utilities */}
       <div className="tree-utilities">
-        <div>
+        <div className="tree-utilities-header">
           <h1>Hierarchy</h1>
         </div>
 
         {/* Expand/Collapse buttons */}
-        <div>
+        <div className="node-button-div">
           <button onClick={expandAll}>Expand All</button>
           <button onClick={collapseAll}>Collapse All</button>
         </div>
-        <div>
+        <div className="node-button-div">
           <button onClick={insertNode}>Insert Node</button>
           <button onClick={deleteNode}>Delete Node</button>
         </div>
         <form
-          style={{ display: 'inline-block' }}
+          className="node-form-div"
           onSubmit={(event) => {
             event.preventDefault()
           }}
