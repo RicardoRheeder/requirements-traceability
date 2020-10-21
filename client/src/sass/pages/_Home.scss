@@ -1,0 +1,34 @@
+.home-root {
+  background-color: #212a3f;
+  height: 100%;
+  width: 100%;
+  font-family: Verdana, Tahoma, sans-serif;
+  color: #f96302;
+}
+
+.left-container {
+  width: 80%;
+  height: 100%;
+  display: block;
+  float: left;
+  text-align: center;
+}
+
+.right-container {
+  width: 20%;
+  height: 100%;
+  display: block;
+  float: right;
+  border: 1px solid #f96302;
+  border-top: #f96302;
+  text-align: center;
+  background:#2e2e2e;
+  ;
+  ;
+}
+.home-header {
+    font-size: 40px;
+}
+.home-subheader {
+    padding-top: 100px;
+}

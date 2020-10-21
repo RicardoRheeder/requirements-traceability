@@ -6,9 +6,23 @@
     flex: 0 0 auto;
     padding: 0 15px;
 
+    .tree-utilities-header {
+      padding-top: 10px;
+    }
+
+    .node-button-div {
+      line-height: 20px;
+      margin: 10px;
+    }
+
+    .node-form-div {
+      display: inline-block;
+    }
+
     .search-panel {
       font-size: 20px;
       font-weight: 200;
+      height: 25px;
     }
 
     .search-box {
