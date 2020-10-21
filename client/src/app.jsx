@@ -21,7 +21,8 @@ class App extends Component {
         <Router />
       </Provider>
     )
-
+    }
+  }
 ReactDOM.render(
   <BrowserRouter>
     <Auth0ProviderWithHistory>
