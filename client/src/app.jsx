@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-
-// Root Stylesheet
-import './sass/main'
+import './sass/main.scss'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
+
 
 import Router from './Router'
 
@@ -21,9 +20,8 @@ class App extends Component {
         <Router />
       </Provider>
     )
+    }
   }
-}
-
 ReactDOM.render(
   <BrowserRouter>
     <Auth0ProviderWithHistory>
