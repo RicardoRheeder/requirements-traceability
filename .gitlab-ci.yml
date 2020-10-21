@@ -10,7 +10,7 @@ stages:
 
 cache:
   paths:
-    - node_modules
+    - client/node_modules
 
 install_dependencies:
   stage: build
