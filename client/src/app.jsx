@@ -4,7 +4,6 @@ import './sass/main.scss'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
 
 
-
 import Router from './Router'
 
 // Redux Config
