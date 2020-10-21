@@ -4,6 +4,9 @@ import ReactDOM from 'react-dom'
 // Root Stylesheet
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a2e2d6d3dee3f5a1b3ed14f636dc6873b49eb04a
 import './sass/main.scss'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
 =======
@@ -30,8 +33,6 @@ class App extends Component {
         <Router />
       </Provider>
     )
-  }  
-}
 
 ReactDOM.render(
   <BrowserRouter>
