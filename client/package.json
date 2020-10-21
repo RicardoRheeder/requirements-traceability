@@ -9,7 +9,7 @@
     "deploy": "npm run build && gh-pages -d build",
     "clean": "rm -Rf ./build/bundle.js ./build/index.html",
     "reset": "npm run clean && rm -Rf ./node_modules ./package-lock.json",
-    "test": "jest --watchAll"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
