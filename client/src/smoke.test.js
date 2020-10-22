@@ -35,6 +35,10 @@ let driver = new Builder().forBrowser(BROWSER).build();
 
 describe('Basic functionality of app', () => {
 
+  afterAll(() => {
+    driver.quit()
+  });
+
   test('navigate to landing page', async () => {
     await driver.get(APP_PATH)
     expect(await driver.findElement(By.className(LANDING_PAGE_ROOT_CLASS))).toBeTruthy()
