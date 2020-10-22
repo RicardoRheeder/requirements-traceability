@@ -19,6 +19,7 @@ export default function Router() {
         <Switch>
           {!isAuthenticated ? (
             <Route path="*">
+              <NavBar />
               <LandingPage />
             </Route>
           ) : (
