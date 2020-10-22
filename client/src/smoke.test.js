@@ -2,14 +2,17 @@
 const BROWSER = "firefox";
 
 //change these to working credentials
-//const USERNAME = "ExampleName";
-//const PASSWORD = "ExamplePassword";
+const USERNAME = "levithompson17@gmail.com";
+const PASSWORD = "Ex4mple!";
 
 //Login page values
 const APP_PATH = "http://localhost:9090/"; //Path to application
-//const LOGIN_USERFIELD_ID = "username-field";
-//const LOGIN_PASSFIELD_ID = "password-field";
+const HOME_ROOT_CLASS = "app-root"
+const LOGIN_WIDGET_CLASS = "auth0-lock-widget"
+const LOGIN_USERFIELD_NAME = "email";
+const LOGIN_PASSFIELD_NAME = "password";
 const LOGIN_BUTTON_ID = "LogInButton";
+const LOGIN_AUTH_BUTTON_NAME = "submit";
 
 //Navigate to Home
 const NAV_HOME_BUTTON_ID = "NavToHome";
@@ -17,77 +20,43 @@ const NAV_HOME_BUTTON_ID = "NavToHome";
 //Navigate to Editor
 const NAV_EDITOR_BUTTON_ID = "NavToEditor";
 
-const { Builder, By, Key, util } = require("selenium-webdriver");
-async function smokeTest() {
-  try {
-    //Initiate driver for desired browser
-    let driver = new Builder().forBrowser(BROWSER).build();
+const { Builder, By, Key, until } = require("selenium-webdriver");
 
-    //Navigate to app path
-    driver.get(APP_PATH);
+//Initiate driver for desired browser
+let driver = new Builder().forBrowser(BROWSER).build();
 
-    //Enter credentials to log in
-    //driver.findElement(By.id(LOGIN_USERFIELD_ID)).sendKeys(USERNAME);
-    //driver.findElement(By.id(LOGIN_PASSFIELD_ID)).sendKeys(PASSWORD);
-    
-    describe('login button', () => {
-      test('exists', () => {
-        expect(driver.findElement(By.id(LOGIN_BUTTON_ID))).toBeInstanceOf(WebElement);
-      })
-      driver.findElement(By.id(LOGIN_BUTTON_ID)).click();
+describe('Basic functionality of app', () => {
 
-      test('works', () => {
-        //wait for home page to load, then verify
-      })
-    })
+  test('navigate to landing page', async () => {
+    await driver.get(APP_PATH)
+    expect(await driver.findElement(By.className(HOME_ROOT_CLASS))).toBeTruthy()
+  })
 
-    describe('navigate to editor button', () => {
-      test('exists', () => {
-        expect(driver.findElement(By.id(NAV_EDITOR_BUTTON_ID))).toBeInstanceOf(WebElement);
-      })
-      driver.findElement(By.id(NAV_EDITOR_BUTTON_ID)).click();
+  test('navigate to auth0 login page', async () => {
+    await driver.findElement(By.id(LOGIN_BUTTON_ID)).click();
+    expect(await driver.findElement(By.className(LOGIN_WIDGET_CLASS))).toBeTruthy()
+  })
 
-      test('works', () => {
-        //wait for editor page to load, then verify
-      })
-    })
+  test('enter credentials', async () => {
+    await driver.wait(until.elementLocated(By.className('auth0-lock-opened'),10000))
+    expect(await driver.findElement(By.className('auth0-lock-opened'))).toBeTruthy()
 
-    describe('navigate to home button', () => {
-      test('exists', () => {
-        expect(driver.findElement(By.id(NAV_HOME_BUTTON_ID))).toBeInstanceOf(WebElement);
-      })
-      driver.findElement(By.id(NAV_HOME_BUTTON_ID)).click();
+    await driver.wait(until.elementLocated(By.className('auth0-lock-input'),10000))
+    expect(await driver.findElement(By.className('auth0-lock-input'))).toBeTruthy()
 
-      test('works', () => {
-        //wait for home page to load, then verify
-      })
-    })
-    
+    await driver.wait(until.elementLocated(By.className('auth0-lock-quiet'),10000))
+    expect(await driver.findElement(By.className('auth0-lock-quiet'))).toBeTruthy()
 
-    //Navigate to Editor
-    //driver.findElement(By.id(NAV_EDITOR_BUTTON_ID)).click();
-    //driver.takeSnapshot();
+    await driver.findElement(By.name(LOGIN_USERFIELD_NAME)).click()
+    await driver.findElement(By.name(LOGIN_USERFIELD_NAME)).sendKeys(USERNAME)
+    await driver.findElement(By.name(LOGIN_PASSFIELD_NAME)).click()
+    await driver.findElement(By.name(LOGIN_PASSFIELD_NAME)).sendKeys(PASSWORD)
+    await driver.findElement(By.name(LOGIN_AUTH_BUTTON_NAME)).click()
 
-    //Navigate to Home
-    //await driver.findElement(By.id(NAV_HOME_BUTTON_ID)).click();
-    //await driver.takeSnapshot();
+  })
 
-  } catch (e) {
-    webdriverErrorHandler(e, driver);
-  }
-
-  driver.quit();
-
-}
+})
 
 function webdriverErrorHandler(err, driver) {
   console.error("Unhandled exception: " + err.message);
-  driver.takeScreenshot().then(function(data){
-    var base64Data = data.replace(/^data:image\/png;base64,/,"")
-    fs.writeFile("../../test_reports/" + err.message + ".png", base64Data, 'base64', function(err) {
-      if(err) console.log(err);
-    });
-  });
 }
-
-smokeTest();
