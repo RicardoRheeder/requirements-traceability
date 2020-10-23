@@ -71,8 +71,10 @@ pre {
   font-weight: 400;
   line-height: 18.5714px;
 }
+
 button {
-  font-size: 16px !important;
+  font-family: Verdana, Tahoma, sans-serif;
+  font-size: 16px;
 }
 
 .orange-button{
@@ -81,8 +83,6 @@ button {
   border: 3px #2e2e2e;
   min-width: 100px;
   min-height: 50px;
-  font-family: Verdana, Tahoma, sans-serif;
-  font-size: 45px;
   border-radius: 4px;
 }
 
