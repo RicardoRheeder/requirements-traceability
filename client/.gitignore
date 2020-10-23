@@ -69,3 +69,5 @@ config.json
 .metals
 .vscode
 
+# ignore yarn files
+.yarn
