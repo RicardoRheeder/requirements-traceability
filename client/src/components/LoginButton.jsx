@@ -11,7 +11,7 @@ export default function LoginButton() {
   return (
     <button
       id="LogInButton"
-      className="login-button"
+      className="orange-button login-button"
       onClick={() => {
         // dispatch(setLoggedIn(true));
         loginWithRedirect();
