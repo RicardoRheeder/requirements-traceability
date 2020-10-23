@@ -54,6 +54,12 @@
     border-radius: 4px;
   }
 
+  .logout-button:hover{
+    color: #f96302;
+    background: #212a3f;
+    border: 3px solid #f96302;
+  }
+
   .fixed-top {
     top: 0;
     // position: fixed;
