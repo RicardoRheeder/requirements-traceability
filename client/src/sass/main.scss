@@ -75,6 +75,17 @@ button {
   font-size: 16px !important;
 }
 
+.orange-button{
+  color: #2e2e2e;
+  background: #f96302;
+  border: #2e2e2e;
+  min-width: 100px;
+  min-height: 50px;
+  font-family: Verdana, Tahoma, sans-serif;
+  font-size: 45px;
+  border-radius: 4px;
+}
+
 *::-webkit-scrollbar {
   width: 12px;
 }

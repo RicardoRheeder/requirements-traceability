@@ -6,8 +6,43 @@
   color: #f96302;
 }
 
+.lefter-container{
+  width: 20%;
+  height: 100%;
+  display: block;
+  float: left;
+  border: 1px solid #f96302;
+  border-top: #f96302;
+  text-align: center;
+  background:#2e2e2e;
+}
+
+.diaplay_area{
+  height: 600px;
+  display: block;
+}
+
+.add_remove_buttons{
+  max-height: 10%;
+  position: absolute;
+  bottom: 30px;
+  width: 20%;
+}
+
+.add_button{
+  float: left;
+  margin-left: 20%;
+  padding: 10px 25px;
+}
+
+.remove_button{
+  float: right;
+  margin-right: 20%;
+  padding : 10px;
+}
+
 .left-container {
-  width: 80%;
+  width: 60%;
   height: 100%;
   display: block;
   float: left;
@@ -23,8 +58,6 @@
   border-top: #f96302;
   text-align: center;
   background:#2e2e2e;
-  ;
-  ;
 }
 .home-header {
     font-size: 40px;

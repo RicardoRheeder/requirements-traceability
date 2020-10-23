@@ -43,6 +43,17 @@
     font-size: 1em !important;
   }
 
+  .logout-button {
+    color: #2e2e2e;
+    background: #f96302;
+    border: #2e2e2e;
+    min-width: 100px;
+    min-height: 35px;
+    font-family: Verdana, Tahoma, sans-serif;
+    font-size: 45px;
+    border-radius: 4px;
+  }
+
   .fixed-top {
     top: 0;
     // position: fixed;
