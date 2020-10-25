@@ -12,6 +12,8 @@ export default function LeftContainer() {
     'test 3',
     'test 4',
     'test 5',
+    'test 6',
+    'test 7',
   ]
 
   const RenderDocumentPanels = (listOfDocs) => {
@@ -23,7 +25,7 @@ export default function LeftContainer() {
   }
 
   return (
-    <div>
+    <div className="left-container-root">
       <div className="display-area">{RenderDocumentPanels(MockList)}</div>
       <div className="add-remove-buttons">
         <button className="orange-button add-button">Add</button>
