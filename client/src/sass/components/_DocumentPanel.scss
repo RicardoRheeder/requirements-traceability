@@ -1,8 +1,38 @@
 .document-panel-component {
+  position: relative;
   width: 90%;
   height: 100px;
   background-color: #f96302;
   color: black;
   padding: 5px;
   margin: 15px auto;
+
+  .document-panel-title {
+  }
+
+  .document-panel-dropdown {
+    width: 100%;
+    padding: 0px 20px;
+    position: absolute;
+    bottom: 5px;
+
+    .dropdown-custom-wrapper {
+      font-size: 15px;
+    }
+
+    .dropdown-custom-control {
+      padding: 2px;
+    }
+
+    .dropdown-custom-placeholder {
+    }
+
+    .dropdown-custom-menu {
+      padding: 2px;
+    }
+
+    .dropdown-custom-arrow {
+      top: 10px;
+    }
+  }
 }
