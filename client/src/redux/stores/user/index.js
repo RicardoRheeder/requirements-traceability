@@ -8,11 +8,11 @@ import initialState from "./initialState";
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_USER_INFO_START:
-      return { ...state, loggedIn: action.data };
+      return { ...state, isFetching: true };
     case FETCH_USER_INFO_SUCCESS:
-      return { ...state, treeData: action.data };
+      return { ...state, info: action.payload };
     case FETCH_USER_INFO_FAILURE:
-      return { ...state, selectedID: action.data };
+      return { ...state, isFetching: false };
     default:
       return state;
   }
