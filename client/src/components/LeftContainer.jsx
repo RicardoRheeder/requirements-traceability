@@ -26,6 +26,7 @@ export default function LeftContainer() {
 
   return (
     <div className="left-container-root">
+      {/* search bar here */}
       <div className="display-area">{RenderDocumentPanels(MockList)}</div>
       <div className="add-remove-buttons">
         <button className="orange-button add-button">Add</button>
