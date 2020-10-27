@@ -17,23 +17,23 @@ router.route("/create-document").post((req, res) => {
   newDocument
     .save()
     .then((newDocument) => {
-      res.json("Document saved to db " + newDocument);
+      res.json("Document saved to db - " + newDocument._id);
     })
     .catch((err) =>
-      res.status(400).json("Error occurred: Could not save " + err)
+      res.status(400).json("Error occurred: Could not save the document ")
     );
 });
 
 // Get Routes********************************************
 
-// Get all document
+// Get all documents
 router.route("/").get((req, res) => {
   Document.find()
     .then((docs) => res.json(docs))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-// Get a document
+// Get a specific document
 router.route("/get/:id").get((req, res) => {
   const id = req.params.id;
 
@@ -78,7 +78,7 @@ router.route("/add-user/:id").patch((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-// removing user from document and removing document form user
+// removing user from document and removing document from user
 router.route("/remove-user/:id").patch((req, res) => {
   Document.findByIdAndUpdate(
     { _id: req.params.id },
@@ -99,9 +99,28 @@ router.route("/remove-user/:id").patch((req, res) => {
 
 // delete a single doc
 router.route("/delete/:id").delete((req, res) => {
-  Document.findByIdAndDelete(req.params.id)
-    .then((doc) => res.json("Document deleted: " + doc))
-    .catch((err) => res.status(400).json("Error: " + err));
+  const user = req.body.user;
+  const docID = req.params.id;
+  Document.findById(docID, "admin collaborators")
+  .then((doc)=>{
+    const admin = doc.admin
+    const collabs = doc.collaborators;
+    if(user != admin){
+      res.status(400).json("Error: Only the admin of the document can delete the document");
+    }else{
+      Document.findByIdAndDelete(req.params.id)
+      .catch((err) => res.status(400).json("Error: " + err));
+      collabs.push(admin);
+      var x;
+      for(x of collabs){
+        User.findByIdAndUpdate(x, {$pull:{documents: docID}})
+        .catch((err)=>{res.status(400).json("Error: could not update users documents "+ err)})
+      }
+      res.json("Document deleted successfully - "+ doc);
+    }
+  }).catch((err)=>{
+    res.status(400).json("Error: Could not find Document with id: "+docID);
+  })
 });
 
 // delete all docs (for testing)
