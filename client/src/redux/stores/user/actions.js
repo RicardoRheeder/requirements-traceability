@@ -21,10 +21,10 @@ export const fetchUserInfoSuccess = (info) => {
   }
 }
 
-export const fetchUserInfoFailure = (addMessage) => {
+export const fetchUserInfoFailure = (errorMessage) => {
   return {
     type: FETCH_USER_INFO_FAILURE,
-    payload: addMessage,
+    payload: errorMessage,
   }
 }
 
@@ -49,12 +49,10 @@ export const fetchUserInfoAsync = (user) => {
               username: user.nickname,
               email: user.email,
             })
-            .then((res) => dispatch(fetchUserInfoSuccess(res)))
-            .catch((err) => console.log(err))
+            .then((info) => dispatch(fetchUserInfoSuccess(info.data)))
+            .catch((err) => dispatch(fetchUserInfoFailure(err)))
         }
       })
-      .catch((error) => {
-        console.log('Error: ' + error)
-      })
+      .catch((err) => dispatch(fetchUserInfoFailure(err)))
   }
 }
