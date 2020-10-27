@@ -8,16 +8,33 @@ const Document = require("../models/document.model");
 router.route("/create-document").post((req, res) => {
   const title = req.body.title;
   const admin = req.body.admin;
+  const collaborators = [admin];
 
   const newDocument = new Document({
     title,
     admin,
+    collaborators,
   });
 
   newDocument
     .save()
     .then((newDocument) => {
-      res.json("Document saved to db " + newDocument);
+      // adding the document to the admins documents array
+      User.findByIdAndUpdate(
+        { _id: admin },
+        { $addToSet: { documents: newDocument._id } }
+      )
+        .then((user) =>
+          res.json("Document saved to the database: " + newDocument)
+        )
+        .catch((err) =>
+          res
+            .status(400)
+            .json(
+              "Error: could not not add document to admins document array, Error: " +
+                err
+            )
+        );
     })
     .catch((err) =>
       res.status(400).json("Error occurred: Could not save " + err)
