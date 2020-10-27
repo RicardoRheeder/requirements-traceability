@@ -1,6 +1,6 @@
 import React from "react"
 import Enzyme, { shallow, mount} from "enzyme"
-import LoginButton from "./LoginButton"
+import NavBar from "../NavBar"
 import Adapter from "enzyme-adapter-react-16"
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store"
@@ -9,14 +9,14 @@ import configureStore from "redux-mock-store"
 const mockStore = configureStore([])
 Enzyme.configure({adapter: new Adapter() });
 
-describe("Login Button", () => {
+describe("Nav Bar", () => {
     let store;
-    let testButton;
+    let testBar;
     beforeEach(() => {
         store = mockStore({});
     });
     test("renders", () => {
-        const wrapper = shallow(<Provider store = {store}><LoginButton/></Provider>);
+        const wrapper = shallow(<Provider store = {store}><NavBar/></Provider>);
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
