@@ -4,7 +4,7 @@ import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
 
 import { Home, NotFound, ReactPage, LandingPage, Editor } from './pages'
 
-import { NavBar } from './components'
+import { NavBar, ModalComponent } from './components'
 
 import { useSelector } from 'react-redux'
 
@@ -17,7 +17,7 @@ export default function Router() {
     <div className="app-root">
       <HashRouter>
         <Switch>
-          {!isAuthenticated ? (
+          {/* {!isAuthenticated ? (
             <Route path="*">
               <NavBar />
               <LandingPage />
@@ -28,13 +28,14 @@ export default function Router() {
               <Route exact={true} path="/" children={<Home />} />
               <Route exact={true} path="/editor" children={<Editor />} />
             </>
-          )}
+          )} */}
 
-          {/* <>
+          <>
+            <ModalComponent></ModalComponent>
             <NavBar />
             <Route exact={true} path="/" children={<Home />} />
             <Route exact={true} path="/editor" children={<Editor />} />
-          </> */}
+          </>
         </Switch>
       </HashRouter>
     </div>
