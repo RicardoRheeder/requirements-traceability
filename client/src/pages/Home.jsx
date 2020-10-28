@@ -1,6 +1,21 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { useEffect} from 'react'
+import {useAuth0} from '@auth0/auth0-react'
+import { createDocAsync} from '../redux/stores/documents/actions'
 
-export default function Home() {
+
+export default function Home({isFetching, documents, errorMessage}) {
+    const {user} = useAuth0()
+    let oldID = user.sub;
+    let newID = oldID.slice(6, oldID.length); 
+    const doc = {title: "New Doc", admin: newID}
+
+    useEffect(()=>{
+        if(user){
+            createDocAsync(user)
+        }
+    },[createDocAsync])
   return (
   <div className="home-root">
       <div className="lefter-container">
@@ -26,3 +41,15 @@ export default function Home() {
     </div>
   )
 }
+
+const mapStateToProps = (state) => ({
+    isFetching: state.documents.isFetching,
+    documents: state.documents.documents,
+    errorMessage: state.documents.error,
+  });
+  const mapDispatchToProps = (dispatch) => ({
+    createDocAsync: (doc) => dispatch(createDocAsync(doc)),
+  });
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Home);
+  

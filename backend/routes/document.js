@@ -8,21 +8,39 @@ const Document = require("../models/document.model");
 router.route("/create-document").post((req, res) => {
   const title = req.body.title;
   const admin = req.body.admin;
+  const collaborators = [admin];
 
   const newDocument = new Document({
     title,
     admin,
+    collaborators,
   });
 
   newDocument
     .save()
     .then((newDocument) => {
-      res.json("Document saved to db - " + newDocument._id);
+      // adding the document to the admins documents array
+      User.findByIdAndUpdate(
+        { _id: admin },
+        { $addToSet: { documents: newDocument._id } }
+      )
+        .then((user) =>
+          res.json("Document saved to the database: " + newDocument)
+        )
+        .catch((err) =>
+          res
+            .status(400)
+            .json(
+              "Error: could not not add document to admins document array, Error: " +
+                err
+            )
+        );
     })
     .catch((err) =>
-      res.status(400).json("Error occurred: Could not save the document ")
+      res.status(400).json("Error occurred: Could not save " + err)
     );
 });
+
 
 // Get Routes********************************************
 
@@ -111,11 +129,12 @@ router.route("/delete/:id").delete((req, res) => {
       Document.findByIdAndDelete(req.params.id)
       .catch((err) => res.status(400).json("Error: " + err));
       collabs.push(admin);
-      var x;
+      let x;
       for(x of collabs){
         User.findByIdAndUpdate(x, {$pull:{documents: docID}})
         .catch((err)=>{res.status(400).json("Error: could not update users documents "+ err)})
       }
+      // Get admins list of documents and return it
       res.json("Document deleted successfully - "+ doc);
     }
   }).catch((err)=>{
