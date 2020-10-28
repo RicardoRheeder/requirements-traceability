@@ -1,21 +1,21 @@
-import React from "react";
-import { connect, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { fetchUserInfoAsync } from "../redux/stores/user/actions";
+import React from 'react'
+import { connect, useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
+import { fetchUserInfoAsync } from '../redux/stores/user/actions'
 import { LeftContainer } from '../components'
 
 function Home({ fetchUserInfoAsync, isFetching, info, errorMessage }) {
   // console.log(isFetching);
-  const { user } = useAuth0();
-
+  const { user } = useAuth0()
+  console.log(user)
   useEffect(() => {
     if (user) {
-      fetchUserInfoAsync(user);
+      fetchUserInfoAsync(user)
     }
-  }, [fetchUserInfoAsync]);
+  }, [fetchUserInfoAsync])
 
-  console.log(info);
+  console.log(info)
 
   return (
     <div className="home-root">
@@ -28,16 +28,16 @@ function Home({ fetchUserInfoAsync, isFetching, info, errorMessage }) {
       </div>
       <div className="right-container">Notifications</div>
     </div>
-  );
+  )
 }
 
 const mapStateToProps = (state) => ({
   isFetching: state.user.isFetching,
   info: state.user.info,
   errorMessage: state.user.errorMessage,
-});
+})
 const mapDispatchToProps = (dispatch) => ({
   fetchUserInfoAsync: (user) => dispatch(fetchUserInfoAsync(user)),
-});
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

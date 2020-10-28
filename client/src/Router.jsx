@@ -17,25 +17,27 @@ export default function Router() {
     <div className="app-root">
       <HashRouter>
         <Switch>
-          {/* {!isAuthenticated ? (
+          {!isAuthenticated ? (
             <Route path="*">
+              <ModalComponent></ModalComponent>
               <NavBar />
               <LandingPage />
             </Route>
           ) : (
             <>
+              <ModalComponent></ModalComponent>
               <NavBar />
               <Route exact={true} path="/" children={<Home />} />
               <Route exact={true} path="/editor" children={<Editor />} />
             </>
-          )} */}
-
+          )}
+          {/* 
           <>
             <ModalComponent></ModalComponent>
             <NavBar />
             <Route exact={true} path="/" children={<Home />} />
             <Route exact={true} path="/editor" children={<Editor />} />
-          </>
+          </> */}
         </Switch>
       </HashRouter>
     </div>
