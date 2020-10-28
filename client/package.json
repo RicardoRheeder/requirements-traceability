@@ -9,7 +9,7 @@
     "deploy": "npm run build && gh-pages -d build",
     "clean": "rm -Rf ./build/bundle.js ./build/index.html",
     "reset": "npm run clean && rm -Rf ./node_modules ./package-lock.json",
-    "test": "jest"
+    "test": "jest --verbose"
   },
   "keywords": [],
   "author": "",
@@ -78,6 +78,12 @@
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|scss)$": "<rootDir>/__mocks__/styleMocks.js"
-    }
+    },
+    "reporters": [
+      "default",
+      ["./node_modules/jest-html-reporter", {
+          "pageTitle": "Test Report"
+      }]
+    ]
   }
 }
