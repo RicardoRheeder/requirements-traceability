@@ -27,4 +27,5 @@ export default {
     { title: "HLRQ12", text: "HLRQ12 text", id: 2 },
   ],
   selectedID: 0,
+  modalObject: {visible: false, mode: 0},
 };
