@@ -1,4 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { useEffect} from 'react'
+import {useAuth0} from '@auth0/auth0-react'
+import { createDocAsync} from '../redux/stores/documents/actions'
 
 import { LeftContainer } from '../components'
 
@@ -16,3 +20,15 @@ export default function Home() {
     </div>
   )
 }
+
+const mapStateToProps = (state) => ({
+    isFetching: state.documents.isFetching,
+    documents: state.documents.documents,
+    errorMessage: state.documents.error,
+  });
+  const mapDispatchToProps = (dispatch) => ({
+    createDocAsync: (doc) => dispatch(createDocAsync(doc)),
+  });
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Home);
+  

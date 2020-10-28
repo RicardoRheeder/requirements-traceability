@@ -8,32 +8,50 @@ const Document = require("../models/document.model");
 router.route("/create-document").post((req, res) => {
   const title = req.body.title;
   const admin = req.body.admin;
+  const collaborators = [admin];
 
   const newDocument = new Document({
     title,
     admin,
+    collaborators,
   });
 
   newDocument
     .save()
     .then((newDocument) => {
-      res.json("Document saved to db " + newDocument);
+      // adding the document to the admins documents array
+      User.findByIdAndUpdate(
+        { _id: admin },
+        { $addToSet: { documents: newDocument._id } }
+      )
+        .then((user) =>
+          res.json("Document saved to the database: " + newDocument)
+        )
+        .catch((err) =>
+          res
+            .status(400)
+            .json(
+              "Error: could not not add document to admins document array, Error: " +
+                err
+            )
+        );
     })
     .catch((err) =>
       res.status(400).json("Error occurred: Could not save " + err)
     );
 });
 
+
 // Get Routes********************************************
 
-// Get all document
+// Get all documents
 router.route("/").get((req, res) => {
   Document.find()
     .then((docs) => res.json(docs))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-// Get a document
+// Get a specific document
 router.route("/get/:id").get((req, res) => {
   const id = req.params.id;
 
@@ -78,7 +96,7 @@ router.route("/add-user/:id").patch((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-// removing user from document and removing document form user
+// removing user from document and removing document from user
 router.route("/remove-user/:id").patch((req, res) => {
   Document.findByIdAndUpdate(
     { _id: req.params.id },
@@ -99,9 +117,29 @@ router.route("/remove-user/:id").patch((req, res) => {
 
 // delete a single doc
 router.route("/delete/:id").delete((req, res) => {
-  Document.findByIdAndDelete(req.params.id)
-    .then((doc) => res.json("Document deleted: " + doc))
-    .catch((err) => res.status(400).json("Error: " + err));
+  const user = req.body.user;
+  const docID = req.params.id;
+  Document.findById(docID, "admin collaborators")
+  .then((doc)=>{
+    const admin = doc.admin
+    const collabs = doc.collaborators;
+    if(user != admin){
+      res.status(400).json("Error: Only the admin of the document can delete the document");
+    }else{
+      Document.findByIdAndDelete(req.params.id)
+      .catch((err) => res.status(400).json("Error: " + err));
+      collabs.push(admin);
+      let x;
+      for(x of collabs){
+        User.findByIdAndUpdate(x, {$pull:{documents: docID}})
+        .catch((err)=>{res.status(400).json("Error: could not update users documents "+ err)})
+      }
+      // Get admins list of documents and return it
+      res.json("Document deleted successfully - "+ doc);
+    }
+  }).catch((err)=>{
+    res.status(400).json("Error: Could not find Document with id: "+docID);
+  })
 });
 
 // delete all docs (for testing)
