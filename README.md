@@ -39,6 +39,13 @@ Change directory to "backend"
 
 `cd backend`
 
+**Important**: The back-end will not run if you do not have the '.env' file within the 'backend' folder. The '.env' file IS NOT pushed to the repository - it contains sensitive config info. Instead, it is pinned on the 'back-end' chat on Discord.
+
+- Download the pinned env file from the back-end chat in Discord.
+- Move the downloaded env to the backend folder.
+  - (the env file should be in the same directory as the package.json file)
+- Rename the env file to '.env'
+
 Download and install the project's dependencies defined in the package.json file and generates a node_modules folder with the installed modules.
 
 `npm install` 
