@@ -11,6 +11,9 @@
 
   .document-panel-title {
     font-size: 18px;
+    float: left;
+    width: 100%;
+    height: 30px;
   }
 
   .document-panel-dropdown {
@@ -54,4 +57,22 @@
   color: #f96302;
   border: 4px solid #f96302;;
   border-radius: 4px;
+}
+
+.add-person-button{
+  height: 35px !important;
+  width: 35px !important;
+  float: right;
+  border-radius: 4px;
+}
+
+.add-person-button-image{
+  height: 25px;
+  width: 25px;
+  top: 0;
+  left: 0;
+}
+
+.add-person-button:hover{
+  border: 40px #212a3f;
 }

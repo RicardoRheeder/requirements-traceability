@@ -12,8 +12,12 @@ export const DocumentPanel = ({ documentTitle }) => {
   return (
     <div className="document-panel-component">
       <div className="document-panel-title">
+        <button className="add-person-button">
+            <img className="add-person-button-image" src="/assets/images/add-friend-icon.png"></img>
+          </button>
         <h2>{documentTitle}</h2>
       </div>
+      
 
       <div className="document-panel-dropdown">
         <Dropdown

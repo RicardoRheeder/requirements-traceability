@@ -1,3 +1,5 @@
+let navIcon= { backgroundImage: "url(/assets/images/Doc_Tracer_Icon_2.png)"}
+
 import React, { useEffect } from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
 import { LogoutButton } from './'
@@ -20,7 +22,7 @@ export default function NavBar() {
       >
         <div className="container">
           <a className="navbar-brand">
-            <img src="/src/Images/Doc_Tracer_Icon_2.png" width="90px" height="90px"></img>
+            <img className="nav-icon" src="/assets/images/Doc_Tracer_Icon_2.png"></img>
           </a>
           <div>
             <ul className="navbar-nav text-uppercase">
