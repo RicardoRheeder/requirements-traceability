@@ -17,7 +17,7 @@ body {
 }
 
 h1 {
-  font-family: monospace;
+  font-family: Verdana, Tahoma, sans-serif;
   font-size: 24px !important;
   font-style: normal;
   font-variant: normal;
@@ -25,7 +25,7 @@ h1 {
   line-height: 26.4px;
 }
 h2 {
-  font-family: monospace;
+  font-family: Verdana, Tahoma, sans-serif;
   font-size: 18px !important;
   font-style: normal;
   font-variant: normal;
@@ -33,7 +33,7 @@ h2 {
   line-height: 20.4px;
 }
 h3 {
-  font-family: monospace;
+  font-family: Verdana, Tahoma, sans-serif;
   font-size: 14px !important;
   font-style: normal;
   font-variant: normal;
@@ -44,7 +44,7 @@ p,
 textarea,
 span,
 input {
-  font-family: monospace;
+  font-family: Verdana, Tahoma, sans-serif;
   font-size: 14px !important;
   font-style: normal;
   font-variant: normal;
@@ -52,7 +52,7 @@ input {
   line-height: 20px;
 }
 blockquote {
-  font-family: monospace;
+  font-family: Verdana, Tahoma, sans-serif;
   font-size: 21px !important;
   font-style: normal;
   font-variant: normal;
@@ -60,7 +60,7 @@ blockquote {
   line-height: 30px;
 }
 pre {
-  font-family: monospace;
+  font-family: Verdana, Tahoma, sans-serif;
   font-size: 13px !important;
   font-style: normal;
   font-variant: normal;
@@ -74,11 +74,12 @@ button {
 }
 
 .orange-button {
+  font-family: Verdana, Tahoma, sans-serif;
   color: #2e2e2e;
   background: #f96302;
   border: 3px #2e2e2e;
-  min-width: 100px;
-  min-height: 50px;
+  min-width: 50px;
+  min-height: 30px;
   border-radius: 4px;
 }
 

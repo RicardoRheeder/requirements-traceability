@@ -22,7 +22,7 @@ export default function NavBar() {
       >
         <div className="container">
           <a className="navbar-brand">
-            <img className="nav-icon" src="/assets/images/Doc_Tracer_Icon_2.png"></img>
+            <img className="nav-icon" src="/assets/images/Doc_Tracer_Icon_1_gradient.png"></img>
           </a>
           <div>
             <ul className="navbar-nav text-uppercase">
