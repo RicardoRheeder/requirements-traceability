@@ -32,6 +32,7 @@ export default function ModalComponent() {
           onRequestClose={closeModal}
           style={customStyles}
           contentLabel="Example Modal"
+          ariaHideApp={false}
         >
           {modalObject.mode == 0 ? (
             <Modal_AddDocument />
