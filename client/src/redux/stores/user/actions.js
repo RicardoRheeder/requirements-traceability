@@ -29,15 +29,11 @@ export const fetchUserInfoFailure = (errorMessage) => {
 }
 
 export const fetchUserInfoAsync = (user) => {
-  // slicing the user id to remove "auth0|"
-  const oldId = user.sub
-  const newID = oldId.slice(6, oldId.length)
-
   return (dispatch) => {
     dispatch(fetchUserInfoStart())
-    // getting the user if they exist otherwise creating a user
+    // getting the user by the email if they exist otherwise creating a user
     axios
-      .get(`${url}/get/${newID}`)
+      .get(`${url}/get-by-email/${user.email}`)
       .then((info) => {
         if (info.data) {
           dispatch(fetchUserInfoSuccess(info.data))
@@ -45,7 +41,6 @@ export const fetchUserInfoAsync = (user) => {
           // adding user since user does not already exist
           axios
             .post(`${url}/create-user`, {
-              _id: newID,
               username: user.nickname,
               email: user.email,
             })
