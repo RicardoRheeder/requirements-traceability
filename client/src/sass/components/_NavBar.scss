@@ -29,7 +29,7 @@
     padding: 0.75em 0;
     letter-spacing: 1px;
     color: #f96302;
-    font-family: Dejavu Sans, Arial, Verdana, sans-serif;
+    font-family: Verdana, Tahoma, sans-serif;
   }
 
   #mainNav .navbar-nav .nav-item .nav-link.active,
@@ -39,8 +39,13 @@
 
   #mainNav .navbar-brand {
     color: #f96302;
-    font-family: Dejavu Sans, Arial, Verdana, sans-serif;
+    font-family: Verdana, Tahoma, sans-serif;
     font-size: 1em !important;
+  }
+
+  .nav-icon{
+    height: 90px;
+    width: 90px;
   }
 
   .logout-button {
