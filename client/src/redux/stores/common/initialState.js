@@ -28,4 +28,5 @@ export default {
   ],
   selectedID: 0,
   modalObject: {visible: false, mode: 0},
+  selectedDocumentPanelID: 0,
 };

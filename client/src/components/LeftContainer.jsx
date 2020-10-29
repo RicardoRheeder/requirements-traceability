@@ -22,9 +22,9 @@ export default function LeftContainer() {
 
   const RenderDocumentPanels = (listOfDocs) => {
     var i = 0
-    return listOfDocs.map((document) => {
+    return listOfDocs.map((document, i) => {
       i += 1
-      return <DocumentPanel documentTitle={document} key={i} />
+      return <DocumentPanel documentTitle={document} documentID={i} key={i} />
     })
   }
 
