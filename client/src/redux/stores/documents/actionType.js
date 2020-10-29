@@ -1,0 +1,5 @@
+export const SEND_DOC_START = 'SEND_DOC_START';
+
+export const SEND_DOC_FAILURE = 'SEND_DOC_FAILURE';
+
+export const SEND_DOC_SUCCESS = 'SEND_DOC_SUCCESS';
