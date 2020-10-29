@@ -16,6 +16,7 @@ cache:
 install_dependencies:
   stage: build
   script:
+    - cd client
     - npm install
   artifacts:
     paths:
@@ -42,18 +43,18 @@ deploy_doc_tracer:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - ssh root@cmpt371.persea.ca "echo test-phrase > start.txt"
+    - ssh root@cmpt371.persea.ca "cd requirements-traceability/backend && git pull origin master && npm install; exit"
   environment:
     name: doc_tracer
     url: cmpt371.persea.ca
     on_stop: stop_app
-  # only:
-  #  - master
+  only:
+    - master
 
 stop_app:
   stage: deploy
   script:
-    - echo "$CI_COMMIT_SLUG" > stop.txt
+    - echo "stop text"
   when: manual
   environment:
     name: doc_tracer
