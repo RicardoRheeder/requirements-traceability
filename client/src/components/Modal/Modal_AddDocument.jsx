@@ -1,11 +1,16 @@
-import React from 'react'
-import { connect, useDispatch } from 'react-redux'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useAuth0 } from '@auth0/auth0-react'
 import { createDocAsync } from '../../redux/stores/documents/actions'
 
-function Modal_AddDocument({ createDocAsync, documents }) {
+export default function Modal_AddDocument() {
   const dispatch = useDispatch()
   const { user } = useAuth0()
+
+  const documents = useSelector((state) => state.documents.documents)
+  const error = useSelector((state) => state.documents.error)
+
+  const [inputData, setInputData] = useState('')
 
   console.log(documents)
 
@@ -14,8 +19,9 @@ function Modal_AddDocument({ createDocAsync, documents }) {
     const oldId = user.sub
     const newID = oldId.slice(6, oldId.length)
 
-    createDocAsync({ title: 'test123', admin: newID })
-    // dispatch(createDocAsync({ title: 'test123', admin: newID }))
+    // createDocAsync({ title: 'test123', admin: newID })
+
+    dispatch(createDocAsync({ title: inputData, admin: newID }))
   }
 
   return (
@@ -23,20 +29,12 @@ function Modal_AddDocument({ createDocAsync, documents }) {
       <h2>Add document</h2>
       <div>Please enter the name of the empty document to create.</div>
       <form>
-        <input />
+        <input
+          value={inputData}
+          onChange={(e) => setInputData(e.target.value)}
+        />
         <button onClick={submitName}>Submit</button>
       </form>
     </div>
   )
 }
-
-const mapStateToProps = (state) => ({
-  documents: state.documents.documents,
-  error: state.documents.error,
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  createDocAsync: (doc) => dispatch(createDocAsync(doc)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Modal_AddDocument)
