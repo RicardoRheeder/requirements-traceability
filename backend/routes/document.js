@@ -95,6 +95,17 @@ router.route("/remove-user/:id").patch((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// updating the tree structure
+router.route("/update-tree/:id").patch((req, res) => {
+  Document.findByIdAndUpdate(
+    { _id: req.params.id,
+      $set: { tree: req.body.tree}
+    }
+  )
+  .then((doc) => res.json("Tree structure updated within the doc: " + doc))
+  .catch((err) => res.status(400).json("Error: " + err));
+});
+
 // Delete Routes*****************************************
 
 // delete a single doc
