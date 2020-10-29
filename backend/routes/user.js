@@ -5,10 +5,12 @@ const User = require("../models/user.model");
 
 // creating a new user
 router.route("/create-user").post((req, res) => {
+  const _id = req.body._id;
   const username = req.body.username;
   const email = req.body.email;
 
   const newUser = new User({
+    _id,
     username,
     email,
   });

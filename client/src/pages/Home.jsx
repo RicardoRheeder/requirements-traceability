@@ -13,7 +13,7 @@ function Home({ fetchUserInfoAsync, isFetching, info, errorMessage }) {
     }
   }, [fetchUserInfoAsync])
 
-  // console.log(info)
+  console.log(info)
 
   return (
     <div className="home-root">
