@@ -7,13 +7,20 @@ import {
 const axios = require('axios').default
 const url = 'http://localhost:5000/users'
 
-// fetching user information
+/**
+ * function to init the fetching of user info
+ */
 export const fetchUserInfoStart = () => {
   return {
     type: FETCH_USER_INFO_START,
   }
 }
 
+/**
+ * function to be called when user info is successfully received
+ * @param {object} info
+ * @returns {object} type of action and the info as the payload
+ */
 export const fetchUserInfoSuccess = (info) => {
   return {
     type: FETCH_USER_INFO_SUCCESS,
@@ -21,6 +28,11 @@ export const fetchUserInfoSuccess = (info) => {
   }
 }
 
+/**
+ * function to be called when user can't be received or created, probably due to an invalid request
+ * @param {object} errorMessage
+ * @returns {object} error message object
+ */
 export const fetchUserInfoFailure = (errorMessage) => {
   return {
     type: FETCH_USER_INFO_FAILURE,
@@ -28,6 +40,11 @@ export const fetchUserInfoFailure = (errorMessage) => {
   }
 }
 
+/**
+ * Async function that will get user info if they exist otherwise they will add the user to the DB
+ * @param {object} user
+ * @returns {object} info for the user (email, username, creation date, etc.)
+ */
 export const fetchUserInfoAsync = (user) => {
   return (dispatch) => {
     dispatch(fetchUserInfoStart())

@@ -5,15 +5,17 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { fetchUserInfoAsync } from '../redux/stores/user/actions'
 
 function Home({ fetchUserInfoAsync, isFetching, info, errorMessage }) {
+  // getting the current user who is signed in
   const { user } = useAuth0()
 
+  // use effect to fetch the user info when the component mounts
   useEffect(() => {
     if (user) {
       fetchUserInfoAsync(user)
     }
   }, [fetchUserInfoAsync])
 
-  console.log(info)
+  // console.log(info)
 
   return (
     <div className="home-root">
