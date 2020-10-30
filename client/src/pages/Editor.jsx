@@ -24,11 +24,12 @@ export default function Editor() {
 
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedNodeId = useSelector((state) => state.common.selectedID)
+  //const selectedDocId = ID of current document
 
   const commitDocumentToDB = () => {
     let docObject = { tree: JSON.stringify(storeTreeData) }
-
-    dispatch(sendDocAsync(docObject))
+    let docID = selectedDocId
+    dispatch(sendDocAsync(docObject,docID))
   }
 
   /**
