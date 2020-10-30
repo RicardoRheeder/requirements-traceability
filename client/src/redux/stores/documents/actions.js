@@ -2,7 +2,7 @@ import {
     SEND_DOC_START,
     SEND_DOC_FAILURE,
     SEND_DOC_SUCCESS
-} from './actionTypes';
+} from './actionType';
 
 const axios = require('axios').default;
 

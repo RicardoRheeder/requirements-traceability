@@ -1,5 +1,5 @@
 export default {
-    current_doc:[], //REVIEW
+    current_doc:[],
     isFetching: false,
     error: null
 };
