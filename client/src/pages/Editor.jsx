@@ -23,6 +23,10 @@ export default function Editor() {
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedNodeId = useSelector((state) => state.common.selectedID)
 
+  const commitDocumentToDB = () => {
+    
+  }
+
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
    * @param {Object} tree - the tree stucture to clean and push to Redux store
@@ -121,6 +125,7 @@ export default function Editor() {
           />
         </div>
         <div className="editor-root-div">
+          <button onClick={commitDocumentToDB}>TEST COMMIT</button>
           <h1>Editor</h1>
           {CreateSectionsFromArrayOfStructs(Tree_Update(storeTreeData), 0)}
         </div>
