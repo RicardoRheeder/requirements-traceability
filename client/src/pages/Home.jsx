@@ -3,6 +3,7 @@ import { connect, useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { fetchUserInfoAsync } from '../redux/stores/user/actions'
+import { LeftContainer } from '../components'
 
 function Home() {
   // getting the current user who is signed in
@@ -27,15 +28,13 @@ function Home() {
 
   return (
     <div className="home-root">
-      <div className="lefter-container">
-        <div className="display-area"></div>
-        <div className="add-remove-buttons">
-          <button className="orange-button add-button">Add</button>
-          <button className="orange-button remove-button">Remove</button>
-        </div>
-      </div>
       <div className="left-container">
-        <div className="home-header">Doc Tracer Logo</div>
+        <LeftContainer />
+      </div>
+      <div className="center-container">
+        <div className="home-header">
+          <img className="home-logo-banner" src="/assets/images/Doc_Tracer_Logo_2.png"></img>
+        </div>
         <div className="home-subheader">Recent Documents</div>
       </div>
       <div className="right-container">Notifications</div>
