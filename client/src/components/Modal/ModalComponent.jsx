@@ -5,19 +5,6 @@ import { setModalObject } from '../../redux/stores/common/actions'
 
 import { Modal_AddDocument, Modal_RemoveDocument, Modal_InviteUser } from './'
 
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    width: '50%',
-    height: '50%'
-  },
-}
-
 export default function ModalComponent() {
   const modalObject = useSelector((state) => state.common.modalObject, [])
   const dispatch = useDispatch()
@@ -32,7 +19,6 @@ export default function ModalComponent() {
         <Modal
           isOpen={modalObject.visible}
           onRequestClose={closeModal}
-          style={customStyles}
           contentLabel="Example Modal"
           ariaHideApp={false}
         >
