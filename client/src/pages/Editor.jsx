@@ -16,6 +16,8 @@ import {
   updateSelectedNodeID,
 } from '../redux/stores/common/actions'
 
+import { sendDocAsync } from '../redux/stores/documents/actions'
+
 export default function Editor() {
   const dispatch = useDispatch()
   const paneRef = useRef(null)
@@ -24,7 +26,9 @@ export default function Editor() {
   const selectedNodeId = useSelector((state) => state.common.selectedID)
 
   const commitDocumentToDB = () => {
-    
+    let docObject = { tree: JSON.stringify(storeTreeData) }
+
+    dispatch(sendDocAsync(docObject))
   }
 
   /**

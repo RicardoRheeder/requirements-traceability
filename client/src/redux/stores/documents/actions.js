@@ -71,10 +71,10 @@ export const sendDocFailure = (err)=>{
 }
 
 //send the document (tree structure) to the backend
-export const sendDocAsync = ()=>{
+export const sendDocAsync = (doc) => {
     return(dispatch)=>{
         dispatch(sendDocStart())
-        axios.post(`${url}/update-tree`, {tree: doc.tree})
+        axios.patch(`${url}/update-tree`, {tree: doc.tree})
         .then((doc)=>{
             dispatch(sendDocSuccess(doc))
         })
