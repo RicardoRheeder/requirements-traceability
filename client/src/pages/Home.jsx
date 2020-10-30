@@ -5,7 +5,7 @@ import {useAuth0} from '@auth0/auth0-react'
 import { createDocAsync} from '../redux/stores/documents/actions'
 
 
-export default function Home({isFetching, documents, errorMessage}) {
+function Home({isFetching, documents, errorMessage}) {
     const {user} = useAuth0()
     let oldID = user.sub;
     let newID = oldID.slice(6, oldID.length); 
