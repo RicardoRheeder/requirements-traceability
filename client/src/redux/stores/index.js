@@ -1,9 +1,11 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
 import common from './common';
-import documents from './documents';
+import user from "./user";
+import documents from "./documents";
 
 export default combineReducers({
     common,
+    user,
     documents
 });

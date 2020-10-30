@@ -60,10 +60,11 @@ export const createDocAsync = (doc)=>{
         dispatch(createDocStart())
         axios.post(`${url}/create-document`, {title: doc.title, admin: doc.admin})
         .then((doc)=>{
+            console.log(doc)
             dispatch(createDocSuccess(doc))
-            
         })
         .catch((err)=>{
+            console.log(err)
             dispatch(createDocFailure(err))
         })
     }

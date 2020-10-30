@@ -1,55 +1,43 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { useEffect} from 'react'
-import {useAuth0} from '@auth0/auth0-react'
-import { createDocAsync} from '../redux/stores/documents/actions'
+import { connect, useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
+import { fetchUserInfoAsync } from '../redux/stores/user/actions'
+import { LeftContainer } from '../components'
 
+function Home({ fetchUserInfoAsync, isFetching, info, errorMessage }) {
+  // console.log(isFetching);
+  const { user } = useAuth0()
+  console.log(user)
+  useEffect(() => {
+    if (user) {
+      fetchUserInfoAsync(user)
+    }
+  }, [fetchUserInfoAsync])
 
-function Home({isFetching, documents, errorMessage}) {
-    const {user} = useAuth0()
-    let oldID = user.sub;
-    let newID = oldID.slice(6, oldID.length); 
-    const doc = {title: "New Doc", admin: newID}
+  console.log(info)
 
-    useEffect(()=>{
-        if(user){
-            createDocAsync(user)
-        }
-    },[createDocAsync])
   return (
-  <div className="home-root">
-      <div className="lefter-container">
-          <div className="display-area">
-            
-          </div>
-          <div className="add-remove-buttons">
-              <button className="orange-button add-button">Add</button>
-              <button className="orange-button remove-button">Remove</button>
-          </div>
+    <div className="home-root">
+      <div className="left-container">
+        <LeftContainer />
       </div>
-    <div className="left-container">
-        <div className="home-header">
-            Doc Tracer Logo
-        </div>
-        <div className="home-subheader">
-            Recent Documents
-        </div>
-    </div>
-        <div className="right-container">
-            Notifications
-        </div>
+      <div className="center-container">
+        <div className="home-header">Doc Tracer Logo</div>
+        <div className="home-subheader">Recent Documents</div>
+      </div>
+      <div className="right-container">Notifications</div>
     </div>
   )
 }
 
 const mapStateToProps = (state) => ({
-    isFetching: state.documents.isFetching,
-    documents: state.documents.documents,
-    errorMessage: state.documents.error,
-  });
-  const mapDispatchToProps = (dispatch) => ({
-    createDocAsync: (doc) => dispatch(createDocAsync(doc)),
-  });
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(Home);
-  
+  isFetching: state.user.isFetching,
+  info: state.user.info,
+  errorMessage: state.user.errorMessage,
+})
+const mapDispatchToProps = (dispatch) => ({
+  fetchUserInfoAsync: (user) => dispatch(fetchUserInfoAsync(user)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

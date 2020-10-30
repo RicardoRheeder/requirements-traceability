@@ -62,18 +62,14 @@ router.route("/get/:id").get((req, res) => {
     });
 });
 
-// Get all requirements in a document given the doc id
-router.route("/get-requirements/:id").get((req, res) => {
+// Get the tree hierarchy of a document given the doc id
+router.route("/get-tree/:id").get((req, res) => {
   const id = req.params.id;
 
   Document.findById(id)
-    .populate("requirements")
-    .exec()
-    .then((doc) => {
-      res.json(doc);
-    })
+    .then((doc) => res.json(doc.tree))
     .catch((err) => {
-      res.status(400).json("Error: could not find requirements given " + id);
+      res.status(400).json("Error: could not find tree hierarchy given " + id);
     });
 });
 
