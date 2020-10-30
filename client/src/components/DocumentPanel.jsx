@@ -2,7 +2,7 @@ import React from 'react'
 import Dropdown from 'react-dropdown'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { setSelectedDocumentPanelID } from '../redux/stores/common/actions'
+import { setSelectedDocumentPanelID, setModalObject } from '../redux/stores/common/actions'
 
 export const DocumentPanel = ({ documentTitle, documentID }) => {
   const dispatch = useDispatch()
@@ -14,7 +14,11 @@ export const DocumentPanel = ({ documentTitle, documentID }) => {
   const _onDropdownSelect = (thing) => {
     console.log(thing)
   }
-  
+
+  const inviteUserButton = () => {
+    dispatch(setModalObject({ visible: true, mode: 2 }))
+  }
+
   return (
     <div
       className={"document-panel-component" + (selectedDocumentPanelID == documentID ? " selected" : "")}
@@ -23,7 +27,7 @@ export const DocumentPanel = ({ documentTitle, documentID }) => {
       }}
     >
       <div className="document-panel-title">
-        <button className="add-person-button">
+        <button className="add-person-button" onClick={inviteUserButton}>
           <img
             className="add-person-button-image"
             src="/assets/images/add-friend-icon.png"

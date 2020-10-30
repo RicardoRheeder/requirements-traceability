@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Modal from 'react-modal'
 import { setModalObject } from '../../redux/stores/common/actions'
 
-import { Modal_AddDocument, Modal_RemoveDocument } from './'
+import { Modal_AddDocument, Modal_RemoveDocument, Modal_InviteUser } from './'
 
 const customStyles = {
   content: {
@@ -38,7 +38,9 @@ export default function ModalComponent() {
             <Modal_AddDocument />
           ) : modalObject.mode == 1 ? (
             <Modal_RemoveDocument />
-          ) : (
+          ) : modalObject.mode == 2 ? (
+            <Modal_InviteUser />
+          ): (
             <></>
           )}
           <button onClick={closeModal}>close</button>
