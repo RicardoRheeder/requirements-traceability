@@ -8,7 +8,7 @@ const documentSchema = new Schema(
     title: {type: String, required: true}, 
     admin: {type: Schema.Types.ObjectId, ref: "User"},
     collaborators: [{type: Schema.Types.ObjectId, ref: "User"}],
-    requirements: [{ type: Schema.Types.ObjectId, ref: "Requirement"}],
+    tree: {type: String},
     version: [{ type: Schema.Types.ObjectId, ref: "Document"}],
   },
   {
