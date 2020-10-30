@@ -8,17 +8,8 @@ import { useAuth0 } from '@auth0/auth0-react'
 export default function NavBar() {
   const { isAuthenticated } = useAuth0()
 
-  useEffect(() => {
-    const script = document.createElement('script')
-
-    script.src = 'assets/js/agency.js'
-    script.async = true
-
-    document.body.appendChild(script)
-  }, [])
-
   return (
-    <div className="navbar-root topnav fixed-top">
+    <div className="navbar-root fixed-top">
       <img
         className="nav-icon"
         src="/assets/images/Doc_Tracer_Icon_1_gradient.png"
@@ -28,7 +19,7 @@ export default function NavBar() {
         <ul className="navbar-option text-uppercase">
           {isAuthenticated ? (
             <li className="nav-item">
-              <NavLink to={'/home'} id="NavToHome">
+              <NavLink to={'/'} id="NavToHome">
                 <div className="nav-link">Home</div>
               </NavLink>
             </li>
@@ -51,6 +42,18 @@ export default function NavBar() {
             </NavLink>
           </li>
 
+          <li className="nav-item">
+            <NavLink to={'/team'} id="NavToTeam">
+              <div className="nav-link">Team</div>
+            </NavLink>
+          </li>
+
+          <li className="nav-item">
+            <NavLink to={'/contact'} id="NavToContact">
+              <div className="nav-link">Contact</div>
+            </NavLink>
+          </li>
+
           {isAuthenticated ? (
             <li className="nav-item">
               <a className="nav-link">
@@ -63,28 +66,5 @@ export default function NavBar() {
         </ul>
       </div>
     </div>
-    // <div className="navbar-root topnav fixed-top">
-    //     <div className="container">
-    //       <a className="navbar-brand">
-    //
-    //       </a>
-    //       <div className="navbar-options-container">
-    //         <ul className="navbar-nav text-uppercase">
-    //
-
-    //           <li className="nav-item">
-    //             <a className="nav-link">About</a>
-    //           </li>
-    //           <li className="nav-item">
-    //             <a className="nav-link">Team</a>
-    //           </li>
-    //           <li className="nav-item">
-    //             <a className="nav-link">Contact</a>
-    //           </li>
-
-    //         </ul>
-    //       </div>
-    //     </div>
-    //   </div>
   )
 }
