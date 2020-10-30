@@ -1,5 +1,6 @@
 export default {
-    current_doc:[],
-    isFetching: false,
-    error: null
+ documents: [],
+ current_doc:[],
+ isFetching: false,
+ error: null
 };

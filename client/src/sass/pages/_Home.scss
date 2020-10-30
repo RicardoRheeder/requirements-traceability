@@ -6,7 +6,7 @@
   color: #f96302;
 }
 
-.lefter-container{
+.left-container {
   width: 20%;
   height: 100%;
   display: block;
@@ -14,30 +14,10 @@
   border: 1px solid #f96302;
   border-top: #f96302;
   text-align: center;
-  background:#2e2e2e;
+  background: #2e2e2e;
 }
 
-.diaplay-area{
-  height: 600px;
-  display: block;
-}
-
-.add-remove-buttons{
-  max-height: 10%;
-  position: absolute;
-  bottom: 30px;
-  width: 20%;
-}
-
-.add-button{
-  margin: 0px 10px;
-}
-
-.remove-button{
-  margin: 0px 10px;
-}
-
-.left-container {
+.center-container {
   width: 60%;
   height: 100%;
   display: block;
@@ -53,11 +33,11 @@
   border: 1px solid #f96302;
   border-top: #f96302;
   text-align: center;
-  background:#2e2e2e;
+  background: #2e2e2e;
 }
 .home-header {
-    font-size: 40px;
+  font-size: 40px;
 }
 .home-subheader {
-    padding-top: 100px;
+  padding-top: 100px;
 }

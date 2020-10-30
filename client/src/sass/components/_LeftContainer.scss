@@ -1,0 +1,29 @@
+.left-container-root {
+  position: relative;
+  display: block;
+  height: 100%;
+
+  .display-area {
+    position: relative;
+    overflow-y: scroll;
+    display: block;
+    height: calc(100% - 175px);
+  }
+
+  .add-remove-buttons {
+    display: block;
+    height: 75px;
+    position: sticky;
+    bottom: 0px;
+    width: 100%;
+    background: #2e2e2e;
+  }
+
+  .add-button {
+    margin: 15px 10px;
+  }
+
+  .remove-button {
+    margin: 15px 10px;
+  }
+}

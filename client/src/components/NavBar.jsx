@@ -19,7 +19,9 @@ export default function NavBar() {
         id="mainNav"
       >
         <div className="container">
-          <a className="navbar-brand">{'{Doc Tracer Icon}'}</a>
+          <a className="navbar-brand">
+            <img src="/src/Images/Doc_Tracer_Icon_2.png" width="90px" height="90px"></img>
+          </a>
           <div>
             <ul className="navbar-nav text-uppercase">
               <li className="nav-item">

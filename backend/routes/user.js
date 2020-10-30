@@ -5,17 +5,19 @@ const User = require("../models/user.model");
 
 // creating a new user
 router.route("/create-user").post((req, res) => {
+  const _id = req.body._id;
   const username = req.body.username;
   const email = req.body.email;
 
   const newUser = new User({
+    _id,
     username,
     email,
   });
 
   newUser
     .save()
-    .then(() => res.json("User added!"))
+    .then((user) => res.json(user))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
@@ -28,9 +30,17 @@ router.route("/").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-// getting a specific user
+// getting a specific user using their user id
 router.route("/get/:id").get((req, res) => {
   User.findById(req.params.id)
+    .then((user) => res.json(user))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
+// getting a specific user using their email
+router.route("/get-by-email/:email").get((req, res) => {
+  console.log(req.params.email);
+  User.findOne({ email: req.params.email })
     .then((user) => res.json(user))
     .catch((err) => res.status(400).json("Error: " + err));
 });
