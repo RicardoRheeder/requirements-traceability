@@ -42,7 +42,7 @@ export const deleteDocSuccess = (docs) => {
 
 export const createDocFailure = (err) => {
   return {
-    type: CREATE_DOC_SUCCESS,
+    type: CREATE_DOC_FAILURE,
     data: err,
   }
 }
