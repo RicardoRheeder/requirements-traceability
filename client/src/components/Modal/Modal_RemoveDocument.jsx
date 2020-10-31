@@ -7,7 +7,7 @@ export default function Modal_RemoveDocument() {
       <div>For authorization, please enter the name of the document you want to permanently remove.</div>
       <form>
         <input />
-        <button>Submit</button>
+        <button className="orange-button">Submit</button>
       </form>
     </div>
   )

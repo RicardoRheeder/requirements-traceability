@@ -7,7 +7,7 @@ export default function Modal_AddDocument() {
       <div>Please enter the name of the empty document to create.</div>
       <form>
         <input />
-        <button>Submit</button>
+        <button className="orange-button">Submit</button>
       </form>
     </div>
   )
