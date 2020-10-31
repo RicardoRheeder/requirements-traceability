@@ -11,49 +11,47 @@ const axios = require('axios').default
 
 const url = 'http://localhost:5000/documents'
 
-/**
- * Function to start
- */
+// action to start creating doc
 export const createDocStart = () => {
   return {
     type: CREATE_DOC_START,
   }
 }
-
+// action to start deleting doc
 export const deleteDocStart = () => {
   return {
     type: DELETE_DOC_START,
   }
 }
-
+// action to finish making a doc
 export const createDocSuccess = (doc) => {
   return {
     type: CREATE_DOC_SUCCESS,
     data: doc,
   }
 }
-
+// action to finish deleting doc
 export const deleteDocSuccess = (docs) => {
   return {
     type: DELETE_DOC_SUCCESS,
     data: docs,
   }
 }
-
+// action when creating doc fails
 export const createDocFailure = (err) => {
   return {
     type: CREATE_DOC_FAILURE,
     data: err,
   }
 }
-
+// action when deleting doc fails
 export const deleteDocFailure = (err) => {
   return {
     type: DELETE_DOC_FAILURE,
     data: err,
   }
 }
-
+// action for async creating doc
 export const createDocAsync = (doc) => {
   return (dispatch) => {
     dispatch(createDocStart())
@@ -69,7 +67,7 @@ export const createDocAsync = (doc) => {
       })
   }
 }
-
+// action for async deleting doc
 export const deleteDocAsync = (doc) => {
   return (dispatch) => {
     dispatch(deleteDocStart())
