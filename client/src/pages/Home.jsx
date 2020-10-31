@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import {
@@ -16,7 +16,6 @@ function Home() {
   // getting info and errorMessage from initial state
   const userInfo = useSelector((state) => state.user.info)
   const errorMessage = useSelector((state) => state.user.errorMessage)
-  const docs = useSelector((state) => state.user.documents)
 
   // use effect to fetch the user info when the component mounts
   useEffect(() => {
@@ -27,15 +26,14 @@ function Home() {
     }
   }, [fetchUserInfoAsync, fetchUserDocsAsync])
 
-  console.log(user)
-  console.log(userInfo)
-  console.log(errorMessage)
-  console.log(docs)
+  // console.log(user)
+  // console.log(userInfo)
+  // console.log(errorMessage)
 
   return (
     <div className="home-root">
       <div className="left-container">
-        <LeftContainer docs={docs} />
+        <LeftContainer />
       </div>
       <div className="center-container">
         <div className="home-header">
