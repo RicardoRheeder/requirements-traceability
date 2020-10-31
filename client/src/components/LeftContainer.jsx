@@ -5,7 +5,6 @@ import { DocumentPanel } from './'
 
 export default function LeftContainer() {
   const docs = useSelector((state) => state.document.documents)
-  console.log(docs)
 
   const RenderDocumentPanels = (listOfDocs) => {
     var i = 0

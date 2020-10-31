@@ -14,18 +14,14 @@ const axios = require('axios').default
 
 const url = 'http://localhost:5000'
 
+// Create doc actions ***********************************************
 // action to start creating doc
 export const createDocStart = () => {
   return {
     type: CREATE_DOC_START,
   }
 }
-// action to start deleting doc
-export const deleteDocStart = () => {
-  return {
-    type: DELETE_DOC_START,
-  }
-}
+
 // action to finish making a doc
 export const createDocSuccess = (doc) => {
   return {
@@ -33,13 +29,7 @@ export const createDocSuccess = (doc) => {
     data: doc,
   }
 }
-// action to finish deleting doc
-export const deleteDocSuccess = (docs) => {
-  return {
-    type: DELETE_DOC_SUCCESS,
-    data: docs,
-  }
-}
+
 // action when creating doc fails
 export const createDocFailure = (err) => {
   return {
@@ -47,13 +37,7 @@ export const createDocFailure = (err) => {
     data: err,
   }
 }
-// action when deleting doc fails
-export const deleteDocFailure = (err) => {
-  return {
-    type: DELETE_DOC_FAILURE,
-    data: err,
-  }
-}
+
 // action for async creating doc
 export const createDocAsync = (doc) => {
   return (dispatch) => {
@@ -73,6 +57,31 @@ export const createDocAsync = (doc) => {
       })
   }
 }
+
+// Delete doc actions ***********************************************
+// action to start deleting doc
+export const deleteDocStart = () => {
+  return {
+    type: DELETE_DOC_START,
+  }
+}
+
+// action to finish deleting doc
+export const deleteDocSuccess = (docs) => {
+  return {
+    type: DELETE_DOC_SUCCESS,
+    data: docs,
+  }
+}
+
+// action when deleting doc fails
+export const deleteDocFailure = (err) => {
+  return {
+    type: DELETE_DOC_FAILURE,
+    data: err,
+  }
+}
+
 // action for async deleting doc
 export const deleteDocAsync = (doc) => {
   return (dispatch) => {
@@ -89,17 +98,22 @@ export const deleteDocAsync = (doc) => {
 }
 
 // Fetching user documents *********************************************************
+// action for fetching user docs start
 export const fetchUserDocsStart = () => {
   return {
     type: FETCH_USER_DOCS_START,
   }
 }
+
+// action for fetching user docs success
 export const fetchUserDocsSuccess = (documents) => {
   return {
     type: FETCH_USER_DOCS_SUCCESS,
     payload: documents,
   }
 }
+
+// action for when fetching user docs fails
 export const fetchUserDocsFailure = (error) => {
   return {
     type: FETCH_USER_DOCS_FAILURE,
@@ -107,8 +121,8 @@ export const fetchUserDocsFailure = (error) => {
   }
 }
 
+// async action for fetching user docs
 export const fetchUserDocsAsync = (user) => {
-  console.log(user)
   return (dispatch) => {
     dispatch(fetchUserDocsStart())
     // getting user docs
