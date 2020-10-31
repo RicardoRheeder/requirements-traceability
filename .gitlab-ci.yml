@@ -25,8 +25,7 @@ run_tests:
   stage: test
   script:
     - cd client
-    - npm run confidence-test
-    - npm test
+    - npm test --ci
   artifacts:
     paths:
       - test_reports/

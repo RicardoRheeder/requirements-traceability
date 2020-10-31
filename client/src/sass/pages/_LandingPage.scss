@@ -10,21 +10,18 @@
   font-size: 80px;
 }
 .login-button {
-  color: #2e2e2e;
-  background: #f96302;
-  border: #2e2e2e;
   min-width: 100px;
   min-height: 50px;
-  font-family: Verdana, Tahoma, sans-serif;
-  font-size: 45px;
 }
 
-.logout-button {
-  color: #2e2e2e;
-  background: #f96302;
-  border: #2e2e2e;
-  min-width: 100px;
-  min-height: 35px;
-  font-family: Verdana, Tahoma, sans-serif;
-  font-size: 45px;
+
+.landing-logo-icon{
+  height: 200px;
+  width: auto;
+}
+
+.landing-logo-name{
+  height: 200px;
+  width: auto;
+  float: right;
 }

@@ -172,12 +172,12 @@ export default function Hierarchy({ scrollToElementFunction }) {
 
         {/* Expand/Collapse buttons */}
         <div className="node-button-div">
-          <button onClick={expandAll}>Expand All</button>
-          <button onClick={collapseAll}>Collapse All</button>
+          <button className="orange-button hierarchy-button" onClick={expandAll}>Expand All</button>
+          <button className="orange-button hierarchy-button" onClick={collapseAll}>Collapse All</button>
         </div>
         <div className="node-button-div">
-          <button onClick={insertNode}>Insert Node</button>
-          <button onClick={deleteNode}>Delete Node</button>
+          <button className="orange-button hierarchy-button" onClick={insertNode}>Insert Node</button>
+          <button className="orange-button hierarchy-button" onClick={deleteNode}>Delete Node</button>
         </div>
         <form
           className="node-form-div"

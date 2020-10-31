@@ -15,7 +15,7 @@ router.route("/create-user").post((req, res) => {
 
   newUser
     .save()
-    .then(() => res.json("User added!"))
+    .then((user) => res.json(user))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
@@ -28,19 +28,19 @@ router.route("/").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-// getting a specific user
+// getting a specific user using their user id
 router.route("/get/:id").get((req, res) => {
   User.findById(req.params.id)
     .then((user) => res.json(user))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-// getting a user and populating its documents
-router.route("/get/populate/:id").get((req, res) => {
+// getting a users documents
+router.route("/get/documents/:id").get((req, res) => {
   User.findById(req.params.id)
     .populate("documents")
     .exec()
-    .then((user) => res.json(user))
+    .then((user) => res.json(user.documents))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
