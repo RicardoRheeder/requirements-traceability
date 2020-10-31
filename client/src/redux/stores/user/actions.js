@@ -71,33 +71,3 @@ export const fetchUserInfoAsync = (user) => {
       .catch((err) => dispatch(fetchUserInfoFailure(err)))
   }
 }
-
-export const fetchUserDocsStart = () => {
-  return {
-    type: FETCH_USER_DOCS_START,
-  }
-}
-export const fetchUserDocsSuccess = (documents) => {
-  return {
-    type: FETCH_USER_DOCS_SUCCESS,
-    payload: documents,
-  }
-}
-export const fetchUserDocsFailure = (error) => {
-  return {
-    type: FETCH_USER_DOCS_FAILURE,
-    payload: error,
-  }
-}
-
-export const fetchUserDocsAsync = (user) => {
-  console.log(user)
-  return (dispatch) => {
-    dispatch(fetchUserDocsStart())
-    // getting user docs
-    axios
-      .get(`${url}/get/documents-with-email/${user.email}`)
-      .then((docs) => dispatch(fetchUserDocsSuccess(docs.data)))
-      .catch((err) => dispatch(fetchUserInfoFailure(err)))
-  }
-}
