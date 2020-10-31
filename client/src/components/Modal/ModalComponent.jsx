@@ -22,7 +22,9 @@ export default function ModalComponent() {
           contentLabel="Example Modal"
           ariaHideApp={false}
         >
-                    <button className="orange-button close-button" onClick={closeModal}>X</button>
+          <div className="close-button-container">
+            <button className="orange-button close-button" onClick={closeModal}>X</button>
+          </div>
           {modalObject.mode == 0 ? (
             <Modal_AddDocument />
           ) : modalObject.mode == 1 ? (

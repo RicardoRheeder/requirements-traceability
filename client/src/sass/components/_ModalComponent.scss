@@ -37,12 +37,20 @@
   margin: 10px;
 }
 
-.close-button {
-  margin: 10px;
-  float: right;
-  min-width: 30px !important;
+.close-button-container {
+  width: 100%;
+
+  .close-button {
+    margin: 10px;
+    float: right;
+    min-width: 30px !important;
+  }
 }
 
 .modal-input {
   margin: 10px;
+}
+
+.modal-contents-container {
+
 }
