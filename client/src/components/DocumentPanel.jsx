@@ -2,11 +2,16 @@ import React from 'react'
 import Dropdown from 'react-dropdown'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { setSelectedDocumentPanelID, setModalObject } from '../redux/stores/common/actions'
+import {
+  setSelectedDocumentPanelID,
+  setModalObject,
+} from '../redux/stores/common/actions'
 
-export const DocumentPanel = ({ documentTitle, documentID }) => {
+export const DocumentPanel = ({ document, documentID }) => {
   const dispatch = useDispatch()
-  const selectedDocumentPanelID = useSelector((state) => state.common.selectedDocumentPanelID)
+  const selectedDocumentPanelID = useSelector(
+    (state) => state.common.selectedDocumentPanelID
+  )
 
   const testListOfVersions = ['1.1.0', '1.2.0']
   const defaultOption = testListOfVersions[0]
@@ -19,12 +24,21 @@ export const DocumentPanel = ({ documentTitle, documentID }) => {
     dispatch(setModalObject({ visible: true, mode: 2 }))
   }
 
+  const openDocumentIntoEditor = () => {
+    console.log('Double click')
+    console.log(document)
+  }
+
   return (
     <div
-      className={"document-panel-component" + (selectedDocumentPanelID == documentID ? " selected" : "")}
+      className={
+        'document-panel-component' +
+        (selectedDocumentPanelID == documentID ? ' selected' : '')
+      }
       onClick={() => {
         dispatch(setSelectedDocumentPanelID(documentID))
       }}
+      onDoubleClick={() => openDocumentIntoEditor}
     >
       <div className="document-panel-title">
         <button className="add-person-button" onClick={inviteUserButton}>
@@ -33,7 +47,7 @@ export const DocumentPanel = ({ documentTitle, documentID }) => {
             src="/assets/images/add-friend-icon.png"
           ></img>
         </button>
-        <h2>{documentTitle}</h2>
+        <h2>{document.title}</h2>
       </div>
 
       <div className="document-panel-dropdown">

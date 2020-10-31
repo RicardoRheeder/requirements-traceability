@@ -5,15 +5,15 @@ import { setModalObject } from '../redux/stores/common/actions'
 import { DocumentPanel } from './'
 
 export default function LeftContainer() {
+  const dispatch = useDispatch()
+
   const docs = useSelector((state) => state.document.documents)
 
   const RenderDocumentPanels = (listOfDocs) => {
     var i = 0
     return listOfDocs.map((document, i) => {
       i += 1
-      return (
-        <DocumentPanel documentTitle={document.title} documentID={i} key={i} />
-      )
+      return <DocumentPanel document={document} documentID={i} key={i} />
     })
   }
 
