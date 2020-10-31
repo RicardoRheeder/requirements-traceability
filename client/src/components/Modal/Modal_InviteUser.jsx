@@ -7,7 +7,7 @@ export default function Modal_InviteUser() {
   return (
     <div className="modal-root modal-root-child">
       <div className="modal-contents-container">
-        <h2>{'Invite user(s) to document'}</h2>
+        <h2 className="modal-contents-title">{'Invite user(s) to document'}</h2>
         <div>
           {'Please enter the email address(es) of the user(s) to invite.'}
         </div>
