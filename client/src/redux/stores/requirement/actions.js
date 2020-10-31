@@ -6,7 +6,7 @@ import {
 
 const axios = require('axios').default;
 
-const url = "http://localhost:5000/requirements";
+const url = "http://localhost:5000/requirement";
 
 export const updateReqNameStart = ()=>{
     return {
@@ -32,7 +32,7 @@ export const updateReqNameFailure = (err)=>{
 export const updateReqNameAsync = (req,reqID)=>{
     return (dispatch)=>{
         dispatch(updateReqNameStart())
-        axios.post(`${url}/update-name/${reqID}`, {title: req.title})
+        axios.patch(`${url}/update-name/${reqID}`, {title: req.title})
         .then((doc)=>{
             console.log(doc)
             dispatch(updateReqNameSuccess(doc))

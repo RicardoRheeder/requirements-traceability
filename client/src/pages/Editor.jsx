@@ -15,6 +15,7 @@ import {
   updateDataTree,
   updateSelectedNodeID,
 } from '../redux/stores/common/actions'
+import { updateReqNameAsync } from '../redux/stores/requirement/actions'
 
 export default function Editor() {
   const dispatch = useDispatch()
@@ -22,6 +23,12 @@ export default function Editor() {
 
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedNodeId = useSelector((state) => state.common.selectedID)
+
+  const updateReqNameInDB = () => {
+    let reqObject = { name: "Hardcoded Name Test"}
+    let reqID = "5f9dda02e1fe516b90c47764"
+    dispatch(updateReqNameAsync(reqObject, reqID))
+  }
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
