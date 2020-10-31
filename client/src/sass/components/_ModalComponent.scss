@@ -11,28 +11,38 @@
   transform: translate(-50%, -50%);
   width: 50%;
   height: 50%;
+  padding: 0 !important;
 }
 
-.modal-root{
+.ReactModal__Overlay {
+  background-color: #000000d4 !important;
+}
+
+.modal-root {
   color: #f96302;
   background: #2e2e2e;
-  border: 3px solid #f96302;
   border-radius: 4px;
   text-align: center;
-  // height: 100%;
   // position: relative;
 }
 
-.submit-button{
+.modal-root-child {
+  border: 3px solid #f96302;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+}
+
+.submit-button {
   margin: 10px;
 }
 
-.close-button{
+.close-button {
   margin: 10px;
   float: right;
   min-width: 30px !important;
 }
 
-.modal-input{
+.modal-input {
   margin: 10px;
 }
