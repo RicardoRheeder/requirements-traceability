@@ -2,7 +2,7 @@ import React from 'react'
 
 import { DocumentPanel } from './'
 
-export default function LeftContainer() {
+export default function LeftContainer({ docs }) {
   let MockList = [
     'CMPT371ReqDoc',
     'Test Document',
@@ -20,14 +20,14 @@ export default function LeftContainer() {
     var i = 0
     return listOfDocs.map((document) => {
       i += 1
-      return <DocumentPanel documentTitle={document} key={i} />
+      return <DocumentPanel documentTitle={document.title} key={i} />
     })
   }
 
   return (
     <div className="left-container-root">
       {/* search bar here */}
-      <div className="display-area">{RenderDocumentPanels(MockList)}</div>
+      <div className="display-area">{RenderDocumentPanels(docs)}</div>
       <div className="add-remove-buttons">
         <button className="orange-button add-button">Add</button>
         <button className="orange-button remove-button">Remove</button>
