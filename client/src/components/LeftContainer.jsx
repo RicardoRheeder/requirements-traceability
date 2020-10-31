@@ -5,20 +5,8 @@ import { setModalObject } from '../redux/stores/common/actions'
 import { DocumentPanel } from './'
 
 export default function LeftContainer() {
-  const dispatch = useDispatch()
-
-  let MockList = [
-    'CMPT371ReqDoc',
-    'Test Document',
-    'etc',
-    'test 1',
-    'test 2',
-    'test 3',
-    'test 4',
-    'test 5',
-    'test 6',
-    'test 7',
-  ]
+  const docs = useSelector((state) => state.user.documents)
+  console.log(docs)
 
   const RenderDocumentPanels = (listOfDocs) => {
     var i = 0
