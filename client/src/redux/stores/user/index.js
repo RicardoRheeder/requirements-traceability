@@ -17,13 +17,6 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, info: action.payload }
     case FETCH_USER_INFO_FAILURE:
       return { ...state, isFetching: false, errorMessage: action.payload }
-    // fetching user docs actions
-    case FETCH_USER_DOCS_START:
-      return { ...state, isFetching: true }
-    case FETCH_USER_DOCS_SUCCESS:
-      return { ...state, isFetching: false, documents: action.payload }
-    case FETCH_USER_DOCS_FAILURE:
-      return { ...state, isFetching: false, errorMessage: action.payload }
     default:
       return state
   }
