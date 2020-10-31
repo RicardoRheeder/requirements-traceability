@@ -5,26 +5,15 @@ import { setModalObject } from '../redux/stores/common/actions'
 import { DocumentPanel } from './'
 
 export default function LeftContainer() {
-  const dispatch = useDispatch()
-
-  let MockList = [
-    'CMPT371ReqDoc',
-    'Test Document',
-    'etc',
-    'test 1',
-    'test 2',
-    'test 3',
-    'test 4',
-    'test 5',
-    'test 6',
-    'test 7',
-  ]
+  const docs = useSelector((state) => state.document.documents)
 
   const RenderDocumentPanels = (listOfDocs) => {
     var i = 0
     return listOfDocs.map((document, i) => {
       i += 1
-      return <DocumentPanel documentTitle={document} documentID={i} key={i} />
+      return (
+        <DocumentPanel documentTitle={document.title} documentID={i} key={i} />
+      )
     })
   }
 
@@ -39,7 +28,7 @@ export default function LeftContainer() {
   return (
     <div className="left-container-root">
       {/* search bar here */}
-      <div className="display-area">{RenderDocumentPanels(MockList)}</div>
+      <div className="display-area">{RenderDocumentPanels(docs)}</div>
       <div className="add-remove-buttons">
         <button
           className="orange-button add-button"
