@@ -2,10 +2,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
-import {
-  fetchUserDocsAsync,
-  fetchUserInfoAsync,
-} from '../redux/stores/user/actions'
+import { fetchUserInfoAsync } from '../redux/stores/user/actions'
+import { fetchUserDocsAsync } from '../redux/stores/document/actions'
 import { LeftContainer } from '../components'
 
 function Home() {
@@ -27,7 +25,7 @@ function Home() {
   }, [fetchUserInfoAsync, fetchUserDocsAsync])
 
   // console.log(user)
-  // console.log(userInfo)
+  console.log(userInfo)
   // console.log(errorMessage)
 
   return (
