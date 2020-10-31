@@ -1,72 +1,60 @@
 .navbar-root {
   height: 100px !important;
   font-family: Verdana, Tahoma, sans-serif;
+  display: block;
+  border: 1px solid #f96302 !important;
+  overflow: hidden;
+  background-color: #2e2e2e;
 
-  #mainNav {
-    background-color: #2e2e2e;
-    height: 100px !important;
-    border: 1px solid #f96302 !important;
-  }
-
-  .container {
-    margin: 0px;
-    max-width: 100%;
-  }
-
-  .navbar-brand {
-    border-color: #2e2e2e;
-    color: #f96302;
-  }
-
-  .navbar-nav {
-    width: max-content;
-    font-size: 0.65em !important;
-  }
-
-  #mainNav .navbar-nav .nav-item .nav-link {
-    font-size: 100%;
-    font-weight: 400;
-    padding: 0.75em 0;
-    letter-spacing: 1px;
-    color: #f96302;
-    font-family: Verdana, Tahoma, sans-serif;
-  }
-
-  #mainNav .navbar-nav .nav-item .nav-link.active,
-  #mainNav .navbar-nav .nav-item .nav-link:hover {
-    color: #f2f2f2;
-  }
-
-  #mainNav .navbar-brand {
-    color: #f96302;
-    font-family: Verdana, Tahoma, sans-serif;
-    font-size: 1em !important;
-  }
-
-  .nav-icon{
+  .nav-icon {
     height: 90px;
     width: 90px;
+    margin: 5px;
   }
 
-  .logout-button {
-    min-width: 100px;
-    min-height: 35px;
-  }
+  .navbar-options-container {
+    height: 100px;
+    width: calc(100% - 120px);
+    float: right;
+    max-height: 100px;
+    overflow-y: auto;
 
-  .fixed-top {
-    top: 0;
-    // position: fixed;
-    right: 0;
-    left: 0;
-    z-index: 1030;
-  }
+    .navbar-option {
+      height: 100%;
+      margin: 0;
+      padding: 25px 0px;
+      float: right;
 
-  a:hover {
-    color: #f96302;
-  }
+      .nav-item {
+        width: fit-content;
+        height: 50px;
+        display: inline-block;
 
-  a:hover {
-    color: #f96302;
-    text-decoration: underline;
+        .nav-link {
+          float: left;
+          text-align: center;
+          text-decoration: none;
+          font-size: 20px;
+          color: #f96302;
+        }
+
+        .nav-link:hover {
+          color: #f2f2f2;
+        }
+      }
+    }
   }
+}
+
+.fixed-top {
+  top: 0;
+  position: sticky;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+.logout-button {
+  min-width: 100px;
+  min-height: 35px;
 }

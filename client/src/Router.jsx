@@ -4,7 +4,7 @@ import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
 
 import { Home, NotFound, ReactPage, LandingPage, Editor } from './pages'
 
-import { NavBar } from './components'
+import { NavBar, ModalComponent } from './components'
 
 import { useSelector } from 'react-redux'
 
@@ -24,6 +24,7 @@ export default function Router() {
             </Route>
           ) : (
             <>
+              <ModalComponent />
               <NavBar />
               <Route exact={true} path="/" children={<Home />} />
               <Route exact={true} path="/editor" children={<Editor />} />
@@ -31,6 +32,7 @@ export default function Router() {
           )}
 
           {/* <>
+            <ModalComponent/>
             <NavBar />
             <Route exact={true} path="/" children={<Home />} />
             <Route exact={true} path="/editor" children={<Editor />} />

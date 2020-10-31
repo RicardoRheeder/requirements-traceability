@@ -5,6 +5,7 @@ body,
 .app-root,
 #app > div {
   height: 100%;
+  font-family: Verdana, Tahoma, sans-serif !important;
 }
 
 .app-root {
@@ -126,6 +127,7 @@ button {
 @import './components/SplitPane';
 @import './components/Hierarchy';
 @import './components/DocumentPanel';
+@import './components/ModalComponent';
 
 // import pages contains page-specific styling
 @import './pages/ReactPage';
@@ -136,6 +138,5 @@ button {
 
 // import vendors
 @import './vendors/bootstrap.min.css';
-@import './vendors/login.css';
 
 @import '../../node_modules/react-dropdown/style.css';

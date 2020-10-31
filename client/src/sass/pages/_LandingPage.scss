@@ -6,21 +6,31 @@
   color: #f96302;
 }
 .logo-area {
-  padding-top: 250px;
+  position: relative;
+  top: 45% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 50%;
   font-size: 80px;
+  align-items: center;
 }
+
 .login-button {
   min-width: 100px;
   min-height: 50px;
 }
 
-
-.landing-logo-icon{
+.landing-logo-icon {
   height: 200px;
   width: auto;
+  align-self: center;
 }
 
-.landing-logo-name{
+.landing-logo-name {
   height: 200px;
   width: auto;
   float: right;
