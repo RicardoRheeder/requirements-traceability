@@ -24,7 +24,9 @@ export default function LeftContainer() {
     var i = 0
     return listOfDocs.map((document, i) => {
       i += 1
-      return <DocumentPanel documentTitle={document} documentID={i} key={i} />
+      return (
+        <DocumentPanel documentTitle={document.title} documentID={i} key={i} />
+      )
     })
   }
 
@@ -39,7 +41,7 @@ export default function LeftContainer() {
   return (
     <div className="left-container-root">
       {/* search bar here */}
-      <div className="display-area">{RenderDocumentPanels(MockList)}</div>
+      <div className="display-area">{RenderDocumentPanels(docs)}</div>
       <div className="add-remove-buttons">
         <button
           className="orange-button add-button"
