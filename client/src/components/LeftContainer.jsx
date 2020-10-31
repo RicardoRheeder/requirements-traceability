@@ -1,20 +1,11 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 import { DocumentPanel } from './'
 
-export default function LeftContainer({ docs }) {
-  let MockList = [
-    'CMPT371ReqDoc',
-    'Test Document',
-    'etc',
-    'test 1',
-    'test 2',
-    'test 3',
-    'test 4',
-    'test 5',
-    'test 6',
-    'test 7',
-  ]
+export default function LeftContainer() {
+  const docs = useSelector((state) => state.user.documents)
+  console.log(docs)
 
   const RenderDocumentPanels = (listOfDocs) => {
     var i = 0
