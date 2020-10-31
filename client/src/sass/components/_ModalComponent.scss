@@ -24,6 +24,7 @@
   border-radius: 4px;
   text-align: center;
   // position: relative;
+  min-width: 360px;
 }
 
 .modal-root-child {
@@ -31,6 +32,7 @@
   height: 100%;
   width: 100%;
   padding: 20px;
+  min-height: 360px;
 }
 
 .submit-button {
@@ -49,6 +51,8 @@
 
 .modal-input {
   margin: 10% 10px;
+  width: 60%;
+  max-width: 250px;
 }
 
 .modal-contents-container {
@@ -57,4 +61,6 @@
 
 .modal-contents-title{
   margin-bottom: 5%;
+  text-decoration: underline;
+  text-transform: uppercase;
 }

@@ -7,13 +7,13 @@ export default function Modal_InviteUser() {
   return (
     <div className="modal-root modal-root-child">
       <div className="modal-contents-container">
-        <h2 className="modal-contents-title">{'Invite user(s) to document'}</h2>
-        <div>
+        <h1 className="modal-contents-title">{'Invite user(s) to document'}</h1>
+        <h2>
           {'Please enter the email address(es) of the user(s) to invite.'}
-        </div>
-        <div>
+        </h2>
+        <h2>
           {'When entering multiple email addresses, use commas to separate.'}
-        </div>
+        </h2>
         <form>
           <input
             className="modal-input"
