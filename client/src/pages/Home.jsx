@@ -25,7 +25,7 @@ function Home() {
   }, [fetchUserInfoAsync, fetchUserDocsAsync])
 
   // console.log(user)
-  console.log(userInfo)
+  // console.log(userInfo)
   // console.log(errorMessage)
 
   return (
