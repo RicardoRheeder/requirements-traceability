@@ -5,11 +5,14 @@ import {
   DELETE_DOC_START,
   DELETE_DOC_FAILURE,
   DELETE_DOC_SUCCESS,
+  FETCH_USER_DOCS_START,
+  FETCH_USER_DOCS_SUCCESS,
+  FETCH_USER_DOCS_FAILURE,
 } from './actionTypes'
 
 const axios = require('axios').default
 
-const url = 'http://localhost:5000/documents'
+const url = 'http://localhost:5000'
 
 // action to start creating doc
 export const createDocStart = () => {
@@ -56,7 +59,10 @@ export const createDocAsync = (doc) => {
   return (dispatch) => {
     dispatch(createDocStart())
     axios
-      .post(`${url}/create-document`, { title: doc.title, admin: doc.admin })
+      .post(`${url}/documents/create-document`, {
+        title: doc.title,
+        admin: doc.admin,
+      })
       .then((doc) => {
         console.log(doc)
         dispatch(createDocSuccess(doc))
@@ -72,12 +78,43 @@ export const deleteDocAsync = (doc) => {
   return (dispatch) => {
     dispatch(deleteDocStart())
     axios
-      .delete(`${url}/delete/${doc.id}`, { user: doc.userID })
+      .delete(`${url}/documents/delete/${doc.id}`, { user: doc.userID })
       .then((newList) => {
         dispatch(deleteDocSuccess(newList))
       })
       .catch((err) => {
         dispatch(deleteDocFailure(err))
       })
+  }
+}
+
+// Fetching user documents *********************************************************
+export const fetchUserDocsStart = () => {
+  return {
+    type: FETCH_USER_DOCS_START,
+  }
+}
+export const fetchUserDocsSuccess = (documents) => {
+  return {
+    type: FETCH_USER_DOCS_SUCCESS,
+    payload: documents,
+  }
+}
+export const fetchUserDocsFailure = (error) => {
+  return {
+    type: FETCH_USER_DOCS_FAILURE,
+    payload: error,
+  }
+}
+
+export const fetchUserDocsAsync = (user) => {
+  console.log(user)
+  return (dispatch) => {
+    dispatch(fetchUserDocsStart())
+    // getting user docs
+    axios
+      .get(`${url}/users/get/documents-with-email/${user.email}`)
+      .then((docs) => dispatch(fetchUserDocsSuccess(docs.data)))
+      .catch((err) => dispatch(fetchUserDocsFailure(err)))
   }
 }
