@@ -111,7 +111,6 @@ router.route("/remove-user/:id").patch((req, res) => {
 // Delete Routes*****************************************
 
 // delete a single doc
-// delete a single doc
 router.route("/delete/:id").delete((req, res) => {
   const user = req.body.user;
   const docID = req.params.id;
