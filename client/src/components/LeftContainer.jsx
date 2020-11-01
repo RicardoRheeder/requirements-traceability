@@ -10,9 +10,15 @@ export default function LeftContainer() {
   const docs = useSelector((state) => state.document.documents)
 
   const RenderDocumentPanels = (listOfDocs) => {
-    return listOfDocs.map((document, i) => {
-      return <DocumentPanel document={document} key={i} />
-    })
+    console.log(listOfDocs)
+    console.log(typeof listOfDocs)
+
+    if (listOfDocs.length != 0) {
+      return listOfDocs.map((document, i) => {
+        return <DocumentPanel document={document} key={i} />
+      })
+    }
+    return <div>HELP</div>
   }
 
   const addDocumentButton = () => {

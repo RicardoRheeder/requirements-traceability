@@ -72,7 +72,7 @@ export const deleteDocStart = () => {
 export const deleteDocSuccess = (docs) => {
   return {
     type: DELETE_DOC_SUCCESS,
-    data: docs,
+    data: docs.data.response,
   }
 }
 
