@@ -10,10 +10,21 @@ router.route("/create-document").post((req, res) => {
   const admin = req.body.admin;
   const collaborators = [admin];
 
+  const tree = [
+    { title: 'Title of your requirement. (1)', text: 'Type contents of requirement here...', id: 1 },
+    {
+      title: 'Title of your requirement. (2)',
+      id: 2,
+      text: 'Type contents of requirement here...',
+      children: [{ title: 'Title of your requirement. (3)', text: 'Type contents of requirement here...', id: 3 }],
+    },
+  ]
+
   const newDocument = new Document({
     title,
     admin,
     collaborators,
+    tree: JSON.stringify(tree),
   });
 
   newDocument
@@ -25,7 +36,7 @@ router.route("/create-document").post((req, res) => {
         { $addToSet: { documents: newDocument._id } }
       )
         .then((user) =>
-          res.json(newDocument)
+          res.json({message: "Document saved to the database", response: newDocument})
         )
         .catch((err) =>
           res

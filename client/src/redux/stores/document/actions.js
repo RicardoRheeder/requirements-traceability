@@ -25,9 +25,10 @@ export const createDocStart = () => {
 
 // action to finish making a doc
 export const createDocSuccess = (doc) => {
+  console.log(doc)
   return {
     type: CREATE_DOC_SUCCESS,
-    data: doc.data,
+    data: doc.data.response,
   }
 }
 
