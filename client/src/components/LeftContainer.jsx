@@ -12,9 +12,7 @@ export default function LeftContainer() {
     var i = 0
     return listOfDocs.map((document, i) => {
       i += 1
-      return (
-        <DocumentPanel documentTitle={document.title} documentID={i} key={i} />
-      )
+      return <DocumentPanel document={document} documentID={i} key={i} />
     })
   }
 

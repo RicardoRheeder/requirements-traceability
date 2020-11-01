@@ -8,6 +8,7 @@ import {
   FETCH_USER_DOCS_START,
   FETCH_USER_DOCS_SUCCESS,
   FETCH_USER_DOCS_FAILURE,
+  UPDATE_CURRENT_DOCUMENT,
 } from './actionTypes'
 
 const axios = require('axios').default
@@ -132,3 +133,5 @@ export const fetchUserDocsAsync = (user) => {
       .catch((err) => dispatch(fetchUserDocsFailure(err)))
   }
 }
+
+export const updateCurrentDocument = (data) => ({ type: UPDATE_CURRENT_DOCUMENT, data });
