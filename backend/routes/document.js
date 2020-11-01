@@ -25,7 +25,7 @@ router.route("/create-document").post((req, res) => {
         { $addToSet: { documents: newDocument._id } }
       )
         .then((user) =>
-          res.json("Document saved to the database: " + newDocument)
+          res.json(newDocument)
         )
         .catch((err) =>
           res

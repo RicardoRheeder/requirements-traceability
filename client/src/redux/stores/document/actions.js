@@ -27,7 +27,7 @@ export const createDocStart = () => {
 export const createDocSuccess = (doc) => {
   return {
     type: CREATE_DOC_SUCCESS,
-    data: doc,
+    data: doc.data,
   }
 }
 

@@ -1,8 +1,14 @@
 import React, { useState } from 'react'
-import { createDocAsync } from '../../redux/stores/document/actions'
+import {
+  createDocAsync,
+  fetchUserDocsAsync,
+} from '../../redux/stores/document/actions'
 import { useDispatch, useSelector } from 'react-redux'
+import { setModalObject } from '../../redux/stores/common/actions'
+import { useAuth0 } from '@auth0/auth0-react'
 
 export default function Modal_AddDocument() {
+  const { user } = useAuth0()
   const dispatch = useDispatch()
   const userInfo = useSelector((state) => state.user.info)
 
@@ -15,12 +21,15 @@ export default function Modal_AddDocument() {
     const newDoc = { title: doc.title, admin: userInfo._id }
     dispatch(createDocAsync(newDoc))
     setDoc({ title: '' })
+    dispatch(setModalObject({ visible: false, mode: 0 }))
+    dispatch(fetchUserDocsAsync(user))
   }
 
   const handleChange = (e) => {
     const { value } = e.target
     setDoc({ ...doc, title: value })
   }
+
   return (
     <div className="modal-root modal-root-child">
       <div className="modal-contents-container">

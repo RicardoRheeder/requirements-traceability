@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setModalObject } from '../redux/stores/common/actions'
-
+import { useAuth0 } from '@auth0/auth0-react'
 import { DocumentPanel } from './'
 
 export default function LeftContainer() {
+  const { user } = useAuth0()
   const dispatch = useDispatch()
   const docs = useSelector((state) => state.document.documents)
 
