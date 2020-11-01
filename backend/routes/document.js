@@ -156,11 +156,11 @@ router.route("/delete/:id").delete((req, res) => {
         }
         // Get admins list of documents and send it
         User.findById(admin, "documents")
+          .populate("documents")
           .then((docs) => {
             const adminDocs = docs.documents;
             res.json(
-              "Document deleted successfully-Updated admin's documents: " +
-                adminDocs
+                {message: "Document deleted successfully-Updated admin's documents", response: adminDocs}
             );
           })
           .catch((err) => {
