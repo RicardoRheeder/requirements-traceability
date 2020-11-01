@@ -10,7 +10,7 @@ import {
 } from '../redux/stores/common/actions'
 import { updateCurrentDocument } from '../redux/stores/document/actions'
 
-export const DocumentPanel = ({ document, documentID }) => {
+export const DocumentPanel = ({ document }) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -39,10 +39,10 @@ export const DocumentPanel = ({ document, documentID }) => {
     <div
       className={
         'document-panel-component' +
-        (selectedDocumentPanelID == documentID ? ' selected' : '')
+        (selectedDocumentPanelID == document._id ? ' selected' : '')
       }
       onClick={() => {
-        dispatch(setSelectedDocumentPanelID(documentID))
+        dispatch(setSelectedDocumentPanelID(document._id))
       }}
       onDoubleClick={openDocumentIntoEditor}
     >
