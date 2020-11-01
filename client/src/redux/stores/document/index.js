@@ -24,7 +24,7 @@ export default (state = initialState, action) => {
     case CREATE_DOC_FAILURE:
       return { ...state, isFetching: false, error: action.data }
     case CREATE_DOC_SUCCESS:
-      return { ...state, isFetching: false, current_doc: action.data }
+      return { ...state, isFetching: false, documents: [...state.documents, action.data] }
     // delete doc actions
     case DELETE_DOC_START:
       return { ...state, isFetching: true }

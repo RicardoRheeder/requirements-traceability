@@ -28,9 +28,10 @@ export const createDocStart = () => {
 
 // action to finish making a doc
 export const createDocSuccess = (doc) => {
+  console.log(doc)
   return {
     type: CREATE_DOC_SUCCESS,
-    data: doc,
+    data: doc.data.response,
   }
 }
 
@@ -74,7 +75,7 @@ export const deleteDocStart = () => {
 export const deleteDocSuccess = (docs) => {
   return {
     type: DELETE_DOC_SUCCESS,
-    data: docs,
+    data: docs.data.response,
   }
 }
 
@@ -89,9 +90,10 @@ export const deleteDocFailure = (err) => {
 // action for async deleting doc
 export const deleteDocAsync = (doc) => {
   return (dispatch) => {
+    console.log({ user: doc.user })
     dispatch(deleteDocStart())
     axios
-      .delete(`${url}/documents/delete/${doc.id}`, { user: doc.userID })
+      .delete(`${url}/documents/delete/${doc.id}`, { data: { user: doc.user } })
       .then((newList) => {
         dispatch(deleteDocSuccess(newList))
       })
