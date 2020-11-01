@@ -10,7 +10,7 @@ export default function Modal_AddDocument() {
     title: '',
   })
 
-  const handleClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefaults
     const newDoc = { title: doc.title, admin: userInfo._id }
     dispatch(createDocAsync(newDoc))
@@ -26,11 +26,9 @@ export default function Modal_AddDocument() {
       <div className="modal-contents-container">
         <h1 className="modal-contents-title">Add document</h1>
         <h2>Please enter the name of the empty document to create.</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <input className="modal-input" onChange={handleChange} />
-          <button className="orange-button" onClick={handleClick}>
-            Submit
-          </button>
+          <button className="orange-button">Submit</button>
         </form>
       </div>
     </div>
