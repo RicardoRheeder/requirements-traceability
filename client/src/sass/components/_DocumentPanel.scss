@@ -9,11 +9,37 @@
   border-bottom: 2px solid #212a3f;
   border-radius: 4px;
 
+  &.selected {
+    background-color: #212a3f;
+    color: #f96302;
+    border: 2px solid #f96302;
+    border-radius: 4px;
+    z-index: 500;
+  }
+
   .document-panel-title {
     font-size: 18px;
     float: left;
     width: 100%;
     height: 30px;
+
+    .add-person-button {
+      height: 35px !important;
+      width: 35px !important;
+      float: right;
+      border-radius: 4px;
+    }
+
+    .add-person-button-image {
+      height: 25px;
+      width: 25px;
+      top: 0;
+      left: 0;
+    }
+
+    .add-person-button:hover {
+      border: 40px #212a3f;
+    }
   }
 
   .document-panel-dropdown {
@@ -46,33 +72,8 @@
   }
 }
 
-.document-panel-component:hover{
-  background-color: #f3843b;
+.document-panel-component:hover {
+  filter: brightness(1.5);
   border: 2px solid #f2f2f2;
   border-radius: 4px;
-}
-
-.document-panel-component-selected{
-  background-color: #212a3f;
-  color: #f96302;
-  border: 4px solid #f96302;;
-  border-radius: 4px;
-}
-
-.add-person-button{
-  height: 35px !important;
-  width: 35px !important;
-  float: right;
-  border-radius: 4px;
-}
-
-.add-person-button-image{
-  height: 25px;
-  width: 25px;
-  top: 0;
-  left: 0;
-}
-
-.add-person-button:hover{
-  border: 40px #212a3f;
 }

@@ -112,9 +112,11 @@ router.route("/remove-user/:id").patch((req, res) => {
 // Delete Routes*****************************************
 
 // delete a single doc
+// delete a single doc
 router.route("/delete/:id").delete((req, res) => {
   const user = req.body.user;
   const docID = req.params.id;
+<<<<<<< HEAD
   Document.findById(docID, "admin collaborators")
   .then((doc)=>{
     const admin = doc.admin
@@ -136,6 +138,58 @@ router.route("/delete/:id").delete((req, res) => {
   }).catch((err)=>{
     res.status(400).json("Error: Could not find Document with id: "+docID);
   })
+=======
+  // Find the document selecting the admin and collaborators fields
+  Document.findById(docID, "admin collaborators")
+    .then((doc) => {
+      const admin = doc.admin;
+      const collabs = doc.collaborators;
+      // Check if user = admin of the document
+      if (user != admin) {
+        res
+          .status(400)
+          .json(
+            "Error: Only the admin of the document can delete the document"
+          );
+      } else {
+        //Delete the document
+        Document.findByIdAndDelete(req.params.id).catch((err) =>
+          res.status(400).json("Error: " + err)
+        );
+        collabs.push(admin);
+        let x;
+        // Delete the documentID from all collaborators
+        for (x of collabs) {
+          User.findByIdAndUpdate(x, { $pull: { documents: docID } }).catch(
+            (err) => {
+              res
+                .status(400)
+                .json("Error: could not update users documents " + err);
+            }
+          );
+        }
+        // Get admins list of documents and send it
+        User.findById(admin, "documents")
+          .then((docs) => {
+            const adminDocs = docs.documents;
+            res.json(
+              "Document deleted successfully-Updated admin's documents: " +
+                adminDocs
+            );
+          })
+          .catch((err) => {
+            res
+              .json(400)
+              .json("Error: could not find admin's list of documents: " + err);
+          });
+      }
+    })
+    .catch((err) => {
+      res
+        .status(400)
+        .json("Error: Could not find Document with id: " + docID + " " + err);
+    });
+>>>>>>> master
 });
 
 // delete all docs (for testing)

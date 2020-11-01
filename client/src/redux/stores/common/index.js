@@ -2,7 +2,8 @@ import {
     SET_LOGGEDIN,
     UPDATE_TREEDATA,
     UPDATE_SELECTEDNODEID,
-    SET_MODALOBJECT
+    SET_MODALOBJECT,
+    SET_SELECTED_DOCUMENTPANEL_ID
 } from './actionTypes';
 
 import initialState from './initialState';
@@ -17,6 +18,8 @@ export default (state = initialState, action) => {
             return { ...state, selectedID: action.data };
         case SET_MODALOBJECT:
             return { ...state, modalObject: action.data };
+        case SET_SELECTED_DOCUMENTPANEL_ID:
+            return { ...state, selectedDocumentPanelID: action.data };
         default:
             return state;
     }

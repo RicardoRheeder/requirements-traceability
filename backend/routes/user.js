@@ -35,6 +35,13 @@ router.route("/get/:id").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// getting a specific user using their email
+router.route("/get-by-email/:email").get((req, res) => {
+  User.findOne({ email: req.params.email })
+    .then((user) => res.json(user))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 // getting a users documents
 router.route("/get/documents/:id").get((req, res) => {
   User.findById(req.params.id)
@@ -44,6 +51,14 @@ router.route("/get/documents/:id").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// getting a users documents with email
+router.route("/get/documents-with-email/:email").get((req, res) => {
+  User.findOne({ email: req.params.email })
+    .populate("documents")
+    .exec()
+    .then((user) => res.json(user.documents))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
 // Update Routes*****************************************
 
 // updating a specific user
