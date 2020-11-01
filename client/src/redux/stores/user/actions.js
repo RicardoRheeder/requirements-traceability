@@ -7,13 +7,20 @@ import {
 const axios = require('axios').default
 const url = 'http://localhost:5000/users'
 
-// fetching user information
+/**
+ * function to init the fetching of user info
+ */
 export const fetchUserInfoStart = () => {
   return {
     type: FETCH_USER_INFO_START,
   }
 }
 
+/**
+ * function to be called when user info is successfully received
+ * @param {object} info
+ * @returns {object} type of action and the info as the payload
+ */
 export const fetchUserInfoSuccess = (info) => {
   return {
     type: FETCH_USER_INFO_SUCCESS,
@@ -21,6 +28,11 @@ export const fetchUserInfoSuccess = (info) => {
   }
 }
 
+/**
+ * function to be called when user can't be received or created, probably due to an invalid request
+ * @param {object} errorMessage
+ * @returns {object} error message object
+ */
 export const fetchUserInfoFailure = (errorMessage) => {
   return {
     type: FETCH_USER_INFO_FAILURE,
@@ -28,16 +40,17 @@ export const fetchUserInfoFailure = (errorMessage) => {
   }
 }
 
+/**
+ * Async function that will get user info if they exist otherwise they will add the user to the DB
+ * @param {object} user
+ * @returns {object} info for the user (email, username, creation date, etc.)
+ */
 export const fetchUserInfoAsync = (user) => {
-  // slicing the user id to remove "auth0|"
-  const oldId = user.sub
-  const newID = oldId.slice(6, oldId.length)
-
   return (dispatch) => {
     dispatch(fetchUserInfoStart())
-    // getting the user if they exist otherwise creating a user
+    // getting the user by the email if they exist otherwise creating a user
     axios
-      .get(`${url}/get/${newID}`)
+      .get(`${url}/get-by-email/${user.email}`)
       .then((info) => {
         if (info.data) {
           dispatch(fetchUserInfoSuccess(info.data))
@@ -45,7 +58,6 @@ export const fetchUserInfoAsync = (user) => {
           // adding user since user does not already exist
           axios
             .post(`${url}/create-user`, {
-              _id: newID,
               username: user.nickname,
               email: user.email,
             })

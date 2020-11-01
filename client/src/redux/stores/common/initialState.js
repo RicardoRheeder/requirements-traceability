@@ -27,5 +27,10 @@ export default {
     { title: "HLRQ12", text: "HLRQ12 text", id: 2 },
   ],
   selectedID: 0,
+
+  // mode: 0 = create document
+  // mode: 1 = delete document
+  // mode: 2 = invite user to document
   modalObject: {visible: false, mode: 0},
+  selectedDocumentPanelID: 0,
 };

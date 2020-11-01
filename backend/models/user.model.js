@@ -5,7 +5,6 @@ const user = require("../models/user.model");
 
 const userSchema = new Schema(
   {
-    _id: { type: String, required: true, unique: true },
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     documents: [{ type: Schema.Types.ObjectId, ref: "Document" }],

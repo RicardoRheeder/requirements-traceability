@@ -1,24 +1,65 @@
 import React from 'react'
 import Dropdown from 'react-dropdown'
+import { useHistory } from 'react-router-dom'
 
-export const DocumentPanel = ({ documentTitle }) => {
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  setSelectedDocumentPanelID,
+  setModalObject,
+  updateDataTree,
+} from '../redux/stores/common/actions'
+import { updateCurrentDocument } from '../redux/stores/document/actions'
+
+export const DocumentPanel = ({ document, documentID }) => {
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+  const selectedDocumentPanelID = useSelector(
+    (state) => state.common.selectedDocumentPanelID
+  )
+
   const testListOfVersions = ['1.1.0', '1.2.0']
   const defaultOption = testListOfVersions[0]
 
-  const _onSelect = (thing) => {
+  const _onDropdownSelect = (thing) => {
     console.log(thing)
   }
 
+  const inviteUserButton = () => {
+    dispatch(setModalObject({ visible: true, mode: 2 }))
+  }
+
+  const openDocumentIntoEditor = () => {
+    dispatch(updateCurrentDocument(document))
+    dispatch(updateDataTree(JSON.parse(document.tree)))
+    history.push('/editor')
+  }
+
   return (
-    <div className="document-panel-component">
+    <div
+      className={
+        'document-panel-component' +
+        (selectedDocumentPanelID == documentID ? ' selected' : '')
+      }
+      onClick={() => {
+        dispatch(setSelectedDocumentPanelID(documentID))
+      }}
+      onDoubleClick={openDocumentIntoEditor}
+    >
       <div className="document-panel-title">
-        <h2>{documentTitle}</h2>
+        <button className="add-person-button" onClick={inviteUserButton}>
+          <img
+            className="add-person-button-image"
+            src="/assets/images/add-friend-icon.png"
+          ></img>
+        </button>
+        <h2>{document.title}</h2>
       </div>
 
       <div className="document-panel-dropdown">
         <Dropdown
           options={testListOfVersions}
-          onChange={_onSelect}
+          onChange={_onDropdownSelect}
           value={defaultOption}
           placeholder="Select an option"
           className="dropdown-custom-wrapper"

@@ -5,12 +5,10 @@ const User = require("../models/user.model");
 
 // creating a new user
 router.route("/create-user").post((req, res) => {
-  const _id = req.body._id;
   const username = req.body.username;
   const email = req.body.email;
 
   const newUser = new User({
-    _id,
     username,
     email,
   });
@@ -39,21 +37,28 @@ router.route("/get/:id").get((req, res) => {
 
 // getting a specific user using their email
 router.route("/get-by-email/:email").get((req, res) => {
-  console.log(req.params.email);
   User.findOne({ email: req.params.email })
     .then((user) => res.json(user))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-// getting a user and populating its documents
-router.route("/get/populate/:id").get((req, res) => {
+// getting a users documents
+router.route("/get/documents/:id").get((req, res) => {
   User.findById(req.params.id)
     .populate("documents")
     .exec()
-    .then((user) => res.json(user))
+    .then((user) => res.json(user.documents))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// getting a users documents with email
+router.route("/get/documents-with-email/:email").get((req, res) => {
+  User.findOne({ email: req.params.email })
+    .populate("documents")
+    .exec()
+    .then((user) => res.json(user.documents))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
 // Update Routes*****************************************
 
 // updating a specific user
