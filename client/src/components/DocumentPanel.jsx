@@ -1,14 +1,19 @@
 import React from 'react'
 import Dropdown from 'react-dropdown'
+import { useHistory } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
   setSelectedDocumentPanelID,
   setModalObject,
+  updateDataTree,
 } from '../redux/stores/common/actions'
+import { updateCurrentDocument } from '../redux/stores/document/actions'
 
 export const DocumentPanel = ({ document, documentID }) => {
   const dispatch = useDispatch()
+  const history = useHistory()
+
   const selectedDocumentPanelID = useSelector(
     (state) => state.common.selectedDocumentPanelID
   )
@@ -25,8 +30,9 @@ export const DocumentPanel = ({ document, documentID }) => {
   }
 
   const openDocumentIntoEditor = () => {
-    console.log('Double click')
-    console.log(document)
+    dispatch(updateCurrentDocument(document))
+    dispatch(updateDataTree(JSON.parse(document.tree)))
+    history.push('/editor')
   }
 
   return (
@@ -38,7 +44,7 @@ export const DocumentPanel = ({ document, documentID }) => {
       onClick={() => {
         dispatch(setSelectedDocumentPanelID(documentID))
       }}
-      onDoubleClick={() => openDocumentIntoEditor}
+      onDoubleClick={openDocumentIntoEditor}
     >
       <div className="document-panel-title">
         <button className="add-person-button" onClick={inviteUserButton}>
