@@ -6,7 +6,7 @@ const document = require("../models/document.model");
 const documentSchema = new Schema(
   {
     title: {type: String, required: true}, 
-    admin: {type: Schema.Types.ObjectId, ref: "User"},
+    admin: {type: Schema.Types.ObjectId, ref: "User", required: true},
     collaborators: [{type: Schema.Types.ObjectId, ref: "User"}],
     tree: {type: String},
     version: [{ type: Schema.Types.ObjectId, ref: "Document"}],
