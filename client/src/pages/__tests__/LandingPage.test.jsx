@@ -4,6 +4,7 @@ import LandingPage from "../LandingPage"
 import Adapter from "enzyme-adapter-react-16"
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store"
+import { LoginButton } from "../../components";
 
 
 const mockStore = configureStore([])
@@ -20,4 +21,8 @@ describe("Landing Page", () => {
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
+    test("renders login button", () =>{
+        const wrapper = shallow(<Provider store = {store}><LandingPage/></Provider>);
+        expect(wrapper.contains(<LoginButton/>)).toEqual(true);
+    })
 });
