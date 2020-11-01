@@ -10,10 +10,21 @@ router.route("/create-document").post((req, res) => {
   const admin = req.body.admin;
   const collaborators = [admin];
 
+  const tree = [
+    { title: 'Title of your requirement. (1)', text: 'Type contents of requirement here...', id: 1 },
+    {
+      title: 'Title of your requirement. (2)',
+      id: 2,
+      text: 'Type contents of requirement here...',
+      children: [{ title: 'Title of your requirement. (3)', text: 'Type contents of requirement here...', id: 3 }],
+    },
+  ]
+
   const newDocument = new Document({
     title,
     admin,
     collaborators,
+    tree: JSON.stringify(tree),
   });
 
   newDocument
@@ -25,7 +36,7 @@ router.route("/create-document").post((req, res) => {
         { $addToSet: { documents: newDocument._id } }
       )
         .then((user) =>
-          res.json("Document saved to the database: " + newDocument)
+          res.json({message: "Document saved to the database", response: newDocument})
         )
         .catch((err) =>
           res
@@ -123,7 +134,6 @@ router.route("/update-tree/:id").patch((req, res) => {
 // Delete Routes*****************************************
 
 // delete a single doc
-// delete a single doc
 router.route("/delete/:id").delete((req, res) => {
   const user = req.body.user;
   const docID = req.params.id;
@@ -158,11 +168,11 @@ router.route("/delete/:id").delete((req, res) => {
         }
         // Get admins list of documents and send it
         User.findById(admin, "documents")
+          .populate("documents")
           .then((docs) => {
             const adminDocs = docs.documents;
             res.json(
-              "Document deleted successfully-Updated admin's documents: " +
-                adminDocs
+                {message: "Document deleted successfully-Updated admin's documents", response: adminDocs}
             );
           })
           .catch((err) => {

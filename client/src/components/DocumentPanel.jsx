@@ -4,18 +4,18 @@ import { useHistory } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  setSelectedDocumentPanelID,
+  setSelectedDocumentPanelObject,
   setModalObject,
   updateDataTree,
 } from '../redux/stores/common/actions'
 import { updateCurrentDocument } from '../redux/stores/document/actions'
 
-export const DocumentPanel = ({ document, documentID }) => {
+export const DocumentPanel = ({ document }) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const selectedDocumentPanelID = useSelector(
-    (state) => state.common.selectedDocumentPanelID
+  const selectedDocumentPanelObject = useSelector(
+    (state) => state.common.selectedDocumentPanelObject
   )
 
   const testListOfVersions = ['1.1.0', '1.2.0']
@@ -39,10 +39,10 @@ export const DocumentPanel = ({ document, documentID }) => {
     <div
       className={
         'document-panel-component' +
-        (selectedDocumentPanelID == documentID ? ' selected' : '')
+        (selectedDocumentPanelObject._id == document._id ? ' selected' : '')
       }
       onClick={() => {
-        dispatch(setSelectedDocumentPanelID(documentID))
+        dispatch(setSelectedDocumentPanelObject(document))
       }}
       onDoubleClick={openDocumentIntoEditor}
     >
