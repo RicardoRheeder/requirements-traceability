@@ -23,7 +23,7 @@ export default function Editor() {
 
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedNodeId = useSelector((state) => state.common.selectedID)
-  const selectedReq = useSelector((state) => state.requirement.current_req)
+  //const selectedReq = useSelector((state) => state.requirement.current_req)
   
   const updateReqNameInDB = () => {
     let reqTitle = { name: "Hardcoded Name Test"}
@@ -130,7 +130,6 @@ export default function Editor() {
           />
         </div>
         <div className="editor-root-div">
-        <button onClick={updateReqNameInDB}>TEST COMMIT</button>
           <h1>Editor</h1>
           {CreateSectionsFromArrayOfStructs(Tree_Update(storeTreeData), 0)}
         </div>
