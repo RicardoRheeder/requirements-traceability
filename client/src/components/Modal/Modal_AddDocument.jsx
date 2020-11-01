@@ -14,6 +14,7 @@ export default function Modal_AddDocument() {
     e.preventDefaults
     const newDoc = { title: doc.title, admin: userInfo._id }
     dispatch(createDocAsync(newDoc))
+    setDoc({ title: '' })
   }
 
   const handleChange = (e) => {
