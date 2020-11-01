@@ -29,13 +29,13 @@ export const updateReqNameFailure = (err)=>{
 }
 
 
-export const updateReqNameAsync = (req,reqID)=>{
+export const updateReqNameAsync = (reqTitle,req)=>{
     return (dispatch)=>{
         dispatch(updateReqNameStart())
-        axios.patch(`${url}/update-name/${reqID}`, {title: req.title})
-        .then((doc)=>{
-            console.log(doc)
-            dispatch(updateReqNameSuccess(doc))
+        axios.patch(`${url}/update-name/${req._id}`, {title: reqTitle.title})
+        .then((req)=>{
+            console.log(req)
+            dispatch(updateReqNameSuccess(req))
         })
         .catch((err)=>{
             console.log(err)
