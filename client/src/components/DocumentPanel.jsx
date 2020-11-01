@@ -39,7 +39,7 @@ export const DocumentPanel = ({ document }) => {
     <div
       className={
         'document-panel-component' +
-        (selectedDocumentPanelObject == document._id ? ' selected' : '')
+        (selectedDocumentPanelObject._id == document._id ? ' selected' : '')
       }
       onClick={() => {
         dispatch(setSelectedDocumentPanelObject(document))

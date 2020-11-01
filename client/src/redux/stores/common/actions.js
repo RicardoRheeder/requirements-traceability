@@ -3,7 +3,7 @@ import {
   UPDATE_TREEDATA,
   UPDATE_SELECTEDNODEID,
   SET_MODALOBJECT,
-  SET_SELECTED_DOCUMENTPANEL_ID,
+  SET_SELECTED_DOCUMENTPANEL_OBJECT,
 } from './actionTypes'
 
 export const setLoggedIn = (data) => ({ type: SET_LOGGEDIN, data })
@@ -14,6 +14,6 @@ export const updateSelectedNodeID = (data) => ({
 })
 export const setModalObject = (data) => ({ type: SET_MODALOBJECT, data })
 export const setSelectedDocumentPanelObject = (data) => ({
-  type: SET_SELECTED_DOCUMENTPANEL_ID,
+  type: SET_SELECTED_DOCUMENTPANEL_OBJECT,
   data,
 })
