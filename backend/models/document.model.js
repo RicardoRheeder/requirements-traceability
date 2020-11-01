@@ -5,14 +5,14 @@ const document = require("../models/document.model");
 
 const documentSchema = new Schema(
   {
-    title: {type: String, required: true}, 
-    admin: {type: Schema.Types.ObjectId, ref: "User"},
-    collaborators: [{type: Schema.Types.ObjectId, ref: "User"}],
-    tree: {type: String},
-    version: [{ type: Schema.Types.ObjectId, ref: "Document"}],
+    title: { type: String, required: true },
+    admin: { type: Schema.Types.ObjectId, ref: "User" },
+    collaborators: [{ type: Schema.Types.ObjectId, ref: "User", unique: true }],
+    tree: { type: String },
+    version: [{ type: Schema.Types.ObjectId, ref: "Document" }],
   },
   {
-        timestamps: true,
+    timestamps: true,
   }
 );
 
