@@ -6,10 +6,16 @@ import { fetchUserInfoAsync } from '../redux/stores/user/actions'
 import { fetchUserDocsAsync } from '../redux/stores/document/actions'
 import { LeftContainer } from '../components'
 
-function Home({ fetchUserInfoAsync, isFetching, info, errorMessage }) {
-  // console.log(isFetching);
+function Home() {
+  // getting the current user who is signed in
   const { user } = useAuth0()
-  console.log(user)
+  const dispatch = useDispatch()
+
+  // getting info and errorMessage from initial state
+  const userInfo = useSelector((state) => state.user.info)
+  const errorMessage = useSelector((state) => state.user.errorMessage)
+
+  // use effect to fetch the user info when the component mounts
   useEffect(() => {
     if (user) {
       // dispatching async call with the user as a parameter
@@ -41,13 +47,4 @@ function Home({ fetchUserInfoAsync, isFetching, info, errorMessage }) {
   )
 }
 
-const mapStateToProps = (state) => ({
-  isFetching: state.user.isFetching,
-  info: state.user.info,
-  errorMessage: state.user.errorMessage,
-})
-const mapDispatchToProps = (dispatch) => ({
-  fetchUserInfoAsync: (user) => dispatch(fetchUserInfoAsync(user)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default Home
