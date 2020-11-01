@@ -6,6 +6,8 @@ image: node:14.12.0
 
 stages:
   - build
+  - start
+  - confidence-check
   - test
 
 cache:
@@ -20,6 +22,25 @@ install_dependencies:
   artifacts:
     paths:
       - node_modules/
+
+start_app:
+  stage: start
+  script:
+    - npm run start
+
+e2e:firefox:
+  stage: confidence-check
+  services:
+    - selenium/standalone-firefox
+  script:
+    - npm run confidence-check --host=selenium__standalone-firefox
+    
+e2e:chrome:
+  stage: confidence-check
+  services:
+    - selenium/standalone-chrome
+  script:
+    - npm run confidence-check --host=selenium__standalone-chrome
 
 run_tests:
   stage: test

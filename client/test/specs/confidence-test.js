@@ -36,7 +36,7 @@ describe('Basic functionality of app', function() {
   })
 
   it('should navigate to editor', function() {
-    const EDITOR_BUTTON = $('#NavToEditor')
+    const EDITOR_BUTTON = $('#NavToEditor').$('.nav-link')
     EDITOR_BUTTON.click()
     const EDITOR_ROOT = $('.editor-root')
     expect(EDITOR_ROOT).toExist()
@@ -58,7 +58,7 @@ describe('Basic functionality of app', function() {
   })
 
   it('should navigate to home', function() {
-    const HOME_BUTTON = $('#NavToHome')
+    const HOME_BUTTON = $('#NavToHome').$('.nav-link')
     HOME_BUTTON.click()
     const HOME_ROOT = $('.home-root')
     expect(HOME_ROOT).toExist()
