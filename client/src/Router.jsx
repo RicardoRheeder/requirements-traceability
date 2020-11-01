@@ -49,37 +49,19 @@ export default function Router() {
         <Switch>
           {!isAuthenticated ? (
             <Route path="*">
-<<<<<<< HEAD
-              <ModalComponent></ModalComponent>
-=======
               {loaderObject()}
->>>>>>> master
               <NavBar />
               <LandingPage />
             </Route>
           ) : (
             <>
-<<<<<<< HEAD
-              <ModalComponent></ModalComponent>
-=======
               {loaderObject()}
               <ModalComponent />
->>>>>>> master
               <NavBar />
               <Route exact={true} path="/" children={<Home />} />
               <Route exact={true} path="/editor" children={<Editor />} />
             </>
           )}
-<<<<<<< HEAD
-          {/* 
-          <>
-            <ModalComponent></ModalComponent>
-            <NavBar />
-            <Route exact={true} path="/" children={<Home />} />
-            <Route exact={true} path="/editor" children={<Editor />} />
-          </> */}
-=======
->>>>>>> master
         </Switch>
       </HashRouter>
     </div>
