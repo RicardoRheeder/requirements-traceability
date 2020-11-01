@@ -26,6 +26,7 @@ install_dependencies:
 start_app:
   stage: start
   script:
+    - cd client
     - npm run start
 
 e2e:firefox:
