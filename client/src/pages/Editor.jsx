@@ -28,7 +28,7 @@ export default function Editor() {
 
   const commitDocumentToDB = () => {
     let docObject = { tree: JSON.stringify(storeTreeData) }
-    let docID = "5f9f0e87f9d5052ff83acf90"
+    let docID = selectedDocId
     dispatch(sendDocAsync(docObject,docID))
   }
 

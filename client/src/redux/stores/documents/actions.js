@@ -74,7 +74,7 @@ export const sendDocFailure = (err)=>{
 export const sendDocAsync = (doc,docID) => {
     return(dispatch)=>{
         dispatch(sendDocStart())
-        axios.patch(`${url}/update-tree/${docID}`, {tree: doc.tree})
+        axios.patch(`${url}/update-tree/${docID._id}`, {tree: doc.tree})
         .then((doc)=>{
             console.log(doc)
             dispatch(sendDocSuccess(doc))
