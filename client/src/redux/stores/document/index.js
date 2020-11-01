@@ -8,7 +8,10 @@ import {
   FETCH_USER_DOCS_START,
   FETCH_USER_DOCS_SUCCESS,
   FETCH_USER_DOCS_FAILURE,
-  UPDATE_CURRENT_DOCUMENT
+  UPDATE_CURRENT_DOCUMENT,
+  ADD_USER_TO_DOC_START,
+  ADD_USER_TO_DOC_FAILURE,
+  ADD_USER_TO_DOC_SUCCESS
 } from './actionTypes'
 
 import initialState from './initialState'
@@ -38,6 +41,13 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, errorMessage: action.payload }
     case UPDATE_CURRENT_DOCUMENT:
       return { ...state, current_doc: action.data };
+    // adding user to a document actions
+    case ADD_USER_TO_DOC_START:
+      return { ...state, isFetching: true}
+    case ADD_USER_TO_DOC_FAILURE:
+      return { ...state, isFetching: false, error: action.data}
+    case ADD_USER_TO_DOC_SUCCESS:
+      return { ...state, isFetching: false, success: action.data} 
     default:
       return state
   }

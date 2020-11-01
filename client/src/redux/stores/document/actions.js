@@ -9,6 +9,9 @@ import {
   FETCH_USER_DOCS_SUCCESS,
   FETCH_USER_DOCS_FAILURE,
   UPDATE_CURRENT_DOCUMENT,
+  ADD_USER_TO_DOC_START,
+  ADD_USER_TO_DOC_FAILURE,
+  ADD_USER_TO_DOC_SUCCESS
 } from './actionTypes'
 
 const axios = require('axios').default
@@ -19,7 +22,7 @@ const url = 'http://localhost:5000'
 // action to start creating doc
 export const createDocStart = () => {
   return {
-    type: CREATE_DOC_START,
+    type: CREATE_DOC_START
   }
 }
 
@@ -136,7 +139,38 @@ export const fetchUserDocsAsync = (user) => {
   }
 }
 
-export const updateCurrentDocument = (data) => ({
-  type: UPDATE_CURRENT_DOCUMENT,
-  data,
-})
+export const updateCurrentDocument = (data) => ({ type: UPDATE_CURRENT_DOCUMENT, data });
+// Adding user to document ********************************************
+// action to start adding a user to a doc
+export const addUserToDocStart = () => {
+  return {
+    type: ADD_USER_TO_DOC_START
+  }
+}
+
+// action for adding user to a doc on success
+export const addUserToDocSuccess = (doc) => {
+  return {
+    type: ADD_USER_TO_DOC_SUCCESS,
+    data: doc,
+  }
+}
+
+// action for adding user to a doc on failure
+export const addUserToDocFailure = (error) => {
+  return {
+    type: ADD_USER_TO_DOC_FAILURE,
+    data: error,
+  }
+}
+
+// async action for adding user to a doc
+export const addUserTodocAsync = (request)=>{
+  return (dispatch) =>{
+    dispatch(addUserToDocStart())
+    // adding user to a document
+    axios.patch(`${url}/documents/add-user/${request.documentID}`)
+    .then((doc)=> dispatch(addUserToDocSuccess(doc.data)))
+    .catch((err)=> dispatch(addUserToDocFailure(err)))
+  }
+}
