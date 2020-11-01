@@ -11,7 +11,10 @@ import {
   UPDATE_CURRENT_DOCUMENT,
   ADD_USER_TO_DOC_START,
   ADD_USER_TO_DOC_FAILURE,
-  ADD_USER_TO_DOC_SUCCESS
+  ADD_USER_TO_DOC_SUCCESS,
+  GET_TREE_START,
+  GET_TREE_FAILURE,
+  GET_TREE_SUCCESS
 } from './actionTypes'
 
 const axios = require('axios').default
@@ -172,5 +175,39 @@ export const addUserTodocAsync = (request)=>{
     axios.patch(`${url}/documents/add-user/${request.documentID}`)
     .then((doc)=> dispatch(addUserToDocSuccess(doc.data)))
     .catch((err)=> dispatch(addUserToDocFailure(err)))
+  }
+}
+
+// Getting tree from database ********************************************
+// action to start getting the tree structure
+export const getTreeStart = () => {
+  return {
+    type: GET_TREE_START
+  }
+}
+
+// action for getting tree on success
+export const getTreeSuccess = (doc) => {
+  return {
+    type: GET_TREE_SUCCESS,
+    data: doc
+  }
+}
+
+// action for getting tree on failure
+export const getTreeFailure = (error) => {
+  return {
+    type: GET_TREE_FAILURE,
+    data: error
+  }
+}
+
+// async action for getting tree structure
+export const getTreeAsync = (request)=>{
+  return (dispatch) =>{
+    dispatch(getTreeStart())
+    axios.get(`${url}/documents/get-tree/${request.documentID}`)
+    .then((doc)=> dispatch(getTreeSuccess(doc.data)))
+    .catch((err)=> dispatch(getTreeFailure(err)))
   }
 }
