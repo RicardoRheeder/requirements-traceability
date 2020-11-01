@@ -53,11 +53,11 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, success: action.data} 
     // sending tree actions
     case SEND_DOC_START:
-      return { ...state };
+      return { ...state, isFetching: true };
     case SEND_DOC_FAILURE:
-      return { ...state, error: action.data };
+      return { ...state, isFetching: false, error: action.data };
     case SEND_DOC_SUCCESS:
-      return { ...state };
+      return { ...state, isFetching: false };
     default:
       return state
   }
