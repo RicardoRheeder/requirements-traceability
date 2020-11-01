@@ -86,9 +86,10 @@ export const deleteDocFailure = (err) => {
 // action for async deleting doc
 export const deleteDocAsync = (doc) => {
   return (dispatch) => {
+    console.log({ user: doc.user })
     dispatch(deleteDocStart())
     axios
-      .delete(`${url}/documents/delete/${doc.id}`, { user: doc.userID })
+      .delete(`${url}/documents/delete/${doc.id}`, { data: { user: doc.user } })
       .then((newList) => {
         dispatch(deleteDocSuccess(newList))
       })
@@ -134,4 +135,7 @@ export const fetchUserDocsAsync = (user) => {
   }
 }
 
-export const updateCurrentDocument = (data) => ({ type: UPDATE_CURRENT_DOCUMENT, data });
+export const updateCurrentDocument = (data) => ({
+  type: UPDATE_CURRENT_DOCUMENT,
+  data,
+})
