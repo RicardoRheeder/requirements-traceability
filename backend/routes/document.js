@@ -89,22 +89,46 @@ router.route("/get-tree/:id").get((req, res) => {
 
 // adding a user to a document and adding a document to the user
 router.route("/add-user/:id").patch((req, res) => {
-  Document.findByIdAndUpdate(
-    { _id: req.params.id },
-    { $addToSet: { collaborators: req.body.userId } }
-  )
+  const senderID = req.body.userId;
+  const docID = req.params.id;
+  const userEmail = req.body.email;
+
+  // Find the document to do checks
+  Document.findById(docID, "admin")
     .then((doc) => {
-      User.findByIdAndUpdate(
-        { _id: req.body.userId },
-        { $addToSet: { documents: req.params.id } }
-      )
-        .then((user) => res.json("User added to doc: " + doc))
-        .catch((err) => res.status(400).json("Error: " + err));
+      const adminID = doc.admin;
+      // check if the sender is the admin of the document
+      if(senderID != adminID){
+        res.status(400).json("Error: Only admin can add users to document");
+      }else{
+        User.findOne({email: userEmail})
+        .then((user)=>{
+          // Check if user exists
+          if(user == ""){
+            res.status(400).json("Error: User with email "+ userEmail + " not found") 
+          }else{
+            
+            // Add the user ID to document.collaborators and the document Id to user.documents
+              Document.findByIdAndUpdate(docID, { $addToSet: { collaborators: user._id } }
+              )
+              .then(()=>{
+                User.findByIdAndUpdate(user._id,
+                  { $addToSet: { documents: docID } }
+                )
+                .then(() => res.json("User added to doc: " + doc))
+                .catch((err) => res.status(400).json("Error: " + err));
+              })
+              .catch((err)=>{res.status(400).json("Error in updating document: "+ err)})
+          }
+        })
+        .catch((err)=>{res.status(400).json("Error in finding user: "+ err)});
+      }
     })
-    .catch((err) => res.status(400).json("Error: " + err));
+    .catch((err) => res.status(400).json("Error in finding document: " + err ));
 });
 
-// removing user from document and removing document from user
+
+// removing user from document and removing document form user
 router.route("/remove-user/:id").patch((req, res) => {
   Document.findByIdAndUpdate(
     { _id: req.params.id },
