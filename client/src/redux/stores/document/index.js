@@ -8,6 +8,7 @@ import {
   FETCH_USER_DOCS_START,
   FETCH_USER_DOCS_SUCCESS,
   FETCH_USER_DOCS_FAILURE,
+  UPDATE_CURRENT_DOCUMENT
 } from './actionTypes'
 
 import initialState from './initialState'
@@ -35,6 +36,8 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, documents: action.payload }
     case FETCH_USER_DOCS_FAILURE:
       return { ...state, isFetching: false, errorMessage: action.payload }
+    case UPDATE_CURRENT_DOCUMENT:
+      return { ...state, current_doc: action.data };
     default:
       return state
   }
