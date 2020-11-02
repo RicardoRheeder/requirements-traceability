@@ -23,7 +23,6 @@ export default function Modal_InviteUser() {
       userId: _id,
       email: email.email.trim(),
     }
-    console.log(request)
     dispatch(addUserToDocAsync(request))
   }
   const handleChange = (e) => {

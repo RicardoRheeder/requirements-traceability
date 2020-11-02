@@ -11,14 +11,24 @@ router.route("/create-document").post((req, res) => {
   const collaborators = [admin];
 
   const tree = [
-    { title: 'Title of your requirement. (1)', text: 'Type contents of requirement here...', id: 1 },
     {
-      title: 'Title of your requirement. (2)',
-      id: 2,
-      text: 'Type contents of requirement here...',
-      children: [{ title: 'Title of your requirement. (3)', text: 'Type contents of requirement here...', id: 3 }],
+      title: "Title of your requirement. (1)",
+      text: "Type contents of requirement here...",
+      id: 1,
     },
-  ]
+    {
+      title: "Title of your requirement. (2)",
+      id: 2,
+      text: "Type contents of requirement here...",
+      children: [
+        {
+          title: "Title of your requirement. (3)",
+          text: "Type contents of requirement here...",
+          id: 3,
+        },
+      ],
+    },
+  ];
 
   const newDocument = new Document({
     title,
@@ -36,7 +46,10 @@ router.route("/create-document").post((req, res) => {
         { $addToSet: { documents: newDocument._id } }
       )
         .then((user) =>
-          res.json({message: "Document saved to the database", response: newDocument})
+          res.json({
+            message: "Document saved to the database",
+            response: newDocument,
+          })
         )
         .catch((err) =>
           res
@@ -98,35 +111,39 @@ router.route("/add-user/:id").patch((req, res) => {
     .then((doc) => {
       const adminID = doc.admin;
       // check if the sender is the admin of the document
-      if(senderID != adminID){
+      if (senderID != adminID) {
+        console.log("over here");
         res.status(400).json("Error: Only admin can add users to document");
-      }else{
-        User.findOne({email: userEmail})
-        .then((user)=>{
-          // Check if user exists
-          if(user == ""){
-            res.status(400).json("Error: User with email "+ userEmail + " not found") 
-          }else{
-            
-            // Add the user ID to document.collaborators and the document Id to user.documents
-              Document.findByIdAndUpdate(docID, { $addToSet: { collaborators: user._id } }
-              )
-              .then(()=>{
-                User.findByIdAndUpdate(user._id,
-                  { $addToSet: { documents: docID } }
-                )
-                .then(() => res.json("User added to doc: " + doc))
-                .catch((err) => res.status(400).json("Error: " + err));
+      } else {
+        User.findOne({ email: userEmail })
+          .then(
+            (user) => {
+              // Add the user ID to document.collaborators and the document Id to user.documents
+              Document.findByIdAndUpdate(docID, {
+                $addToSet: { collaborators: user._id },
               })
-              .catch((err)=>{res.status(400).json("Error in updating document: "+ err)})
-          }
-        })
-        .catch((err)=>{res.status(400).json("Error in finding user: "+ err)});
+                .then(() => {
+                  User.findByIdAndUpdate(user._id, {
+                    $addToSet: { documents: docID },
+                  })
+                    .then(() => res.json("User added to doc: " + doc))
+                    .catch((err) => res.status(400).json("Error: " + err));
+                })
+                .catch((err) => {
+                  res.status(400).json("Error in updating document: " + err);
+                });
+            }
+            // }
+          )
+          .catch((err) => {
+            res
+              .status(400)
+              .json({ message: "User does not exist", response: err });
+          });
       }
     })
-    .catch((err) => res.status(400).json("Error in finding document: " + err ));
+    .catch((err) => res.status(400).json("Error in finding document: " + err));
 });
-
 
 // removing user from document and removing document form user
 router.route("/remove-user/:id").patch((req, res) => {
@@ -195,9 +212,11 @@ router.route("/delete/:id").delete((req, res) => {
           .populate("documents")
           .then((docs) => {
             const adminDocs = docs.documents;
-            res.json(
-                {message: "Document deleted successfully-Updated admin's documents", response: adminDocs}
-            );
+            res.json({
+              message:
+                "Document deleted successfully-Updated admin's documents",
+              response: adminDocs,
+            });
           })
           .catch((err) => {
             res
