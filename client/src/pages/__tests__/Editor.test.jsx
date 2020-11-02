@@ -13,11 +13,18 @@ describe("Editor", () => {
     let store;
     let editor;
     beforeEach(() => {
-        store = mockStore({});
+        store = mockStore({common:{
+            treeData: [],
+            selectedID: [],
+        }});
     });
     test("renders", () => {
         const wrapper = shallow(<Provider store = {store}><Editor/></Provider>);
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
+    test("renders with children", () => {
+        const wrapper = mount(<Provider store = {store}><Editor/></Provider>);
+        expect(wrapper.exists()).toBe(true);
+    })
 });

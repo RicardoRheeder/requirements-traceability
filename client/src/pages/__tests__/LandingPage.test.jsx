@@ -17,12 +17,18 @@ describe("Landing Page", () => {
         store = mockStore({});
     });
     test("renders", () => {
-        const wrapper = shallow(<Provider store = {store}><LandingPage/></Provider>);
+        const wrapper = shallow(LandingPage());
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
-    test("renders login button", () =>{
-        const wrapper = shallow(<Provider store = {store}><LandingPage/></Provider>);
-        expect(wrapper.contains(<LoginButton/>)).toEqual(true);
+    test('renders with children', () => {
+        const wrapper = mount(<Provider store = {store}><LandingPage/></Provider>);
+        expect(wrapper.exists()).toBe(true);
+        expect(wrapper).toMatchSnapshot();
+    })
+    test('renders button and logo', () => {
+        const wrapper = mount(<Provider store = {store}><LandingPage/></Provider>);
+        expect(wrapper.contains(<LoginButton/>)).toBe(true);
+        expect(wrapper.find(".landing-logo-icon").exists()).toBe(true);
     })
 });
