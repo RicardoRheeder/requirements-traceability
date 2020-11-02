@@ -25,3 +25,7 @@ export const ADD_USER_TO_DOC_SUCCESS = 'ADD_USER_TO_DOC_SUCCESS';
 export const GET_TREE_START = 'GET_TREE_START'
 export const GET_TREE_FAILURE = 'GET_TREE_FAILURE'
 export const GET_TREE_SUCCESS = 'GET_TREE_SUCCESS'
+// actions for sending the tree structure
+export const SEND_DOC_START = 'SEND_DOC_START';
+export const SEND_DOC_FAILURE = 'SEND_DOC_FAILURE';
+export const SEND_DOC_SUCCESS = 'SEND_DOC_SUCCESS';

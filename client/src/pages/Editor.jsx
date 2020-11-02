@@ -17,6 +17,7 @@ import {
 } from '../redux/stores/common/actions'
 
 import { getTreeAsync } from '../redux/stores/document/actions'
+import { sendDocAsync } from '../redux/stores/document/actions'
 
 export default function Editor() {
   const dispatch = useDispatch()
@@ -31,6 +32,11 @@ export default function Editor() {
     dispatch(getTreeAsync(selectedDocId))
   }
 
+  const commitDocumentToDB = () => {
+    let docObject = { tree: JSON.stringify(storeTreeData) }
+    let docID = selectedDocId
+    dispatch(sendDocAsync(docObject,docID))
+  }
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -130,7 +136,8 @@ export default function Editor() {
           />
         </div>
         <div className="editor-root-div">
-        <button onClick={getTreeFromDB}>TEST COMMIT</button>
+        <button onClick={getTreeFromDB}>TEST GET TREE</button>
+          <button onClick={commitDocumentToDB}>TEST COMMIT</button>
           <h1>Editor</h1>
           {CreateSectionsFromArrayOfStructs(Tree_Update(storeTreeData), 0)}
         </div>

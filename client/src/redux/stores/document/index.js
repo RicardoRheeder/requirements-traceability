@@ -14,7 +14,10 @@ import {
   ADD_USER_TO_DOC_SUCCESS,
   GET_TREE_START,
   GET_TREE_FAILURE,
-  GET_TREE_SUCCESS
+  GET_TREE_SUCCESS,
+  SEND_DOC_START,
+  SEND_DOC_FAILURE,
+  SEND_DOC_SUCCESS
 } from './actionTypes'
 
 import initialState from './initialState'
@@ -58,6 +61,13 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, error: action.data}
     case GET_TREE_SUCCESS:
       return { ...state, isFetching: false, success: action.data} 
+    // sending tree actions
+    case SEND_DOC_START:
+      return { ...state, isFetching: true };
+    case SEND_DOC_FAILURE:
+      return { ...state, isFetching: false, error: action.data };
+    case SEND_DOC_SUCCESS:
+      return { ...state, isFetching: false };
     default:
       return state
   }

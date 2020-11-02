@@ -52,16 +52,17 @@ router.route("/create-document").post((req, res) => {
     );
 });
 
+
 // Get Routes********************************************
 
-// Get all document
+// Get all documents
 router.route("/").get((req, res) => {
   Document.find()
     .then((docs) => res.json(docs))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-// Get a document
+// Get a specific document
 router.route("/get/:id").get((req, res) => {
   const id = req.params.id;
 
@@ -82,6 +83,7 @@ router.route("/get-tree/:id").get((req, res) => {
       res.status(400).json("Error: could not find tree hierarchy given " + id);
     });
 });
+
 
 // Update Routes*****************************************
 
@@ -141,6 +143,16 @@ router.route("/remove-user/:id").patch((req, res) => {
         .catch((err) => res.status(400).json("Error: " + err));
     })
     .catch((err) => res.status(400).json("Error: " + err));
+});
+
+// updating the tree structure
+router.route("/update-tree/:id").patch((req, res) => {
+  Document.findByIdAndUpdate(
+    { _id: req.params.id },
+    { $set: { "tree": req.body.tree } }
+  )
+  .then((doc) => res.json("Tree structure updated within the doc: " + doc))
+  .catch((err) => res.status(400).json("Error: " + err));
 });
 
 // Delete Routes*****************************************
