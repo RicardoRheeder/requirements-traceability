@@ -141,7 +141,9 @@ export const fetchUserDocsAsync = (user) => {
     axios
       .get(`${url}/users/get/documents-with-email/${user.email}`)
       .then((docs) => dispatch(fetchUserDocsSuccess(docs)))
-      .catch((err) => dispatch(fetchUserDocsFailure(err)))
+      .catch((err) => {
+        console.log(err);
+        dispatch(fetchUserDocsFailure(err))})
   }
 }
 

@@ -22,6 +22,7 @@ export const fetchUserInfoStart = () => {
  * @returns {object} type of action and the info as the payload
  */
 export const fetchUserInfoSuccess = (info) => {
+  console.log(info);
   return {
     type: FETCH_USER_INFO_SUCCESS,
     payload: info.data.response,
@@ -52,16 +53,17 @@ export const fetchUserInfoAsync = (user) => {
     axios
       .get(`${url}/get-by-email/${user.email}`)
       .then((info) => {
-        if (info.data) {
+        if (info.data.response) {
           dispatch(fetchUserInfoSuccess(info))// info.data?
-        } else if (info.data === null) {
+        } else if (info.data.response === null) {
+          console.log("At fetchuserAsync")
           // adding user since user does not already exist
           axios
             .post(`${url}/create-user`, {
               username: user.nickname,
               email: user.email,
             })
-            .then((info) => dispatch(fetchUserInfoSuccess(info.data))) // info?
+            .then((info) => dispatch(fetchUserInfoSuccess(info))) // info?
             .catch((err) => dispatch(fetchUserInfoFailure(err)))
         }
       })

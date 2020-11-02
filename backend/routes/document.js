@@ -41,6 +41,7 @@ router.route("/create-document").post((req, res) => {
     .save()
     .then((newDocument) => {
       // adding the document to the admins documents array
+      console.log("At creating a doc");
       User.findByIdAndUpdate(
         { _id: admin },
         { $addToSet: { documents: newDocument._id } }
@@ -212,8 +213,7 @@ router.route("/delete/:id").delete((req, res) => {
           .then((docs) => {
             const adminDocs = docs.documents;
             res.json({
-              message:
-                "Document deleted successfully",
+              message: "Document deleted successfully",
               response: adminDocs,
             });
           })
