@@ -8,6 +8,8 @@ export default function LeftContainer() {
   const { user } = useAuth0()
   const dispatch = useDispatch()
   const docs = useSelector((state) => state.document.documents)
+  const getSuccess = useSelector((state) => state.document.success)
+  console.log(getSuccess)
 
   const RenderDocumentPanels = (listOfDocs) => {
     if (listOfDocs.length != 0) {

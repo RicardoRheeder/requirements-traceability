@@ -26,10 +26,12 @@ export default function Editor() {
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedNodeId = useSelector((state) => state.common.selectedID)
   const selectedDocId = useSelector((state) => state.document.current_doc)
+  const getSuccess = useSelector((state) => state.document.success)
 
   const getTreeFromDB = () => {
-    console.log(selectedDocId)
+    //console.log(selectedDocId)
     dispatch(getTreeAsync(selectedDocId))
+    //console.log(getSuccess)
   }
 
   const commitDocumentToDB = () => {
@@ -136,7 +138,7 @@ export default function Editor() {
           />
         </div>
         <div className="editor-root-div">
-        <button onClick={getTreeFromDB}>TEST GET TREE</button>
+        <button onClick={getTreeFromDB}>TEST PULL</button>
           <button onClick={commitDocumentToDB}>TEST COMMIT</button>
           <h1>Editor</h1>
           {CreateSectionsFromArrayOfStructs(Tree_Update(storeTreeData), 0)}
