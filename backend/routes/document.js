@@ -48,20 +48,20 @@ router.route("/create-document").post((req, res) => {
         .then((user) =>
           res.json({
             message: "Document saved to the database",
-            response: newDocument,
+            response: newDocument
           })
         )
         .catch((err) =>
           res
             .status(400)
-            .json(
-              "Error: could not not add document to admins document array, Error: " +
-                err
-            )
+            .json({
+              message: "Error: could not not add document to admins document array",
+              response: err
+            })
         );
     })
     .catch((err) =>
-      res.status(400).json("Error occurred: Could not save " + err)
+      res.status(400).json({message: "Error occurred: Could not save ", response: err})
     );
 });
 
@@ -71,8 +71,8 @@ router.route("/create-document").post((req, res) => {
 // Get all documents
 router.route("/").get((req, res) => {
   Document.find()
-    .then((docs) => res.json(docs))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then((docs) => res.json({message: null, response: docs}))
+    .catch((err) => res.status(400).json({message: "Error ", response: err}));
 });
 
 // Get a specific document
@@ -80,9 +80,9 @@ router.route("/get/:id").get((req, res) => {
   const id = req.params.id;
 
   Document.findById(id)
-    .then((doc) => res.json(doc))
+    .then((doc) => res.json({message: null, response: doc}))
     .catch((err) => {
-      res.status(400).json("Error: could not find Document with " + id);
+      res.status(400).json({message: "Error: could not find Document with " + id, response: err});
     });
 });
 
@@ -91,9 +91,9 @@ router.route("/get-tree/:id").get((req, res) => {
   const id = req.params.id;
 
   Document.findById(id)
-    .then((doc) => res.json(doc.tree))
+    .then((doc) => res.json({message: null, response: doc.tree}))
     .catch((err) => {
-      res.status(400).json("Error: could not find tree hierarchy given " + id);
+      res.status(400).json({message: "Error: could not find tree hierarchy given " + id, response: err});
     });
 });
 
@@ -112,7 +112,7 @@ router.route("/add-user/:id").patch((req, res) => {
       const adminID = doc.admin;
       // check if the sender is the admin of the document
       if (senderID != adminID) {
-        res.status(400).json("Error: Only admin can add users to document");
+        res.status(400).json({message: "Error: Only admin can add users to document", response: null});
       } else {
         User.findOne({ email: userEmail })
           .then(
@@ -125,14 +125,13 @@ router.route("/add-user/:id").patch((req, res) => {
                   User.findByIdAndUpdate(user._id, {
                     $addToSet: { documents: docID },
                   })
-                    .then(() => res.json("User added to doc: " + doc))
-                    .catch((err) => res.status(400).json("Error: " + err));
+                    .then(() => res.json({message: "User added to doc ", response: doc}))
+                    .catch((err) => res.status(400).json({message: "Error ", response: err}));
                 })
                 .catch((err) => {
-                  res.status(400).json("Error in updating document: " + err);
+                  res.status(400).json({message: "Error in updating document ", response: err});
                 });
             }
-            // }
           )
           .catch((err) => {
             res
@@ -141,7 +140,7 @@ router.route("/add-user/:id").patch((req, res) => {
           });
       }
     })
-    .catch((err) => res.status(400).json("Error in finding document: " + err));
+    .catch((err) => res.status(400).json({message: "Error in finding document: ", response:err}));
 });
 
 // removing user from document and removing document form user
@@ -155,10 +154,10 @@ router.route("/remove-user/:id").patch((req, res) => {
         { _id: req.body.userId },
         { $pull: { documents: req.params.id } }
       )
-        .then((user) => res.json("User removed from the doc: " + doc))
-        .catch((err) => res.status(400).json("Error: " + err));
+        .then((user) => res.json({message: "User removed from the doc ", response: doc}))
+        .catch((err) => res.status(400).json({message: "Error ", response: err}));
     })
-    .catch((err) => res.status(400).json("Error: " + err));
+    .catch((err) => res.status(400).json({message: "Error ", response: err}));
 });
 
 // updating the tree structure
@@ -167,8 +166,8 @@ router.route("/update-tree/:id").patch((req, res) => {
     { _id: req.params.id },
     { $set: { "tree": req.body.tree } }
   )
-  .then((doc) => res.json("Tree structure updated within the doc: " + doc))
-  .catch((err) => res.status(400).json("Error: " + err));
+  .then((doc) => res.json({message: "Tree structure updated within the doc", response: doc}))
+  .catch((err) => res.status(400).json({message: "Error: ", response: err}));
 });
 
 // Delete Routes*****************************************
@@ -186,13 +185,14 @@ router.route("/delete/:id").delete((req, res) => {
       if (user != admin) {
         res
           .status(400)
-          .json(
-            "Error: Only the admin of the document can delete the document"
-          );
+          .json({
+            message: "Error: Only the admin of the document can delete the document",
+            response: null
+          });
       } else {
         //Delete the document
         Document.findByIdAndDelete(req.params.id).catch((err) =>
-          res.status(400).json("Error: " + err)
+          res.status(400).json({message:"Error", response: err})
         );
         collabs.push(admin);
         let x;
@@ -202,7 +202,7 @@ router.route("/delete/:id").delete((req, res) => {
             (err) => {
               res
                 .status(400)
-                .json("Error: could not update users documents " + err);
+                .json({message: "Error: could not update users documents ", response: err});
             }
           );
         }
@@ -213,29 +213,29 @@ router.route("/delete/:id").delete((req, res) => {
             const adminDocs = docs.documents;
             res.json({
               message:
-                "Document deleted successfully-Updated admin's documents",
+                "Document deleted successfully",
               response: adminDocs,
             });
           })
           .catch((err) => {
             res
-              .json(400)
-              .json("Error: could not find admin's list of documents: " + err);
+              .status(400)
+              .json({message: "Error: could not find admin's list of documents", response: err});
           });
       }
     })
     .catch((err) => {
       res
         .status(400)
-        .json("Error: Could not find Document with id: " + docID + " " + err);
+        .json({message: "Error: Could not find Document with id: " + docID, response: err});
     });
 });
 
 // delete all docs (for testing)
 router.route("/deleteAll").delete((req, res) => {
   Document.deleteMany({})
-    .then(() => res.json("All docs deleted"))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then(() => res.json({message: "All docs deleted", response: null}))
+    .catch((err) => res.status(400).json({message: "Error ", response: err}));
 });
 
 module.exports = router;

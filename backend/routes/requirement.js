@@ -23,8 +23,8 @@ router.route("/create-requirement").post((req, res) => {
 
   newRequirement
     .save()
-    .then((requirement) => res.json("Requirement was added " + requirement))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then((requirement) => res.json({message: "Requirement was added ", response: requirement}))
+    .catch((err) => res.status(400).json({message: "Error ", response: err}));
 });
 
 // Get Routes*****************************************
@@ -32,15 +32,15 @@ router.route("/create-requirement").post((req, res) => {
 // get all req.
 router.route("/").get((req, res) => {
   Requirement.find()
-    .then((reqs) => res.json(reqs))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then((reqs) => res.json({message: null, response: reqs}))
+    .catch((err) => res.status(400).json({message: "Error: ", response: err}));
 });
 
 // get specific req.
 router.route("/get-requirement/:id").get((req, res) => {
   Requirement.findById(req.params.id)
-    .then((requirement) => res.json(requirement))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then((requirement) => res.json({message: null, response: requirement}))
+    .catch((err) => res.status(400).json({message: "Error ", response: err}));
 });
 
 // Update Routes*****************************************
@@ -52,9 +52,9 @@ router.route("/update-isChanged/:id").patch((req, res) => {
     { $set: { isChanged: req.body.value } }
   )
     .then((requirement) =>
-      res.json("requirement isChanged status updated: " + requirement)
+      res.json({message: "requirement isChanged status updated: ", response: requirement})
     )
-    .catch((err) => res.json("Error: " + err));
+    .catch((err) => res.json({message: "Error: ", response: err}));
 });
 
 // updating isBeingEdited
@@ -64,9 +64,9 @@ router.route("/update-isBeingEdited/:id").patch((req, res) => {
     { $set: { isBeingEdited: req.body.value } }
   )
     .then((requirement) =>
-      res.json("requirement isBeingEdited status updated: " + requirement)
+      res.json({message: "requirement isBeingEdited status updated: ", response: requirement})
     )
-    .catch((err) => res.json("Error: " + err));
+    .catch((err) => res.json({message: "Error: ", response: err}));
 });
 
 // updating isDeleted
@@ -76,9 +76,9 @@ router.route("/update-isDeleted/:id").patch((req, res) => {
     { $set: { isDeleted: req.body.value } }
   )
     .then((requirement) =>
-      res.json("requirement isDeleted status updated: " + requirement)
+      res.json({message: "requirement isDeleted status updated: ", response: requirement})
     )
-    .catch((err) => res.json("Error: " + err));
+    .catch((err) => res.json({message: "Error: ", response: err}));
 });
 
 // updating the req body
@@ -88,9 +88,9 @@ router.route("/update-body/:id").patch((req, res) => {
     { $set: { body: req.body.value } }
   )
     .then((requirement) =>
-      res.json("requirement text body updated: " + requirement)
+      res.json({message: "requirement text body updated: ", response: requirement})
     )
-    .catch((err) => res.json("Error: " + err));
+    .catch((err) => res.json({message: "Error: ", response: err}));
 });
 
 // updating the req name
@@ -100,9 +100,9 @@ router.route("/update-name/:id").patch((req, res) => {
     { $set: { name: req.body.value } }
   )
     .then((requirement) =>
-      res.json("requirement text name updated: " + requirement)
+      res.json({message: "requirement text name updated: ", response: requirement})
     )
-    .catch((err) => res.json("Error: " + err));
+    .catch((err) => res.json({message: "Error: ", response: err}));
 });
 
 // Delete routes*****************************************
@@ -110,15 +110,15 @@ router.route("/update-name/:id").patch((req, res) => {
 // deleting a specific requirement
 router.route("/delete-requirement/:id").delete((req, res) => {
   Requirement.findByIdAndDelete(req.params.id)
-    .then((requirement) => res.json("Requirement deleted: " + requirement))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then((requirement) => res.json({message: "Requirement deleted: ", response: requirement}))
+    .catch((err) => res.status(400).json({message: "Error: ", response: err}));
 });
 
 // delete all req. (for testing)
 router.route("/deleteAll").delete((req, res) => {
   Requirement.deleteMany({})
-    .then(() => res.json("All requirements deleted"))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then(() => res.json({message: "All requirements deleted", response: null}))
+    .catch((err) => res.status(400).json({message:"Error: ", response: err}));
 });
 
 module.exports = router;

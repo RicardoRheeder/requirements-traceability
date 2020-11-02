@@ -15,8 +15,8 @@ router.route("/create-user").post((req, res) => {
 
   newUser
     .save()
-    .then((user) => res.json(user))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then((user) => res.json({message: null, response: user}))
+    .catch((err) => res.status(400).json({message: "Error: ", response: err}));
 });
 
 // Get Routes*****************************************
@@ -24,22 +24,22 @@ router.route("/create-user").post((req, res) => {
 // getting all users (for testing)
 router.route("/").get((req, res) => {
   User.find()
-    .then((users) => res.json(users))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then((users) => res.json({message: null, response: users}))
+    .catch((err) => res.status(400).json({message: "Error: ", response: err}));
 });
 
 // getting a specific user using their user id
 router.route("/get/:id").get((req, res) => {
   User.findById(req.params.id)
-    .then((user) => res.json(user))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then((user) => res.json({message: null, response: user}))
+    .catch((err) => res.status(400).json({message: "Error: ", response: err}));
 });
 
 // getting a specific user using their email
 router.route("/get-by-email/:email").get((req, res) => {
   User.findOne({ email: req.params.email })
-    .then((user) => res.json(user))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then((user) => res.json({message: null, response: user}))
+    .catch((err) => res.status(400).json({message: "Error: ", response: err}));
 });
 
 // getting a users documents
@@ -47,8 +47,8 @@ router.route("/get/documents/:id").get((req, res) => {
   User.findById(req.params.id)
     .populate("documents")
     .exec()
-    .then((user) => res.json(user.documents))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then((user) => res.json({message: null, response: user.documents}))
+    .catch((err) => res.status(400).json({message: "Error: ", response: err}));
 });
 
 // getting a users documents with email
@@ -56,8 +56,8 @@ router.route("/get/documents-with-email/:email").get((req, res) => {
   User.findOne({ email: req.params.email })
     .populate("documents")
     .exec()
-    .then((user) => res.json(user.documents))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then((user) => res.json({message: null, response: user.documents}))
+    .catch((err) => res.status(400).json({message: "Error: ", response: err}));
 });
 // Update Routes*****************************************
 
@@ -71,10 +71,10 @@ router.route("/update/:id").put((req, res) => {
 
       user
         .save()
-        .then((user) => res.json("User updated: " + user))
-        .catch((err) => res.status(400).json("Error: " + err));
+        .then((user) => res.json({message: "User updated: ", response: user}))
+        .catch((err) => res.status(400).json({message: "Error: ", response: err}));
     })
-    .catch((err) => res.status(400).json("Error: " + err));
+    .catch((err) => res.status(400).json({message: "Error: ", response: err}));
 });
 
 // Delete Routes*****************************************
@@ -82,15 +82,15 @@ router.route("/update/:id").put((req, res) => {
 // deleting a specific user
 router.route("/delete/:id").delete((req, res) => {
   User.findByIdAndDelete(req.params.id)
-    .then((user) => res.json("User deleted: " + user))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then((user) => res.json({message: "User deleted: ", response: user}))
+    .catch((err) => res.status(400).json({message: "Error: ", response: err}));
 });
 
 // delete all users (for testing)
 router.route("/deleteAll").delete((req, res) => {
   User.deleteMany({})
-    .then(() => res.json("All users deleted"))
-    .catch((err) => res.status(400).json("Error: " + err));
+    .then(() => res.json({message: "All users deleted", response: null}))
+    .catch((err) => res.status(400).json({message: "Error: ", response: err}));
 });
 
 module.exports = router;

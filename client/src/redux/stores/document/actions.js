@@ -45,7 +45,7 @@ export const createDocSuccess = (doc) => {
 export const createDocFailure = (err) => {
   return {
     type: CREATE_DOC_FAILURE,
-    data: err,
+    data: err.data.message,
   }
 }
 
@@ -89,7 +89,7 @@ export const deleteDocSuccess = (docs) => {
 export const deleteDocFailure = (err) => {
   return {
     type: DELETE_DOC_FAILURE,
-    data: err,
+    data: err.data.message,
   }
 }
 
@@ -121,7 +121,7 @@ export const fetchUserDocsStart = () => {
 export const fetchUserDocsSuccess = (documents) => {
   return {
     type: FETCH_USER_DOCS_SUCCESS,
-    payload: documents,
+    payload: documents.data.response,
   }
 }
 
@@ -129,7 +129,7 @@ export const fetchUserDocsSuccess = (documents) => {
 export const fetchUserDocsFailure = (error) => {
   return {
     type: FETCH_USER_DOCS_FAILURE,
-    payload: error,
+    payload: error.data.message,
   }
 }
 
@@ -140,7 +140,7 @@ export const fetchUserDocsAsync = (user) => {
     // getting user docs
     axios
       .get(`${url}/users/get/documents-with-email/${user.email}`)
-      .then((docs) => dispatch(fetchUserDocsSuccess(docs.data)))
+      .then((docs) => dispatch(fetchUserDocsSuccess(docs)))
       .catch((err) => dispatch(fetchUserDocsFailure(err)))
   }
 }
@@ -161,7 +161,7 @@ export const addUserToDocStart = () => {
 export const addUserToDocSuccess = (doc) => {
   return {
     type: ADD_USER_TO_DOC_SUCCESS,
-    data: doc,
+    data: doc.data.response,
   }
 }
 
@@ -169,7 +169,7 @@ export const addUserToDocSuccess = (doc) => {
 export const addUserToDocFailure = (error) => {
   return {
     type: ADD_USER_TO_DOC_FAILURE,
-    data: error,
+    data: error.data.message,
   }
 }
 
@@ -183,7 +183,7 @@ export const addUserToDocAsync = (request) => {
         email: request.email,
         userId: request.userId,
       })
-      .then((doc) => dispatch(addUserToDocSuccess(doc.data)))
+      .then((doc) => dispatch(addUserToDocSuccess(doc)))
       .catch((err) => dispatch(addUserToDocFailure(err)))
   }
 }
@@ -201,7 +201,7 @@ export const getTreeSuccess = (doc) => {
   console.log(doc)
   return {
     type: GET_TREE_SUCCESS,
-    data: doc
+    data: doc.data.response
   }
 }
 
@@ -209,7 +209,7 @@ export const getTreeSuccess = (doc) => {
 export const getTreeFailure = (error) => {
   return {
     type: GET_TREE_FAILURE,
-    data: error
+    data: error.data.message
   }
 }
 
@@ -219,7 +219,7 @@ export const getTreeAsync = (request)=>{
   return (dispatch) =>{
     dispatch(getTreeStart())
     axios.get(`${url}/documents/get-tree/${request._id}`)
-    .then((doc)=> dispatch(getTreeSuccess(doc.data)))
+    .then((doc)=> dispatch(getTreeSuccess(doc)))
     .catch((err)=> dispatch(getTreeFailure(err)))
   }
 }
@@ -234,14 +234,14 @@ export const sendDocStart = () => {
 export const sendDocSuccess = (doc) => {
   return {
     type: SEND_DOC_SUCCESS,
-    data: doc,
+    data: doc.data.response,
   }
 }
 
 export const sendDocFailure = (err) => {
   return {
     type: SEND_DOC_FAILURE,
-    data: err,
+    data: err.data.message,
   }
 }
 
