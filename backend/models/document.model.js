@@ -7,7 +7,7 @@ const documentSchema = new Schema(
   {
     title: { type: String, required: true },
     admin: { type: Schema.Types.ObjectId, ref: "User" },
-    collaborators: [{ type: Schema.Types.ObjectId, ref: "User", unique: true }],
+    collaborators: [{ type: Schema.Types.ObjectId, ref: "User" }],
     tree: { type: String },
     version: [{ type: Schema.Types.ObjectId, ref: "Document" }],
   },
