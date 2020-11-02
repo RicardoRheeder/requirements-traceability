@@ -12,15 +12,12 @@ import {
   ADD_USER_TO_DOC_START,
   ADD_USER_TO_DOC_FAILURE,
   ADD_USER_TO_DOC_SUCCESS,
-<<<<<<< HEAD
   GET_TREE_START,
   GET_TREE_FAILURE,
-  GET_TREE_SUCCESS
-=======
+  GET_TREE_SUCCESS,
   SEND_DOC_START,
   SEND_DOC_FAILURE,
   SEND_DOC_SUCCESS
->>>>>>> master
 } from './actionTypes'
 
 const axios = require('axios').default
@@ -216,6 +213,8 @@ export const getTreeAsync = (request)=>{
     axios.get(`${url}/documents/get-tree/${request._id}`)
     .then((doc)=> dispatch(getTreeSuccess(doc.data)))
     .catch((err)=> dispatch(getTreeFailure(err)))
+  }
+}
 // Sending tree to database *******************************
 // Sending tree structure to database
 export const sendDocStart = ()=>{
