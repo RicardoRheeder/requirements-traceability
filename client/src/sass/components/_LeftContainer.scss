@@ -10,7 +10,7 @@
     height: calc(100% - 175px);
   }
 
-  .add-remove-buttons {
+  .add-remove-button-container {
     display: block;
     height: 75px;
     position: sticky;
@@ -19,15 +19,16 @@
     background: #2e2e2e;
   }
 
-  .add-button {
+  .add-remove-button {
     margin: 15px 10px;
     font-size: 20px;
     min-width: 95px;
   }
 
-  .remove-button {
-    margin: 15px 10px;
-    font-size: 20px;
-    min-width: 95px;
+  .disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.65;
+    filter: alpha(opacity=65);
   }
 }
