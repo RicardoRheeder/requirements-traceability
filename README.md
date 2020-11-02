@@ -1,5 +1,5 @@
 # Requirements Traceability
-
+This project is a tool that allows for a team to collaboratively work on a software requirements document and be able to see and how the document changes over time. This software allows for users to make high level requirements that can be broken down into low level requirements, then design, and then source code in such a way that the relationship between each of these components is apparent. A key component of this project is a versioning system to ensure that history of the requirements is preserved and that their is a versioning identifier to track changes that the document has gone through. In addition every component (High level requirement, low level requirements, etc) should have a unique identifier.
 ## Front-end (REACT) Usage
 
 Ensure that you have Node.js installed on your local machine: https://treehouse.github.io/installation-guides/windows/node-windows.html.
