@@ -12,9 +12,12 @@ import {
   ADD_USER_TO_DOC_START,
   ADD_USER_TO_DOC_FAILURE,
   ADD_USER_TO_DOC_SUCCESS,
+<<<<<<< HEAD
   SEND_DOC_START,
   SEND_DOC_FAILURE,
   SEND_DOC_SUCCESS,
+=======
+>>>>>>> 77dc6f13d4df41b615bf7e2ad2a693135d0f1933
 } from './actionTypes'
 
 const axios = require('axios').default
@@ -182,6 +185,7 @@ export const addUserToDocAsync = (request) => {
       })
       .then((doc) => dispatch(addUserToDocSuccess(doc.data)))
       .catch((err) => dispatch(addUserToDocFailure(err)))
+<<<<<<< HEAD
   }
 }
 
@@ -221,5 +225,7 @@ export const sendDocAsync = (doc, docID) => {
         console.log(err)
         dispatch(sendDocFailure(err))
       })
+=======
+>>>>>>> 77dc6f13d4df41b615bf7e2ad2a693135d0f1933
   }
 }
