@@ -204,9 +204,10 @@ export const getTreeFailure = (error) => {
 
 // async action for getting tree structure
 export const getTreeAsync = (request)=>{
+  console.log(request._id)
   return (dispatch) =>{
     dispatch(getTreeStart())
-    axios.get(`${url}/documents/get-tree/${request.documentID}`)
+    axios.get(`${url}/documents/get-tree/${request._id}`)
     .then((doc)=> dispatch(getTreeSuccess(doc.data)))
     .catch((err)=> dispatch(getTreeFailure(err)))
   }
