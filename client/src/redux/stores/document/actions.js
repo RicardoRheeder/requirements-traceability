@@ -12,12 +12,9 @@ import {
   ADD_USER_TO_DOC_START,
   ADD_USER_TO_DOC_FAILURE,
   ADD_USER_TO_DOC_SUCCESS,
-<<<<<<< HEAD
   SEND_DOC_START,
   SEND_DOC_FAILURE,
-  SEND_DOC_SUCCESS
-=======
->>>>>>> added functionality to add a user to document.
+  SEND_DOC_SUCCESS,
 } from './actionTypes'
 
 const axios = require('axios').default
@@ -190,39 +187,39 @@ export const addUserToDocAsync = (request) => {
 
 // Sending tree to database *******************************
 // Sending tree structure to database
-export const sendDocStart = ()=>{
+export const sendDocStart = () => {
   return {
-      type: SEND_DOC_START
+    type: SEND_DOC_START,
   }
 }
 
-export const sendDocSuccess = (doc)=>{
+export const sendDocSuccess = (doc) => {
   return {
-      type: SEND_DOC_SUCCESS,
-      data: doc
+    type: SEND_DOC_SUCCESS,
+    data: doc,
   }
 }
 
-
-export const sendDocFailure = (err)=>{
+export const sendDocFailure = (err) => {
   return {
-      type: SEND_DOC_FAILURE,
-      data: err
+    type: SEND_DOC_FAILURE,
+    data: err,
   }
 }
 
 //send the document (tree structure) to the backend
-export const sendDocAsync = (doc,docID) => {
-  return(dispatch)=>{
-      dispatch(sendDocStart())
-      axios.patch(`${url}/documents/update-tree/${docID._id}`, {tree: doc.tree})
-      .then((doc)=>{
-          console.log(doc)
-          dispatch(sendDocSuccess(doc))
+export const sendDocAsync = (doc, docID) => {
+  return (dispatch) => {
+    dispatch(sendDocStart())
+    axios
+      .patch(`${url}/documents/update-tree/${docID._id}`, { tree: doc.tree })
+      .then((doc) => {
+        console.log(doc)
+        dispatch(sendDocSuccess(doc))
       })
-      .catch((err)=>{
-          console.log(err)
-          dispatch(sendDocFailure(err))
+      .catch((err) => {
+        console.log(err)
+        dispatch(sendDocFailure(err))
       })
   }
 }
