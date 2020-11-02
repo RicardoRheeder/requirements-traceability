@@ -12,6 +12,9 @@ import {
   ADD_USER_TO_DOC_START,
   ADD_USER_TO_DOC_FAILURE,
   ADD_USER_TO_DOC_SUCCESS,
+  GET_TREE_START,
+  GET_TREE_FAILURE,
+  GET_TREE_SUCCESS,
   SEND_DOC_START,
   SEND_DOC_FAILURE,
   SEND_DOC_SUCCESS,
@@ -185,6 +188,41 @@ export const addUserToDocAsync = (request) => {
   }
 }
 
+// Getting tree from database ********************************************
+// action to start getting the tree structure
+export const getTreeStart = () => {
+  return {
+    type: GET_TREE_START
+  }
+}
+
+// action for getting tree on success
+export const getTreeSuccess = (doc) => {
+  console.log(doc)
+  return {
+    type: GET_TREE_SUCCESS,
+    data: doc
+  }
+}
+
+// action for getting tree on failure
+export const getTreeFailure = (error) => {
+  return {
+    type: GET_TREE_FAILURE,
+    data: error
+  }
+}
+
+// async action for getting tree structure
+export const getTreeAsync = (request)=>{
+  //console.log(request._id)
+  return (dispatch) =>{
+    dispatch(getTreeStart())
+    axios.get(`${url}/documents/get-tree/${request._id}`)
+    .then((doc)=> dispatch(getTreeSuccess(doc.data)))
+    .catch((err)=> dispatch(getTreeFailure(err)))
+  }
+}
 // Sending tree to database *******************************
 // Sending tree structure to database
 export const sendDocStart = () => {
