@@ -17,21 +17,18 @@ export default function Modal_InviteUser() {
 
   const handleSubmit = (e) => {
     e.preventDefaults
-    console.log('clicked')
-    console.log(email)
+
     const request = {
       documentID: selectedDoc._id,
       userId: _id,
-      email: email.email,
+      email: email.email.trim(),
     }
     console.log(request)
-    // dispatch(addUserToDocAsync())
+    dispatch(addUserToDocAsync(request))
   }
   const handleChange = (e) => {
     const { value } = e.target
     setEmail({ ...email, email: value })
-
-    // console.log(e.target.value)
   }
   return (
     <div className="modal-root modal-root-child">
