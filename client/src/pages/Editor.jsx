@@ -16,12 +16,21 @@ import {
   updateSelectedNodeID,
 } from '../redux/stores/common/actions'
 
+import { sendDocAsync } from '../redux/stores/document/actions'
+
 export default function Editor() {
   const dispatch = useDispatch()
   const paneRef = useRef(null)
 
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedNodeId = useSelector((state) => state.common.selectedID)
+  const selectedDocId = useSelector((state) => state.document.current_doc)
+
+  const commitDocumentToDB = () => {
+    let docObject = { tree: JSON.stringify(storeTreeData) }
+    let docID = selectedDocId
+    dispatch(sendDocAsync(docObject,docID))
+  }
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -121,6 +130,7 @@ export default function Editor() {
           />
         </div>
         <div className="editor-root-div">
+          <button onClick={commitDocumentToDB}>TEST COMMIT</button>
           <h1>Editor</h1>
           {CreateSectionsFromArrayOfStructs(Tree_Update(storeTreeData), 0)}
         </div>
