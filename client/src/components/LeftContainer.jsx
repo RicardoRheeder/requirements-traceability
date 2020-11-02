@@ -8,8 +8,9 @@ export default function LeftContainer() {
   const { user } = useAuth0()
   const dispatch = useDispatch()
   const docs = useSelector((state) => state.document.documents)
-  const getSuccess = useSelector((state) => state.document.success)
-  console.log(getSuccess)
+  const selectedDoc = useSelector(
+    (state) => state.common.selectedDocumentPanelObject
+  )
 
   const RenderDocumentPanels = (listOfDocs) => {
     if (listOfDocs.length != 0) {
@@ -37,15 +38,16 @@ export default function LeftContainer() {
     <div className="left-container-root">
       {/* search bar here */}
       <div className="display-area">{RenderDocumentPanels(docs)}</div>
-      <div className="add-remove-buttons">
+      <div className="add-remove-button-container">
         <button
-          className="orange-button add-button"
+          className="orange-button add-remove-button"
           onClick={addDocumentButton}
         >
           Add
         </button>
+
         <button
-          className="orange-button remove-button"
+          className={"orange-button add-remove-button " + (selectedDoc ? "" : "disabled")}
           onClick={removeDocumentButton}
         >
           Remove

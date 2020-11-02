@@ -42,6 +42,14 @@ export default function Modal_RemoveDocument() {
           For authorization, please enter the name of the document you want to
           permanently remove.
         </h2>
+        <br></br>
+        <h3>
+          Please type{' '}
+          <span className="remove-document-title-span">
+            {selectedDoc.title}
+          </span>{' '}
+          below and click 'submit' to permanently delete the document.
+        </h3>
         <form onSubmit={handleSubmit}>
           <input className="modal-input" onChange={handleChange} />
           <button className="orange-button">Submit</button>
