@@ -112,7 +112,6 @@ router.route("/add-user/:id").patch((req, res) => {
       const adminID = doc.admin;
       // check if the sender is the admin of the document
       if (senderID != adminID) {
-        console.log("over here");
         res.status(400).json("Error: Only admin can add users to document");
       } else {
         User.findOne({ email: userEmail })
