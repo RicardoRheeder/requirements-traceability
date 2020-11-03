@@ -6,7 +6,7 @@ image: node:14.12.0
 
 stages:
   - build
-  - confidence-check
+#  - confidence-check
   - test
 
 cache:
@@ -23,19 +23,19 @@ install_dependencies:
     paths:
       - node_modules/
 
-e2e:firefox:
-  stage: confidence-check
-  services:
-    - selenium/standalone-firefox
-  script:
-    - npm run confidence-check --host=selenium__standalone-firefox
+#e2e:firefox:
+#  stage: confidence-check
+#  services:
+#    - selenium/standalone-firefox
+#  script:
+#    - npm run confidence-check --host=selenium__standalone-firefox
     
-e2e:chrome:
-  stage: confidence-check
-  services:
-    - selenium/standalone-chrome
-  script:
-    - npm run confidence-check --host=selenium__standalone-chrome
+#e2e:chrome:
+#  stage: confidence-check
+#  services:
+#    - selenium/standalone-chrome
+#  script:
+#    - npm run confidence-check --host=selenium__standalone-chrome
 
 run_tests:
   stage: test
