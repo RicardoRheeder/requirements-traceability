@@ -9,7 +9,7 @@
     "deploy": "npm run build && gh-pages -d build",
     "clean": "rm -Rf ./build/bundle.js ./build/index.html",
     "reset": "npm run clean && rm -Rf ./node_modules ./package-lock.json",
-    "test": "jest --verbose"
+    "test": "jest --silent"
   },
   "keywords": [],
   "author": "",
@@ -81,6 +81,7 @@
     "automock": false,
     "clearMocks": true,
     "collectCoverage": true,
+    "setupFilesAfterEnv":["<rootDir>/__mocks__/localstoreMock.js"],
     "transform": {
       "^.+\\.[jt]sx?$": "babel-jest"
     },

@@ -13,9 +13,19 @@ describe("Editor", () => {
     let store;
     let editor;
     beforeEach(() => {
-        store = mockStore({common:{
-            treeData: [],
-            selectedID: [],
+        store = mockStore({
+            common:{
+            treeData:  [
+                { title: "HLRQ1", text: "hlrq1 text", id: 1},
+                { title: "HLRQ2", text: "hlrq2 text", id: 2 },
+                {
+                  title: "HLRQ3",
+                  id: 3,
+                  text: "hlrq3 text",
+                  children: [{ title: "LLRQ3", text: "llrq3 text", id: 3 }],
+                }
+              ],
+            selectedID: 3,
         }});
     });
     test("renders", () => {
