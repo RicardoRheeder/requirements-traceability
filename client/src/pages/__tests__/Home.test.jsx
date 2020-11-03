@@ -20,6 +20,9 @@ describe("Homepage", () => {
         },
         document: {
             documents: []
+        },
+        common: {
+            selectedDocumentPanelObject: null
         }
     });
     });
