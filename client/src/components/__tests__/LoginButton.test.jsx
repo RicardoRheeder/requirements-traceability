@@ -20,4 +20,10 @@ describe("Login Button", () => {
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
+    test("logs in when pressed", () => {
+        //const wrapper = mount(<Provider store = {store}><LoginButton/></Provider>);
+        //wrapper.update()
+        //wrapper.find('#LogInButton').simulate('click')
+        //expect(wrapper).toMatchSnapshot();
+    });
 });

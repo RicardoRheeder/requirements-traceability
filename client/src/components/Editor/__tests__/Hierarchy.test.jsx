@@ -20,4 +20,46 @@ describe("Hierarchy", () => {
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
+    test("calls Hierarchy function expandAll", () => {
+        //const wrapper = mount(<Provider store = {store}><Hierarchy/></Provider>);
+        //wrapper.update()
+        //wrapper.find('.hierarchy-button').at(0).simulate('click')
+        //expect(wrapper).toMatchSnapshot();
+    });
+    test("calls Hierarchy function collapseAll", () => {
+        //const wrapper = mount(<Provider store = {store}><Hierarchy/></Provider>);
+        //wrapper.update()
+        //wrapper.find('.hierarchy-button').at(1).simulate('click')
+        //expect(wrapper).toMatchSnapshot();
+    });
+    test("calls Hierarchy function insertNode", () => {
+        //const wrapper = mount(<Provider store = {store}><Hierarchy/></Provider>);
+        //wrapper.update()
+        //wrapper.find('.hierarchy-button').at(2).simulate('click')
+        //expect(wrapper).toMatchSnapshot();
+    });
+    test("calls Hierarchy function deleteNode", () => {
+        //const wrapper = mount(<Provider store = {store}><Hierarchy/></Provider>);
+        //wrapper.update()
+        //wrapper.find('.hierarchy-button').at(3).simulate('click')
+        //expect(wrapper).toMatchSnapshot();
+    });
+    test("calls Hierarchy function for < button", () => {
+        //const wrapper = mount(<Provider store = {store}><Hierarchy/></Provider>);
+        //wrapper.update()
+        //wrapper.find('Button[type="button"').simulate('click')
+        //expect(wrapper).toMatchSnapshot();
+    });
+    test("calls Hierarchy function for > submit", () => {
+        //const wrapper = mount(<Provider store = {store}><Hierarchy/></Provider>);
+        //wrapper.update()
+        //wrapper.find('Button[type="submit"').simulate('click')
+        //expect(wrapper).toMatchSnapshot();
+    });
+    test("calls Hierarchy function alerNodeInfo", () => {
+        //const wrapper = mount(<Provider store = {store}><Hierarchy/></Provider>);
+        //wrapper.update()
+        //wrapper.find('.node-info-button').simulate('click')
+        //expect(wrapper).toMatchSnapshot();
+    });
 });

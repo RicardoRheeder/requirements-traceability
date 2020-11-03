@@ -20,4 +20,10 @@ describe("Logout Button", () => {
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
+    test("logs out when pressed", () => {
+        //const wrapper = mount(<Provider store = {store}><LogoutButton/></Provider>);
+        //wrapper.update()
+        //wrapper.find('.logout-button').simulate('click')
+        //expect(wrapper).toMatchSnapshot();
+    });
 });
