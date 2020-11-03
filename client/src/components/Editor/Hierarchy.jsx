@@ -11,6 +11,7 @@ import {
   updateDataTree,
   updateSelectedNodeID,
 } from '../../redux/stores/common/actions'
+import { getTreeAsync, sendDocAsync } from '../../redux/stores/document/actions'
 
 import {
   Tree_Update,
@@ -22,6 +23,8 @@ import {
 
 export default function Hierarchy({ scrollToElementFunction }) {
   const dispatch = useDispatch()
+  const storeTreeData = useSelector((state) => state.common.treeData, [])
+  const selectedDocObject = useSelector((state) => state.document.current_doc)
 
   // Keeps track of which node ID is selected: Value will update with the selectedID stored in Redux
   const selectedNodeId = useSelector((state) => state.common.selectedID)
@@ -162,6 +165,18 @@ export default function Hierarchy({ scrollToElementFunction }) {
     // console.log('Double click')
   }
 
+  const getTreeFromDB = () => {
+    //console.log(selectedDocId)
+    dispatch(getTreeAsync(selectedDocObject))
+    //console.log(getSuccess)
+  }
+
+  const commitDocumentToDB = () => {
+    let docObject = { tree: JSON.stringify(storeTreeData) }
+    let docID = selectedDocObject
+    dispatch(sendDocAsync(docObject, docID))
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       {/* Tree Utilities */}
@@ -172,12 +187,32 @@ export default function Hierarchy({ scrollToElementFunction }) {
 
         {/* Expand/Collapse buttons */}
         <div className="node-button-div">
-          <button onClick={expandAll}>Expand All</button>
-          <button onClick={collapseAll}>Collapse All</button>
+          <button
+            className="orange-button hierarchy-button"
+            onClick={expandAll}
+          >
+            Expand All
+          </button>
+          <button
+            className="orange-button hierarchy-button"
+            onClick={collapseAll}
+          >
+            Collapse All
+          </button>
         </div>
         <div className="node-button-div">
-          <button onClick={insertNode}>Insert Node</button>
-          <button onClick={deleteNode}>Delete Node</button>
+          <button
+            className="orange-button hierarchy-button"
+            onClick={insertNode}
+          >
+            Insert Node
+          </button>
+          <button
+            className="orange-button hierarchy-button"
+            onClick={deleteNode}
+          >
+            Delete Node
+          </button>
         </div>
         <form
           className="node-form-div"
@@ -283,6 +318,18 @@ export default function Hierarchy({ scrollToElementFunction }) {
             return nodeProps
           }}
         />
+      </div>
+
+      {/* Pull/Commit button panel */}
+      <div className="commit-pull-container">
+        <div className="center-div">
+          <button className="orange-button" onClick={getTreeFromDB}>
+            PULL
+          </button>
+          <button className="orange-button" onClick={commitDocumentToDB}>
+            COMMIT
+          </button>
+        </div>
       </div>
     </div>
   )

@@ -12,7 +12,7 @@ const documentSchema = new Schema(
     version: [{ type: Schema.Types.ObjectId, ref: "Document"}],
   },
   {
-        timestamps: true,
+    timestamps: true,
   }
 );
 

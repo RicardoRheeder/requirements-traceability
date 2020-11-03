@@ -1,0 +1,76 @@
+.ReactModal__Overlay {
+  z-index: 10000;
+}
+
+.ReactModal__Content {
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  // height: 50%;
+  // min-height: 400px;
+  border: 0px rgba(204, 204, 204, 0) !important;
+  background: rgba(255, 255, 255, 0) !important;
+  padding: 0 !important;
+  overflow: unset;
+}
+
+.ReactModal__Overlay {
+  background-color: #000000d4 !important;
+}
+
+.modal-root {
+  color: #f96302;
+  background: #2e2e2e;
+  border-radius: 4px;
+  text-align: center;
+  // position: relative;
+  min-width: 360px;
+}
+
+.modal-root-child {
+  border: 3px solid #f96302;
+  width: 100%;
+  padding: 20px;
+  min-height: 360px;
+  height: 100%;
+}
+
+.submit-button {
+  margin: 10px;
+}
+
+.close-button-container {
+  width: 100%;
+
+  .close-button {
+    margin: 10px;
+    float: right;
+    min-width: 30px !important;
+  }
+}
+
+.modal-input {
+  margin: 40px 10px;
+  width: 60%;
+  max-width: 250px;
+}
+
+.modal-contents-container {
+  margin: 5%;
+}
+
+.modal-contents-title {
+  margin-bottom: 5%;
+  text-decoration: underline;
+  text-transform: uppercase;
+}
+
+.remove-document-title-span {
+  font-size: 16px !important;
+  font-weight: bold;
+  text-decoration: underline;
+}
