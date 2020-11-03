@@ -22,6 +22,7 @@ export default function Editor() {
 
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedNodeId = useSelector((state) => state.common.selectedID)
+  const selectedDocObject = useSelector((state) => state.document.current_doc)
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -121,7 +122,7 @@ export default function Editor() {
           />
         </div>
         <div className="editor-root-div">
-          <h1>Editor</h1>
+          <h1>Editor: {selectedDocObject ? selectedDocObject.title : ""}</h1>
           {CreateSectionsFromArrayOfStructs(Tree_Update(storeTreeData), 0)}
         </div>
       </SplitPane>

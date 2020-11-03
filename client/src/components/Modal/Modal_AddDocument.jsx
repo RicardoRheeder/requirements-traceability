@@ -34,8 +34,8 @@ export default function Modal_AddDocument() {
     <div className="modal-root modal-root-child">
       <div className="modal-contents-container">
         <h1 className="modal-contents-title">Add document</h1>
-        <h2>Please enter the name of the empty document to create.</h2>
         <form onSubmit={handleSubmit}>
+          <h2>Please enter the name of the empty document to create.</h2>
           <input className="modal-input" onChange={handleChange} />
           <button className="orange-button">Submit</button>
         </form>
