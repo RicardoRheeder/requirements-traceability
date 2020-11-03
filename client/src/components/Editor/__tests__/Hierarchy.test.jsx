@@ -20,6 +20,7 @@ describe("Hierarchy", () => {
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
+    
     test("calls Hierarchy function expandAll", () => {
         //const wrapper = mount(<Provider store = {store}><Hierarchy/></Provider>);
         //wrapper.update()
