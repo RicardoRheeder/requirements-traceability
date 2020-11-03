@@ -43,7 +43,7 @@ deploy_doc_tracer:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - ssh root@cmpt371.persea.ca "git pull origin master && cd requirements-traceability/backend && npm install && cd ../client && npm install"
+    - ssh root@cmpt371.persea.ca "cd requirements-traceability/backend && git pull origin master && npm install && cd ../client && npm install"
   environment:
     name: doc_tracer
     url: cmpt371.persea.ca
