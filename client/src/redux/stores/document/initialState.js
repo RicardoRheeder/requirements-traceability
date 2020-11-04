@@ -3,4 +3,5 @@ export default {
   current_doc: null,
   isFetching: false,
   error: null,
+  success: null
 }

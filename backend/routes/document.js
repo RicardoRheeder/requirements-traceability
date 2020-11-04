@@ -10,10 +10,31 @@ router.route("/create-document").post((req, res) => {
   const admin = req.body.admin;
   const collaborators = [admin];
 
+  const tree = [
+    {
+      title: "Title of your requirement. (1)",
+      text: "Type contents of requirement here...",
+      id: 1,
+    },
+    {
+      title: "Title of your requirement. (2)",
+      id: 2,
+      text: "Type contents of requirement here...",
+      children: [
+        {
+          title: "Title of your requirement. (3)",
+          text: "Type contents of requirement here...",
+          id: 3,
+        },
+      ],
+    },
+  ];
+
   const newDocument = new Document({
     title,
     admin,
     collaborators,
+    tree: JSON.stringify(tree),
   });
 
   newDocument
@@ -25,7 +46,10 @@ router.route("/create-document").post((req, res) => {
         { $addToSet: { documents: newDocument._id } }
       )
         .then((user) =>
-          res.json("Document saved to the database: " + newDocument)
+          res.json({
+            message: "Document saved to the database",
+            response: newDocument,
+          })
         )
         .catch((err) =>
           res
@@ -41,16 +65,17 @@ router.route("/create-document").post((req, res) => {
     );
 });
 
+
 // Get Routes********************************************
 
-// Get all document
+// Get all documents
 router.route("/").get((req, res) => {
   Document.find()
     .then((docs) => res.json(docs))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-// Get a document
+// Get a specific document
 router.route("/get/:id").get((req, res) => {
   const id = req.params.id;
 
@@ -72,23 +97,51 @@ router.route("/get-tree/:id").get((req, res) => {
     });
 });
 
+
 // Update Routes*****************************************
 
 // adding a user to a document and adding a document to the user
 router.route("/add-user/:id").patch((req, res) => {
-  Document.findByIdAndUpdate(
-    { _id: req.params.id },
-    { $addToSet: { collaborators: req.body.userId } }
-  )
+  const senderID = req.body.userId;
+  const docID = req.params.id;
+  const userEmail = req.body.email;
+
+  // Find the document to do checks
+  Document.findById(docID, "admin")
     .then((doc) => {
-      User.findByIdAndUpdate(
-        { _id: req.body.userId },
-        { $addToSet: { documents: req.params.id } }
-      )
-        .then((user) => res.json("User added to doc: " + doc))
-        .catch((err) => res.status(400).json("Error: " + err));
+      const adminID = doc.admin;
+      // check if the sender is the admin of the document
+      if (senderID != adminID) {
+        res.status(400).json("Error: Only admin can add users to document");
+      } else {
+        User.findOne({ email: userEmail })
+          .then(
+            (user) => {
+              // Add the user ID to document.collaborators and the document Id to user.documents
+              Document.findByIdAndUpdate(docID, {
+                $addToSet: { collaborators: user._id },
+              })
+                .then(() => {
+                  User.findByIdAndUpdate(user._id, {
+                    $addToSet: { documents: docID },
+                  })
+                    .then(() => res.json("User added to doc: " + doc))
+                    .catch((err) => res.status(400).json("Error: " + err));
+                })
+                .catch((err) => {
+                  res.status(400).json("Error in updating document: " + err);
+                });
+            }
+            // }
+          )
+          .catch((err) => {
+            res
+              .status(400)
+              .json({ message: "User does not exist", response: err });
+          });
+      }
     })
-    .catch((err) => res.status(400).json("Error: " + err));
+    .catch((err) => res.status(400).json("Error in finding document: " + err));
 });
 
 // removing user from document and removing document form user
@@ -108,9 +161,18 @@ router.route("/remove-user/:id").patch((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// updating the tree structure
+router.route("/update-tree/:id").patch((req, res) => {
+  Document.findByIdAndUpdate(
+    { _id: req.params.id },
+    { $set: { "tree": req.body.tree } }
+  )
+  .then((doc) => res.json("Tree structure updated within the doc: " + doc))
+  .catch((err) => res.status(400).json("Error: " + err));
+});
+
 // Delete Routes*****************************************
 
-// delete a single doc
 // delete a single doc
 router.route("/delete/:id").delete((req, res) => {
   const user = req.body.user;
@@ -146,12 +208,14 @@ router.route("/delete/:id").delete((req, res) => {
         }
         // Get admins list of documents and send it
         User.findById(admin, "documents")
+          .populate("documents")
           .then((docs) => {
             const adminDocs = docs.documents;
-            res.json(
-              "Document deleted successfully-Updated admin's documents: " +
-                adminDocs
-            );
+            res.json({
+              message:
+                "Document deleted successfully-Updated admin's documents",
+              response: adminDocs,
+            });
           })
           .catch((err) => {
             res

@@ -8,7 +8,16 @@ import {
   FETCH_USER_DOCS_START,
   FETCH_USER_DOCS_SUCCESS,
   FETCH_USER_DOCS_FAILURE,
-  UPDATE_CURRENT_DOCUMENT
+  UPDATE_CURRENT_DOCUMENT,
+  ADD_USER_TO_DOC_START,
+  ADD_USER_TO_DOC_FAILURE,
+  ADD_USER_TO_DOC_SUCCESS,
+  GET_TREE_START,
+  GET_TREE_FAILURE,
+  GET_TREE_SUCCESS,
+  SEND_DOC_START,
+  SEND_DOC_FAILURE,
+  SEND_DOC_SUCCESS
 } from './actionTypes'
 
 import initialState from './initialState'
@@ -21,7 +30,7 @@ export default (state = initialState, action) => {
     case CREATE_DOC_FAILURE:
       return { ...state, isFetching: false, error: action.data }
     case CREATE_DOC_SUCCESS:
-      return { ...state, isFetching: false, current_doc: action.data }
+      return { ...state, isFetching: false, documents: [...state.documents, action.data] }
     // delete doc actions
     case DELETE_DOC_START:
       return { ...state, isFetching: true }
@@ -38,6 +47,27 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, errorMessage: action.payload }
     case UPDATE_CURRENT_DOCUMENT:
       return { ...state, current_doc: action.data };
+    // adding user to a document actions
+    case ADD_USER_TO_DOC_START:
+      return { ...state, isFetching: true}
+    case ADD_USER_TO_DOC_FAILURE:
+      return { ...state, isFetching: false, error: action.data}
+    case ADD_USER_TO_DOC_SUCCESS:
+      return { ...state, isFetching: false, success: action.data} 
+    // getting tree structure from database actions
+    case GET_TREE_START:
+      return { ...state, isFetching: true}
+    case GET_TREE_FAILURE:
+      return { ...state, isFetching: false, error: action.data}
+    case GET_TREE_SUCCESS:
+      return { ...state, isFetching: false, success: action.data} 
+    // sending tree actions
+    case SEND_DOC_START:
+      return { ...state, isFetching: true };
+    case SEND_DOC_FAILURE:
+      return { ...state, isFetching: false, error: action.data };
+    case SEND_DOC_SUCCESS:
+      return { ...state, isFetching: false };
     default:
       return state
   }
