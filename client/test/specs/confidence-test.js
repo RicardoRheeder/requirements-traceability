@@ -35,7 +35,7 @@ describe('Basic functionality of app', function() {
     expect(HOME_ROOT).toExist()
   })
 
-  it('should navigate to editor', function() {
+  it('should navigate to new document', function() {
     const EDITOR_BUTTON = $('#NavToEditor').$('.nav-link')
     EDITOR_BUTTON.click()
     const EDITOR_ROOT = $('.editor-root')
