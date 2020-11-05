@@ -6,7 +6,9 @@ image: node:14.12.0
 
 stages:
   - build
+#  - confidence-check
   - test
+  - deploy
 
 cache:
   paths:
@@ -17,9 +19,24 @@ install_dependencies:
   script:
     - cd client
     - npm install
+#    - npm run start
   artifacts:
     paths:
       - node_modules/
+
+#e2e:firefox:
+#  stage: confidence-check
+#  services:
+#    - selenium/standalone-firefox
+#  script:
+#    - npm run confidence-check --host=selenium__standalone-firefox
+    
+#e2e:chrome:
+#  stage: confidence-check
+#  services:
+#    - selenium/standalone-chrome
+#  script:
+#    - npm run confidence-check --host=selenium__standalone-chrome
 
 run_tests:
   stage: test
@@ -31,4 +48,21 @@ run_tests:
       - test_reports/
 #   rules:
 #     - if: '$CI_COMMIT_BRANCH != "master"'
+
+deploy_doc_tracer:
+  stage: deploy
+  script:
+    - apt-get update -qq
+    - apt-get install -qq git
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh root@cmpt371.persea.ca "cd requirements-traceability/backend && git pull origin master && npm install && cd ../client && npm install"
+  environment:
+    name: doc_tracer
+    url: cmpt371.persea.ca
+  only:
+    - master
 
