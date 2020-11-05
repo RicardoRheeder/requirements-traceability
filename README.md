@@ -55,3 +55,17 @@ Run the application
 `node server` 
 
 Open your preferred browser and go to (http://localhost:5000)
+
+## Important note
+
+With the recent integration of the back-end API and the front-end client, both ends will need to be running to be able to perform the API calls (i.e. creating, deleting, and editing documents, etc...).
+
+From within requirements-traceability\client: `npm start`
+
+From within requirements-traceability\backend: `node server` or `npm start` 
+
+**Important**: Due to the MongoDB database not yet being hosted, to perform the API calls, you will need to be whitelisted for authorization to make calls to the database. For this, please message Faiz directly via Discord and provide him your public IP address.
+
+## Contact 
+
+If there are any issues running the project locally, please contact Ricardo or Faiz as a step of the procedure may have been missed.
