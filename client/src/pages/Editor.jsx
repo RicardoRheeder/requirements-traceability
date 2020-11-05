@@ -108,10 +108,9 @@ export default function Editor() {
     <div className="editor-root">
       <SplitPane
         split="vertical"
-        minSize={200}
+        minSize={150}
         ref={paneRef}
-        // defaultSize={201}
-        defaultSize={parseInt(localStorage.getItem('splitPos'), 200)}
+        defaultSize={parseInt(localStorage.getItem('splitPos'))}
         onChange={(size) => localStorage.setItem('splitPos', size)}
       >
         <div className="hierarchy-root-div">
@@ -122,7 +121,7 @@ export default function Editor() {
           />
         </div>
         <div className="editor-root-div">
-          <h1>Editor: {selectedDocObject ? selectedDocObject.title : ""}</h1>
+          <h1>Editor: {selectedDocObject ? selectedDocObject.title : ''}</h1>
           {CreateSectionsFromArrayOfStructs(Tree_Update(storeTreeData), 0)}
         </div>
       </SplitPane>
