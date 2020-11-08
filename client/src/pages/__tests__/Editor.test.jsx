@@ -5,7 +5,9 @@ import Adapter from "enzyme-adapter-react-16"
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store"
 
+const sinon = require("sinon")
 
+const sandbox = sinon.createSandbox();
 const mockStore = configureStore([])
 Enzyme.configure({adapter: new Adapter() });
 
@@ -13,11 +15,42 @@ describe("Editor", () => {
     let store;
     let editor;
     beforeEach(() => {
-        store = mockStore({});
+        store = mockStore({
+            splitpos: 150,
+            common:{
+                
+                treeData:  [
+                    { title: "HLRQ1", text: "hlrq1 text", id: 1},
+                    { title: "HLRQ2", text: "hlrq2 text", id: 2 },
+                    {
+                    title: "HLRQ3",
+                    id: 3,
+                    text: "hlrq3 text",
+                    children: [{ title: "LLRQ3", text: "llrq3 text", id: 3 }],
+                    }
+                ],
+                selectedID: 3,
+                
+            },
+            document: {
+                current_doc: null
+            }
+        });
+        localStorage.clear();
+        localStorage.setItem("splitPos", '150')
+        
+        
     });
+    afterEach(function() {
+        sandbox.restore();
+    })
     test("renders", () => {
         const wrapper = shallow(<Provider store = {store}><Editor/></Provider>);
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
+    test("renders with children", () => {
+        const wrapper = mount(<Provider store = {store}><Editor/></Provider>);
+        expect(wrapper.exists()).toBe(true);
+    })
 });

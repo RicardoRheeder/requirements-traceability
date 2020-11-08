@@ -9,8 +9,7 @@
     "deploy": "npm run build && gh-pages -d build",
     "clean": "rm -Rf ./build/bundle.js ./build/index.html",
     "reset": "npm run clean && rm -Rf ./node_modules ./package-lock.json",
-    "test": "jest --verbose",
-    "confidence-check": "wdio wdio.conf.js"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -58,6 +57,7 @@
     "html-webpack-plugin": "^3.2.0",
     "jest": "^26.5.3",
     "jest-html-reporter": "^3.3.0",
+    "jest-localstorage-mock": "^2.4.3",
     "mocha": "^8.2.0",
     "node-sass": "^4.12.0",
     "react-addons-test-utils": "^15.6.2",
@@ -90,6 +90,9 @@
     "automock": false,
     "clearMocks": true,
     "collectCoverage": true,
+    "setupFiles": [
+      "jest-localstorage-mock"
+    ],
     "transform": {
       "^.+\\.[jt]sx?$": "babel-jest"
     },
