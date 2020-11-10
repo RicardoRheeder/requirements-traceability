@@ -1,0 +1,23 @@
+.collaborator-panel {
+  display: inline;
+  position: relative;
+  float: right;
+  height: fit-content;
+}
+
+.collaborator-icon {
+  background: blue;
+  background-image: linear-gradient(#00008a, blue, #00008a);
+  width: auto;
+  height: auto;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 30px;
+  vertical-align: middle;
+  /* padding: 10px; */
+  font-weight: 600;
+  font-size: 20px;
+  border: 1px solid black;
+}

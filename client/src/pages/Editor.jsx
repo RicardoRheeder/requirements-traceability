@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 
-import { Hierarchy } from '../components'
+import { Hierarchy, CollaboratorPanel } from '../components'
 
 import SplitPane from 'react-split-pane'
 
@@ -121,7 +121,12 @@ export default function Editor() {
           />
         </div>
         <div className="editor-root-div">
-          <h1>Editor: {selectedDocObject ? selectedDocObject.title : ''}</h1>
+          <h1>
+            {selectedDocObject
+              ? selectedDocObject.title
+              : 'Error retrieving document name'}{' '}
+            <CollaboratorPanel />
+          </h1>
           {CreateSectionsFromArrayOfStructs(Tree_Update(storeTreeData), 0)}
         </div>
       </SplitPane>
