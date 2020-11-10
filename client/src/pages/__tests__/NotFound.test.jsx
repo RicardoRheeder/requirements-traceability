@@ -20,4 +20,9 @@ describe("Page Not Found", () => {
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
+    test("renders with text", () =>{
+        const wrapper = mount(<Provider store = {store}><NotFound/></Provider>);
+        expect(wrapper.exists()).toBe(true)
+        expect(wrapper.text()).toBe("404: PAGE NOT FOUND")
+    })
 });

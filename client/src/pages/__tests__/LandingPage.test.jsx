@@ -4,6 +4,7 @@ import LandingPage from "../LandingPage"
 import Adapter from "enzyme-adapter-react-16"
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store"
+import { LoginButton } from "../../components";
 
 
 const mockStore = configureStore([])
@@ -16,8 +17,18 @@ describe("Landing Page", () => {
         store = mockStore({});
     });
     test("renders", () => {
-        const wrapper = shallow(<Provider store = {store}><LandingPage/></Provider>);
+        const wrapper = shallow(LandingPage());
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
+    test('renders with children', () => {
+        const wrapper = mount(<Provider store = {store}><LandingPage/></Provider>);
+        expect(wrapper.exists()).toBe(true);
+        expect(wrapper).toMatchSnapshot();
+    })
+    test('renders button and logo', () => {
+        const wrapper = mount(<Provider store = {store}><LandingPage/></Provider>);
+        expect(wrapper.contains(<LoginButton/>)).toBe(true);
+        expect(wrapper.find(".landing-logo-icon").exists()).toBe(true);
+    })
 });
