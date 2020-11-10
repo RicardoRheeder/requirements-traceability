@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const User = require('../models/user.model')
 const Document = require('../models/document.model')
-const Version = require('../models/version.model')
 
 // Post Routes*****************************************
 
@@ -178,38 +177,28 @@ router.route('/commit-doc/:id').patch((req, res) => {
   const newTree = req.body.tree
   const versionName = req.body.name
 
-  const newVersion = new Version({
-    name: versionName,
+  // making a new version object
+  const newVersion = {
+    versionName,
     tree: newTree,
-  })
-  newVersion
-    .save()
-    .then((version) => {
-      const versionID = version._id
-      Document.findByIdAndUpdate(
-        { _id: req.params.id },
-        {
-          $addToSet: { versions: '5fa9edee159ba711f45f9c30' },
-          $set: { tree: newTree },
-        }
-      )
-        .then((doc) =>
-          res.json({
-            message: 'Document added as a new version in the versions array.',
-            response: doc,
-          })
-        )
-        .catch((err) =>
-          res.json({
-            message:
-              'Error: Document failed to be added to the versions array.',
-            response: err,
-          })
-        )
-    })
+  }
+
+  Document.findByIdAndUpdate(
+    { _id: req.params.id },
+    {
+      $addToSet: { versions: JSON.stringify(newVersion) },
+      $set: { tree: newTree },
+    }
+  )
+    .then((doc) =>
+      res.json({
+        message: 'Document added as a new version in the versions array.',
+        response: doc,
+      })
+    )
     .catch((err) =>
       res.json({
-        message: 'Error: failed to create new version document in DB',
+        message: 'Error: Document failed to be added to the versions array.',
         response: err,
       })
     )
