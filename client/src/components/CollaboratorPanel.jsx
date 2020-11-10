@@ -4,7 +4,8 @@ import { CollaboratorIcon } from './'
 
 const testUserObjects = [
   { userID: '12312', username: 'ricardo' },
-  //{ userID: '54564', username: 'Faiz' },
+  { userID: '54564', username: 'Faiz' },
+  { userID: '84512', username: 'Devin' },
 ]
 
 const generateUserIcons = (userStruct) => {

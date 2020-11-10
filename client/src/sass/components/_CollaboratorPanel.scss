@@ -1,13 +1,13 @@
 .collaborator-panel {
-  display: inline;
+  display: flex;
   position: relative;
   float: right;
   height: fit-content;
 }
 
 .collaborator-icon {
-  background: blue;
-  background-image: linear-gradient(#00008a, blue, #00008a);
+  // background: blue;
+  // background-image: radial-gradient(circle, blue 0%, blue 35%, #000000 100%);
   width: auto;
   height: auto;
   min-width: 32px;
@@ -20,4 +20,5 @@
   font-weight: 600;
   font-size: 20px;
   border: 1px solid black;
+  margin: 0px 3px;
 }
