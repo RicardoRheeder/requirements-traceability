@@ -19,13 +19,15 @@ export const DocumentPanel = ({ document }) => {
   )
 
   let versionsList = []
-  const defaultOption = 'No versions'
+  let defaultOption = 'No versions'
   if (document.versions.length > 0) {
     // looping over versions array and parsing
     document.versions.forEach((version) => {
-      const parsedVersion = JSON.parse(version).versionName
-      versionsList.push(parsedVersion)
+      const parsedVersion = JSON.parse(version)
+      versionsList.push(parsedVersion.versionName)
     })
+    // setting default option
+    // defaultOption = versionsList[versionsList.length - 1]
   }
 
   // const testListOfVersions = ['1.1.0', '1.2.0']
@@ -33,6 +35,15 @@ export const DocumentPanel = ({ document }) => {
 
   const _onDropdownSelect = (thing) => {
     console.log(thing)
+    // finding the corresponding tree for the version that was selected
+    document.versions.forEach((version) => {
+      const parsedVersion = JSON.parse(version)
+
+      if (thing.value == parsedVersion.versionName) {
+        console.log(parsedVersion)
+        dispatch(updateDataTree(JSON.parse(parsedVersion.tree)))
+      }
+    })
   }
 
   const inviteUserButton = () => {
@@ -41,7 +52,7 @@ export const DocumentPanel = ({ document }) => {
 
   const openDocumentIntoEditor = () => {
     dispatch(updateCurrentDocument(document))
-    dispatch(updateDataTree(JSON.parse(document.tree)))
+    // dispatch(updateDataTree(JSON.parse(document.tree)))
     history.push('/editor')
   }
 

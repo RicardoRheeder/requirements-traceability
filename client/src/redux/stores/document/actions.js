@@ -268,7 +268,7 @@ export const sendDocAsync = (doc, docID) => {
     axios
       .patch(`${url}/documents/commit-doc/${docID._id}`, {
         tree: doc.tree,
-        name: 'Doc v80',
+        name: 'Doc v81',
       })
       .then((doc) => {
         console.log(doc)
