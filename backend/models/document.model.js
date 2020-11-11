@@ -10,6 +10,7 @@ const documentSchema = new Schema(
     collaborators: [{type: Schema.Types.ObjectId, ref: "User"}],
     tree: {type: String},
     version: [{ type: Schema.Types.ObjectId, ref: "Document"}],
+    beingEditedBy: [{type: Schema.Types.ObjectId, ref: "User"}]
   },
   {
     timestamps: true,
