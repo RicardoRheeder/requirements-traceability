@@ -29,7 +29,7 @@ function Home() {
   // console.log(errorMessage)
 
   return (
-    <div className="home-root">
+    <div className="home-root styled-background-blue">
       <div className="left-container">
         <LeftContainer />
       </div>

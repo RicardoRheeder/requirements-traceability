@@ -221,13 +221,14 @@ export default function Hierarchy({ scrollToElementFunction }) {
               {/* Search box */}
               <input
                 id="find-box"
-                className="search-box"
+                className="search-box hierarchy-search"
                 type="text"
                 value={searchString}
                 onChange={(event) => setSearchString(event.target.value)}
               />
               {/* '<' and '>' buttons */}
               <button
+                className="hierarchy-search"
                 type="button"
                 disabled={!searchFoundCount}
                 onClick={selectPrevMatch}
@@ -235,6 +236,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
                 &lt;
               </button>
               <button
+                className="hierarchy-search"
                 type="submit"
                 disabled={!searchFoundCount}
                 onClick={selectNextMatch}
