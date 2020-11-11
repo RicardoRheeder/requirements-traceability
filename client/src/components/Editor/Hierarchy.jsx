@@ -8,6 +8,7 @@ import SortableTree, {
 import FileExplorerTheme from 'react-sortable-tree-theme-full-node-drag'
 
 import {
+  setModalObject,
   updateDataTree,
   updateSelectedNodeID,
 } from '../../redux/stores/common/actions'
@@ -171,12 +172,6 @@ export default function Hierarchy({ scrollToElementFunction }) {
     //console.log(getSuccess)
   }
 
-  const commitDocumentToDB = () => {
-    let docObject = { tree: JSON.stringify(storeTreeData) }
-    let docID = selectedDocObject
-    dispatch(sendDocAsync(docObject, docID))
-  }
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       {/* Tree Utilities */}
@@ -323,10 +318,19 @@ export default function Hierarchy({ scrollToElementFunction }) {
       {/* Pull/Commit button panel */}
       <div className="commit-pull-container">
         <div className="center-div">
-          <button className="orange-button" onClick={getTreeFromDB}>
-            PULL
+          <button
+            className="orange-button"
+            onClick={() => dispatch(setModalObject({ visible: true, mode: 4 }))}
+          >
+            EXPORT
           </button>
-          <button className="orange-button" onClick={commitDocumentToDB}>
+          {/* <button className="orange-button" onClick={getTreeFromDB}>
+            PULL
+          </button> */}
+          <button
+            className="orange-button"
+            onClick={() => dispatch(setModalObject({ visible: true, mode: 3 }))}
+          >
             COMMIT
           </button>
         </div>
