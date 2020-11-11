@@ -18,8 +18,18 @@ export const DocumentPanel = ({ document }) => {
     (state) => state.common.selectedDocumentPanelObject
   )
 
-  const testListOfVersions = ['1.1.0', '1.2.0']
-  const defaultOption = testListOfVersions[0]
+  let versionsList = []
+  const defaultOption = 'No versions'
+  if (document.versions.length > 0) {
+    // looping over versions array and parsing
+    document.versions.forEach((version) => {
+      const parsedVersion = JSON.parse(version).versionName
+      versionsList.push(parsedVersion)
+    })
+  }
+
+  // const testListOfVersions = ['1.1.0', '1.2.0']
+  // const defaultOption = testListOfVersions[0]
 
   const _onDropdownSelect = (thing) => {
     console.log(thing)
@@ -58,7 +68,7 @@ export const DocumentPanel = ({ document }) => {
 
       <div className="document-panel-dropdown">
         <Dropdown
-          options={testListOfVersions}
+          options={versionsList}
           onChange={_onDropdownSelect}
           value={defaultOption}
           placeholder="Select an option"
