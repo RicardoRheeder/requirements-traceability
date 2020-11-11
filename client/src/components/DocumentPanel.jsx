@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Dropdown from 'react-dropdown'
 import { useHistory } from 'react-router-dom'
 
@@ -7,6 +7,7 @@ import {
   setSelectedDocumentPanelObject,
   setModalObject,
   updateDataTree,
+  setCurrentDocVersion,
 } from '../redux/stores/common/actions'
 import { updateCurrentDocument } from '../redux/stores/document/actions'
 
@@ -17,21 +18,29 @@ export const DocumentPanel = ({ document }) => {
   const selectedDocumentPanelObject = useSelector(
     (state) => state.common.selectedDocumentPanelObject
   )
-
+  let currentDropDownVersion = ''
   let versionsList = []
-  let defaultOption = 'No versions'
+  let defaultOption = '0.0'
+  // const refreshVersionList = () => {
   if (document.versions.length > 0) {
     // looping over versions array and parsing
     document.versions.forEach((version) => {
       const parsedVersion = JSON.parse(version)
       versionsList.push(parsedVersion.versionName)
     })
+    versionsList.reverse()
     // setting default option
-    // defaultOption = versionsList[versionsList.length - 1]
+    defaultOption = versionsList[0]
+    currentDropDownVersion = defaultOption
+  } else {
+    currentDropDownVersion = defaultOption
   }
 
-  // const testListOfVersions = ['1.1.0', '1.2.0']
-  // const defaultOption = testListOfVersions[0]
+  // }
+
+  // useEffect(() => {
+  //   refreshVersionList()
+  // }, [])
 
   const _onDropdownSelect = (thing) => {
     console.log(thing)
@@ -42,6 +51,7 @@ export const DocumentPanel = ({ document }) => {
       if (thing.value == parsedVersion.versionName) {
         console.log(parsedVersion)
         dispatch(updateDataTree(JSON.parse(parsedVersion.tree)))
+        currentDropDownVersion = parsedVersion.versionName
       }
     })
   }
@@ -52,7 +62,10 @@ export const DocumentPanel = ({ document }) => {
 
   const openDocumentIntoEditor = () => {
     dispatch(updateCurrentDocument(document))
-    // dispatch(updateDataTree(JSON.parse(document.tree)))
+    // if (versionsList.length === 0) {
+    dispatch(updateDataTree(JSON.parse(document.tree)))
+    dispatch(setCurrentDocVersion(currentDropDownVersion))
+    // }
     history.push('/editor')
   }
 
