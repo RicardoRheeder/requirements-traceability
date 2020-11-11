@@ -192,7 +192,7 @@ export const addUserToDocAsync = (request) => {
 // action to start getting the tree structure
 export const getTreeStart = () => {
   return {
-    type: GET_TREE_START
+    type: GET_TREE_START,
   }
 }
 
@@ -201,7 +201,7 @@ export const getTreeSuccess = (doc) => {
   console.log(doc)
   return {
     type: GET_TREE_SUCCESS,
-    data: doc
+    data: doc,
   }
 }
 
@@ -209,18 +209,19 @@ export const getTreeSuccess = (doc) => {
 export const getTreeFailure = (error) => {
   return {
     type: GET_TREE_FAILURE,
-    data: error
+    data: error,
   }
 }
 
 // async action for getting tree structure
-export const getTreeAsync = (request)=>{
+export const getTreeAsync = (request) => {
   //console.log(request._id)
-  return (dispatch) =>{
+  return (dispatch) => {
     dispatch(getTreeStart())
-    axios.get(`${url}/documents/get-tree/${request._id}`)
-    .then((doc)=> dispatch(getTreeSuccess(doc.data)))
-    .catch((err)=> dispatch(getTreeFailure(err)))
+    axios
+      .get(`${url}/documents/get-tree/${request._id}`)
+      .then((doc) => dispatch(getTreeSuccess(doc.data)))
+      .catch((err) => dispatch(getTreeFailure(err)))
   }
 }
 // Sending tree to database *******************************
@@ -246,11 +247,29 @@ export const sendDocFailure = (err) => {
 }
 
 //send the document (tree structure) to the backend
+// export const sendDocAsync = (doc, docID) => {
+//   return (dispatch) => {
+//     dispatch(sendDocStart())
+//     axios
+//       .patch(`${url}/documents/update-tree/${docID._id}`, { tree: doc.tree })
+//       .then((doc) => {
+//         console.log(doc)
+//         dispatch(sendDocSuccess(doc))
+//       })
+//       .catch((err) => {
+//         console.log(err)
+//         dispatch(sendDocFailure(err))
+//       })
+//   }
+// }
 export const sendDocAsync = (doc, docID) => {
   return (dispatch) => {
     dispatch(sendDocStart())
     axios
-      .patch(`${url}/documents/update-tree/${docID._id}`, { tree: doc.tree })
+      .patch(`${url}/documents/commit-doc/${docID._id}`, {
+        tree: doc.tree,
+        name: 'Doc v80',
+      })
       .then((doc) => {
         console.log(doc)
         dispatch(sendDocSuccess(doc))
