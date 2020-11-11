@@ -9,7 +9,7 @@ const documentSchema = new Schema(
     admin: {type: Schema.Types.ObjectId, ref: "User", required: true},
     collaborators: [{type: Schema.Types.ObjectId, ref: "User"}],
     tree: {type: String},
-    version: [{ type: Schema.Types.ObjectId, ref: "Document"}],
+    version: [{ type: String}],
     beingEditedBy: [{type: Schema.Types.ObjectId, ref: "User"}]
   },
   {
