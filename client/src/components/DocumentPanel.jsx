@@ -18,6 +18,11 @@ export const DocumentPanel = ({ document }) => {
   const selectedDocumentPanelObject = useSelector(
     (state) => state.common.selectedDocumentPanelObject
   )
+
+  useEffect(() => {
+    console.log('here')
+  }, [])
+
   let currentDropDownVersion = ''
   let versionsList = []
   let defaultOption = '0.0'
@@ -35,12 +40,6 @@ export const DocumentPanel = ({ document }) => {
   } else {
     currentDropDownVersion = defaultOption
   }
-
-  // }
-
-  // useEffect(() => {
-  //   refreshVersionList()
-  // }, [])
 
   const _onDropdownSelect = (thing) => {
     console.log(thing)
@@ -62,10 +61,8 @@ export const DocumentPanel = ({ document }) => {
 
   const openDocumentIntoEditor = () => {
     dispatch(updateCurrentDocument(document))
-    // if (versionsList.length === 0) {
-    dispatch(updateDataTree(JSON.parse(document.tree)))
+    // dispatch(updateDataTree(JSON.parse(document.tree)))
     dispatch(setCurrentDocVersion(currentDropDownVersion))
-    // }
     history.push('/editor')
   }
 

@@ -262,13 +262,13 @@ export const sendDocFailure = (err) => {
 //       })
 //   }
 // }
-export const sendDocAsync = (doc, docID) => {
+export const sendDocAsync = (doc, docID, versionName) => {
   return (dispatch) => {
     dispatch(sendDocStart())
     axios
       .patch(`${url}/documents/commit-doc/${docID._id}`, {
         tree: doc.tree,
-        name: 'Doc v81',
+        name: versionName,
       })
       .then((doc) => {
         console.log(doc)
