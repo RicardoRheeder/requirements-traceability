@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import AutosizeInput from 'react-input-autosize'
 
 import SortableTree, {
   toggleExpandedForAll,
@@ -284,13 +285,12 @@ export default function Hierarchy({ scrollToElementFunction }) {
                   <span className="node-ordering-title">
                     {rowInfo.node.order}
                   </span>
-                  <input
+                  <AutosizeInput
                     className="row_inputfield"
                     value={rowInfo.node.title}
+                    style={{ background: 'transparent' }}
                     onChange={(event) => {
                       const name = event.target.value
-                      event.target.style.width =
-                        (event.target.value.length + 1) * 10 + 'px'
                       updateNodeName(name)
                     }}
                   />
