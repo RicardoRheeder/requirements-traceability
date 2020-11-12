@@ -29,12 +29,17 @@ router.route('/create-document').post((req, res) => {
       ],
     },
   ]
+  const newVersion = {
+    versionName: '0.0',
+    tree: JSON.stringify(tree),
+  }
 
   const newDocument = new Document({
     title,
     admin,
     collaborators,
     tree: JSON.stringify(tree),
+    versions: [JSON.stringify(newVersion)],
   })
 
   newDocument
