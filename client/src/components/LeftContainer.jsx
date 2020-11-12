@@ -13,11 +13,6 @@ export default function LeftContainer() {
     (state) => state.common.selectedDocumentPanelObject
   )
 
-  useEffect(() => {
-    RenderDocumentPanels(docs)
-    console.log('render docs')
-  }, [])
-
   const RenderDocumentPanels = (listOfDocs) => {
     console.log(docs)
 

@@ -28,6 +28,7 @@ export const DocumentPanel = ({ document }) => {
   }, [])
 
   function refreshVersionList() {
+    console.log('here')
     let defaultOption = '0.0'
     let tempVersionsList = []
     if (document.versions.length > 0) {
