@@ -19,8 +19,8 @@ export default function LeftContainer() {
       })
     }
     return (
-      <div>
-        <div>No existing documents.</div>
+      <div className="left-container-placeholder">
+        <h2>No existing documents.</h2>
         <div>Click the 'Add' button below to get started.</div>
       </div>
     )
@@ -47,7 +47,9 @@ export default function LeftContainer() {
         </button>
 
         <button
-          className={"orange-button add-remove-button " + (selectedDoc ? "" : "disabled")}
+          className={
+            'orange-button add-remove-button ' + (selectedDoc ? '' : 'disabled')
+          }
           onClick={removeDocumentButton}
         >
           Remove
