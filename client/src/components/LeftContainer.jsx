@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setModalObject } from '../redux/stores/common/actions'
 import { useAuth0 } from '@auth0/auth0-react'
 import { DocumentPanel } from './'
+import { fetchUserDocsAsync } from '../redux/stores/document/actions'
 
 export default function LeftContainer() {
   const { user } = useAuth0()
@@ -12,7 +13,14 @@ export default function LeftContainer() {
     (state) => state.common.selectedDocumentPanelObject
   )
 
+  useEffect(() => {
+    RenderDocumentPanels(docs)
+    console.log('render docs')
+  }, [])
+
   const RenderDocumentPanels = (listOfDocs) => {
+    console.log(docs)
+
     if (listOfDocs.length != 0) {
       return listOfDocs.map((document, i) => {
         return <DocumentPanel document={document} key={i} />
