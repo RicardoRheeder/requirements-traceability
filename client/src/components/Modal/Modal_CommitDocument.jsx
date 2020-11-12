@@ -24,7 +24,7 @@ export default function Modal_CommitDocument() {
   const commitDocumentToDB = () => {
     let docObject = { tree: JSON.stringify(storeTreeData) }
     let docID = selectedDocObject
-    dispatch(sendDocAsync (docObject, docID))
+    dispatch(sendDocAsync(docObject, docID))
   }
 
   const handleChange = (e) => {
@@ -38,15 +38,25 @@ export default function Modal_CommitDocument() {
         <form onSubmit={handleSubmit}>
           <h2>Please enter a commit message.</h2>
           <input className="modal-input" onChange={handleChange} />
-          <button className="orange-button" onClick={commitDocumentToDB}>Submit</button>
-          <button
-            className="orange-button"
-            onClick={() =>
-              dispatch(setModalObject({ visible: false, mode: 0 }))
-            }
-          >
-            Close
-          </button>
+          <h2>Please enter a version number.</h2>
+          <input className="modal-input" onChange={handleChange} />
+          
+          <div className="button-container">
+            <button
+              className="orange-button modal-button"
+              onClick={commitDocumentToDB}
+            >
+              Submit
+            </button>
+            <button
+              className="orange-button modal-button"
+              onClick={() =>
+                dispatch(setModalObject({ visible: false, mode: 0 }))
+              }
+            >
+              Close
+            </button>
+          </div>
         </form>
       </div>
     </div>

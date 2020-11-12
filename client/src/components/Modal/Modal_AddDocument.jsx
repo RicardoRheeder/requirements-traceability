@@ -37,7 +37,22 @@ export default function Modal_AddDocument() {
         <form onSubmit={handleSubmit}>
           <h2>Please enter the name of the empty document to create.</h2>
           <input className="modal-input" onChange={handleChange} />
-          <button className="orange-button">Submit</button>
+
+          <div className="button-container">
+            <button
+              className="orange-button modal-button"
+            >
+              Submit
+            </button>
+            <button
+              className="orange-button modal-button"
+              onClick={() =>
+                dispatch(setModalObject({ visible: false, mode: 0 }))
+              }
+            >
+              Close
+            </button>
+          </div>
         </form>
       </div>
     </div>
