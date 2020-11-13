@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserColorObject } from '../redux/stores/common/actions'
 
@@ -30,22 +30,31 @@ const getRandomInt = (min, max) => {
 
 export default function CollaboratorPanel() {
   const dispatch = useDispatch()
-  const userColorObject = useSelector((state) => state.common.userColorObject, {})
+  const userColorObject = useSelector(
+    (state) => state.common.userColorObject,
+    {}
+  )
+
+  const updateStore = (username, randomColor) => {
+    () => dispatch(setUserColorObject({ [username]: randomColor }))
+  }
 
   const generateUserIcons = (userStruct) => {
     return userStruct.map(({ userID, username }, i) => {
       let randomColor
 
-      if (userColorObject && userColorObject[username]) {
-        randomColor = userColorObject[username]
-      } else {
-        randomColor = getRandColor(getRandomInt(3, 6))
-        dispatch(setUserColorObject({[username]: randomColor}))
-      }
+      if (userColorObject) {
+        if (userColorObject[username]) {
+          randomColor = userColorObject[username]
+        } else {
+          randomColor = getRandColor(getRandomInt(3, 6))
+          updateStore(username, randomColor)
+        }
 
-      return (
-        <CollaboratorIcon key={i} username={username} color={randomColor} />
-      )
+        return (
+          <CollaboratorIcon key={i} username={username} color={randomColor} />
+        )
+      }
     })
   }
 

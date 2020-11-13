@@ -6,7 +6,7 @@ import { setModalObject } from '../../redux/stores/common/actions'
 import { Modal_AddDocument, Modal_RemoveDocument, Modal_InviteUser } from './'
 
 export default function ModalComponent() {
-  const modalObject = useSelector((state) => state.common.modalObject, [])
+  const modalObject = useSelector((state) => state.common.modalObject, {})
   const dispatch = useDispatch()
 
   const closeModal = () => {
@@ -23,7 +23,9 @@ export default function ModalComponent() {
           ariaHideApp={false}
         >
           <div className="close-button-container">
-            <button className="orange-button close-button" onClick={closeModal}>X</button>
+            <button className="orange-button close-button" onClick={closeModal}>
+              X
+            </button>
           </div>
           {modalObject.mode == 0 ? (
             <Modal_AddDocument />
@@ -31,7 +33,7 @@ export default function ModalComponent() {
             <Modal_RemoveDocument />
           ) : modalObject.mode == 2 ? (
             <Modal_InviteUser />
-          ): (
+          ) : (
             <></>
           )}
         </Modal>
