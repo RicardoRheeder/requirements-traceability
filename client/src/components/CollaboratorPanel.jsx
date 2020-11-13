@@ -35,10 +35,6 @@ export default function CollaboratorPanel() {
     {}
   )
 
-  const updateStore = (username, randomColor) => {
-    () => dispatch(setUserColorObject({ [username]: randomColor }))
-  }
-
   const generateUserIcons = (userStruct) => {
     return userStruct.map(({ userID, username }, i) => {
       let randomColor
@@ -48,7 +44,7 @@ export default function CollaboratorPanel() {
           randomColor = userColorObject[username]
         } else {
           randomColor = getRandColor(getRandomInt(3, 6))
-          updateStore(username, randomColor)
+          setTimeout(()=>{dispatch(setUserColorObject({ [username]: randomColor }))}, 200)
         }
 
         return (

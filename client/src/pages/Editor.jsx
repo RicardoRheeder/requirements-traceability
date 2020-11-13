@@ -69,7 +69,7 @@ export default function Editor() {
     var indentVal = String(level * 20) + 'px' // Used for the indenting of sections
     level += 1
     // console.log(indentVal);
-    return struct.map(({ title, text, children, id, order }) => {
+    return struct.map(({ title, text, children, id, order, isBeingEdited }) => {
       return (
         <div
           style={{ marginLeft: indentVal }}
