@@ -6,19 +6,24 @@
 }
 
 .collaborator-icon {
-  // background: blue;
-  // background-image: radial-gradient(circle, blue 0%, blue 35%, #000000 100%);
-  width: auto;
-  height: auto;
-  min-width: 32px;
-  min-height: 32px;
   border-radius: 50%;
   text-align: center;
-  line-height: 30px;
   vertical-align: middle;
-  /* padding: 10px; */
   font-weight: 600;
-  font-size: 20px;
   border: 1px solid black;
   margin: 0px 3px;
+}
+
+.small {
+  width: 24px;
+  height: 24px;
+  line-height: 22px;
+  font-size: 16px;
+}
+
+.normal {
+  width: 32px;
+  height: 32px;
+  line-height: 30px;
+  font-size: 20px;
 }

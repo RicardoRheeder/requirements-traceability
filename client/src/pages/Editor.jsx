@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
 
-import { Hierarchy, CollaboratorPanel } from '../components'
-
+import { Hierarchy, CollaboratorPanel, CollaboratorIcon } from '../components'
 import SplitPane from 'react-split-pane'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,13 +17,17 @@ import {
 } from '../redux/stores/common/actions'
 
 export default function Editor() {
+  const { user } = useAuth0()
   const dispatch = useDispatch()
   const paneRef = useRef(null)
 
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedNodeId = useSelector((state) => state.common.selectedID)
   const selectedDocObject = useSelector((state) => state.document.current_doc)
-
+  const userColorObject = useSelector(
+    (state) => state.common.userColorObject,
+    {}
+  )
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
    * @param {Object} tree - the tree stucture to clean and push to Redux store
@@ -69,39 +73,56 @@ export default function Editor() {
     var indentVal = String(level * 20) + 'px' // Used for the indenting of sections
     level += 1
     // console.log(indentVal);
-    return struct.map(({ title, text, children, id, order, isBeingEdited }) => {
-      return (
-        <div
-          style={{ marginLeft: indentVal }}
-          key={title + '' + id}
-          className={
-            parseInt(id) == parseInt(selectedNodeId)
-              ? 'selected ' + parseInt(id)
-              : 'not-selected ' + parseInt(id)
-          }
-          id={id}
-        >
-          <div>
-            <h2 className="section-headers">
-              {order} {title}
-            </h2>
+    return struct.map(
+      ({ title, text, children, id, order, isBeingEdited }, i) => {
+        return (
+          <div
+            style={{ marginLeft: indentVal }}
+            key={title + '' + id}
+            className={
+              (parseInt(id) == parseInt(selectedNodeId)
+                ? 'selected ' + parseInt(id)
+                : 'not-selected ' + parseInt(id)) +
+              (isBeingEdited != null && isBeingEdited != user.nickname
+                ? ' disabled'
+                : ' ')
+            }
+            id={id}
+          >
+            <div>
+              <h2 className="section-headers">
+                {order} {title}
+              </h2>
+              <span style={{ display: 'flex' }}>
+                {isBeingEdited != null ? (
+                  <CollaboratorIcon
+                    key={i}
+                    username={isBeingEdited}
+                    color={userColorObject[isBeingEdited]}
+                    smallIcon={true}
+                  />
+                ) : (
+                  ''
+                )}
+              </span>
+            </div>
+            <textarea
+              type="text"
+              className="editor-input"
+              value={text}
+              onChange={updateNodeText}
+              onFocus={() => dispatch(updateSelectedNodeID(id))}
+            ></textarea>
+            {/* If children exist, recurse into it, and create sections out of it */}
+            {children != null ? (
+              CreateSectionsFromArrayOfStructs(children, level)
+            ) : (
+              <></>
+            )}
           </div>
-          <textarea
-            type="text"
-            className="editor-input"
-            value={text}
-            onChange={updateNodeText}
-            onFocus={() => dispatch(updateSelectedNodeID(id))}
-          ></textarea>
-          {/* If children exist, recurse into it, and create sections out of it */}
-          {children != null ? (
-            CreateSectionsFromArrayOfStructs(children, level)
-          ) : (
-            <></>
-          )}
-        </div>
-      )
-    })
+        )
+      }
+    )
   }
 
   return (

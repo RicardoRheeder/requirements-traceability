@@ -1,9 +1,11 @@
 import React from 'react'
 
-export default function CollaboratorIcon({ username, color }) {
+export default function CollaboratorIcon({ username, color, smallIcon=false }) {
   return (
     <div
-      className="collaborator-icon"
+      className={
+        'collaborator-icon' + (smallIcon == true ? ' small' : ' normal')
+      }
       title={username}
       style={{
         backgroundImage:

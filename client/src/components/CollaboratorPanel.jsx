@@ -5,7 +5,7 @@ import { setUserColorObject } from '../redux/stores/common/actions'
 import { CollaboratorIcon } from './'
 
 const testUserObjects = [
-  { userID: '12312', username: 'ricardo' },
+  { userID: '12312', username: 'ricardorheeder' },
   { userID: '54564', username: 'Faiz' },
   { userID: '84512', username: 'Devin' },
 ]
@@ -44,11 +44,18 @@ export default function CollaboratorPanel() {
           randomColor = userColorObject[username]
         } else {
           randomColor = getRandColor(getRandomInt(3, 6))
-          setTimeout(()=>{dispatch(setUserColorObject({ [username]: randomColor }))}, 200)
+          setTimeout(() => {
+            dispatch(setUserColorObject({ [username]: randomColor }))
+          }, 200)
         }
 
         return (
-          <CollaboratorIcon key={i} username={username} color={randomColor} />
+          <CollaboratorIcon
+            key={i}
+            username={username}
+            color={randomColor}
+            smallIcon={false}
+          />
         )
       }
     })
