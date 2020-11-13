@@ -30,7 +30,7 @@ const getRandomInt = (min, max) => {
 
 export default function CollaboratorPanel() {
   const dispatch = useDispatch()
-  const userColorObject = useSelector((state) => state.common.userColorObject)
+  const userColorObject = useSelector((state) => state.common.userColorObject, {})
 
   const generateUserIcons = (userStruct) => {
     return userStruct.map(({ userID, username }, i) => {
