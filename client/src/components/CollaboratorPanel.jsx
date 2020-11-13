@@ -36,7 +36,7 @@ export default function CollaboratorPanel() {
     return userStruct.map(({ userID, username }, i) => {
       let randomColor
 
-      if (userColorObject[username]) {
+      if (userColorObject && userColorObject[username]) {
         randomColor = userColorObject[username]
       } else {
         randomColor = getRandColor(getRandomInt(3, 6))
