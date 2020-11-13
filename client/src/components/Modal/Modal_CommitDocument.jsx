@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setModalObject } from '../../redux/stores/common/actions'
 import { useAuth0 } from '@auth0/auth0-react'
-import { fetchUserDocsAsync, sendDocAsync } from '../../redux/stores/document/actions'
+import {
+  fetchUserDocsAsync,
+  sendDocAsync,
+} from '../../redux/stores/document/actions'
 
 export default function Modal_CommitDocument() {
   const { user } = useAuth0()
@@ -38,19 +41,27 @@ export default function Modal_CommitDocument() {
       <div className="modal-contents-container">
         <h1 className="modal-contents-title">Commit document</h1>
         <form onSubmit={handleSubmit}>
-          <h2>Please enter a commit message.</h2>
+          {/* <h2>Please enter a commit message.</h2>
+          <input className="modal-input" onChange={handleChange} /> */}
+          <h2>Please enter a version number.</h2>
           <input className="modal-input" onChange={handleChange} />
-          <button className="orange-button" onClick={commitDocumentToDB}>
-            Submit
-          </button>
-          <button
-            className="orange-button"
-            onClick={() =>
-              dispatch(setModalObject({ visible: false, mode: 0 }))
-            }
-          >
-            Close
-          </button>
+
+          <div className="button-container">
+            <button
+              className="orange-button modal-button"
+              onClick={commitDocumentToDB}
+            >
+              Submit
+            </button>
+            <button
+              className="orange-button modal-button"
+              onClick={() =>
+                dispatch(setModalObject({ visible: false, mode: 0 }))
+              }
+            >
+              Close
+            </button>
+          </div>
         </form>
       </div>
     </div>

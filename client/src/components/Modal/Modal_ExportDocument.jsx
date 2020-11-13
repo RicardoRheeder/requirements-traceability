@@ -25,17 +25,23 @@ export default function Modal_ExportDocument() {
         <form onSubmit={handleSubmit}>
           <h2>Please enter the desired filename to export the document as.</h2>
           <input className="modal-input" onChange={handleChange} />
-          <button className="orange-button" onClick={handleOnClick}>
-            Submit
-          </button>
-          <button
-            className="orange-button"
-            onClick={() =>
-              dispatch(setModalObject({ visible: false, mode: 0 }))
-            }
-          >
-            Close
-          </button>
+         
+          <div className="button-container">
+            <button
+              className="orange-button modal-button"
+              onClick={handleOnClick}
+            >
+              Submit
+            </button>
+            <button
+              className="orange-button modal-button"
+              onClick={() =>
+                dispatch(setModalObject({ visible: false, mode: 0 }))
+              }
+            >
+              Close
+            </button>
+          </div>
         </form>
       </div>
     </div>
