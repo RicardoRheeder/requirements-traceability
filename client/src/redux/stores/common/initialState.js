@@ -33,4 +33,6 @@ export default {
   // mode: 2 = invite user to document
   modalObject: { visible: false, mode: 0 },
   selectedDocumentPanelObject: 0,
+
+  userColorObject: {}
 }

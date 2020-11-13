@@ -4,6 +4,7 @@ import {
   UPDATE_SELECTEDNODEID,
   SET_MODALOBJECT,
   SET_SELECTED_DOCUMENTPANEL_OBJECT,
+  SET_USERCOLOROBJECT
 } from './actionTypes'
 
 export const setLoggedIn = (data) => ({ type: SET_LOGGEDIN, data })
@@ -17,3 +18,9 @@ export const setSelectedDocumentPanelObject = (data) => ({
   type: SET_SELECTED_DOCUMENTPANEL_OBJECT,
   data,
 })
+
+export const setUserColorObject = (data) => ({
+  type: SET_USERCOLOROBJECT,
+  data,
+})
+
