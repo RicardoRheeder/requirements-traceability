@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import {
   Tree_Update,
+  Tree_UpdateIsBeingEdited,
   Tree_UpdateNodeText,
 } from '../utils/TreeNodeHelperFunctions'
 
@@ -20,6 +21,8 @@ export default function Editor() {
   const { user } = useAuth0()
   const dispatch = useDispatch()
   const paneRef = useRef(null)
+
+  var tempTree
 
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedNodeId = useSelector((state) => state.common.selectedID)
@@ -57,6 +60,20 @@ export default function Editor() {
    */
   const scrollToElement = (element) => {
     element.scrollIntoView(true, { behavior: 'smooth' })
+  }
+
+  const onFocusRequirement = (id) => {
+    console.log('On Focus: ' + id + ' ' + selectedNodeId)
+    dispatch(updateSelectedNodeID(id))
+    var td = Tree_UpdateIsBeingEdited(storeTreeData, id, user.nickname)
+    updateTree(td)
+  }
+
+  const offFocusRequirement = (id) => {
+    console.log('Off Focus: ' + id)
+    dispatch(updateSelectedNodeID(0))
+    var td = Tree_UpdateIsBeingEdited(storeTreeData, id, null)
+    updateTree(td)
   }
 
   /**
@@ -111,7 +128,8 @@ export default function Editor() {
               className="editor-input"
               value={text}
               onChange={updateNodeText}
-              onFocus={() => dispatch(updateSelectedNodeID(id))}
+              onFocus={() => onFocusRequirement(id)}
+              onBlur={() => offFocusRequirement(id)}
             ></textarea>
             {/* If children exist, recurse into it, and create sections out of it */}
             {children != null ? (

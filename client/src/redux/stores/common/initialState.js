@@ -1,7 +1,7 @@
 export default {
   loggedIn: false,
   treeData: [
-    { title: 'HLRQ1', text: 'hlrq1 text', id: 1, isBeingEdited: 'ricardorheeder' },
+    { title: 'HLRQ1', text: 'hlrq1 text', id: 1, isBeingEdited: 'test' },
     { title: 'HLRQ2', text: 'hlrq2 text', id: 2 },
     {
       title: 'HLRQ3',

@@ -6,8 +6,8 @@ import { CollaboratorIcon } from './'
 
 const testUserObjects = [
   { userID: '12312', username: 'ricardorheeder' },
-  { userID: '54564', username: 'Faiz' },
-  { userID: '84512', username: 'Devin' },
+  { userID: '54564', username: 'testUser2' },
+  { userID: '84512', username: 'testUser3' },
 ]
 
 const getRandColor = (brightness) => {
