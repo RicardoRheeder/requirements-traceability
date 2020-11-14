@@ -113,14 +113,14 @@ export default function Editor() {
         defaultSize={parseInt(localStorage.getItem('splitPos'))}
         onChange={(size) => localStorage.setItem('splitPos', size)}
       >
-        <div className="hierarchy-root-div">
+        <div className="hierarchy-root-div styled-background-blue">
           <Hierarchy
             scrollToElementFunction={(el) =>
               scrollToElement(paneRef.current.pane2.querySelector('.selected'))
             }
           />
         </div>
-        <div className="editor-root-div">
+        <div className="editor-root-div styled-background-grey">
           <h1>Editor: {selectedDocObject ? selectedDocObject.title : ''}</h1>
           {CreateSectionsFromArrayOfStructs(Tree_Update(storeTreeData), 0)}
         </div>

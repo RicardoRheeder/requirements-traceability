@@ -31,6 +31,8 @@ export default {
   // mode: 0 = create document
   // mode: 1 = delete document
   // mode: 2 = invite user to document
+  // mode: 3 = commit the document
+  // mode: 4 = export the document
   modalObject: { visible: false, mode: 0 },
   selectedDocumentPanelObject: 0,
 }
