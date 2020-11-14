@@ -36,8 +36,8 @@ export default function Modal_CommitDocument() {
       <div className="modal-contents-container">
         <h1 className="modal-contents-title">Commit document</h1>
         <form onSubmit={handleSubmit}>
-          <h2>Please enter a commit message.</h2>
-          <input className="modal-input" onChange={handleChange} />
+          {/* <h2>Please enter a commit message.</h2>
+          <input className="modal-input" onChange={handleChange} /> */}
           <h2>Please enter a version number.</h2>
           <input className="modal-input" onChange={handleChange} />
           
