@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Hierarchy } from '../components'
 
 import SplitPane from 'react-split-pane'
-
-import { useDispatch, useSelector } from 'react-redux'
+import TextareaAutosize from 'react-textarea-autosize';
 
 import {
   Tree_Update,
@@ -74,10 +74,10 @@ export default function Editor() {
         <div
           style={{ marginLeft: indentVal }}
           key={title + '' + id}
-          className={
-            parseInt(id) == parseInt(selectedNodeId)
+          className={ 'section-div ' +
+            (parseInt(id) == parseInt(selectedNodeId)
               ? 'selected ' + parseInt(id)
-              : 'not-selected ' + parseInt(id)
+              : 'not-selected ' + parseInt(id))
           }
           id={id}
         >
@@ -86,13 +86,14 @@ export default function Editor() {
               {order} {title}
             </h2>
           </div>
-          <textarea
-            type="text"
+          <TextareaAutosize
+          type="text"
             className="editor-input"
             value={text}
             onChange={updateNodeText}
-            onFocus={() => dispatch(updateSelectedNodeID(id))}
-          ></textarea>
+            onFocus={() => dispatch(updateSelectedNodeID(id))}>
+          </TextareaAutosize>
+
           {/* If children exist, recurse into it, and create sections out of it */}
           {children != null ? (
             CreateSectionsFromArrayOfStructs(children, level)
@@ -113,14 +114,14 @@ export default function Editor() {
         defaultSize={parseInt(localStorage.getItem('splitPos'))}
         onChange={(size) => localStorage.setItem('splitPos', size)}
       >
-        <div className="hierarchy-root-div">
+        <div className="hierarchy-root-div styled-background-blue">
           <Hierarchy
             scrollToElementFunction={(el) =>
               scrollToElement(paneRef.current.pane2.querySelector('.selected'))
             }
           />
         </div>
-        <div className="editor-root-div">
+        <div className="editor-root-div styled-background-grey">
           <h1>Editor: {selectedDocObject ? selectedDocObject.title : ''}</h1>
           {CreateSectionsFromArrayOfStructs(Tree_Update(storeTreeData), 0)}
         </div>
