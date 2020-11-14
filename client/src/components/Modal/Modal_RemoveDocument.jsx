@@ -52,7 +52,20 @@ export default function Modal_RemoveDocument() {
         </h3>
         <form onSubmit={handleSubmit}>
           <input className="modal-input" onChange={handleChange} />
-          <button className="orange-button">Submit</button>
+
+          <div className="button-container">
+            <button className="orange-button modal-button">
+              Submit
+            </button>
+            <button
+              className="orange-button modal-button"
+              onClick={() =>
+                dispatch(setModalObject({ visible: false, mode: 0 }))
+              }
+            >
+              Close
+            </button>
+          </div>
         </form>
       </div>
     </div>
