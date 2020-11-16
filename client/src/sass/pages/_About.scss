@@ -1,0 +1,32 @@
+.about-root {
+    background-color: #212a3f;
+    height: 100%;
+    width: 100%;
+    font-family: Verdana, Tahoma, sans-serif;
+    color: #f96302; 
+  }
+
+  .center-container {
+    width: 60%;
+    height: 100%;
+    display: block;
+    float: left;
+    align-items: center;
+    text-align: center;
+  }
+
+  .about-header {
+    width: 100%;
+    height: 200px;
+  }
+
+  .about-subheader {
+    padding-top: 100px;
+  }
+  
+  .about-logo-banner{
+    height: 300px;
+    width: auto;
+    padding: 30px;
+  }
+  
