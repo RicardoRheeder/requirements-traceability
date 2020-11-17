@@ -1,32 +1,33 @@
-.about-root {
+.aboot-root {
     background-color: #212a3f;
     height: 100%;
     width: 100%;
     font-family: Verdana, Tahoma, sans-serif;
-    color: #f96302; 
-  }
+    color: #f96302;
+}
 
-  .center-container {
-    width: 60%;
+.about-content-area{
+    width: 80%;
     height: 100%;
+    padding-left: 20%;
     display: block;
-    float: left;
     align-items: center;
     text-align: center;
-  }
+}
 
-  .about-header {
-    width: 100%;
+.about-logo-banner{
     height: 200px;
-  }
-
-  .about-subheader {
-    padding-top: 100px;
-  }
-  
-  .about-logo-banner{
-    height: 300px;
     width: auto;
     padding: 30px;
-  }
-  
+}
+
+.about-description-title{
+    background: #212a3f;
+}
+
+.about-description{
+    font-size: 25px;
+    padding: 15px;
+    background: #212a3f;
+    text-align: left;
+}
