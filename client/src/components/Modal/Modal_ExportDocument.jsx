@@ -4,9 +4,7 @@ import { setModalObject } from '../../redux/stores/common/actions'
 
 import { renderToStaticMarkup } from 'react-dom/server'
 import { useAuth0 } from '@auth0/auth0-react'
-
-import html2canvas from 'html2canvas'
-import jsPDF from 'jspdf'
+import { sendHTMLAsync } from '../../redux/stores/document/actions'
 
 export default function Modal_ExportDocument() {
   const storeTreeData = useSelector((state) => state.common.treeData, [])
@@ -22,20 +20,12 @@ export default function Modal_ExportDocument() {
   const handleOnClick = () => {
     console.log('Export the document from here')
 
-    html2canvas(document.getElementById('editor-root-div')).then((canvas) => {
-      var img = new Image()
-      const imgData = canvas.toDataURL('image/png')
-      img.src = canvas.toDataURL('image/png')
-
-      img.onload = function () {
-        var doc = new jsPDF()
-        doc.setFontSize(12)
-        doc.addImage(imgData, 'PNG', 0, 0)
-        doc.save('a4.pdf')
-      }
-    })
-
-    console.log(canvas)
+    const src = document.getElementById('editor-root-div')
+    // const src = document.getElementById('test-div')
+    // const args = '-f html -t pdf -o output.pdf'
+    const args = '-f html --pdf-engine=wkhtmltopdf -o test.pdf'
+    const stringSrc = JSON.stringify(src.innerHTML)
+    dispatch(sendHTMLAsync(stringSrc, args))
   }
 
   return (
@@ -61,6 +51,9 @@ export default function Modal_ExportDocument() {
             >
               Close
             </button>
+            <textarea name="" id="test-div" cols="30" rows="10">
+              blah blah blah
+            </textarea>
           </div>
         </form>
       </div>

@@ -17,15 +17,20 @@ export const FETCH_USER_DOCS_FAILURE = 'FETCH_USER_DOCS_FAILURE'
 
 export const UPDATE_CURRENT_DOCUMENT = 'UPDATE_CURRENT_DOCUMENT'
 // actions for adding a user to a document
-export const ADD_USER_TO_DOC_START = 'ADD_USER_TO_DOC_START';
-export const ADD_USER_TO_DOC_FAILURE = 'ADD_USER_TO_DOC_FAILURE';
-export const ADD_USER_TO_DOC_SUCCESS = 'ADD_USER_TO_DOC_SUCCESS';
+export const ADD_USER_TO_DOC_START = 'ADD_USER_TO_DOC_START'
+export const ADD_USER_TO_DOC_FAILURE = 'ADD_USER_TO_DOC_FAILURE'
+export const ADD_USER_TO_DOC_SUCCESS = 'ADD_USER_TO_DOC_SUCCESS'
 
 // actions for getting tree structure from the database
 export const GET_TREE_START = 'GET_TREE_START'
 export const GET_TREE_FAILURE = 'GET_TREE_FAILURE'
 export const GET_TREE_SUCCESS = 'GET_TREE_SUCCESS'
 // actions for sending the tree structure
-export const SEND_DOC_START = 'SEND_DOC_START';
-export const SEND_DOC_FAILURE = 'SEND_DOC_FAILURE';
-export const SEND_DOC_SUCCESS = 'SEND_DOC_SUCCESS';
+export const SEND_DOC_START = 'SEND_DOC_START'
+export const SEND_DOC_FAILURE = 'SEND_DOC_FAILURE'
+export const SEND_DOC_SUCCESS = 'SEND_DOC_SUCCESS'
+
+// actions for sending html and getting pdf
+export const SEND_HTML_START = 'SEND_HTML_START'
+export const SEND_HTML_SUCCESS = 'SEND_HTML_SUCCESS'
+export const SEND_HTML_FAILURE = 'SEND_HTML_FAILURE'

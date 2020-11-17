@@ -18,6 +18,9 @@ import {
   SEND_DOC_START,
   SEND_DOC_FAILURE,
   SEND_DOC_SUCCESS,
+  SEND_HTML_FAILURE,
+  SEND_HTML_START,
+  SEND_HTML_SUCCESS,
 } from './actionTypes'
 
 const axios = require('axios').default
@@ -192,7 +195,7 @@ export const addUserToDocAsync = (request) => {
 // action to start getting the tree structure
 export const getTreeStart = () => {
   return {
-    type: GET_TREE_START
+    type: GET_TREE_START,
   }
 }
 
@@ -201,7 +204,7 @@ export const getTreeSuccess = (doc) => {
   console.log(doc)
   return {
     type: GET_TREE_SUCCESS,
-    data: doc
+    data: doc,
   }
 }
 
@@ -209,18 +212,19 @@ export const getTreeSuccess = (doc) => {
 export const getTreeFailure = (error) => {
   return {
     type: GET_TREE_FAILURE,
-    data: error
+    data: error,
   }
 }
 
 // async action for getting tree structure
-export const getTreeAsync = (request)=>{
+export const getTreeAsync = (request) => {
   //console.log(request._id)
-  return (dispatch) =>{
+  return (dispatch) => {
     dispatch(getTreeStart())
-    axios.get(`${url}/documents/get-tree/${request._id}`)
-    .then((doc)=> dispatch(getTreeSuccess(doc.data)))
-    .catch((err)=> dispatch(getTreeFailure(err)))
+    axios
+      .get(`${url}/documents/get-tree/${request._id}`)
+      .then((doc) => dispatch(getTreeSuccess(doc.data)))
+      .catch((err) => dispatch(getTreeFailure(err)))
   }
 }
 // Sending tree to database *******************************
@@ -258,6 +262,47 @@ export const sendDocAsync = (doc, docID) => {
       .catch((err) => {
         console.log(err)
         dispatch(sendDocFailure(err))
+      })
+  }
+}
+
+// Sending html to be converted to pdf *******************************
+export const sendHTMLStart = () => {
+  return {
+    type: SEND_HTML_START,
+  }
+}
+
+export const sendHTMLSuccess = (pdf) => {
+  return {
+    type: SEND_HTML_SUCCESS,
+    data: pdf,
+  }
+}
+
+export const sendHTMLFailure = (err) => {
+  return {
+    type: SEND_HTML_FAILURE,
+    data: err,
+  }
+}
+
+// sending the raw html to backend
+export const sendHTMLAsync = (src, args) => {
+  console.log('dispatched')
+  return (dispatch) => {
+    dispatch(sendHTMLStart())
+    axios
+      .get(`${url}/documents/get-pdf`, {
+        params: { src, args },
+      })
+      .then((doc) => {
+        console.log(doc)
+        dispatch(sendHTMLSuccess(doc))
+      })
+      .catch((err) => {
+        console.log(err)
+        dispatch(sendHTMLFailure(err))
       })
   }
 }

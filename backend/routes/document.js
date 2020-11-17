@@ -1,7 +1,8 @@
-const nodePandoc = require('node-pandoc')
 const router = require('express').Router()
 const User = require('../models/user.model')
 const Document = require('../models/document.model')
+const nodePandoc = require('node-pandoc')
+// import nodePandoc from 'node-pandoc'
 
 // Post Routes*****************************************
 
@@ -99,12 +100,22 @@ router.route('/get-tree/:id').get((req, res) => {
 
 // getting a pdf document given the frontend sends html using pandoc
 router.route('/get-pdf').get((req, res) => {
-  const src = req.body.src
-  const args = req.body.args
-  // Set your callback function
-  const callback = (err, result) => {
-    if (err) console.error('Oh Nos: ', err)
-    return console.log(result), result
+  // console.log(req.query)
+  const src = JSON.parse(req.query.src)
+  // const src = req.query.src
+  const args = req.query.args
+  // console.log(JSON.parse(src))
+  console.log(src)
+
+  callback = function (err, result) {
+    if (err) {
+      console.error('Oh Nos: ', err)
+    }
+
+    // For output to files, the 'result' will be a boolean 'true'.
+    // Otherwise, the converted value will be returned.
+    console.log(result)
+    return result
   }
   nodePandoc(src, args, callback)
 })
