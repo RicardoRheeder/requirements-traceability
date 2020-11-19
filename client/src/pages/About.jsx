@@ -44,8 +44,8 @@ function About() {
                     Where can I read more?
                 </div>
                 <div className="about-description">
-                    The Doc Tracer README can be found on our GitLab page: 
-                    <br></br> 
+                    The Doc Tracer README can be found on our GitLab page:
+                    <br></br>
                     <br></br>
                     <a href="url">https://git.cs.usask.ca/CMPT371-01-2020/requirements-traceability/-/blob/master/README.md</a>
                     <br></br>
@@ -55,10 +55,27 @@ function About() {
                 </div>
                 <div className="about-description">
                      Contact link pending. . .
-                    <br></br> 
+                    <br></br>
                     <br></br>
                     <a href="url"></a>
                     <br></br>
+                    <form action="">
+                        <label for="Name">Name: </label>
+                        <br></br>
+                        <input className="about-input-field" placeholder="Type your name..."></input>
+                        <br></br>
+                        <label for="email">Email: </label>
+                        <br></br>
+                        <input className="about-input-field" placeholder="Type your email..."></input>
+                        <br></br>
+                        <label for="subject">Subject: </label>
+                        <br></br>
+                        <input className="about-input-field" placeholder="Type your subject..."></input>
+                        <br></br>
+                        {/* <textarea id="email-content" name="content" placeholder="Type here..."></textarea> */}
+                        <br></br>
+                        <input className="orange-button" type="submit" value="Submit"></input>
+                    </form>
                 </div>
 
             </div>
