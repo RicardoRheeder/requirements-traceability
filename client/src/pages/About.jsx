@@ -40,7 +40,26 @@ function About() {
                 <div className="about-description">
                 Doc Tracer is a tool that allows a team to collaboratively work on a software requirements document and be able to see how the document changes over time. The design allows high level requirements to be broken down into low level requirements, then design, and then source code in such a way that the relationship between each of these components is apparent. A key component is the versioning system to ensure that the history of the requirements are preserved and that there is a versioning identifier to track changes that the document has gone through. In addition every component (High level requirement, low level requirements, etc) have a unique identifier to differenciate between them.
                 </div>
-                <div></div>
+                <div className="about-description-title">
+                    Where can I read more?
+                </div>
+                <div className="about-description">
+                    The Doc Tracer README can be found on our GitLab page: 
+                    <br></br> 
+                    <br></br>
+                    <a href="url">https://git.cs.usask.ca/CMPT371-01-2020/requirements-traceability/-/blob/master/README.md</a>
+                    <br></br>
+                </div>
+                <div className="about-description-title">
+                    Contact info:
+                </div>
+                <div className="about-description">
+                     Contact link pending. . .
+                    <br></br> 
+                    <br></br>
+                    <a href="url"></a>
+                    <br></br>
+                </div>
 
             </div>
         </div>
