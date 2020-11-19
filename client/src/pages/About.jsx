@@ -28,7 +28,7 @@ function About() {
   // console.log(errorMessage)
 
   return (
-    <div className="aboot-root styled-background-blue">
+    <div className="aboot-root styled-background-blue ">
       <div className="about-content-area">
         <img
           className="about-logo-banner"
@@ -53,46 +53,68 @@ function About() {
             requirements, etc) have a unique identifier to differenciate between
             them.
           </div>
+          <br />
+          <div>
+            For more information, please refer to the Doc Tracer{' '}
+            <a href="https://git.cs.usask.ca/CMPT371-01-2020/requirements-traceability/-/blob/master/README.md">
+              README
+            </a>
+          </div>
         </div>
-        <h1 className="about-description-title">Where can I read more?</h1>
-        <div className="about-description">
-          The Doc Tracer README can be found on our GitLab page:
-          <br></br>
-          <br></br>
-          <a href="https://git.cs.usask.ca/CMPT371-01-2020/requirements-traceability/-/blob/master/README.md">
-            Click here
-          </a>
-          <br></br>
+        <h1 className="about-description-title">Features</h1>
+        <div className="about-description features">
+          <ul className="description-list">
+            <li>Document creation and cloud storage</li>
+            <li>Document editing and hierarchical management</li>
+            <li>Invitation and collaboration within the document</li>
+            <li>Document versioning</li>
+            <li>Document exporting to PDF</li>
+          </ul>
         </div>
         <h1 className="about-description-title">Contact info:</h1>
-        <div className="about-description">
+        <div className="about-description form-container">
           Contact link pending. . .<br></br>
           <br></br>
           <a href="url"></a>
           <br></br>
           <form action="">
-            <label for="Name">Name: </label>
+            <div className="input-container">
+              <div className="label-containers">
+                <label className="form-labels" for="Name">
+                  Name:{' '}
+                </label>{' '}
+                <input
+                  className="about-input-field"
+                  placeholder="Type your name..."
+                ></input>
+              </div>
+              <div className="label-containers">
+                <label className="form-labels" for="email">
+                  Email:{' '}
+                </label>{' '}
+                <input
+                  className="about-input-field"
+                  placeholder="Type your email..."
+                ></input>
+              </div>
+              <div className="label-containers">
+                <label className="form-labels" for="subject">
+                  Subject:{' '}
+                </label>{' '}
+                <input
+                  className="about-input-field"
+                  placeholder="Type your subject..."
+                ></input>
+              </div>
+            </div>
+
             <br></br>
-            <input
-              className="about-input-field"
-              placeholder="Type your name..."
-            ></input>
-            <br></br>
-            <label for="email">Email: </label>
-            <br></br>
-            <input
-              className="about-input-field"
-              placeholder="Type your email..."
-            ></input>
-            <br></br>
-            <label for="subject">Subject: </label>
-            <br></br>
-            <input
-              className="about-input-field"
-              placeholder="Type your subject..."
-            ></input>
-            <br></br>
-            {/* <textarea id="email-content" name="content" placeholder="Type here..."></textarea> */}
+            <textarea
+              className="email-content"
+              id="email-content"
+              name="content"
+              placeholder="Type here..."
+            ></textarea>
             <br></br>
             <input
               className="orange-button"

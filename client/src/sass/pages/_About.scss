@@ -1,6 +1,6 @@
 .aboot-root {
   background-color: #212a3f;
-  height: 95%;
+  height: calc(100% - 100px);
   width: 100%;
   font-family: Verdana, Tahoma, sans-serif;
   color: #f96302;
@@ -10,9 +10,19 @@
     font-size: 25px !important;
   }
 
+  input,
+  textarea {
+    font-size: 20px !important;
+  }
+
+  a {
+    color: white;
+  }
+
   h1 {
     font-size: 40px !important;
     font-weight: 100;
+    color: white;
   }
 
   h2 {
@@ -27,42 +37,81 @@
     align-items: center;
     text-align: center;
     margin: 0px auto;
-  }
 
-  .about-logo-banner {
-    height: 200px;
-    width: auto;
-    padding: 30px;
-  }
+    .about-logo-banner {
+      height: 200px;
+      width: auto;
+      padding: 30px;
+    }
 
-  .about-description-title {
-    /* background: #212a3f; */
-    height: fit-content;
-    width: fit-content;
-    margin: 15px auto;
-  }
+    .about-description-title {
+      /* background: #212a3f; */
+      height: fit-content;
+      width: fit-content;
+      margin: 15px auto;
+    }
 
-  .about-description {
-    padding: 15px;
-    background: #2e2e2ead;
-    text-align: left;
-    margin-bottom: 50px;
-    border: 2px solid;
-    border-radius: 15px;
-    text-align: center;
-  }
+    .about-description {
+      padding: 20px;
+      background: #2e2e2ead;
+      text-align: left;
+      margin-bottom: 50px !important;
+      border: 2px solid;
+      border-radius: 15px;
+      text-align: center;
 
-  .email-content {
-    height: 400px;
-    width: 80%;
-    overflow: auto;
-    background: 22ee2e;
-    color: #f96302;
-  }
+      .description-list {
+        text-align: left;
+      }
+    }
 
-  .about-input-field {
-    background: 22ee2e;
-    color: #f96302;
-    padding-top: 10px;
+    .features {
+      width: fit-content;
+      margin: 0px auto;
+    }
+
+    .form-container {
+      width: 80%;
+      margin: 0px auto;
+
+      .input-container {
+        width: 65%;
+        height: fit-content;
+        display: inline-grid;
+        width: 70%;
+
+        .label-containers {
+          max-height: 40px;
+          margin: 5px 0px;
+
+          .form-labels {
+            width: 110px;
+            float: left;
+          }
+
+          .about-input-field {
+            color: white;
+            background: #2e2e2ead;
+            border: 1px solid;
+            border-radius: 5px;
+            padding: 5px;
+            width: calc(100% - 110px);
+            float: right;
+          }
+        }
+      }
+
+      .email-content {
+        height: 400px;
+        width: 100%;
+        overflow: auto;
+        color: white;
+        background: #2e2e2ead;
+        border: 1px solid;
+        border-radius: 5px;
+        padding: 5px;
+        margin: 10px 0px;
+      }
+    }
   }
 }
