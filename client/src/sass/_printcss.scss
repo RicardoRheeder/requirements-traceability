@@ -1,0 +1,48 @@
+@media print {
+  * {
+    overflow: visible !important;
+  }
+
+  @page {
+    size: auto; /* auto is the initial value */
+    /* this affects the margin in the printer settings */
+    margin: 0px;
+  }
+
+  body {
+    /* this affects the margin on the content before sending to printer */
+    margin: 0px;
+  }
+
+  body,
+  .root {
+    height: auto;
+    min-height: 100% !important;
+  }
+
+  .Pane,
+  .editor-root-div {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 100% !important;
+  }
+
+  .editor-root-div {
+    padding: 20px;
+  }
+
+  .Pane1,
+  .navbar-root,
+  .Resizer {
+    display: none !important;
+  }
+
+  .section-headers {
+    padding-top: 10px;
+  }
+
+  .section-div {
+    display: block;
+    page-break-inside: avoid;
+  }
+}

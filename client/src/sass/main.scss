@@ -8,50 +8,6 @@ body,
   font-family: Verdana, Tahoma, sans-serif !important;
 }
 
-@media print {
-  * {
-    overflow: visible !important;
-  }
-
-  @page {
-    size: auto; /* auto is the initial value */
-    /* this affects the margin in the printer settings */
-    margin: 0px;
-  }
-
-  body {
-    /* this affects the margin on the content before sending to printer */
-    margin: 0px;
-  }
-
-  body,
-  .root {
-    height: auto;
-    min-height: 100% !important;
-  }
-
-  .Pane,
-  .editor-root-div {
-    overflow: visible !important;
-    height: auto !important;
-    min-height: 100% !important;
-  }
-
-  .Pane1,
-  .navbar-root,
-  .Resizer {
-    display: none !important;
-  }
-
-  // .section-headers {
-  //   page-break-before: auto;
-  // }
-
-  .section-div {
-    page-break-after: auto;
-  }
-}
-
 // https://www.svgbackgrounds.com/
 .styled-background-blue {
   background-color: #212a3f !important;
@@ -210,3 +166,5 @@ button {
 @import './vendors/bootstrap.min.css';
 
 @import '../../node_modules/react-dropdown/style.css';
+
+@import './printcss';
