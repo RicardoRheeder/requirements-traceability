@@ -34,6 +34,10 @@ export default function Editor() {
   )
   const fetchedTree = useSelector((state) => state.document.fetchedTree)
 
+  useEffect(() => {
+    dispatch(getTreeAsync(selectedDocObject))
+  }, [])
+
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
    * @param {Object} tree - the tree stucture to clean and push to Redux store
@@ -64,16 +68,6 @@ export default function Editor() {
   const scrollToElement = (element) => {
     element.scrollIntoView(true, { behavior: 'smooth' })
   }
-
-  // function getTreeFromDatabaseTimeout() {
-  //   setTimeout(() => {
-  //     if (fetchedTree != null) {
-  //       return fetchedTree
-  //     } else {
-  //       return null
-  //     }
-  //   }, 500)
-  // }
 
   const onFocusRequirement = (id) => {
     // Updating visual of node being selected
