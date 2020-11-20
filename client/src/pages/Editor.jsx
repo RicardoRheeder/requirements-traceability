@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Hierarchy } from '../components'
 
 import SplitPane from 'react-split-pane'
-
-import { useDispatch, useSelector } from 'react-redux'
+import TextareaAutosize from 'react-textarea-autosize';
 
 import {
   Tree_Update,
@@ -16,29 +16,13 @@ import {
   updateSelectedNodeID,
 } from '../redux/stores/common/actions'
 
-import { getTreeAsync } from '../redux/stores/document/actions'
-import { sendDocAsync } from '../redux/stores/document/actions'
-
 export default function Editor() {
   const dispatch = useDispatch()
   const paneRef = useRef(null)
 
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedNodeId = useSelector((state) => state.common.selectedID)
-  const selectedDocId = useSelector((state) => state.document.current_doc)
-  const getSuccess = useSelector((state) => state.document.success)
-
-  const getTreeFromDB = () => {
-    //console.log(selectedDocId)
-    dispatch(getTreeAsync(selectedDocId))
-    //console.log(getSuccess)
-  }
-
-  const commitDocumentToDB = () => {
-    let docObject = { tree: JSON.stringify(storeTreeData) }
-    let docID = selectedDocId
-    dispatch(sendDocAsync(docObject,docID))
-  }
+  const selectedDocObject = useSelector((state) => state.document.current_doc)
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -90,10 +74,10 @@ export default function Editor() {
         <div
           style={{ marginLeft: indentVal }}
           key={title + '' + id}
-          className={
-            parseInt(id) == parseInt(selectedNodeId)
+          className={ 'section-div ' +
+            (parseInt(id) == parseInt(selectedNodeId)
               ? 'selected ' + parseInt(id)
-              : 'not-selected ' + parseInt(id)
+              : 'not-selected ' + parseInt(id))
           }
           id={id}
         >
@@ -102,13 +86,14 @@ export default function Editor() {
               {order} {title}
             </h2>
           </div>
-          <textarea
-            type="text"
+          <TextareaAutosize
+          type="text"
             className="editor-input"
             value={text}
             onChange={updateNodeText}
-            onFocus={() => dispatch(updateSelectedNodeID(id))}
-          ></textarea>
+            onFocus={() => dispatch(updateSelectedNodeID(id))}>
+          </TextareaAutosize>
+
           {/* If children exist, recurse into it, and create sections out of it */}
           {children != null ? (
             CreateSectionsFromArrayOfStructs(children, level)
@@ -124,23 +109,20 @@ export default function Editor() {
     <div className="editor-root">
       <SplitPane
         split="vertical"
-        minSize={200}
+        minSize={150}
         ref={paneRef}
-        // defaultSize={201}
-        defaultSize={parseInt(localStorage.getItem('splitPos'), 200)}
+        defaultSize={parseInt(localStorage.getItem('splitPos'))}
         onChange={(size) => localStorage.setItem('splitPos', size)}
       >
-        <div className="hierarchy-root-div">
+        <div className="hierarchy-root-div styled-background-blue">
           <Hierarchy
             scrollToElementFunction={(el) =>
               scrollToElement(paneRef.current.pane2.querySelector('.selected'))
             }
           />
         </div>
-        <div className="editor-root-div">
-        <button onClick={getTreeFromDB}>TEST PULL</button>
-          <button onClick={commitDocumentToDB}>TEST COMMIT</button>
-          <h1>Editor</h1>
+        <div className="editor-root-div styled-background-grey">
+          <h1>Editor: {selectedDocObject ? selectedDocObject.title : ''}</h1>
           {CreateSectionsFromArrayOfStructs(Tree_Update(storeTreeData), 0)}
         </div>
       </SplitPane>

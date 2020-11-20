@@ -10,8 +10,12 @@
   margin-right: -50%;
   transform: translate(-50%, -50%);
   width: 50%;
-  height: 50%;
+  // height: 50%;
+  // min-height: 400px;
+  border: 0px rgba(204, 204, 204, 0) !important;
+  background: rgba(255, 255, 255, 0) !important;
   padding: 0 !important;
+  overflow: unset;
 }
 
 .ReactModal__Overlay {
@@ -29,14 +33,10 @@
 
 .modal-root-child {
   border: 3px solid #f96302;
-  height: 100%;
   width: 100%;
   padding: 20px;
   min-height: 360px;
-}
-
-.submit-button {
-  margin: 10px;
+  height: 100%;
 }
 
 .close-button-container {
@@ -50,7 +50,7 @@
 }
 
 .modal-input {
-  margin: 10% 10px;
+  margin: 10px 10px 40px 10px;
   width: 60%;
   max-width: 250px;
 }
@@ -59,8 +59,24 @@
   margin: 5%;
 }
 
-.modal-contents-title{
+.modal-contents-title {
   margin-bottom: 5%;
   text-decoration: underline;
   text-transform: uppercase;
+}
+
+.remove-document-title-span {
+  font-size: 16px !important;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.modal-button-container {
+  line-height: 20px;
+  margin: 10px auto;
+  width: fit-content;
+}
+
+.modal-button {
+  margin: 0px 5px;
 }
