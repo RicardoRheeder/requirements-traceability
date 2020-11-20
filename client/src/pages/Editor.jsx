@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { Hierarchy, CollaboratorPanel, CollaboratorIcon } from '../components'
 import SplitPane from 'react-split-pane'
-import TextareaAutosize from 'react-textarea-autosize';
+import TextareaAutosize from 'react-textarea-autosize'
 
 import {
   Tree_Update,
@@ -16,6 +16,7 @@ import {
   updateDataTree,
   updateSelectedNodeID,
 } from '../redux/stores/common/actions'
+import { getTreeAsync } from '../redux/stores/document/actions'
 
 export default function Editor() {
   const { user } = useAuth0()
@@ -31,6 +32,8 @@ export default function Editor() {
     (state) => state.common.userColorObject,
     {}
   )
+  const pulledTreeFromDB = useSelector((state) => state.document.success)
+
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
    * @param {Object} tree - the tree stucture to clean and push to Redux store
@@ -63,10 +66,23 @@ export default function Editor() {
   }
 
   const onFocusRequirement = (id) => {
-    console.log('On Focus: ' + id + ' ' + selectedNodeId)
     dispatch(updateSelectedNodeID(id))
-    var td = Tree_UpdateIsBeingEdited(storeTreeData, id, user.nickname)
-    updateTree(td)
+    dispatch(getTreeAsync(selectedDocObject))
+
+    console.log(pulledTreeFromDB)
+
+    // setTimeout(() => {
+    //   let treeFromDB = JSON.parse(pulledTreeFromDB.tree)
+    //   console.log(treeFromDB)
+    //   if (treeFromDB != null) {
+    //     var td = Tree_UpdateIsBeingEdited(treeFromDB, id, user.nickname)
+    //     updateTree(td)
+    //   }
+    // }, 1000)
+    // console.log('On Focus: ' + id + ' ' + selectedNodeId)
+    // Updating visual of node being selected
+
+    // Update the isBeingEdited field with the user's nickname
   }
 
   const offFocusRequirement = (id) => {
@@ -86,7 +102,6 @@ export default function Editor() {
    */
   const CreateSectionsFromArrayOfStructs = (struct, level) => {
     window.test = paneRef
-
     var indentVal = String(level * 20) + 'px' // Used for the indenting of sections
     level += 1
     // console.log(indentVal);
