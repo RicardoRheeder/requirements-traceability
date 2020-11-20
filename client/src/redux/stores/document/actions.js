@@ -252,11 +252,11 @@ export const sendDocAsync = (treeData, docID) => {
     axios
       .patch(`${url}/documents/update-tree/${docID}`, { tree: treeData })
       .then((doc) => {
-        console.log(doc)
+        // console.log(doc)
         dispatch(sendDocSuccess(doc))
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
         dispatch(sendDocFailure(err))
       })
   }

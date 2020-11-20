@@ -1,3 +1,7 @@
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
 /**
  * Returns an object of the tree with reorganised ID values
  * @param {Object} customTreeData - The tree data to parse
@@ -16,6 +20,11 @@ export function Tree_Update(customTreeData) {
       OrderingCounter += 1;
 
       idCounter += 1;
+
+      if (!TreeData[index].hasOwnProperty('uniqueID')){
+        TreeData[index]['uniqueID'] = getRndInteger(parseInt('00000001'), parseInt('99999999'))
+      }
+
       if (TreeData[index]["children"] != null && TreeData[index]["children"] != []) {
         parseData(TreeData[index]['children'], TreeData[index]['order'])
       }
@@ -177,3 +186,51 @@ export function Tree_UpdateIsBeingEdited(customTreeData, targetID, editingUser=n
   var treeWithNewText = parseData(customTreeData)
   return treeWithNewText;
 }
+
+
+export function Tree_CombineLocalAndDatabaseTrees(localTree, databaseTree, targetID, editingUser=null ) {
+  
+  function parseLocalTree(TreeData, targetID, req){
+    var i = TreeData.length;
+    while(i--){
+      if( TreeData[i]
+        && TreeData[i].hasOwnProperty('id')
+        && (TreeData[i]['id'] === targetID ) ){
+          TreeData[i]['isBeingEdited'] = editingUser
+          req = TreeData[i]
+          console.log("IDs match")
+          break
+      } else if (TreeData[i].hasOwnProperty('children')){
+        req = parseLocalTree(TreeData[i]['children'], targetID, req)
+      }
+    }
+    return req
+  }
+
+  var localRequirement = parseLocalTree(localTree, targetID, {})
+  console.log("here is the local req")
+  console.log(localRequirement)
+
+  function parseDatabaseTree(TreeData, localReq, localReqUniqueID){
+    var i = TreeData.length;
+    while(i--){
+      if( TreeData[i]
+        && TreeData[i].hasOwnProperty('uniqueID')
+        && (TreeData[i]['uniqueID'] === localReqUniqueID ) ){
+          TreeData[i] = localReq
+          break
+      } else if (TreeData[i].hasOwnProperty('children')){
+        parseDatabaseTree(TreeData[i]['children'], localReq, localReqUniqueID)
+      }
+    }
+    return TreeData;
+  }
+
+  var combinedTree = parseDatabaseTree(databaseTree, localRequirement, localRequirement['uniqueID'])
+  
+  console.log("here is the updated doc")
+  console.log(combinedTree)
+  return combinedTree;
+}
+
+
