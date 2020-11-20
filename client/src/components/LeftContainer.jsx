@@ -11,6 +11,10 @@ export default function LeftContainer() {
   const selectedDoc = useSelector(
     (state) => state.common.selectedDocumentPanelObject
   )
+  
+  const updateSearch = e => {
+    console.log(e.target.value);
+  }
 
   const RenderDocumentPanels = (listOfDocs) => {
     if (listOfDocs.length != 0) {
@@ -36,7 +40,9 @@ export default function LeftContainer() {
 
   return (
     <div className="left-container-root">
-      {/* search bar here */}
+      <div className="document-searchbox-container">
+        <input className="document-searchbox" type="text" onChange={updateSearch}></input>
+      </div>
       <div className="display-area">{RenderDocumentPanels(docs)}</div>
       <div className="add-remove-button-container">
         <button
