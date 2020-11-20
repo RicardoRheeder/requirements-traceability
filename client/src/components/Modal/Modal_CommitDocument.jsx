@@ -22,9 +22,9 @@ export default function Modal_CommitDocument() {
   }
 
   const commitDocumentToDB = () => {
-    let docObject = { tree: JSON.stringify(storeTreeData) }
-    let docID = selectedDocObject
-    dispatch(sendDocAsync(docObject, docID))
+    let treeData = JSON.stringify(storeTreeData)
+    let docID = selectedDocObject._id
+    dispatch(sendDocAsync(treeData, docID))
   }
 
   const handleChange = (e) => {
@@ -40,7 +40,7 @@ export default function Modal_CommitDocument() {
           <input className="modal-input" onChange={handleChange} /> */}
           <h2>Please enter a version number.</h2>
           <input className="modal-input" onChange={handleChange} />
-          
+
           <div className="button-container">
             <button
               className="orange-button modal-button"
