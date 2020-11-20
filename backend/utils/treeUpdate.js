@@ -2,7 +2,7 @@ function Tree_UpdateDatabaseTreeReq(databaseTree, localRequirement) {
   // If the passed requirement is a string, you need to parse the localRequirement
   const localReq = JSON.parse(localRequirement)
   const dbTree = JSON.parse(databaseTree)
-  console.log(dbTree)
+  // console.log(dbTree)
 
   function parseDatabaseTree(TreeData, localReq, localReqUniqueID) {
     var i = TreeData.length

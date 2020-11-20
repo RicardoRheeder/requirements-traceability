@@ -180,30 +180,32 @@ router.route('/update-req/:id').patch((req, res) => {
       const databaseTree = doc.tree
       // console.log('here')
       const combinedTree = Tree_UpdateDatabaseTreeReq(databaseTree, requirement)
-      console.log('blah')
       // updating the documents tree to include the new requirement
       doc.tree = JSON.stringify(combinedTree)
-      res.json({
-        message: 'Tree successfully updated with requirement',
-        response: doc,
-      })
-      // Document.findByIdAndUpdate(
-      //   { _id: req.params.id },
-      //   { $set: { tree: combinedTree } }
-      // )
-      //   .then((doc) => {
-      //     console.log('over here')
-      //     res.json({
-      //       message: 'Tree structure updated with new requirement withing doc.',
-      //       response: doc,
-      //     })
-      //   })
-      //   .catch((err) => {
-      //     res.status(400).json({
-      //       message: 'Failed to update tree with new requirement',
-      //       response: err,
-      //     })
-      //   })
+
+      console.log(doc.tree)
+
+      // res.json({
+      //   message: 'Tree successfully updated with requirement',
+      //   response: doc,
+      // })
+      Document.findByIdAndUpdate(
+        { _id: req.params.id },
+        { $set: { tree: JSON.stringify(combinedTree) } }
+      )
+        .then((doc) => {
+          // console.log('over here')
+          res.json({
+            message: 'Tree structure updated with new requirement withing doc.',
+            response: doc,
+          })
+        })
+        .catch((err) => {
+          res.status(400).json({
+            message: 'Failed to update tree with new requirement',
+            response: err,
+          })
+        })
     })
     .catch((err) =>
       res.status(400).json({
