@@ -192,16 +192,15 @@ export const addUserToDocAsync = (request) => {
 // action to start getting the tree structure
 export const getTreeStart = () => {
   return {
-    type: GET_TREE_START
+    type: GET_TREE_START,
   }
 }
 
 // action for getting tree on success
-export const getTreeSuccess = (doc) => {
-  console.log(doc)
+export const getTreeSuccess = (tree) => {
   return {
     type: GET_TREE_SUCCESS,
-    data: doc
+    data: tree,
   }
 }
 
@@ -209,7 +208,7 @@ export const getTreeSuccess = (doc) => {
 export const getTreeFailure = (error) => {
   return {
     type: GET_TREE_FAILURE,
-    data: error
+    data: error,
   }
 }
 
@@ -218,9 +217,10 @@ export const getTreeAsync = (request)=>{
   // console.log(request._id)
   return (dispatch) =>{
     dispatch(getTreeStart())
-    axios.get(`${url}/documents/get-tree/${request._id}`)
-    .then((doc)=> dispatch(getTreeSuccess(doc.data)))
-    .catch((err)=> dispatch(getTreeFailure(err)))
+    axios
+      .get(`${url}/documents/get-tree/${request._id}`)
+      .then((doc) => dispatch(getTreeSuccess(doc.data)))
+      .catch((err) => dispatch(getTreeFailure(err)))
   }
 }
 // Sending tree to database *******************************

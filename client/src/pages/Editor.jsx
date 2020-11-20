@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -32,7 +32,7 @@ export default function Editor() {
     (state) => state.common.userColorObject,
     {}
   )
-  const pulledTreeFromDB = useSelector((state) => state.document.success)
+  const fetchedTree = useSelector((state) => state.document.fetchedTree)
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -65,24 +65,32 @@ export default function Editor() {
     element.scrollIntoView(true, { behavior: 'smooth' })
   }
 
+  // function getTreeFromDatabaseTimeout() {
+  //   setTimeout(() => {
+  //     if (fetchedTree != null) {
+  //       return fetchedTree
+  //     } else {
+  //       return null
+  //     }
+  //   }, 500)
+  // }
+
   const onFocusRequirement = (id) => {
+    // Updating visual of node being selected
     dispatch(updateSelectedNodeID(id))
+
+    // Getting DB's main tree
     dispatch(getTreeAsync(selectedDocObject))
 
-    console.log(pulledTreeFromDB)
-
-    // setTimeout(() => {
-    //   let treeFromDB = JSON.parse(pulledTreeFromDB.tree)
-    //   console.log(treeFromDB)
-    //   if (treeFromDB != null) {
-    //     var td = Tree_UpdateIsBeingEdited(treeFromDB, id, user.nickname)
-    //     updateTree(td)
-    //   }
-    // }, 1000)
-    // console.log('On Focus: ' + id + ' ' + selectedNodeId)
-    // Updating visual of node being selected
+    let treeFromDB = null
 
     // Update the isBeingEdited field with the user's nickname
+    treeFromDB = JSON.parse(fetchedTree)
+    if (treeFromDB != null) {
+      var td = Tree_UpdateIsBeingEdited(treeFromDB, id, user.nickname)
+      updateTree(td)
+    }
+    // console.log('On Focus: ' + id + ' ' + selectedNodeId)
   }
 
   const offFocusRequirement = (id) => {
