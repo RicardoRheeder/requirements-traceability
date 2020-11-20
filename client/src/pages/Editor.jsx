@@ -61,8 +61,6 @@ export default function Editor() {
   const fetchedTree = useSelector((state) => state.document.fetchedTree)
 
   useInterval(() => {
-    dispatch(getTreeAsync(selectedDocObject))
-
     // if (selectedDocObject != null && shouldPull == true) {
     //   dispatch(getTreeAsync(selectedDocObject))
     //   console.log('Pull tree from database')
@@ -74,7 +72,14 @@ export default function Editor() {
     //     updateTree(treeFromDB)
     //   }
     // }
-  }, 20000)
+
+    if (fetchedTree != null) {
+      let treeFromDB = null
+      // Update the isBeingEdited field with the user's nickname
+      treeFromDB = JSON.parse(fetchedTree)
+      updateTree(treeFromDB)
+    }
+  }, 1000)
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -109,12 +114,7 @@ export default function Editor() {
 
   const onFocusRequirement = (id) => {
     dispatch(getTreeAsync(selectedDocObject))
-    if (fetchedTree != null) {
-      let treeFromDB = null
-      // Update the isBeingEdited field with the user's nickname
-      treeFromDB = JSON.parse(fetchedTree)
-      updateTree(treeFromDB)
-    }
+  
     setShouldPull(false)
     // console.log('On Focus: ' + id + ' ' + selectedNodeId)
     // Updating visual of node being selected
