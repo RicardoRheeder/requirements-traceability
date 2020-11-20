@@ -18,6 +18,26 @@ import {
 } from '../redux/stores/common/actions'
 import { getTreeAsync, sendDocAsync } from '../redux/stores/document/actions'
 
+function useInterval(callback, delay) {
+  const savedCallback = useRef()
+
+  // Remember the latest function.
+  useEffect(() => {
+    savedCallback.current = callback
+  }, [callback])
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current()
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay)
+      return () => clearInterval(id)
+    }
+  }, [delay])
+}
+
 export default function Editor() {
   const { user } = useAuth0()
   const dispatch = useDispatch()
@@ -32,27 +52,17 @@ export default function Editor() {
   )
   const fetchedTree = useSelector((state) => state.document.fetchedTree)
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      dispatch(getTreeAsync(selectedDocObject))
-      console.log('Pull tree from database');
+  useInterval(() => {
+    dispatch(getTreeAsync(selectedDocObject))
+    console.log('Pull tree from database')
 
-      if (fetchedTree != null){
-        let treeFromDB = null
-        // Update the isBeingEdited field with the user's nickname
-        treeFromDB = JSON.parse(fetchedTree)
-        if (treeFromDB != null) {
-          var td = Tree_UpdateIsBeingEdited(treeFromDB, id, user.nickname)
-          updateTree(td)
-    
-          dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
-        }
-      }
-
-
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [])
+    if (fetchedTree != null) {
+      let treeFromDB = null
+      // Update the isBeingEdited field with the user's nickname
+      treeFromDB = JSON.parse(fetchedTree)
+      updateTree(treeFromDB)
+    }
+  }, 500)
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -89,19 +99,16 @@ export default function Editor() {
     // Updating visual of node being selected
     dispatch(updateSelectedNodeID(id))
 
-    // // Getting DB's main tree
-    // dispatch(getTreeAsync(selectedDocObject))
+    let treeFromDB = null
+    // Update the isBeingEdited field with the user's nickname
+    treeFromDB = JSON.parse(fetchedTree)
+    if (treeFromDB != null) {
+      var td = Tree_UpdateIsBeingEdited(treeFromDB, id, user.nickname)
+      updateTree(td)
 
-    // let treeFromDB = null
-    // // Update the isBeingEdited field with the user's nickname
-    // treeFromDB = JSON.parse(fetchedTree)
-    // if (treeFromDB != null) {
-    //   var td = Tree_UpdateIsBeingEdited(treeFromDB, id, user.nickname)
-    //   updateTree(td)
-
-    //   dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
-    // }
-    // console.log('On Focus: ' + id + ' ' + selectedNodeId)
+      dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
+    }
+    console.log('On Focus: ' + id + ' ' + selectedNodeId)
   }
 
   const offFocusRequirement = (id) => {
