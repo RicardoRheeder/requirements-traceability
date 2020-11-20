@@ -11,6 +11,7 @@ import {
   Tree_UpdateIsBeingEdited,
   Tree_UpdateNodeText,
   Tree_CombineLocalAndDatabaseTrees,
+  Tree_GetRequirementObject,
 } from '../utils/TreeNodeHelperFunctions'
 
 import {
@@ -120,18 +121,22 @@ export default function Editor() {
 
     let treeFromDB = JSON.parse(fetchedTree)
 
-    var td = Tree_CombineLocalAndDatabaseTrees(
-      storeTreeData,
-      treeFromDB,
-      id,
-      null
-    )
+    var requirement = JSON.stringify(Tree_GetRequirementObject(storeTreeData, id, null))
+
+
+
+    // var td = Tree_CombineLocalAndDatabaseTrees(
+    //   storeTreeData,
+    //   treeFromDB,
+    //   id,
+    //   null
+    // )
 
     // Update the isBeingEdited field with the user's nickname
     // var td = Tree_UpdateIsBeingEdited(treeFromDB, id, null)
-    updateTree(td)
+    // updateTree(td)
 
-    dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
+    // dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
 
     setShouldPull(true)
   }
