@@ -1,5 +1,5 @@
 function getRndInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) ) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 /**
@@ -8,33 +8,36 @@ function getRndInteger(min, max) {
  * @returns The modified tree structure
  */
 export function Tree_Update(customTreeData) {
-  var idCounter = 1;
+  var idCounter = 1
 
-  function parseData(TreeData, strOrdering){
-    var OrderingCounter = 1;
+  function parseData(TreeData, strOrdering) {
+    var OrderingCounter = 1
 
     Object.keys(TreeData).forEach((index) => {
-      TreeData[index]['id'] = idCounter;
+      TreeData[index]['id'] = idCounter
 
-      TreeData[index]['order'] = strOrdering + '' + OrderingCounter + '.';
-      OrderingCounter += 1;
+      TreeData[index]['order'] = strOrdering + '' + OrderingCounter + '.'
+      OrderingCounter += 1
 
-      idCounter += 1;
+      idCounter += 1
 
       if (!TreeData[index].hasOwnProperty('uniqueID')){
         TreeData[index]['uniqueID'] = getRndInteger(parseInt('0'), parseInt('99999999'))
       }
 
-      if (TreeData[index]["children"] != null && TreeData[index]["children"] != []) {
+      if (
+        TreeData[index]['children'] != null &&
+        TreeData[index]['children'] != []
+      ) {
         parseData(TreeData[index]['children'], TreeData[index]['order'])
       }
-    });
-    return TreeData;
+    })
+    return TreeData
   }
 
-  var treeWithCorrectIDs = parseData(customTreeData, ''); 
+  var treeWithCorrectIDs = parseData(customTreeData, '')
   // JSON.parse(JSON.stringify(parseData(customTreeData)));
-  return treeWithCorrectIDs;
+  return treeWithCorrectIDs
 }
 
 /**
@@ -45,13 +48,16 @@ export function Tree_Update(customTreeData) {
  */
 export function Tree_ExpandData(TreeData, expanded) {
   Object.keys(TreeData).forEach((index) => {
-    if (TreeData[index]["children"] != null && TreeData[index]["children"] != []) {
-      TreeData[index]["expanded"] = expanded;
-      Tree_ExpandData(TreeData[index]["children"], expanded);
+    if (
+      TreeData[index]['children'] != null &&
+      TreeData[index]['children'] != []
+    ) {
+      TreeData[index]['expanded'] = expanded
+      Tree_ExpandData(TreeData[index]['children'], expanded)
     }
-  });
-  return TreeData;
-};
+  })
+  return TreeData
+}
 
 /**
  * Returns an object of the tree with a new node inserted as the child of the selected node
@@ -59,25 +65,33 @@ export function Tree_ExpandData(TreeData, expanded) {
  * @param {int} selectedNodeID - The ID of the node that is currently selected
  * @returns The modified tree structure
  */
-export function Tree_InsertNode(customTreeData, selectedNodeID ) {
-  var newNode = {title: "New Node", id: 999, text:"Text here", expanded: false}
-  function parseData(TreeData){
+export function Tree_InsertNode(customTreeData, selectedNodeID) {
+  var newNode = {
+    title: 'New Node',
+    id: 999,
+    text: 'Text here',
+    expanded: false,
+  }
+  function parseData(TreeData) {
     Object.keys(TreeData).forEach((index) => {
-      if (TreeData[index]['children'] != null){
+      if (TreeData[index]['children'] != null) {
         parseData(TreeData[index]['children'])
       }
-      if (TreeData[index]['id'] == selectedNodeID){
-        if (TreeData[index]['children'] == null  && TreeData[index]["children"] != []){
-            TreeData[index]['children'] = []
+      if (TreeData[index]['id'] == selectedNodeID) {
+        if (
+          TreeData[index]['children'] == null &&
+          TreeData[index]['children'] != []
+        ) {
+          TreeData[index]['children'] = []
         }
         TreeData[index]['children'].push(newNode)
-        TreeData[index]['expanded'] = true;
+        TreeData[index]['expanded'] = true
       }
-    });
-    return TreeData;
+    })
+    return TreeData
   }
-  var treeWithAddedChild = parseData(customTreeData);
-  return treeWithAddedChild;
+  var treeWithAddedChild = parseData(customTreeData)
+  return treeWithAddedChild
 }
 
 /**
@@ -87,23 +101,25 @@ export function Tree_InsertNode(customTreeData, selectedNodeID ) {
  * @param {int} targetID - The ID of the node that is currently selected (the ID of the node to be deleted)
  * @returns The modified tree structure
  */
-export function Tree_DeleteNode(customTreeData, attr='id', targetID ) {
-  function parseData(TreeData){
-    var i = TreeData.length;
-    while(i--){
-      if( TreeData[i]
-        && TreeData[i].hasOwnProperty(attr)
-        && (TreeData[i][attr] === targetID ) ){
-          TreeData.splice(i,1);
-          break
-      } else if (TreeData[i].hasOwnProperty('children')){
+export function Tree_DeleteNode(customTreeData, attr = 'id', targetID) {
+  function parseData(TreeData) {
+    var i = TreeData.length
+    while (i--) {
+      if (
+        TreeData[i] &&
+        TreeData[i].hasOwnProperty(attr) &&
+        TreeData[i][attr] === targetID
+      ) {
+        TreeData.splice(i, 1)
+        break
+      } else if (TreeData[i].hasOwnProperty('children')) {
         parseData(TreeData[i]['children'])
       }
     }
-    return TreeData;
+    return TreeData
   }
   var treeWithDeletedChild = parseData(customTreeData)
-  return treeWithDeletedChild;
+  return treeWithDeletedChild
 }
 
 /**
@@ -113,23 +129,25 @@ export function Tree_DeleteNode(customTreeData, attr='id', targetID ) {
  * @param {string} title - The value to update the node's title property with
  * @returns The modified tree structure
  */
-export function Tree_UpdateNodeName(customTreeData, targetID, title ) {
-  function parseData(TreeData){
-    var i = TreeData.length;
-    while(i--){
-      if( TreeData[i]
-        && TreeData[i].hasOwnProperty('id')
-        && (TreeData[i]['id'] === targetID ) ){
-          TreeData[i]['title'] = title
-          break
-      } else if (TreeData[i].hasOwnProperty('children')){
+export function Tree_UpdateNodeName(customTreeData, targetID, title) {
+  function parseData(TreeData) {
+    var i = TreeData.length
+    while (i--) {
+      if (
+        TreeData[i] &&
+        TreeData[i].hasOwnProperty('id') &&
+        TreeData[i]['id'] === targetID
+      ) {
+        TreeData[i]['title'] = title
+        break
+      } else if (TreeData[i].hasOwnProperty('children')) {
         parseData(TreeData[i]['children'])
       }
     }
-    return TreeData;
+    return TreeData
   }
   var treeWithRenamedNode = parseData(customTreeData)
-  return treeWithRenamedNode;
+  return treeWithRenamedNode
 }
 
 /**
@@ -139,24 +157,26 @@ export function Tree_UpdateNodeName(customTreeData, targetID, title ) {
  * @param {string} text - The value to update the node's text property with
  * @returns The modified tree structure
  */
-export function Tree_UpdateNodeText(customTreeData, targetID, text=null ) {
-  console.log("update text")
-  function parseData(TreeData){
-    var i = TreeData.length;
-    while(i--){
-      if( TreeData[i]
-        && TreeData[i].hasOwnProperty('id')
-        && (TreeData[i]['id'] === targetID ) ){
-          if ( text != null) TreeData[i]['text'] = text
-          break
-      } else if (TreeData[i].hasOwnProperty('children')){
+export function Tree_UpdateNodeText(customTreeData, targetID, text = null) {
+  console.log('update text')
+  function parseData(TreeData) {
+    var i = TreeData.length
+    while (i--) {
+      if (
+        TreeData[i] &&
+        TreeData[i].hasOwnProperty('id') &&
+        TreeData[i]['id'] === targetID
+      ) {
+        if (text != null) TreeData[i]['text'] = text
+        break
+      } else if (TreeData[i].hasOwnProperty('children')) {
         parseData(TreeData[i]['children'])
       }
     }
-    return TreeData;
+    return TreeData
   }
   var treeWithNewText = parseData(customTreeData)
-  return treeWithNewText;
+  return treeWithNewText
 }
 
 /**
@@ -166,41 +186,52 @@ export function Tree_UpdateNodeText(customTreeData, targetID, text=null ) {
  * @param {string} text - The value to update the node's text property with
  * @returns The modified tree structure
  */
-export function Tree_UpdateIsBeingEdited(customTreeData, targetID, editingUser=null ) {
-  console.log("update highlight")
+export function Tree_UpdateIsBeingEdited(
+  customTreeData,
+  targetID,
+  editingUser = null
+) {
+  console.log('update highlight')
 
-  function parseData(TreeData){
-    var i = TreeData.length;
-    while(i--){
-      if( TreeData[i]
-        && TreeData[i].hasOwnProperty('id')
-        && (TreeData[i]['id'] === targetID ) ){
-          TreeData[i]['isBeingEdited'] = editingUser
-          break
-      } else if (TreeData[i].hasOwnProperty('children')){
+  function parseData(TreeData) {
+    var i = TreeData.length
+    while (i--) {
+      if (
+        TreeData[i] &&
+        TreeData[i].hasOwnProperty('id') &&
+        TreeData[i]['id'] === targetID
+      ) {
+        TreeData[i]['isBeingEdited'] = editingUser
+        break
+      } else if (TreeData[i].hasOwnProperty('children')) {
         parseData(TreeData[i]['children'])
       }
     }
-    return TreeData;
+    return TreeData
   }
   var treeWithNewText = parseData(customTreeData)
-  return treeWithNewText;
+  return treeWithNewText
 }
 
-
-export function Tree_CombineLocalAndDatabaseTrees(localTree, databaseTree, targetID, editingUser=null ) {
-  
-  function parseLocalTree(TreeData, targetID, req){
-    var i = TreeData.length;
-    while(i--){
-      if( TreeData[i]
-        && TreeData[i].hasOwnProperty('id')
-        && (TreeData[i]['id'] === targetID ) ){
-          TreeData[i]['isBeingEdited'] = editingUser
-          req = TreeData[i]
-          console.log("IDs match")
-          break
-      } else if (TreeData[i].hasOwnProperty('children')){
+export function Tree_CombineLocalAndDatabaseTrees(
+  localTree,
+  databaseTree,
+  targetID,
+  editingUser = null
+) {
+  function parseLocalTree(TreeData, targetID, req) {
+    var i = TreeData.length
+    while (i--) {
+      if (
+        TreeData[i] &&
+        TreeData[i].hasOwnProperty('id') &&
+        TreeData[i]['id'] === targetID
+      ) {
+        TreeData[i]['isBeingEdited'] = editingUser
+        req = TreeData[i]
+        console.log('IDs match')
+        break
+      } else if (TreeData[i].hasOwnProperty('children')) {
         req = parseLocalTree(TreeData[i]['children'], targetID, req)
       }
     }
@@ -208,29 +239,35 @@ export function Tree_CombineLocalAndDatabaseTrees(localTree, databaseTree, targe
   }
 
   var localRequirement = parseLocalTree(localTree, targetID, {})
-  console.log("here is the local req")
-  console.log(localRequirement)
+  console.log('here is the local req')
+  console.log(JSON.stringify(localRequirement))
 
-  function parseDatabaseTree(TreeData, localReq, localReqUniqueID){
-    var i = TreeData.length;
-    while(i--){
-      if( TreeData[i]
-        && TreeData[i].hasOwnProperty('uniqueID')
-        && (TreeData[i]['uniqueID'] === localReqUniqueID ) ){
-          TreeData[i] = localReq
-          break
-      } else if (TreeData[i].hasOwnProperty('children')){
+  function parseDatabaseTree(TreeData, localReq, localReqUniqueID) {
+    var i = TreeData.length
+    while (i--) {
+      if (
+        TreeData[i] &&
+        TreeData[i].hasOwnProperty('uniqueID') &&
+        TreeData[i]['uniqueID'] === localReqUniqueID
+      ) {
+        TreeData[i] = localReq
+        break
+      } else if (TreeData[i].hasOwnProperty('children')) {
         parseDatabaseTree(TreeData[i]['children'], localReq, localReqUniqueID)
       }
     }
-    return TreeData;
+    return TreeData
   }
 
-  var combinedTree = parseDatabaseTree(databaseTree, localRequirement, localRequirement['uniqueID'])
-  
-  console.log("here is the updated doc")
+  var combinedTree = parseDatabaseTree(
+    databaseTree,
+    localRequirement,
+    localRequirement['uniqueID']
+  )
+
+  console.log('here is the updated doc')
   console.log(combinedTree)
-  return combinedTree;
+  return combinedTree
 }
 
 export function Tree_GetRequirementObject(localTree, targetID, editingUser=null ) {
