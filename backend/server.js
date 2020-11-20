@@ -29,11 +29,9 @@ app.get("/", (req, res) => {
 // routes
 const documentRouter = require("./routes/document");
 const userRouter = require("./routes/user");
-const reqRouter = require("./routes/requirement");
 
 app.use("/documents", documentRouter);
 app.use("/users", userRouter);
-app.use("/requirement", reqRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);

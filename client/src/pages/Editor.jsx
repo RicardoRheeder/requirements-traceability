@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Hierarchy, CollaboratorPanel, CollaboratorIcon } from '../components'
 import SplitPane from 'react-split-pane'
-
-import { useDispatch, useSelector } from 'react-redux'
+import TextareaAutosize from 'react-textarea-autosize';
 
 import {
   Tree_Update,
@@ -123,14 +123,14 @@ export default function Editor() {
                 )}
               </span>
             </div>
-            <textarea
+            <TextareaAutosize
               type="text"
               className="editor-input"
               value={text}
               onChange={updateNodeText}
               onFocus={() => onFocusRequirement(id)}
               onBlur={() => offFocusRequirement(id)}
-            ></textarea>
+            ></TextareaAutosize>
             {/* If children exist, recurse into it, and create sections out of it */}
             {children != null ? (
               CreateSectionsFromArrayOfStructs(children, level)
@@ -152,7 +152,7 @@ export default function Editor() {
         defaultSize={parseInt(localStorage.getItem('splitPos'))}
         onChange={(size) => localStorage.setItem('splitPos', size)}
       >
-        <div className="hierarchy-root-div">
+        <div className="hierarchy-root-div styled-background-blue">
           <Hierarchy
             scrollToElementFunction={(el) =>
               scrollToElement(paneRef.current.pane2.querySelector('.selected'))

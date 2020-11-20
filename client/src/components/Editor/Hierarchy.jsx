@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import AutosizeInput from 'react-input-autosize'
 
 import SortableTree, {
   toggleExpandedForAll,
@@ -8,6 +9,7 @@ import SortableTree, {
 import FileExplorerTheme from 'react-sortable-tree-theme-full-node-drag'
 
 import {
+  setModalObject,
   updateDataTree,
   updateSelectedNodeID,
 } from '../../redux/stores/common/actions'
@@ -171,12 +173,6 @@ export default function Hierarchy({ scrollToElementFunction }) {
     //console.log(getSuccess)
   }
 
-  const commitDocumentToDB = () => {
-    let docObject = { tree: JSON.stringify(storeTreeData) }
-    let docID = selectedDocObject
-    dispatch(sendDocAsync(docObject, docID))
-  }
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       {/* Tree Utilities */}
@@ -226,13 +222,14 @@ export default function Hierarchy({ scrollToElementFunction }) {
               {/* Search box */}
               <input
                 id="find-box"
-                className="search-box"
+                className="search-box hierarchy-search"
                 type="text"
                 value={searchString}
                 onChange={(event) => setSearchString(event.target.value)}
               />
               {/* '<' and '>' buttons */}
               <button
+                className="hierarchy-search"
                 type="button"
                 disabled={!searchFoundCount}
                 onClick={selectPrevMatch}
@@ -240,6 +237,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
                 &lt;
               </button>
               <button
+                className="hierarchy-search"
                 type="submit"
                 disabled={!searchFoundCount}
                 onClick={selectNextMatch}
@@ -284,13 +282,12 @@ export default function Hierarchy({ scrollToElementFunction }) {
                   <span className="node-ordering-title">
                     {rowInfo.node.order}
                   </span>
-                  <input
+                  <AutosizeInput
                     className="row_inputfield"
                     value={rowInfo.node.title}
+                    style={{ background: 'transparent' }}
                     onChange={(event) => {
                       const name = event.target.value
-                      event.target.style.width =
-                        (event.target.value.length + 1) * 10 + 'px'
                       updateNodeName(name)
                     }}
                   />
@@ -323,10 +320,19 @@ export default function Hierarchy({ scrollToElementFunction }) {
       {/* Pull/Commit button panel */}
       <div className="commit-pull-container">
         <div className="center-div">
-          <button className="orange-button" onClick={getTreeFromDB}>
-            PULL
+          <button
+            className="orange-button"
+            onClick={() => dispatch(setModalObject({ visible: true, mode: 4 }))}
+          >
+            EXPORT
           </button>
-          <button className="orange-button" onClick={commitDocumentToDB}>
+          {/* <button className="orange-button" onClick={getTreeFromDB}>
+            PULL
+          </button> */}
+          <button
+            className="orange-button"
+            onClick={() => dispatch(setModalObject({ visible: true, mode: 3 }))}
+          >
             COMMIT
           </button>
         </div>

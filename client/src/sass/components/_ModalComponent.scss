@@ -39,10 +39,6 @@
   height: 100%;
 }
 
-.submit-button {
-  margin: 10px;
-}
-
 .close-button-container {
   width: 100%;
 
@@ -54,7 +50,7 @@
 }
 
 .modal-input {
-  margin: 40px 10px;
+  margin: 10px 10px 40px 10px;
   width: 60%;
   max-width: 250px;
 }
@@ -73,4 +69,14 @@
   font-size: 16px !important;
   font-weight: bold;
   text-decoration: underline;
+}
+
+.modal-button-container {
+  line-height: 20px;
+  margin: 10px auto;
+  width: fit-content;
+}
+
+.modal-button {
+  margin: 0px 5px;
 }

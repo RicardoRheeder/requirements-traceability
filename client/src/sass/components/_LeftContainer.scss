@@ -3,6 +3,12 @@
   display: block;
   height: 100%;
 
+  .left-container-placeholder {
+    font-size: 18px;
+    padding: 2px;
+    margin: 10px 0px;
+  }
+
   .display-area {
     position: relative;
     overflow-y: auto;
