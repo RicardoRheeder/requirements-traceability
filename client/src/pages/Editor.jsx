@@ -61,18 +61,20 @@ export default function Editor() {
   const fetchedTree = useSelector((state) => state.document.fetchedTree)
 
   useInterval(() => {
-    if (selectedDocObject != null && shouldPull == true) {
-      dispatch(getTreeAsync(selectedDocObject))
-      console.log('Pull tree from database')
+    dispatch(getTreeAsync(selectedDocObject))
 
-      if (fetchedTree != null) {
-        let treeFromDB = null
-        // Update the isBeingEdited field with the user's nickname
-        treeFromDB = JSON.parse(fetchedTree)
-        updateTree(treeFromDB)
-      }
-    }
-  }, 100)
+    // if (selectedDocObject != null && shouldPull == true) {
+    //   dispatch(getTreeAsync(selectedDocObject))
+    //   console.log('Pull tree from database')
+
+    //   if (fetchedTree != null) {
+    //     let treeFromDB = null
+    //     // Update the isBeingEdited field with the user's nickname
+    //     treeFromDB = JSON.parse(fetchedTree)
+    //     updateTree(treeFromDB)
+    //   }
+    // }
+  }, 20000)
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -106,44 +108,36 @@ export default function Editor() {
   }
 
   const onFocusRequirement = (id) => {
+    dispatch(getTreeAsync(selectedDocObject))
+    if (fetchedTree != null) {
+      let treeFromDB = null
+      // Update the isBeingEdited field with the user's nickname
+      treeFromDB = JSON.parse(fetchedTree)
+      updateTree(treeFromDB)
+    }
     setShouldPull(false)
     // console.log('On Focus: ' + id + ' ' + selectedNodeId)
     // Updating visual of node being selected
     dispatch(updateSelectedNodeID(id))
 
-    let treeFromDB = JSON.parse(fetchedTree)
-    // Update the isBeingEdited field with the user's nickname
-    var td = Tree_UpdateIsBeingEdited(treeFromDB, id, user.nickname)
-    updateTree(td)
+    var requirement = JSON.stringify(
+      Tree_GetRequirementObject(storeTreeData, id, user.nickname, user.nickname)
+    )
 
-    dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
+    dispatch(sendReqAsync(requirement, selectedDocObject._id))
+    dispatch(getTreeAsync(selectedDocObject))
   }
 
   const offFocusRequirement = (id) => {
     // console.log('Off Focus: ' + id)
     dispatch(updateSelectedNodeID(0))
 
-    let treeFromDB = JSON.parse(fetchedTree)
-
     var requirement = JSON.stringify(
-      Tree_GetRequirementObject(storeTreeData, id, null)
+      Tree_GetRequirementObject(storeTreeData, id, user.nickname, null)
     )
 
     dispatch(sendReqAsync(requirement, selectedDocObject._id))
     dispatch(getTreeAsync(selectedDocObject))
-
-    // var td = Tree_CombineLocalAndDatabaseTrees(
-    //   storeTreeData,
-    //   treeFromDB,
-    //   id,
-    //   null
-    // )
-
-    // Update the isBeingEdited field with the user's nickname
-    // var td = Tree_UpdateIsBeingEdited(treeFromDB, id, null)
-    // updateTree(td)
-
-    // dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
 
     setShouldPull(true)
   }

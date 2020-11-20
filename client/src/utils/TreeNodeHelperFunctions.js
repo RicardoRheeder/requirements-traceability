@@ -270,14 +270,16 @@ export function Tree_CombineLocalAndDatabaseTrees(
   return combinedTree
 }
 
-export function Tree_GetRequirementObject(localTree, targetID, editingUser=null ) {
+export function Tree_GetRequirementObject(localTree, targetID, localEditingUser, desiredEditingUserState=null ) {
   function parseLocalTree(TreeData, targetID, req){
     var i = TreeData.length;
     while(i--){
       if( TreeData[i]
         && TreeData[i].hasOwnProperty('id')
         && (TreeData[i]['id'] === targetID ) ){
-          TreeData[i]['isBeingEdited'] = editingUser
+          if(TreeData[i]['isBeingEdited'] == localEditingUser || TreeData[i]['isBeingEdited'] == null){
+            TreeData[i]['isBeingEdited'] = desiredEditingUserState
+          }
           req = TreeData[i]
           console.log("IDs match")
           break
