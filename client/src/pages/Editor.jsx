@@ -16,7 +16,7 @@ import {
   updateDataTree,
   updateSelectedNodeID,
 } from '../redux/stores/common/actions'
-import { getTreeAsync } from '../redux/stores/document/actions'
+import { getTreeAsync, sendDocAsync } from '../redux/stores/document/actions'
 
 export default function Editor() {
   const { user } = useAuth0()
@@ -83,12 +83,13 @@ export default function Editor() {
     dispatch(getTreeAsync(selectedDocObject))
 
     let treeFromDB = null
-
     // Update the isBeingEdited field with the user's nickname
     treeFromDB = JSON.parse(fetchedTree)
     if (treeFromDB != null) {
       var td = Tree_UpdateIsBeingEdited(treeFromDB, id, user.nickname)
       updateTree(td)
+
+      dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
     }
     // console.log('On Focus: ' + id + ' ' + selectedNodeId)
   }
@@ -96,8 +97,19 @@ export default function Editor() {
   const offFocusRequirement = (id) => {
     console.log('Off Focus: ' + id)
     dispatch(updateSelectedNodeID(0))
-    var td = Tree_UpdateIsBeingEdited(storeTreeData, id, null)
-    updateTree(td)
+
+    // Getting DB's main tree
+    dispatch(getTreeAsync(selectedDocObject))
+
+    let treeFromDB = null
+    // Update the isBeingEdited field with the user's nickname
+    treeFromDB = JSON.parse(fetchedTree)
+    if (treeFromDB != null) {
+      var td = Tree_UpdateIsBeingEdited(treeFromDB, id, null)
+      updateTree(td)
+
+      dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
+    }
   }
 
   /**
