@@ -13,7 +13,17 @@ export default function LeftContainer() {
   )
   
   const updateSearch = e => {
-    console.log(e.target.value);
+    var matchingSearchs = [];
+    for (let i = 0; i<docs.length; i++){
+      var lowerCaseTitle = docs[i].title.toLowerCase();
+      var lowerCaseSearchValue = e.target.value.toLowerCase();
+      if(lowerCaseTitle.includes(lowerCaseSearchValue)){
+        console.log(docs[i].title + " contains " + e.target.value);
+        matchingSearchs[matchingSearchs.length] = docs[i];
+      }
+      console.log(matchingSearchs);
+    }
+    RenderDocumentPanels(matchingSearchs);
   }
 
   const RenderDocumentPanels = (listOfDocs) => {
