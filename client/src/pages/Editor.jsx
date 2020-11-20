@@ -23,8 +23,6 @@ export default function Editor() {
   const dispatch = useDispatch()
   const paneRef = useRef(null)
 
-  var tempTree
-
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedNodeId = useSelector((state) => state.common.selectedID)
   const selectedDocObject = useSelector((state) => state.document.current_doc)
@@ -35,7 +33,25 @@ export default function Editor() {
   const fetchedTree = useSelector((state) => state.document.fetchedTree)
 
   useEffect(() => {
-    dispatch(getTreeAsync(selectedDocObject))
+    const interval = setInterval(() => {
+      dispatch(getTreeAsync(selectedDocObject))
+      console.log('Pull tree from database');
+
+      if (fetchedTree != null){
+        let treeFromDB = null
+        // Update the isBeingEdited field with the user's nickname
+        treeFromDB = JSON.parse(fetchedTree)
+        if (treeFromDB != null) {
+          var td = Tree_UpdateIsBeingEdited(treeFromDB, id, user.nickname)
+          updateTree(td)
+    
+          dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
+        }
+      }
+
+
+    }, 1000);
+    return () => clearInterval(interval);
   }, [])
 
   /**
@@ -73,18 +89,18 @@ export default function Editor() {
     // Updating visual of node being selected
     dispatch(updateSelectedNodeID(id))
 
-    // Getting DB's main tree
-    dispatch(getTreeAsync(selectedDocObject))
+    // // Getting DB's main tree
+    // dispatch(getTreeAsync(selectedDocObject))
 
-    let treeFromDB = null
-    // Update the isBeingEdited field with the user's nickname
-    treeFromDB = JSON.parse(fetchedTree)
-    if (treeFromDB != null) {
-      var td = Tree_UpdateIsBeingEdited(treeFromDB, id, user.nickname)
-      updateTree(td)
+    // let treeFromDB = null
+    // // Update the isBeingEdited field with the user's nickname
+    // treeFromDB = JSON.parse(fetchedTree)
+    // if (treeFromDB != null) {
+    //   var td = Tree_UpdateIsBeingEdited(treeFromDB, id, user.nickname)
+    //   updateTree(td)
 
-      dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
-    }
+    //   dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
+    // }
     // console.log('On Focus: ' + id + ' ' + selectedNodeId)
   }
 
