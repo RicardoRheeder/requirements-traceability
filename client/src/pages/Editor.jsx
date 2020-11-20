@@ -145,7 +145,7 @@ export default function Editor() {
 
     // dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
 
-    // setShouldPull(true)
+    setShouldPull(true)
   }
 
   /**
