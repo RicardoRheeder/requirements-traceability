@@ -76,7 +76,6 @@ describe("Tree Helper Functions", () =>{
 
     test("tree is properly expanded", () => {
         var testsap = TreeFuncts.Tree_ExpandData(testTree, true);
-        console.log(testsap)
         expect(testsap[2]['expanded']).toBe(true);
         expect(testsap[0]['expanded']).toBe(false);
     });
