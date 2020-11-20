@@ -22,7 +22,7 @@ export function Tree_Update(customTreeData) {
       idCounter += 1;
 
       if (!TreeData[index].hasOwnProperty('uniqueID')){
-        TreeData[index]['uniqueID'] = getRndInteger(parseInt('00000001'), parseInt('99999999'))
+        TreeData[index]['uniqueID'] = getRndInteger(parseInt('0'), parseInt('99999999'))
       }
 
       if (TreeData[index]["children"] != null && TreeData[index]["children"] != []) {
@@ -233,4 +233,50 @@ export function Tree_CombineLocalAndDatabaseTrees(localTree, databaseTree, targe
   return combinedTree;
 }
 
+export function Tree_GetRequirementObject(localTree, targetID, editingUser=null ) {
+  function parseLocalTree(TreeData, targetID, req){
+    var i = TreeData.length;
+    while(i--){
+      if( TreeData[i]
+        && TreeData[i].hasOwnProperty('id')
+        && (TreeData[i]['id'] === targetID ) ){
+          TreeData[i]['isBeingEdited'] = editingUser
+          req = TreeData[i]
+          console.log("IDs match")
+          break
+      } else if (TreeData[i].hasOwnProperty('children')){
+        req = parseLocalTree(TreeData[i]['children'], targetID, req)
+      }
+    }
+    return req
+  }
 
+  var localRequirement = parseLocalTree(localTree, targetID, {})
+  console.log("here is the local req")
+  console.log(localRequirement)
+  return localRequirement
+}
+
+export function Tree_UpdateDatabaseTreeReq(databaseTree, localRequirement) {
+  // If the passed requirement is a string, you need to parse the localRequirement
+  // JSON.parse(localRequirement)
+  function parseDatabaseTree(TreeData, localReq, localReqUniqueID){
+    var i = TreeData.length;
+    while(i--){
+      if( TreeData[i]
+        && TreeData[i].hasOwnProperty('uniqueID')
+        && (TreeData[i]['uniqueID'] === localReqUniqueID ) ){
+          TreeData[i] = localReq
+          break
+      } else if (TreeData[i].hasOwnProperty('children')){
+        parseDatabaseTree(TreeData[i]['children'], localReq, localReqUniqueID)
+      }
+    }
+    return TreeData;
+  }
+
+  var combinedTree = parseDatabaseTree(databaseTree, localRequirement, localRequirement['uniqueID'])
+  console.log("here is the updated doc")
+  console.log(combinedTree)
+  return combinedTree;
+}

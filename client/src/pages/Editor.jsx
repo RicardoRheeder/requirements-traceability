@@ -67,7 +67,7 @@ export default function Editor() {
         updateTree(treeFromDB)
       }
     }
-  }, 500)
+  }, 100)
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -120,7 +120,12 @@ export default function Editor() {
 
     let treeFromDB = JSON.parse(fetchedTree)
 
-    var td = Tree_CombineLocalAndDatabaseTrees(storeTreeData, treeFromDB, id, null)
+    var td = Tree_CombineLocalAndDatabaseTrees(
+      storeTreeData,
+      treeFromDB,
+      id,
+      null
+    )
 
     // Update the isBeingEdited field with the user's nickname
     // var td = Tree_UpdateIsBeingEdited(treeFromDB, id, null)
