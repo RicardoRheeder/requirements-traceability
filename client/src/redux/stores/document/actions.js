@@ -18,6 +18,9 @@ import {
   SEND_DOC_START,
   SEND_DOC_FAILURE,
   SEND_DOC_SUCCESS,
+  SEND_REQ_START,
+  SEND_REQ_FAILURE,
+  SEND_REQ_SUCCESS,
 } from './actionTypes'
 
 const axios = require('axios').default
@@ -258,6 +261,44 @@ export const sendDocAsync = (treeData, docID) => {
       .catch((err) => {
         // console.log(err)
         dispatch(sendDocFailure(err))
+      })
+  }
+}
+
+// Sending a requirement to database *******************************
+export const sendReqStart = () => {
+  return {
+    type: SEND_REQ_START,
+  }
+}
+
+export const sendReqSuccess = (tree) => {
+  return {
+    type: SEND_REQ_SUCCESS,
+    data: tree,
+  }
+}
+
+export const sendReqFailure = (err) => {
+  return {
+    type: SEND_REQ_FAILURE,
+    data: err,
+  }
+}
+
+//send the requirement to the backend
+export const sendReqAsync = (requirement, docID) => {
+  return (dispatch) => {
+    dispatch(sendReqStart())
+    axios
+      .patch(`${url}/documents/update-req/${docID}`, { req: requirement })
+      .then((doc) => {
+        // console.log(doc)
+        dispatch(sendReqSuccess(doc.tree))
+      })
+      .catch((err) => {
+        // console.log(err)
+        dispatch(sendReqFailure(err))
       })
   }
 }

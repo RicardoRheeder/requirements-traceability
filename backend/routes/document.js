@@ -172,7 +172,7 @@ router.route('/update-tree/:id').patch((req, res) => {
 // update requirement within tree structure
 router.route('/update-req/:id').patch((req, res) => {
   // console.log(req.params.id)
-  const requirement = req.body.requirement
+  const requirement = req.body.req
   // finding a document given its id
   Document.findById(req.params.id)
     .then((doc) => {
