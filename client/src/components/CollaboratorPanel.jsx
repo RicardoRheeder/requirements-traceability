@@ -8,6 +8,7 @@ const testUserObjects = [
   { userID: '12312', username: 'ricardorheeder' },
   { userID: '54564', username: 'testUser2' },
   { userID: '84512', username: 'testUser3' },
+  { userID: '53274', username: 'moordenaar1234' },
 ]
 
 const getRandColor = (brightness) => {

@@ -96,6 +96,8 @@ export default function Hierarchy({ scrollToElementFunction }) {
     // TreeData retrieved from function - has inserted node
     var td = Tree_InsertNode(customTreeData, selectedNodeId)
     updateTree(td)
+
+    dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
   }
 
   /**
