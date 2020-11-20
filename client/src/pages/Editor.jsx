@@ -18,7 +18,11 @@ import {
   updateDataTree,
   updateSelectedNodeID,
 } from '../redux/stores/common/actions'
-import { getTreeAsync, sendDocAsync } from '../redux/stores/document/actions'
+import {
+  getTreeAsync,
+  sendDocAsync,
+  sendReqAsync,
+} from '../redux/stores/document/actions'
 
 function useInterval(callback, delay) {
   const savedCallback = useRef()
@@ -121,9 +125,12 @@ export default function Editor() {
 
     let treeFromDB = JSON.parse(fetchedTree)
 
-    var requirement = JSON.stringify(Tree_GetRequirementObject(storeTreeData, id, null))
+    var requirement = JSON.stringify(
+      Tree_GetRequirementObject(storeTreeData, id, null)
+    )
 
-
+    dispatch(sendReqAsync(requirement, selectedDocObject._id))
+    dispatch(getTreeAsync(selectedDocObject))
 
     // var td = Tree_CombineLocalAndDatabaseTrees(
     //   storeTreeData,
@@ -138,7 +145,7 @@ export default function Editor() {
 
     // dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
 
-    setShouldPull(true)
+    // setShouldPull(true)
   }
 
   /**
