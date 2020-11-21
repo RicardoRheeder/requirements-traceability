@@ -45,4 +45,9 @@
     display: block;
     page-break-inside: avoid;
   }
+
+  .styled-background-grey {
+    background-attachment: local !important;
+    background-size: contain !important;
+  }
 }
