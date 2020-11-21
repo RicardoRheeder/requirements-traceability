@@ -4,7 +4,7 @@ import { setModalObject } from '../../redux/stores/common/actions'
 import { useAuth0 } from '@auth0/auth0-react'
 import {
   fetchUserDocsAsync,
-  sendDocAsync,
+  commitTreeAsync,
 } from '../../redux/stores/document/actions'
 
 export default function Modal_CommitDocument() {
@@ -27,7 +27,8 @@ export default function Modal_CommitDocument() {
   const commitDocumentToDB = () => {
     let docObject = { tree: JSON.stringify(storeTreeData) }
     let docID = selectedDocObject
-    dispatch(sendDocAsync(docObject, docID, doc.title))
+    // committing the tree to the db (adding it to the versions array)
+    dispatch(commitTreeAsync(docObject, docID, doc.title))
     dispatch(fetchUserDocsAsync(user))
   }
 

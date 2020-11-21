@@ -18,6 +18,9 @@ import {
   SEND_DOC_START,
   SEND_DOC_FAILURE,
   SEND_DOC_SUCCESS,
+  COMMIT_TREE_START,
+  COMMIT_TREE_FAILURE,
+  COMMIT_TREE_SUCCESS,
 } from './actionTypes'
 
 const axios = require('axios').default
@@ -224,47 +227,30 @@ export const getTreeAsync = (request) => {
       .catch((err) => dispatch(getTreeFailure(err)))
   }
 }
-// Sending tree to database *******************************
-// Sending tree structure to database
-export const sendDocStart = () => {
+// Committing tree to database *******************************
+export const commitTreeStart = () => {
   return {
-    type: SEND_DOC_START,
+    type: COMMIT_TREE_START,
   }
 }
 
-export const sendDocSuccess = (doc) => {
+export const commitTreeSuccess = (doc) => {
   return {
-    type: SEND_DOC_SUCCESS,
+    type: COMMIT_TREE_SUCCESS,
     data: doc,
   }
 }
 
-export const sendDocFailure = (err) => {
+export const commitTreeFailure = (err) => {
   return {
-    type: SEND_DOC_FAILURE,
+    type: COMMIT_TREE_FAILURE,
     data: err,
   }
 }
 
-//send the document (tree structure) to the backend
-// export const sendDocAsync = (doc, docID) => {
-//   return (dispatch) => {
-//     dispatch(sendDocStart())
-//     axios
-//       .patch(`${url}/documents/update-tree/${docID._id}`, { tree: doc.tree })
-//       .then((doc) => {
-//         console.log(doc)
-//         dispatch(sendDocSuccess(doc))
-//       })
-//       .catch((err) => {
-//         console.log(err)
-//         dispatch(sendDocFailure(err))
-//       })
-//   }
-// }
-export const sendDocAsync = (doc, docID, versionName) => {
+export const commitTreeAsync = (doc, docID, versionName) => {
   return (dispatch) => {
-    dispatch(sendDocStart())
+    dispatch(commitTreeStart())
     axios
       .patch(`${url}/documents/commit-doc/${docID._id}`, {
         tree: doc.tree,
@@ -272,11 +258,11 @@ export const sendDocAsync = (doc, docID, versionName) => {
       })
       .then((doc) => {
         console.log(doc)
-        dispatch(sendDocSuccess(doc))
+        dispatch(commitTreeSuccess(doc))
       })
       .catch((err) => {
         console.log(err)
-        dispatch(sendDocFailure(err))
+        dispatch(commitTreeFailure(err))
       })
   }
 }
