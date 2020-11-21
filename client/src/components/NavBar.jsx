@@ -65,6 +65,6 @@ export default function NavBar() {
           )}
         </ul>
       </div>
-    </div>
+    </div>    
   )
 }

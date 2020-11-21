@@ -55,7 +55,12 @@ export default function Editor() {
    * @param {Object} element - the element reference to scroll to
    */
   const scrollToElement = (element) => {
+    
+    let navbar = $( ".navbar-root" );
+    console.log(navbar);
+    $( ".navbar-root" ).remove();
     element.scrollIntoView(true, { behavior: 'smooth' })
+    $(".app-root").prepend(navbar);
   }
 
   /**
