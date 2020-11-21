@@ -60,7 +60,7 @@ router.route("/get/documents-with-email/:email").get((req, res) => {
   User.findOne({ email: req.params.email })
     .populate("documents")
     .exec()
-    .then((user) => {console.log(user);res.json({message: null, response: user.documents})})
+    .then((user) => res.json({message: null, response: user.documents}))
     .catch((err) => {console.log("error at getting docs "+ err);res.status(400).json({message: "Error: ", response: err})});
 });
 // Update Routes*****************************************
