@@ -17,6 +17,7 @@ import {
 import {
   updateDataTree,
   updateSelectedNodeID,
+  setShouldPullFromDB,
 } from '../redux/stores/common/actions'
 import {
   getTreeAsync,
@@ -50,7 +51,10 @@ export default function Editor() {
   const paneRef = useRef(null)
 
   const [shouldPull, setShouldPull] = useState(true)
-
+  const shouldPullFromDB = useSelector(
+    (state) => state.common.shouldPullFromDB,
+    true
+  )
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedNodeId = useSelector((state) => state.common.selectedID)
   const selectedDocObject = useSelector((state) => state.document.current_doc)
@@ -61,7 +65,7 @@ export default function Editor() {
   const fetchedTree = useSelector((state) => state.document.fetchedTree)
 
   useInterval(() => {
-    if (selectedDocObject != null && shouldPull == true) {
+    if (selectedDocObject != null && shouldPullFromDB == true) {
       dispatch(getTreeAsync(selectedDocObject))
       console.log('Pull tree from database')
 
@@ -106,32 +110,52 @@ export default function Editor() {
   }
 
   const onFocusRequirement = (id) => {
-    setShouldPull(false) // Don't pull when focussing on a requirement
-    // console.log('On Focus: ' + id + ' ' + selectedNodeId)
-    dispatch(updateSelectedNodeID(id)) // Updating visual of node being selected
+    if (id != selectedNodeId) {
+      dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
 
-    // Get requirement we are editing, and add username 
-    var requirement = JSON.stringify(
-      Tree_GetRequirementObject(storeTreeData, id, user.nickname, user.nickname)
-    )
+      if (selectedNodeId != 0) {
+        dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
 
-    dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-    dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+        // Get requirement we are editing, and remove the user's name from it
+        var requirement = JSON.stringify(
+          Tree_GetRequirementObject(
+            storeTreeData,
+            selectedNodeId,
+            user.nickname,
+            null
+          )
+        )
+        dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+      }
+
+      // console.log('On Focus: ' + id + ' ' + selectedNodeId)
+      dispatch(updateSelectedNodeID(id)) // Updating visual of node being selected
+
+      // Get requirement we are editing, and add username
+      var requirement = JSON.stringify(
+        Tree_GetRequirementObject(
+          storeTreeData,
+          id,
+          user.nickname,
+          user.nickname
+        )
+      )
+
+      dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+      dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+    }
   }
 
   const offFocusRequirement = (id) => {
-    // console.log('Off Focus: ' + id)
-    dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
-
-    // Get requirement we are editing, and remove the user's name from it
-    var requirement = JSON.stringify(
-      Tree_GetRequirementObject(storeTreeData, id, user.nickname, null)
-    )
-
-    dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-    dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
-
-    setShouldPull(true) // Start pulling documents from the database again
+    // // console.log('Off Focus: ' + id)
+    // dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
+    // // Get requirement we are editing, and remove the user's name from it
+    // var requirement = JSON.stringify(
+    //   Tree_GetRequirementObject(storeTreeData, id, user.nickname, null)
+    // )
+    // dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+    // dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+    // dispatch(setShouldPullFromDB(true)) // Start pulling documents from the database again
   }
 
   /**

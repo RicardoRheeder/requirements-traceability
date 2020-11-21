@@ -36,5 +36,6 @@ export default {
   modalObject: { visible: false, mode: 0 },
   selectedDocumentPanelObject: 0,
 
-  userColorObject: {}
+  userColorObject: {},
+  shouldPullFromDB: false,
 }

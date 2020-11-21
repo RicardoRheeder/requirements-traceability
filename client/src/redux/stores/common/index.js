@@ -4,7 +4,8 @@ import {
     UPDATE_SELECTEDNODEID,
     SET_MODALOBJECT,
     SET_SELECTED_DOCUMENTPANEL_OBJECT,
-    SET_USERCOLOROBJECT
+    SET_USERCOLOROBJECT,
+    SET_SHOULDPULLFROMDB
 } from './actionTypes';
 
 import initialState from './initialState';
@@ -23,6 +24,8 @@ export default (state = initialState, action) => {
             return { ...state, selectedDocumentPanelObject: action.data };
         case SET_USERCOLOROBJECT:
             return { ...state, userColorObject: {...state.userColorObject, ...action.data} };
+        case SET_SHOULDPULLFROMDB:
+            return { ...state, shouldPullFromDB: action.data };
         default:
             return state;
     }

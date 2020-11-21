@@ -11,6 +11,7 @@ import FileExplorerTheme from 'react-sortable-tree-theme-full-node-drag'
 
 import {
   setModalObject,
+  setShouldPullFromDB,
   updateDataTree,
   updateSelectedNodeID,
 } from '../../redux/stores/common/actions'
@@ -178,34 +179,39 @@ export default function Hierarchy({ scrollToElementFunction }) {
     } else {
       let id = node.id
 
-      if (selectedNodeId != 0) {
-        // Get requirement we are editing, and remove the user's name from it
+      if (id != selectedNodeId) {
+        console.log('in here')
+        console.log(id + ' ' + selectedNodeId)
+        if (selectedNodeId != 0) {
+          dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
+
+          // Get requirement we are editing, and remove the user's name from it
+          var requirement = JSON.stringify(
+            Tree_GetRequirementObject(
+              storeTreeData,
+              selectedNodeId,
+              user.nickname,
+              null
+            )
+          )
+          dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+        }
+
+        dispatch(updateSelectedNodeID(id)) // Updating visual of node being selected
+
+        // Get requirement we are editing, and add username
         var requirement = JSON.stringify(
           Tree_GetRequirementObject(
             storeTreeData,
-            selectedNodeId,
+            id,
             user.nickname,
-            null
+            user.nickname
           )
         )
+
         dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+        dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
       }
-
-      // setShouldPull(false) // Don't pull when focussing on a requirement
-      dispatch(updateSelectedNodeID(id)) // Updating visual of node being selected
-
-      // Get requirement we are editing, and add username
-      var requirement = JSON.stringify(
-        Tree_GetRequirementObject(
-          storeTreeData,
-          id,
-          user.nickname,
-          user.nickname
-        )
-      )
-
-      dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-      dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
     }
   }
 
