@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Hierarchy } from '../components'
+import { Hierarchy, RequirementStatusContainer } from '../components'
 
 import SplitPane from 'react-split-pane'
 import TextareaAutosize from 'react-textarea-autosize';
@@ -72,7 +72,7 @@ export default function Editor() {
     var indentVal = String(level * 20) + 'px' // Used for the indenting of sections
     level += 1
     // console.log(indentVal);
-    return struct.map(({ title, text, children, id, order }) => {
+    return struct.map(({ title, text, children, id, order, status }) => {
       return (
         <div
           style={{ marginLeft: indentVal }}
@@ -86,7 +86,7 @@ export default function Editor() {
         >
           <div>
             <h2 className="section-headers">
-              {order} {title}
+              {order} {title} {status != null ? <RequirementStatusContainer listOfStatuses={status} /> : <></>}
             </h2>
           </div>
           <TextareaAutosize
