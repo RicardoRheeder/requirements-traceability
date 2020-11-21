@@ -35,4 +35,5 @@ export default {
   // mode: 4 = export the document
   modalObject: { visible: false, mode: 0 },
   selectedDocumentPanelObject: 0,
+  currentSelectedDocVersion: '',
 }

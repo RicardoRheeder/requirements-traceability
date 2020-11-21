@@ -18,6 +18,9 @@ import {
   SEND_DOC_START,
   SEND_DOC_FAILURE,
   SEND_DOC_SUCCESS,
+  COMMIT_TREE_START,
+  COMMIT_TREE_FAILURE,
+  COMMIT_TREE_SUCCESS,
 } from './actionTypes'
 
 const axios = require('axios').default
@@ -192,7 +195,7 @@ export const addUserToDocAsync = (request) => {
 // action to start getting the tree structure
 export const getTreeStart = () => {
   return {
-    type: GET_TREE_START
+    type: GET_TREE_START,
   }
 }
 
@@ -201,7 +204,7 @@ export const getTreeSuccess = (doc) => {
   console.log(doc)
   return {
     type: GET_TREE_SUCCESS,
-    data: doc
+    data: doc,
   }
 }
 
@@ -209,55 +212,57 @@ export const getTreeSuccess = (doc) => {
 export const getTreeFailure = (error) => {
   return {
     type: GET_TREE_FAILURE,
-    data: error
+    data: error,
   }
 }
 
 // async action for getting tree structure
-export const getTreeAsync = (request)=>{
+export const getTreeAsync = (request) => {
   //console.log(request._id)
-  return (dispatch) =>{
+  return (dispatch) => {
     dispatch(getTreeStart())
-    axios.get(`${url}/documents/get-tree/${request._id}`)
-    .then((doc)=> dispatch(getTreeSuccess(doc.data)))
-    .catch((err)=> dispatch(getTreeFailure(err)))
+    axios
+      .get(`${url}/documents/get-tree/${request._id}`)
+      .then((doc) => dispatch(getTreeSuccess(doc.data)))
+      .catch((err) => dispatch(getTreeFailure(err)))
   }
 }
-// Sending tree to database *******************************
-// Sending tree structure to database
-export const sendDocStart = () => {
+// Committing tree to database *******************************
+export const commitTreeStart = () => {
   return {
-    type: SEND_DOC_START,
+    type: COMMIT_TREE_START,
   }
 }
 
-export const sendDocSuccess = (doc) => {
+export const commitTreeSuccess = (doc) => {
   return {
-    type: SEND_DOC_SUCCESS,
+    type: COMMIT_TREE_SUCCESS,
     data: doc,
   }
 }
 
-export const sendDocFailure = (err) => {
+export const commitTreeFailure = (err) => {
   return {
-    type: SEND_DOC_FAILURE,
+    type: COMMIT_TREE_FAILURE,
     data: err,
   }
 }
 
-//send the document (tree structure) to the backend
-export const sendDocAsync = (doc, docID) => {
+export const commitTreeAsync = (doc, docID, versionName) => {
   return (dispatch) => {
-    dispatch(sendDocStart())
+    dispatch(commitTreeStart())
     axios
-      .patch(`${url}/documents/update-tree/${docID._id}`, { tree: doc.tree })
+      .patch(`${url}/documents/commit-doc/${docID._id}`, {
+        tree: doc.tree,
+        name: versionName,
+      })
       .then((doc) => {
         console.log(doc)
-        dispatch(sendDocSuccess(doc))
+        dispatch(commitTreeSuccess(doc))
       })
       .catch((err) => {
         console.log(err)
-        dispatch(sendDocFailure(err))
+        dispatch(commitTreeFailure(err))
       })
   }
 }
