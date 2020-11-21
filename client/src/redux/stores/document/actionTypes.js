@@ -28,11 +28,6 @@ export const GET_TREE_FAILURE = 'GET_TREE_FAILURE'
 export const GET_TREE_SUCCESS = 'GET_TREE_SUCCESS'
 
 // actions for sending the tree structure
-export const SEND_DOC_START = 'SEND_DOC_START'
-export const SEND_DOC_FAILURE = 'SEND_DOC_FAILURE'
-export const SEND_DOC_SUCCESS = 'SEND_DOC_SUCCESS'
-
-// actions for sending the tree structure
 export const COMMIT_TREE_START = 'SEND_DOC_START'
 export const COMMIT_TREE_FAILURE = 'SEND_DOC_FAILURE'
 export const COMMIT_TREE_SUCCESS = 'SEND_DOC_SUCCESS'
