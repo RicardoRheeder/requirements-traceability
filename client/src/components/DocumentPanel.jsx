@@ -28,7 +28,6 @@ export const DocumentPanel = ({ document }) => {
   }, [])
 
   function refreshVersionList() {
-    console.log('here')
     let defaultOption = '0.0'
     let tempVersionsList = []
     if (document.versions.length > 0) {
@@ -50,13 +49,11 @@ export const DocumentPanel = ({ document }) => {
   }
 
   const _onDropdownSelect = (thing) => {
-    console.log(thing)
     // finding the corresponding tree for the version that was selected
     document.versions.forEach((version) => {
       const parsedVersion = JSON.parse(version)
 
       if (thing.value == parsedVersion.versionName) {
-        console.log(parsedVersion)
         dispatch(updateDataTree(JSON.parse(parsedVersion.tree)))
         setCurrentDropDownVersion(parsedVersion.versionName)
         setSelectedVersionTree(JSON.parse(parsedVersion.tree))
