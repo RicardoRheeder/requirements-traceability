@@ -20,4 +20,9 @@ describe("Login Button", () => {
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
+    test("renders with children", () => {
+        const wrapper = mount(<Provider store = {store}><LoginButton/></Provider>);
+        expect(wrapper.exists()).toBe(true);
+        expect(wrapper).toMatchSnapshot();
+    });
 });
