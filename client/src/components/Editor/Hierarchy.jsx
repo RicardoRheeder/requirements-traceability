@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import AutosizeInput from 'react-input-autosize'
 import Dropdown from 'react-dropdown'
@@ -29,6 +29,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
   const dispatch = useDispatch()
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedDocObject = useSelector((state) => state.document.current_doc)
+  // console.log(selectedDocObject)
 
   // Keeps track of which node ID is selected: Value will update with the selectedID stored in Redux
   const selectedNodeId = useSelector((state) => state.common.selectedID)
@@ -43,6 +44,53 @@ export default function Hierarchy({ scrollToElementFunction }) {
   const [searchString, setSearchString] = useState('') // String in the search box
   const [searchFocusIndex, setSearchFocusIndex] = useState(0) // Which tree index to focus on
   const [searchFoundCount, setSearchFoundCount] = useState(null) // Cound of searched items found
+  // state for use in dropdown versions list
+  const [selectedVersionTree, setSelectedVersionTree] = useState() // selecting a document version
+  const [versionList, setVersionList] = useState([]) // setting the version list
+  const [currentDropDownVersion, setCurrentDropDownVersion] = useState('') // selecting a item in dropdown
+
+  // refreshing versions list on mount
+  useEffect(() => {
+    if (selectedDocObject) {
+      refreshVersionList()
+    }
+  }, [])
+
+  // function for getting the versions list
+  function refreshVersionList() {
+    let defaultOption = '0.0'
+    let tempVersionsList = []
+    if (selectedDocObject.versions.length > 0) {
+      // looping over versions array and parsing
+      selectedDocObject.versions.forEach((version) => {
+        const parsedVersion = JSON.parse(version)
+        tempVersionsList.push(parsedVersion.versionName)
+      })
+      tempVersionsList.reverse()
+      setSelectedVersionTree(JSON.parse(selectedDocObject.tree))
+      // setting default option
+      defaultOption = tempVersionsList[0]
+      setCurrentDropDownVersion(defaultOption)
+      setVersionList(tempVersionsList)
+    } else {
+      setCurrentDropDownVersion(defaultOption)
+      setSelectedVersionTree(JSON.parse(selectedDocObject.tree))
+    }
+  }
+
+  // Function for selecting items in dropdown
+  const _onDropdownSelect = (thing) => {
+    // finding the corresponding tree for the version that was selected
+    selectedDocObject.versions.forEach((version) => {
+      const parsedVersion = JSON.parse(version)
+
+      if (thing.value == parsedVersion.versionName) {
+        dispatch(updateDataTree(JSON.parse(parsedVersion.tree)))
+        setCurrentDropDownVersion(parsedVersion.versionName)
+        setSelectedVersionTree(JSON.parse(parsedVersion.tree))
+      }
+    })
+  }
 
   /**
    * The 'i' button's function to display more info for a node
@@ -324,9 +372,9 @@ export default function Hierarchy({ scrollToElementFunction }) {
         <div className="center-div">
           <div className="document-panel-dropdown">
             <Dropdown
-              options={['0.1', '0.2']}
-              // onChange={_onDropdownSelect}
-              // value={currentDropDownVersion}
+              options={versionList}
+              onChange={_onDropdownSelect}
+              value={currentDropDownVersion}
               placeholder="Select an option"
               className="dropdown-custom-wrapper"
               controlClassName="dropdown-custom-control"
