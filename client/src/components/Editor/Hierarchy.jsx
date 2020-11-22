@@ -97,6 +97,12 @@ export default function Hierarchy({ scrollToElementFunction }) {
     dispatch(updateDataTree(JSON.parse(JSON.stringify(Tree_Update(nt)))))
   }
 
+  const moveNode = (tree) => {
+    updateTree(tree)
+
+    dispatch(sendDocAsync(JSON.stringify(tree), selectedDocObject._id))
+  }
+
   /**
    * Inserts a new node in the structure, then calls the updateTree function on it
    */
@@ -330,7 +336,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
         <SortableTree
           theme={FileExplorerTheme}
           treeData={customTreeData}
-          onChange={updateTree}
+          onChange={moveNode}
           rowHeight={40}
           canDrag={({ node }) => !node.dragDisabled}
           searchQuery={searchString}
