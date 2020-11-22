@@ -165,9 +165,16 @@ export default function Editor() {
         </div>
         <div className="editor-root-div styled-background-grey">
           <h1>
-            {selectedDocObject
-              ? selectedDocObject.title + ' v' + selectedDocVersion
-              : 'Error retrieving document name'}{' '}
+            {selectedDocObject != null ? (
+              <>
+                {selectedDocObject.title}
+                <span className="doc-version-title">
+                  {'(version: ' + selectedDocVersion + ')'}
+                </span>
+              </>
+            ) : (
+              'Error retrieving document name'
+            )}
             <CollaboratorPanel />
           </h1>
           {CreateSectionsFromArrayOfStructs(Tree_Update(storeTreeData), 0)}
