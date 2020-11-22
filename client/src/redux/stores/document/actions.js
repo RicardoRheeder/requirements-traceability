@@ -267,7 +267,7 @@ export const commitTreeAsync = (doc, docID, versionName) => {
         console.log(err)
         dispatch(commitTreeFailure(err))
       })
-  }
+  }}
 
   //Getting collaborators for a document *************************
   // action to start the fetch of collaborators
@@ -303,4 +303,4 @@ export const commitTreeAsync = (doc, docID, versionName) => {
       .catch((error)=>dispatch(getCollabsFailure(error)))
     }
   }
-}
+
