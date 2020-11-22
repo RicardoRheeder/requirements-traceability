@@ -18,6 +18,9 @@ import {
   COMMIT_TREE_START,
   COMMIT_TREE_FAILURE,
   COMMIT_TREE_SUCCESS,
+  FETCH_DOC_START,
+  FETCH_DOC_FAILURE,
+  FETCH_DOC_SUCCESS,
 } from './actionTypes'
 
 import initialState from './initialState'
@@ -77,6 +80,15 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, error: action.data }
     case COMMIT_TREE_SUCCESS:
       return { ...state, isFetching: false }
+
+    // Getting a single doc
+    case FETCH_DOC_START:
+      return { ...state, isFetching: true }
+    case FETCH_DOC_FAILURE:
+      return { ...state, isFetching: false, error: action.data }
+    case FETCH_DOC_SUCCESS:
+      return { ...state, isFetching: false, current_doc: action.data }
+
     default:
       return state
   }

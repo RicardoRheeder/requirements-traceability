@@ -92,7 +92,9 @@ router.route('/get/:id').get((req, res) => {
   const id = req.params.id
 
   Document.findById(id)
-    .then((doc) => res.json({ message: `Document received.`, response: doc }))
+    .populate('collaborators')
+    .exec()
+    .then((doc) => res.json({ message: 'Document received.', response: doc }))
     .catch((err) => {
       res.status(400).json({
         message: 'Error: could not find Document with ',
@@ -118,6 +120,19 @@ router.route('/get-tree/:id').get((req, res) => {
         response: err,
       })
     })
+})
+
+// Get the list of collaborators for a document given its id
+router.route('/get-collabs/:id').get((req, res) => {
+  const docID = req.params.id
+
+  Document.findById(docID, 'collaborators')
+    .populate('collaborators')
+    .exec()
+    .then((collabs) =>
+      res.json({ message: 'collaborators found', response: collabs })
+    )
+    .catch((error) => res.json({ message: 'Error:', response: error }))
 })
 
 // Update Routes*****************************************
