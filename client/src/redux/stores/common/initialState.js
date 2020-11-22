@@ -35,10 +35,7 @@ export default {
   // mode: 4 = export the document
   modalObject: { visible: false, mode: 0 },
   selectedDocumentPanelObject: 0,
-<<<<<<< HEAD
 
-  userColorObject: {}
-=======
+  userColorObject: {},
   currentSelectedDocVersion: '',
->>>>>>> shh738/feature/144-Send-User-Objects
 }
