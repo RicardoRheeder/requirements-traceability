@@ -4,10 +4,10 @@ import { setUserColorObject } from '../redux/stores/common/actions'
 
 import { CollaboratorIcon } from './'
 
-const testUserObjects = [
-  { userID: '12312', username: 'ricardorheeder' },
-  { userID: '54564', username: 'testUser2' },
-  { userID: '84512', username: 'testUser3' },
+var listOfUserObjects = [
+  { _id: '111', username: 'testUser1' },
+  { _id: '222', username: 'testUser2' },
+  { _id: '333', username: 'testUser3' },
 ]
 
 const getRandColor = (brightness) => {
@@ -34,18 +34,24 @@ export default function CollaboratorPanel() {
     (state) => state.common.userColorObject,
     {}
   )
+  const currentDocument = useSelector((state) => state.document.current_doc, {})
+
+  if (currentDocument != null) {
+    listOfUserObjects = currentDocument.collaborators
+    console.log(listOfUserObjects)
+  }
 
   const generateUserIcons = (userStruct) => {
-    return userStruct.map(({ userID, username }, i) => {
+    return userStruct.map(({ _id, username }, i) => {
       let randomColor
 
       if (userColorObject) {
-        if (userColorObject[username]) {
-          randomColor = userColorObject[username]
+        if (userColorObject[_id]) {
+          randomColor = userColorObject[_id]
         } else {
           randomColor = getRandColor(getRandomInt(3, 6))
           setTimeout(() => {
-            dispatch(setUserColorObject({ [username]: randomColor }))
+            dispatch(setUserColorObject({ [_id]: randomColor }))
           }, 200)
         }
 
@@ -63,7 +69,7 @@ export default function CollaboratorPanel() {
 
   return (
     <span className="collaborator-panel">
-      {generateUserIcons(testUserObjects)}
+      {generateUserIcons(listOfUserObjects)}
     </span>
   )
 }

@@ -163,18 +163,12 @@ export default function Editor() {
             }
           />
         </div>
-        <div className="editor-root-div">
+        <div className="editor-root-div styled-background-grey">
           <h1>
             {selectedDocObject
-              ? selectedDocObject.title
+              ? selectedDocObject.title + ' v' + selectedDocVersion
               : 'Error retrieving document name'}{' '}
             <CollaboratorPanel />
-            {/* <div className="editor-root-div styled-background-grey">
-          <h1>
-            Editor:{' '}
-            {selectedDocObject
-              ? (selectedDocObject.title + ' ' + selectedDocVersion)
-              : ''} */}
           </h1>
           {CreateSectionsFromArrayOfStructs(Tree_Update(storeTreeData), 0)}
         </div>
