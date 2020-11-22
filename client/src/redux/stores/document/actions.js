@@ -281,7 +281,7 @@ export const commitTreeAsync = (doc, docID, versionName) => {
   export const getCollabsFailure = (error) => {
     return {
       type: FETCH_COLLABS_FAILURE,
-      data: error.data.message
+      data: error.data.message,
     }
   }
 
@@ -289,7 +289,7 @@ export const commitTreeAsync = (doc, docID, versionName) => {
   export const getCollabsSuccess = (collabs) => {
     return {
       type: FETCH_COLLABS_SUCCESS,
-      data: collabs.data.response
+      data: collabs.data.response,
     }
   }
 
