@@ -15,15 +15,9 @@ import {
   GET_TREE_START,
   GET_TREE_FAILURE,
   GET_TREE_SUCCESS,
-  SEND_DOC_START,
-  SEND_DOC_FAILURE,
-  SEND_DOC_SUCCESS,
   COMMIT_TREE_START,
   COMMIT_TREE_FAILURE,
   COMMIT_TREE_SUCCESS,
-  FETCH_COLLABS_START,
-  FETCH_COLLABS_FAILURE,
-  FETCH_COLLABS_SUCCESS,
   FETCH_DOC_START,
   FETCH_DOC_FAILURE,
   FETCH_DOC_SUCCESS,
@@ -270,42 +264,6 @@ export const commitTreeAsync = (doc, docID, versionName) => {
         console.log(err)
         dispatch(commitTreeFailure(err))
       })
-  }
-}
-
-//Getting collaborators for a document *************************
-// action to start the fetch of collaborators
-export const getCollabsStart = () => {
-  return {
-    type: FETCH_COLLABS_START,
-  }
-}
-
-// action for getting collabs on failure
-export const getCollabsFailure = (error) => {
-  return {
-    type: FETCH_COLLABS_FAILURE,
-    data: error.data.message,
-  }
-}
-
-// action for getting collabs on success
-export const getCollabsSuccess = (collabs) => {
-  return {
-    type: FETCH_COLLABS_SUCCESS,
-    data: collabs.data.response,
-  }
-}
-
-// Get the collaborators asynchronously
-export const getCollabsAsync = (request) => {
-  return (dispatch) => {
-    dispatch(getCollabsStart())
-    axios
-      .get(`${url}/documents/get-collabs/${request._id}`)
-
-      .then((collabs) => dispatch(getCollabsSuccess(collabs)))
-      .catch((error) => dispatch(getCollabsFailure(error)))
   }
 }
 

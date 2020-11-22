@@ -32,11 +32,6 @@ export const COMMIT_TREE_START = 'SEND_DOC_START'
 export const COMMIT_TREE_FAILURE = 'SEND_DOC_FAILURE'
 export const COMMIT_TREE_SUCCESS = 'SEND_DOC_SUCCESS'
 
-//actions for getting an array of collaborators for a document
-export const FETCH_COLLABS_START = 'FETCH_COLLABS_START'
-export const FETCH_COLLABS_FAILURE = 'FETCH COLLABS_FAILURE'
-export const FETCH_COLLABS_SUCCESS = 'FETCH_COLLABS_SUCCESS'
-
 //actions for getting a single doc
 export const FETCH_DOC_START = 'FETCH_DOC_START'
 export const FETCH_DOC_FAILURE = 'FETCH FETCH_DOC_FAILURE'
