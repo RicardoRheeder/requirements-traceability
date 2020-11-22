@@ -34,7 +34,6 @@ export const createDocStart = () => {
 
 // action to finish making a doc
 export const createDocSuccess = (doc) => {
-  console.log(doc)
   return {
     type: CREATE_DOC_SUCCESS,
     data: doc.data.response,
@@ -59,11 +58,9 @@ export const createDocAsync = (doc) => {
         admin: doc.admin,
       })
       .then((doc) => {
-        console.log(doc)
         dispatch(createDocSuccess(doc))
       })
       .catch((err) => {
-        console.log(err)
         dispatch(createDocFailure(err))
       })
   }
@@ -96,7 +93,6 @@ export const deleteDocFailure = (err) => {
 // action for async deleting doc
 export const deleteDocAsync = (doc) => {
   return (dispatch) => {
-    console.log({ user: doc.user })
     dispatch(deleteDocStart())
     axios
       .delete(`${url}/documents/delete/${doc.id}`, { data: { user: doc.user } })
@@ -142,15 +138,17 @@ export const fetchUserDocsAsync = (user) => {
       .get(`${url}/users/get/documents-with-email/${user.email}`)
       .then((docs) => dispatch(fetchUserDocsSuccess(docs)))
       .catch((err) => {
-        console.log(err);
-        dispatch(fetchUserDocsFailure(err))})
+        dispatch(fetchUserDocsFailure(err))
+      })
   }
 }
 
+// Updating current document that the user has selected ********************************************
 export const updateCurrentDocument = (data) => ({
   type: UPDATE_CURRENT_DOCUMENT,
   data,
 })
+
 // Adding user to document ********************************************
 // action to start adding a user to a doc
 export const addUserToDocStart = () => {
@@ -194,16 +192,15 @@ export const addUserToDocAsync = (request) => {
 // action to start getting the tree structure
 export const getTreeStart = () => {
   return {
-    type: GET_TREE_START
+    type: GET_TREE_START,
   }
 }
 
 // action for getting tree on success
 export const getTreeSuccess = (doc) => {
-  console.log(doc)
   return {
     type: GET_TREE_SUCCESS,
-    data: doc.data.response
+    data: doc.data.response,
   }
 }
 
@@ -211,18 +208,18 @@ export const getTreeSuccess = (doc) => {
 export const getTreeFailure = (error) => {
   return {
     type: GET_TREE_FAILURE,
-    data: error.data.message
+    data: error.data.message,
   }
 }
 
 // async action for getting tree structure
-export const getTreeAsync = (request)=>{
-  //console.log(request._id)
-  return (dispatch) =>{
+export const getTreeAsync = (request) => {
+  return (dispatch) => {
     dispatch(getTreeStart())
-    axios.get(`${url}/documents/get-tree/${request._id}`)
-    .then((doc)=> dispatch(getTreeSuccess(doc)))
-    .catch((err)=> dispatch(getTreeFailure(err)))
+    axios
+      .get(`${url}/documents/get-tree/${request._id}`)
+      .then((doc) => dispatch(getTreeSuccess(doc)))
+      .catch((err) => dispatch(getTreeFailure(err)))
   }
 }
 // Sending tree to database *******************************
@@ -254,11 +251,9 @@ export const sendDocAsync = (doc, docID) => {
     axios
       .patch(`${url}/documents/update-tree/${docID._id}`, { tree: doc.tree })
       .then((doc) => {
-        console.log(doc)
         dispatch(sendDocSuccess(doc))
       })
       .catch((err) => {
-        console.log(err)
         dispatch(sendDocFailure(err))
       })
   }
