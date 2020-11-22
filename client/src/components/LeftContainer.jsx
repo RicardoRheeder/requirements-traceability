@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setModalObject } from '../redux/stores/common/actions'
 import { useAuth0 } from '@auth0/auth0-react'
 import { DocumentPanel } from './'
+import { fetchUserDocsAsync } from '../redux/stores/document/actions'
+import { useState } from 'react'
 
 export default function LeftContainer() {
   const { user } = useAuth0()
@@ -11,6 +13,30 @@ export default function LeftContainer() {
   const selectedDoc = useSelector(
     (state) => state.common.selectedDocumentPanelObject
   )
+
+  const [searchboxIsEmpty, setSearchboxIsEmpty] = useState(true);
+  const [orderedDocList, setOrderedDocList] = useState([]);
+  
+  const updateSearch = e => {
+    if(e.target.value.length==0){
+      setSearchboxIsEmpty(true);
+    }
+    else{
+      setSearchboxIsEmpty(false);
+    }
+    console.log(searchboxIsEmpty);
+    var matchingSearchs = [];
+    for (let i = 0; i<docs.length; i++){
+      var lowerCaseTitle = docs[i].title.toLowerCase();
+      var lowerCaseSearchValue = e.target.value.toLowerCase();
+      if(lowerCaseTitle.includes(lowerCaseSearchValue)){
+        console.log(docs[i].title + " contains " + e.target.value);
+        matchingSearchs[matchingSearchs.length] = docs[i];
+      }
+    }
+    console.log(matchingSearchs);
+    setOrderedDocList(matchingSearchs);
+  }
 
   const RenderDocumentPanels = (listOfDocs) => {
     if (listOfDocs.length != 0) {
@@ -36,8 +62,11 @@ export default function LeftContainer() {
 
   return (
     <div className="left-container-root">
-      {/* search bar here */}
-      <div className="display-area">{RenderDocumentPanels(docs)}</div>
+      <div className="document-searchbox-container">
+        Search:{" "}
+        <input className="document-searchbox" type="text" onChange={updateSearch}></input>
+      </div>
+      <div className="display-area">{searchboxIsEmpty ? RenderDocumentPanels(docs): RenderDocumentPanels(orderedDocList)}</div>
       <div className="add-remove-button-container">
         <button
           className="orange-button add-remove-button"

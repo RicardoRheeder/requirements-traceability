@@ -396,10 +396,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
       {/* Pull/Commit button panel */}
       <div className="commit-pull-container">
         <div className="center-div">
-          <button
-            className="orange-button"
-            onClick={() => dispatch(setModalObject({ visible: true, mode: 4 }))}
-          >
+          <button className="orange-button" onClick={() => print()}>
             EXPORT
           </button>
           {/* <button className="orange-button" onClick={getTreeFromDB}>

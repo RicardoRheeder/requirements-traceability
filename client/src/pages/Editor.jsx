@@ -77,6 +77,9 @@ export default function Editor() {
       }
     }
   }, 1000)
+  const selectedDocVersion = useSelector(
+    (state) => state.common.currentSelectedDocVersion
+  )
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -106,7 +109,12 @@ export default function Editor() {
    * @param {Object} element - the element reference to scroll to
    */
   const scrollToElement = (element) => {
+    
+    let navbar = $( ".navbar-root" );
+    console.log(navbar);
+    $( ".navbar-root" ).remove();
     element.scrollIntoView(true, { behavior: 'smooth' })
+    $(".app-root").prepend(navbar);
   }
 
   const onFocusRequirement = (id) => {
@@ -240,7 +248,7 @@ export default function Editor() {
             }
           />
         </div>
-        <div className="editor-root-div">
+        <div className="editor-root-div styled-background-grey">
           <h1>
             {selectedDocObject
               ? selectedDocObject.title

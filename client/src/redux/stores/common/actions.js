@@ -5,7 +5,8 @@ import {
   SET_MODALOBJECT,
   SET_SELECTED_DOCUMENTPANEL_OBJECT,
   SET_USERCOLOROBJECT,
-  SET_SHOULDPULLFROMDB
+  SET_SHOULDPULLFROMDB,
+  SET_CURRENTDOCVERSION,
 } from './actionTypes'
 
 export const setLoggedIn = (data) => ({ type: SET_LOGGEDIN, data })
@@ -26,3 +27,7 @@ export const setUserColorObject = (data) => ({
 })
 export const setShouldPullFromDB = (data) => ({ type: SET_SHOULDPULLFROMDB, data })
 
+export const setCurrentDocVersion = (data) => ({
+  type: SET_CURRENTDOCVERSION,
+  data,
+})

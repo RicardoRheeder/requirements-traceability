@@ -21,6 +21,12 @@ import {
   SEND_REQ_START,
   SEND_REQ_FAILURE,
   SEND_REQ_SUCCESS,
+  COMMIT_TREE_START,
+  COMMIT_TREE_FAILURE,
+  COMMIT_TREE_SUCCESS,
+  FETCH_DOC_START,
+  FETCH_DOC_FAILURE,
+  FETCH_DOC_SUCCESS,
 } from './actionTypes'
 
 import initialState from './initialState'
@@ -38,6 +44,7 @@ export default (state = initialState, action) => {
         isFetching: false,
         documents: [...state.documents, action.data],
       }
+
     // delete doc actions
     case DELETE_DOC_START:
       return { ...state, isFetching: true }
@@ -45,6 +52,7 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, error: action.data }
     case DELETE_DOC_SUCCESS:
       return { ...state, isFetching: false, documents: action.data }
+
     // fetching user docs actions
     case FETCH_USER_DOCS_START:
       return { ...state, isFetching: true }
@@ -54,6 +62,7 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, errorMessage: action.payload }
     case UPDATE_CURRENT_DOCUMENT:
       return { ...state, current_doc: action.data }
+
     // adding user to a document actions
     case ADD_USER_TO_DOC_START:
       return { ...state, isFetching: true }
@@ -61,6 +70,7 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, error: action.data }
     case ADD_USER_TO_DOC_SUCCESS:
       return { ...state, isFetching: false, success: action.data }
+
     // getting tree structure from database actions
     case GET_TREE_START:
       return { ...state, isFetching: true }
@@ -68,6 +78,7 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, error: action.data }
     case GET_TREE_SUCCESS:
       return { ...state, isFetching: false, fetchedTree: action.data }
+
     // sending tree actions
     case SEND_DOC_START:
       return { ...state, isFetching: true }
@@ -75,6 +86,7 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, error: action.data }
     case SEND_DOC_SUCCESS:
       return { ...state, isFetching: false }
+
     // sending requirement actions
     case SEND_REQ_START:
       return { ...state, isFetching: true }
@@ -82,6 +94,24 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, error: action.data }
     case SEND_REQ_SUCCESS:
       return { ...state, isFetching: false, fetchedTree: action.data }
+      return { ...state, isFetching: false, success: action.data }
+
+    // committing tree actions
+    case COMMIT_TREE_START:
+      return { ...state, isFetching: true }
+    case COMMIT_TREE_FAILURE:
+      return { ...state, isFetching: false, error: action.data }
+    case COMMIT_TREE_SUCCESS:
+      return { ...state, isFetching: false }
+
+    // Getting a single doc
+    case FETCH_DOC_START:
+      return { ...state, isFetching: true }
+    case FETCH_DOC_FAILURE:
+      return { ...state, isFetching: false, error: action.data }
+    case FETCH_DOC_SUCCESS:
+      return { ...state, isFetching: false, current_doc: action.data }
+
     default:
       return state
   }

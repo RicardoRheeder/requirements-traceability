@@ -38,4 +38,5 @@ export default {
 
   userColorObject: {},
   shouldPullFromDB: false,
+  currentSelectedDocVersion: '',
 }
