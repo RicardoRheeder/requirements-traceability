@@ -14,7 +14,8 @@ describe("LeftContainer", () => {
     beforeEach(() => {
         store = mockStore({
             document: {
-                documents: [{title: 'testdoc'}]
+                documents: [{title: 'testdoc', versions: [], tree: null}],
+                versions: []
             },
             common: {
                 selectedDocumentPanelObject: {title: 'testdoc'}
