@@ -4,7 +4,7 @@
 
   .commit-pull-container {
     width: 100%;
-    height: 100px;
+    height: 200px;
     position: sticky !important;
     bottom: 75px;
     background: #2e2e2e;
@@ -14,6 +14,34 @@
       width: fit-content;
       height: fit-content;
       margin: auto;
+    }
+
+    .document-panel-dropdown {
+      margin: 15px 10px;
+      font-size: 20px;
+      min-width: 95px;
+
+      .dropdown-custom-wrapper {
+        font-size: 15px;
+      }
+
+      .dropdown-custom-control {
+        padding: 2px;
+        border: 2px solid #212a3f;
+        border-radius: 4px;
+      }
+
+      .dropdown-custom-placeholder {
+        background: #f2f2f2;
+      }
+
+      .dropdown-custom-menu {
+        padding: 2px;
+      }
+
+      .dropdown-custom-arrow {
+        top: 10px;
+      }
     }
 
     .orange-button {

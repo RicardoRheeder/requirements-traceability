@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import AutosizeInput from 'react-input-autosize'
+import Dropdown from 'react-dropdown'
 
 import SortableTree, {
   toggleExpandedForAll,
@@ -22,6 +23,7 @@ import {
   Tree_ExpandData,
   Tree_UpdateNodeName,
 } from '../../utils/TreeNodeHelperFunctions'
+import ReactDropdown from 'react-dropdown'
 
 export default function Hierarchy({ scrollToElementFunction }) {
   const dispatch = useDispatch()
@@ -320,6 +322,19 @@ export default function Hierarchy({ scrollToElementFunction }) {
       {/* Pull/Commit button panel */}
       <div className="commit-pull-container">
         <div className="center-div">
+          <div className="document-panel-dropdown">
+            <Dropdown
+              options={['0.1', '0.2']}
+              // onChange={_onDropdownSelect}
+              // value={currentDropDownVersion}
+              placeholder="Select an option"
+              className="dropdown-custom-wrapper"
+              controlClassName="dropdown-custom-control"
+              placeholderClassName="dropdown-custom-placeholder"
+              menuClassName="dropdown-custom-menu"
+              arrowClassName="dropdown-custom-arrow"
+            />
+          </div>
           <button className="orange-button" onClick={() => print()}>
             EXPORT
           </button>
