@@ -84,14 +84,13 @@ router.route('/get/:id').get((req, res) => {
   const id = req.params.id
 
   Document.findById(id)
-    .then((doc) => res.json(doc))
+    .populate('collaborators')
+    .exec()
+    .then((doc) => res.json({ message: 'Document received.', response: doc }))
     .catch((err) => {
       res.status(400).json('Error: could not find Document with ' + id)
     })
 })
-
-// Get a specific version of a document
-// router.route('/get-version/')
 
 // Get the tree hierarchy of a document given the doc id
 router.route('/get-tree/:id').get((req, res) => {
@@ -111,8 +110,10 @@ router.route('/get-collabs/:id').get((req, res) => {
   Document.findById(docID, 'collaborators')
     .populate('collaborators')
     .exec()
-    .then((collabs)=>res.json({message: 'collaborators found', response: collabs}))
-    .catch((error)=>res.json({message: "Error:", response: error}))
+    .then((collabs) =>
+      res.json({ message: 'collaborators found', response: collabs })
+    )
+    .catch((error) => res.json({ message: 'Error:', response: error }))
 })
 
 // Update Routes*****************************************
