@@ -18,6 +18,9 @@ import {
   COMMIT_TREE_START,
   COMMIT_TREE_FAILURE,
   COMMIT_TREE_SUCCESS,
+  FETCH_COLLABS_START,
+  FETCH_COLLABS_FAILURE,
+  FETCH_COLLABS_SUCCESS
 } from './actionTypes'
 
 import initialState from './initialState'
@@ -77,6 +80,15 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, error: action.data }
     case COMMIT_TREE_SUCCESS:
       return { ...state, isFetching: false }
+
+    // Getting collaborators for a document actions
+    case FETCH_COLLABS_START:
+      return{ ...state, isFetching: true }
+    case FETCH_COLLABS_FAILURE:
+      return { ...state, isFetching: false, error: action.data }
+    case FETCH_COLLABS_SUCCESS:
+      return { ...state, isFetching: false, success: action.data }
+      
     default:
       return state
   }

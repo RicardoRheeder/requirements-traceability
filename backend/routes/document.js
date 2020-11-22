@@ -104,6 +104,17 @@ router.route('/get-tree/:id').get((req, res) => {
     })
 })
 
+// Get the list of collaborators for a document given its id
+router.route('/get-collabs/:id').get((req, res) => {
+  const docID = req.params.id
+
+  Document.findById(docID, 'collaborators')
+    .populate('collaborators')
+    .exec()
+    .then((collabs)=>res.json({message: 'collaborators found', response: collabs}))
+    .catch((error)=>res.json({message: "Error:", response: error}))
+})
+
 // Update Routes*****************************************
 
 // adding a user to a document and adding a document to the user
