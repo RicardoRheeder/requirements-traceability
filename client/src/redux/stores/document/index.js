@@ -20,7 +20,10 @@ import {
   COMMIT_TREE_SUCCESS,
   FETCH_COLLABS_START,
   FETCH_COLLABS_FAILURE,
-  FETCH_COLLABS_SUCCESS
+  FETCH_COLLABS_SUCCESS,
+  FETCH_DOC_START,
+  FETCH_DOC_FAILURE,
+  FETCH_DOC_SUCCESS,
 } from './actionTypes'
 
 import initialState from './initialState'
@@ -83,12 +86,20 @@ export default (state = initialState, action) => {
 
     // Getting collaborators for a document actions
     case FETCH_COLLABS_START:
-      return{ ...state, isFetching: true }
+      return { ...state, isFetching: true }
     case FETCH_COLLABS_FAILURE:
       return { ...state, isFetching: false, error: action.data }
     case FETCH_COLLABS_SUCCESS:
       return { ...state, isFetching: false, success: action.data }
-      
+
+    // Getting a single doc
+    case FETCH_DOC_START:
+      return { ...state, isFetching: true }
+    case FETCH_DOC_FAILURE:
+      return { ...state, isFetching: false, error: action.data }
+    case FETCH_DOC_SUCCESS:
+      return { ...state, isFetching: false, current_doc: action.data }
+
     default:
       return state
   }

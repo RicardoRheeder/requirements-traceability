@@ -23,7 +23,10 @@ import {
   COMMIT_TREE_SUCCESS,
   FETCH_COLLABS_START,
   FETCH_COLLABS_FAILURE,
-  FETCH_COLLABS_SUCCESS
+  FETCH_COLLABS_SUCCESS,
+  FETCH_DOC_START,
+  FETCH_DOC_FAILURE,
+  FETCH_DOC_SUCCESS,
 } from './actionTypes'
 
 const axios = require('axios').default
@@ -267,40 +270,76 @@ export const commitTreeAsync = (doc, docID, versionName) => {
         console.log(err)
         dispatch(commitTreeFailure(err))
       })
-  }}
-
-  //Getting collaborators for a document *************************
-  // action to start the fetch of collaborators
-  export const getCollabsStart = () => {
-    return {
-      type: FETCH_COLLABS_START,
-    }
   }
+}
 
-  // action for getting collabs on failure
-  export const getCollabsFailure = (error) => {
-    return {
-      type: FETCH_COLLABS_FAILURE,
-      data: error.data.message,
-    }
+//Getting collaborators for a document *************************
+// action to start the fetch of collaborators
+export const getCollabsStart = () => {
+  return {
+    type: FETCH_COLLABS_START,
   }
+}
 
-  // action for getting collabs on success
-  export const getCollabsSuccess = (collabs) => {
-    return {
-      type: FETCH_COLLABS_SUCCESS,
-      data: collabs.data.response,
-    }
+// action for getting collabs on failure
+export const getCollabsFailure = (error) => {
+  return {
+    type: FETCH_COLLABS_FAILURE,
+    data: error.data.message,
   }
+}
 
-  // Get the collaborators asynchronously
-  export const getCollabsAsync = (request) => {
-    return (dispatch) => {
-      dispatch(getCollabsStart())
-      axios.get(`${url}/documents/get-collabs/${request._id}`)
-
-      .then((collabs)=>dispatch(getCollabsSuccess(collabs)))
-      .catch((error)=>dispatch(getCollabsFailure(error)))
-    }
+// action for getting collabs on success
+export const getCollabsSuccess = (collabs) => {
+  return {
+    type: FETCH_COLLABS_SUCCESS,
+    data: collabs.data.response,
   }
+}
 
+// Get the collaborators asynchronously
+export const getCollabsAsync = (request) => {
+  return (dispatch) => {
+    dispatch(getCollabsStart())
+    axios
+      .get(`${url}/documents/get-collabs/${request._id}`)
+
+      .then((collabs) => dispatch(getCollabsSuccess(collabs)))
+      .catch((error) => dispatch(getCollabsFailure(error)))
+  }
+}
+
+//Fetching single document *************************
+// action to start the fetch of collaborators
+export const getDocStart = () => {
+  return {
+    type: FETCH_DOC_START,
+  }
+}
+
+// action for getting Doc on failure
+export const getDocFailure = (error) => {
+  return {
+    type: FETCH_DOC_FAILURE,
+    data: error.data.message,
+  }
+}
+
+// action for getting Doc on success
+export const getDocSuccess = (collabs) => {
+  return {
+    type: FETCH_DOC_SUCCESS,
+    data: collabs.data.response,
+  }
+}
+
+// Get the doc asynchronously
+export const getDocAsync = (docId) => {
+  return (dispatch) => {
+    dispatch(getDocStart())
+    axios
+      .get(`${url}/documents/get/${docId}`)
+      .then((collabs) => dispatch(getDocSuccess(collabs)))
+      .catch((error) => dispatch(getDocFailure(error)))
+  }
+}
