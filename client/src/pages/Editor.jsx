@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { Hierarchy, CollaboratorPanel, CollaboratorIcon } from '../components'
 import SplitPane from 'react-split-pane'
-import TextareaAutosize from 'react-textarea-autosize';
+import TextareaAutosize from 'react-textarea-autosize'
 
 import {
   Tree_Update,
@@ -31,6 +31,10 @@ export default function Editor() {
     (state) => state.common.userColorObject,
     {}
   )
+  const selectedDocVersion = useSelector(
+    (state) => state.common.currentSelectedDocVersion
+  )
+
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
    * @param {Object} tree - the tree stucture to clean and push to Redux store
@@ -165,6 +169,12 @@ export default function Editor() {
               ? selectedDocObject.title
               : 'Error retrieving document name'}{' '}
             <CollaboratorPanel />
+            {/* <div className="editor-root-div styled-background-grey">
+          <h1>
+            Editor:{' '}
+            {selectedDocObject
+              ? (selectedDocObject.title + ' ' + selectedDocVersion)
+              : ''} */}
           </h1>
           {CreateSectionsFromArrayOfStructs(Tree_Update(storeTreeData), 0)}
         </div>

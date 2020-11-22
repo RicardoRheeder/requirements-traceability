@@ -24,7 +24,7 @@ export const fetchUserInfoStart = () => {
 export const fetchUserInfoSuccess = (info) => {
   return {
     type: FETCH_USER_INFO_SUCCESS,
-    payload: info,
+    payload: info.data.response,
   }
 }
 
@@ -36,7 +36,7 @@ export const fetchUserInfoSuccess = (info) => {
 export const fetchUserInfoFailure = (errorMessage) => {
   return {
     type: FETCH_USER_INFO_FAILURE,
-    payload: errorMessage,
+    payload: errorMessage.data.message,
   }
 }
 
@@ -52,16 +52,16 @@ export const fetchUserInfoAsync = (user) => {
     axios
       .get(`${url}/get-by-email/${user.email}`)
       .then((info) => {
-        if (info.data) {
-          dispatch(fetchUserInfoSuccess(info.data))
-        } else if (info.data === null) {
+        if (info.data.response) {
+          dispatch(fetchUserInfoSuccess(info))
+        } else if (info.data.response === null) {
           // adding user since user does not already exist
           axios
             .post(`${url}/create-user`, {
               username: user.nickname,
               email: user.email,
             })
-            .then((info) => dispatch(fetchUserInfoSuccess(info.data)))
+            .then((info) => dispatch(fetchUserInfoSuccess(info)))
             .catch((err) => dispatch(fetchUserInfoFailure(err)))
         }
       })

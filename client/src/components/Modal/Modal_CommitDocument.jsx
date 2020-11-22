@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setModalObject } from '../../redux/stores/common/actions'
 import { useAuth0 } from '@auth0/auth0-react'
-import { sendDocAsync } from '../../redux/stores/document/actions'
+import {
+  fetchUserDocsAsync,
+  commitTreeAsync,
+} from '../../redux/stores/document/actions'
 
 export default function Modal_CommitDocument() {
   const { user } = useAuth0()
@@ -24,11 +27,14 @@ export default function Modal_CommitDocument() {
   const commitDocumentToDB = () => {
     let docObject = { tree: JSON.stringify(storeTreeData) }
     let docID = selectedDocObject
-    dispatch(sendDocAsync(docObject, docID))
+    // committing the tree to the db (adding it to the versions array)
+    dispatch(commitTreeAsync(docObject, docID, doc.title))
+    dispatch(fetchUserDocsAsync(user))
   }
 
   const handleChange = (e) => {
     const { value } = e.target
+    setDoc({ ...doc, title: value })
   }
 
   return (
@@ -40,7 +46,7 @@ export default function Modal_CommitDocument() {
           <input className="modal-input" onChange={handleChange} /> */}
           <h2>Please enter a version number.</h2>
           <input className="modal-input" onChange={handleChange} />
-          
+
           <div className="button-container">
             <button
               className="orange-button modal-button"
