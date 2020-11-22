@@ -92,13 +92,9 @@ router.route('/get/:id').get((req, res) => {
   const id = req.params.id
 
   Document.findById(id)
-<<<<<<< HEAD
     .populate('collaborators')
     .exec()
     .then((doc) => res.json({ message: 'Document received.', response: doc }))
-=======
-    .then((doc) => res.json({ message: `Document received.`, response: doc }))
->>>>>>> master
     .catch((err) => {
       res.status(400).json({
         message: 'Error: could not find Document with ',
