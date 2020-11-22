@@ -15,9 +15,9 @@ import {
   GET_TREE_START,
   GET_TREE_FAILURE,
   GET_TREE_SUCCESS,
-  SEND_DOC_START,
-  SEND_DOC_FAILURE,
-  SEND_DOC_SUCCESS,
+  COMMIT_TREE_START,
+  COMMIT_TREE_FAILURE,
+  COMMIT_TREE_SUCCESS,
 } from './actionTypes'
 
 const axios = require('axios').default
@@ -222,39 +222,40 @@ export const getTreeAsync = (request) => {
       .catch((err) => dispatch(getTreeFailure(err)))
   }
 }
-// Sending tree to database *******************************
-// Sending tree structure to database
-export const sendDocStart = () => {
+// Committing tree to database *******************************
+export const commitTreeStart = () => {
   return {
-    type: SEND_DOC_START,
+    type: COMMIT_TREE_START,
   }
 }
 
-export const sendDocSuccess = (doc) => {
+export const commitTreeSuccess = (doc) => {
   return {
-    type: SEND_DOC_SUCCESS,
+    type: COMMIT_TREE_SUCCESS,
     data: doc.data.response,
   }
 }
 
-export const sendDocFailure = (err) => {
+export const commitTreeFailure = (err) => {
   return {
-    type: SEND_DOC_FAILURE,
+    type: COMMIT_TREE_FAILURE,
     data: err.data.message,
   }
 }
 
-//send the document (tree structure) to the backend
-export const sendDocAsync = (doc, docID) => {
+export const commitTreeAsync = (doc, docID, versionName) => {
   return (dispatch) => {
-    dispatch(sendDocStart())
+    dispatch(commitTreeStart())
     axios
-      .patch(`${url}/documents/update-tree/${docID._id}`, { tree: doc.tree })
+      .patch(`${url}/documents/commit-doc/${docID._id}`, {
+        tree: doc.tree,
+        name: versionName,
+      })
       .then((doc) => {
-        dispatch(sendDocSuccess(doc))
+        dispatch(commitTreeSuccess(doc))
       })
       .catch((err) => {
-        dispatch(sendDocFailure(err))
+        dispatch(commitTreeFailure(err))
       })
   }
 }

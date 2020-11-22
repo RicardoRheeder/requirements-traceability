@@ -29,19 +29,23 @@ router.route('/create-document').post((req, res) => {
       ],
     },
   ]
+  const newVersion = {
+    versionName: '0.0',
+    tree: JSON.stringify(tree),
+  }
 
   const newDocument = new Document({
     title,
     admin,
     collaborators,
     tree: JSON.stringify(tree),
+    versions: [JSON.stringify(newVersion)],
   })
 
   newDocument
     .save()
     .then((newDocument) => {
       // adding the document to the admins documents array
-      console.log('At creating a doc')
       User.findByIdAndUpdate(
         { _id: admin },
         { $addToSet: { documents: newDocument._id } }
@@ -210,19 +214,39 @@ router.route('/update-tree/:id').patch((req, res) => {
     { _id: req.params.id },
     { $set: { tree: req.body.tree } }
   )
+    .then((doc) => res.json('Tree structure updated within the doc: ' + doc))
+    .catch((err) => res.status(400).json('Error: ' + err))
+})
+
+// adding doc to the versions array
+router.route('/commit-doc/:id').patch((req, res) => {
+  const newTree = req.body.tree
+  const versionName = req.body.name
+
+  // making a new version object
+  const newVersion = {
+    versionName,
+    tree: newTree,
+  }
+
+  Document.findByIdAndUpdate(
+    { _id: req.params.id },
+    {
+      $addToSet: { versions: JSON.stringify(newVersion) },
+      $set: { tree: newTree },
+    }
+  )
     .then((doc) =>
       res.json({
-        message: 'Tree structure updated within the doc',
+        message: 'Document added as a new version in the versions array.',
         response: doc,
       })
     )
     .catch((err) =>
-      res
-        .status(400)
-        .json({
-          message: 'Error: could not update the tree in document ',
-          response: err,
-        })
+      res.status(400).json({
+        message: 'Error: Document failed to be added to the versions array.',
+        response: err,
+      })
     )
 })
 
@@ -247,12 +271,10 @@ router.route('/delete/:id').delete((req, res) => {
       } else {
         //Delete the document
         Document.findByIdAndDelete(req.params.id).catch((err) =>
-          res
-            .status(400)
-            .json({
-              message: 'Error: could not delete document',
-              response: err,
-            })
+          res.status(400).json({
+            message: 'Error: could not delete document',
+            response: err,
+          })
         )
         collabs.push(admin)
         let x
@@ -298,12 +320,10 @@ router.route('/deleteAll').delete((req, res) => {
   Document.deleteMany({})
     .then(() => res.json({ message: 'All docs deleted', response: null }))
     .catch((err) =>
-      res
-        .status(400)
-        .json({
-          message: 'Error: could not delete all documents ',
-          response: err,
-        })
+      res.status(400).json({
+        message: 'Error: could not delete all documents ',
+        response: err,
+      })
     )
 })
 

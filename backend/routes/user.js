@@ -5,9 +5,6 @@ const User = require('../models/user.model')
 
 // creating a new user
 router.route('/create-user').post((req, res) => {
-  console.log('At create user')
-  console.log(req.body.username)
-  console.log(req.body.email)
   const username = req.body.username
   const email = req.body.email
 
@@ -94,7 +91,6 @@ router.route('/get/documents/:id').get((req, res) => {
 
 // getting a users documents with email
 router.route('/get/documents-with-email/:email').get((req, res) => {
-  console.log('reached - ' + req.params.email)
   User.findOne({ email: req.params.email })
     .populate('documents')
     .exec()
