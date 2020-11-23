@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Hierarchy } from '../components'
 
 import SplitPane from 'react-split-pane'
-import TextareaAutosize from 'react-textarea-autosize';
+import TextareaAutosize from 'react-textarea-autosize'
 
 import {
   Tree_Update,
@@ -55,7 +55,12 @@ export default function Editor() {
    * @param {Object} element - the element reference to scroll to
    */
   const scrollToElement = (element) => {
+    
+    let navbar = $( ".navbar-root" );
+    console.log(navbar);
+    $( ".navbar-root" ).remove();
     element.scrollIntoView(true, { behavior: 'smooth' })
+    $(".app-root").prepend(navbar);
   }
 
   /**
@@ -77,7 +82,8 @@ export default function Editor() {
         <div
           style={{ marginLeft: indentVal }}
           key={title + '' + id}
-          className={ 'section-div ' +
+          className={
+            'section-div ' +
             (parseInt(id) == parseInt(selectedNodeId)
               ? 'selected ' + parseInt(id)
               : 'not-selected ' + parseInt(id))
@@ -90,12 +96,12 @@ export default function Editor() {
             </h2>
           </div>
           <TextareaAutosize
-          type="text"
+            type="text"
             className="editor-input"
             value={text}
             onChange={updateNodeText}
-            onFocus={() => dispatch(updateSelectedNodeID(id))}>
-          </TextareaAutosize>
+            onFocus={() => dispatch(updateSelectedNodeID(id))}
+          ></TextareaAutosize>
 
           {/* If children exist, recurse into it, and create sections out of it */}
           {children != null ? (
