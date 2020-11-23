@@ -274,28 +274,14 @@ export const commitTreeAsync = (doc, docID, versionName) => {
 // Sending tree structure to database
 export const sendDocStart = () => {
   return {
-    type: SEND_DOC_START,
-  }
-}
-
-export const sendDocSuccess = (doc) => {
-  return {
-    type: SEND_DOC_SUCCESS,
-    data: doc,
-  }
-}
-
-export const sendDocFailure = (err) => {
-  return {
-    type: SEND_DOC_FAILURE,
-    data: err,
+    type: COMMIT_TREE_START,
   }
 }
 
 //send the document (tree structure) to the backend
 export const sendDocAsync = (treeData, docID) => {
   return (dispatch) => {
-    dispatch(sendDocStart())
+    dispatch(commitTreeStart())
     axios
       .patch(`${url}/documents/update-tree/${docID}`, { tree: treeData })
       .then((doc) => {
