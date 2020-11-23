@@ -1,31 +1,54 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
-import { fetchUserInfoAsync } from '../redux/stores/user/actions'
-import { fetchUserDocsAsync } from '../redux/stores/document/actions'
 
 function About() {
-  // getting the current user who is signed in
-  const { user } = useAuth0()
-  const dispatch = useDispatch()
+  const [emailSubject, setEmailSubject] = useState('')
+  const [userName, setUserName] = useState('')
+  const [userEmail, setUserEmail] = useState('')
 
-  // getting info and errorMessage from initial state
-  const userInfo = useSelector((state) => state.user.info)
-  const errorMessage = useSelector((state) => state.user.errorMessage)
+  const [emailBody, setEmailBody] = useState('')
 
-  // use effect to fetch the user info when the component mounts
-  useEffect(() => {
-    if (user) {
-      // dispatching async call with the user as a parameter
-      dispatch(fetchUserInfoAsync(user))
-      dispatch(fetchUserDocsAsync(user))
-    }
-  }, [fetchUserInfoAsync, fetchUserDocsAsync])
+  const generateMailToString = () => {
+    // A function to open the users mail app to send the feedback to our greenfoot gmail
+    var email = 'tony+doctracer@persea.ca'
 
-  // console.log(user)
-  // console.log(userInfo)
-  // console.log(errorMessage)
+    var encodedSubject = emailSubject.split(' ').join('%20')
+    // %20 refers to a space
+
+    var encodedBody = emailBody.split(' ').join('%20')
+    var encodeFooter = (
+      '\n\nFrom: ' +
+      userName +
+      '\nEmail address: ' +
+      userEmail
+    )
+      .split(' ')
+      .join('%20')
+
+    encodedBody += encodeFooter
+
+    encodedBody = encodedBody.split('\n').join('%0D%0A')
+    // %0D refers to carriage return, %0A refers to line feed (new line and line break)
+    return `mailto:${email}?subject=${encodedSubject}&body=${encodedBody}`
+  }
+
+  const EditSubject = (event) => {
+    setEmailSubject(event.target.value)
+  }
+
+  const EditUserName = (event) => {
+    setUserName(event.target.value)
+  }
+
+  const EditUserEmail = (event) => {
+    setUserEmail(event.target.value)
+  }
+
+  const EditBody = (event) => {
+    setEmailBody(event.target.value)
+  }
 
   return (
     <div className="aboot-root styled-background-blue ">
@@ -84,6 +107,9 @@ function About() {
                   Name:{' '}
                 </label>{' '}
                 <input
+                  type="text"
+                  value={userName}
+                  onChange={EditUserName}
                   className="about-input-field"
                   placeholder="Type your name..."
                 ></input>
@@ -93,6 +119,9 @@ function About() {
                   Email:{' '}
                 </label>{' '}
                 <input
+                  type="text"
+                  value={userEmail}
+                  onChange={EditUserEmail}
                   className="about-input-field"
                   placeholder="Type your email..."
                 ></input>
@@ -102,6 +131,9 @@ function About() {
                   Subject:{' '}
                 </label>{' '}
                 <input
+                  type="text"
+                  value={emailSubject}
+                  onChange={EditSubject}
                   className="about-input-field"
                   placeholder="Type your subject..."
                 ></input>
@@ -110,17 +142,16 @@ function About() {
 
             <br></br>
             <textarea
+              type="text"
+              value={emailBody}
+              onChange={EditBody}
               className="email-content"
               id="email-content"
               name="content"
               placeholder="Type here..."
             ></textarea>
             <br></br>
-            <input
-              className="orange-button"
-              type="submit"
-              value="Submit"
-            ></input>
+            <a href={generateMailToString()}>SUBMIT</a>
           </form>
         </div>
       </div>
