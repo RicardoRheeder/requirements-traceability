@@ -117,9 +117,14 @@ export default function Editor() {
           >
             <div>
               <h2 className="section-headers">
-                <button className="add-status-button">+</button>
-                {order} {title} {status != null ? <RequirementStatusContainer listOfStatuses={status} /> : <></>}
+                
+                {order} {title} 
+                
               </h2>
+              <span className="status-container">
+                <button className="add-status-button">+</button>
+                {status != null ? <RequirementStatusContainer listOfStatuses={status} /> : <></>}
+                </span>
               <span style={{ display: 'flex' }}>
                 {isBeingEdited != null ? (
                   <CollaboratorIcon
