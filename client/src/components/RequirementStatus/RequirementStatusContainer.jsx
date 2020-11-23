@@ -17,7 +17,6 @@ export default function RequirementStatusContainer({listOfStatuses}) {
     return (
         <span className="status-node-container">
             {renderStatuses(listOfStatuses)}
-            <button className="add-status-button">+</button>
         </span>
     )
 }

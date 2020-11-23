@@ -92,6 +92,7 @@ export default function Editor() {
         >
           <div>
             <h2 className="section-headers">
+            <button className="add-status-button">+</button>
               {order} {title} {status != null ? <RequirementStatusContainer listOfStatuses={status} /> : <></>}
             </h2>
           </div>
