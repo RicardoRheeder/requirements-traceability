@@ -1,9 +1,5 @@
 image: node:14.12.0
 
-# workflow:
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH'
-
 stages:
   - build
 #  - confidence-check
@@ -46,8 +42,6 @@ run_tests:
   artifacts:
     paths:
       - test_reports/
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH != "master"'
 
 deploy_doc_tracer:
   stage: deploy
@@ -65,6 +59,6 @@ deploy_doc_tracer:
   environment:
     name: doc_tracer
     url: cmpt371.persea.ca
-      # only:
-      # - master
+  only:
+    - master
 
