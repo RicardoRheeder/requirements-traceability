@@ -93,6 +93,7 @@ export default function Editor() {
           <div>
             <h2 className="section-headers">
               {order} {title} {status != null ? <RequirementStatusContainer listOfStatuses={status} /> : <></>}
+              <button>+</button>
             </h2>
           </div>
           <TextareaAutosize
