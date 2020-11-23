@@ -1,7 +1,7 @@
 export default {
   loggedIn: false,
   treeData: [
-    { title: 'HLRQ1', text: 'hlrq1 text', id: 1, status: ["1","2","3"] },
+    { title: 'HLRQ1', text: 'hlrq1 text', id: 1, status: ["unsatisfied","WIP","review"] },
     { title: 'HLRQ2', text: 'hlrq2 text', id: 2 },
     {
       title: 'HLRQ3',
