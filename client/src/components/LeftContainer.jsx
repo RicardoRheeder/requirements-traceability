@@ -14,8 +14,31 @@ export default function LeftContainer() {
     (state) => state.common.selectedDocumentPanelObject
   )
 
+  const [searchboxIsEmpty, setSearchboxIsEmpty] = useState(true);
+  const [orderedDocList, setOrderedDocList] = useState([]);
+  
+  const updateSearch = e => {
+    if(e.target.value.length==0){
+      setSearchboxIsEmpty(true);
+    }
+    else{
+      setSearchboxIsEmpty(false);
+    }
+    console.log(searchboxIsEmpty);
+    var matchingSearchs = [];
+    for (let i = 0; i<docs.length; i++){
+      var lowerCaseTitle = docs[i].title.toLowerCase();
+      var lowerCaseSearchValue = e.target.value.toLowerCase();
+      if(lowerCaseTitle.includes(lowerCaseSearchValue)){
+        console.log(docs[i].title + " contains " + e.target.value);
+        matchingSearchs[matchingSearchs.length] = docs[i];
+      }
+    }
+    console.log(matchingSearchs);
+    setOrderedDocList(matchingSearchs);
+  }
+
   const RenderDocumentPanels = (listOfDocs) => {
-    console.log(docs)
     if (listOfDocs.length != 0) {
       return listOfDocs.map((document, i) => {
         return <DocumentPanel document={document} key={i} />
@@ -64,3 +87,4 @@ export default function LeftContainer() {
     </div>
   )
 }
+
