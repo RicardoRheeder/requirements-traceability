@@ -1,11 +1,7 @@
 export default {
   loggedIn: false,
   treeData: [
-<<<<<<< HEAD
-    { title: 'HLRQ1', text: 'hlrq1 text', id: 1, status: ["unsatisfied","WIP","review","satisfied",["user input status","blue"]] },
-=======
-    { title: 'HLRQ1', text: 'hlrq1 text', id: 1, isBeingEdited: 'test' },
->>>>>>> master
+    { title: 'HLRQ1', text: 'hlrq1 text', id: 1, isBeingEdited: 'test', status: ["unsatisfied","WIP","review","satisfied",["user input status","blue"]] },
     { title: 'HLRQ2', text: 'hlrq2 text', id: 2 },
     {
       title: 'HLRQ3',

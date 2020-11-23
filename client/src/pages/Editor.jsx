@@ -100,7 +100,7 @@ export default function Editor() {
     level += 1
     // console.log(indentVal);
     return struct.map(
-      ({ title, text, children, id, order, isBeingEdited }, i) => {
+      ({ title, text, children, id, order, status, isBeingEdited }, i) => {
         return (
           <div
             style={{ marginLeft: indentVal }}
