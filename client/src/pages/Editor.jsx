@@ -50,7 +50,6 @@ export default function Editor() {
   const dispatch = useDispatch()
   const paneRef = useRef(null)
 
-  const [shouldPull, setShouldPull] = useState(true)
   const shouldPullFromDB = useSelector(
     (state) => state.common.shouldPullFromDB,
     true
@@ -109,20 +108,19 @@ export default function Editor() {
    * @param {Object} element - the element reference to scroll to
    */
   const scrollToElement = (element) => {
-    
-    let navbar = $( ".navbar-root" );
-    console.log(navbar);
-    $( ".navbar-root" ).remove();
+    let navbar = $('.navbar-root')
+    console.log(navbar)
+    $('.navbar-root').remove()
     element.scrollIntoView(true, { behavior: 'smooth' })
-    $(".app-root").prepend(navbar);
+    $('.app-root').prepend(navbar)
   }
 
   const onFocusRequirement = (id) => {
     if (id != selectedNodeId) {
-      dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
+      // dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
 
       if (selectedNodeId != 0) {
-        dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
+        // dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
 
         // Get requirement we are editing, and remove the user's name from it
         var requirement = JSON.stringify(

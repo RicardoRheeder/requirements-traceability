@@ -37,6 +37,6 @@ export default {
   selectedDocumentPanelObject: 0,
 
   userColorObject: {},
-  shouldPullFromDB: false,
+  shouldPullFromDB: true,
   currentSelectedDocVersion: '',
 }
