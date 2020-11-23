@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Hierarchy, CollaboratorPanel, CollaboratorIcon } from '../components'
+import { Hierarchy, CollaboratorPanel, CollaboratorIcon, RequirementStatusContainer } from '../components'
 import SplitPane from 'react-split-pane'
 import TextareaAutosize from 'react-textarea-autosize'
 
@@ -117,7 +117,8 @@ export default function Editor() {
           >
             <div>
               <h2 className="section-headers">
-                {order} {title}
+                <button className="add-status-button">+</button>
+                {order} {title} {status != null ? <RequirementStatusContainer listOfStatuses={status} /> : <></>}
               </h2>
               <span style={{ display: 'flex' }}>
                 {isBeingEdited != null ? (
