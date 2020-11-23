@@ -1,0 +1,10 @@
+apps:
+  - script    : 'npm start'
+    name      : 'backend'
+    cwd       : '/root/requirements-traceability/backend'
+    watch     : true
+
+  - script    : 'npm start'
+    name      : 'frontend'
+    cwd       : '/root/requirements-traceability/client'
+    watch     : true
