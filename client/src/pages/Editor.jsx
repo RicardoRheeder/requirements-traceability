@@ -119,7 +119,6 @@ export default function Editor() {
    */
   const scrollToElement = (element) => {
     let navbar = $('.navbar-root')
-    console.log(navbar)
     $('.navbar-root').remove()
     element.scrollIntoView(true, { behavior: 'smooth' })
     $('.app-root').prepend(navbar)
@@ -164,15 +163,17 @@ export default function Editor() {
   }
 
   const offFocusRequirement = (id) => {
-    // // console.log('Off Focus: ' + id)
-    // dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
-    // // Get requirement we are editing, and remove the user's name from it
-    // var requirement = JSON.stringify(
-    //   Tree_GetRequirementObject(storeTreeData, id, user.nickname, null)
-    // )
-    // dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-    // dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
-    // dispatch(setShouldPullFromDB(true)) // Start pulling documents from the database again
+    // console.log('Off Focus: ' + id)
+    dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
+    // Get requirement we are editing, and remove the user's name from it
+    var requirement = JSON.stringify(
+      Tree_GetRequirementObject(storeTreeData, id, user.nickname, null)
+    )
+    setTimeout(() => {
+      dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+      dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+      dispatch(setShouldPullFromDB(true)) // Start pulling documents from the database again
+    }, 100)
   }
 
   /**
@@ -204,22 +205,37 @@ export default function Editor() {
             }
             id={id}
           >
-            <div>
-              <h2 className="section-headers">
-                {order} {title}
-              </h2>
-              <span style={{ display: 'flex' }}>
-                {isBeingEdited != null ? (
-                  <CollaboratorIcon
-                    key={i}
-                    username={isBeingEdited}
-                    color={userColorObject[isBeingEdited]}
-                    smallIcon={true}
-                  />
-                ) : (
-                  ''
-                )}
-              </span>
+            <div className="req-header-container">
+              <div className="left">
+                <h2 className="section-headers">
+                  {order} {title}
+                </h2>
+                <span style={{ display: 'flex' }}>
+                  {isBeingEdited != null ? (
+                    <CollaboratorIcon
+                      key={i}
+                      username={isBeingEdited}
+                      color={userColorObject[isBeingEdited]}
+                      smallIcon={true}
+                    />
+                  ) : (
+                    ''
+                  )}
+                </span>
+              </div>
+
+              {parseInt(id) == parseInt(selectedNodeId) ? (
+                <div className="right">
+                  <button
+                    className="orange-button"
+                    onClick={() => offFocusRequirement(id)}
+                  >
+                    SUBMIT
+                  </button>
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
             <TextareaAutosize
               type="text"
@@ -227,7 +243,7 @@ export default function Editor() {
               value={text}
               onChange={updateNodeText}
               onFocus={() => onFocusRequirement(id)}
-              onBlur={() => offFocusRequirement(id)}
+              // onBlur={() => offFocusRequirement(id)}
             ></TextareaAutosize>
             {/* If children exist, recurse into it, and create sections out of it */}
             {children != null ? (

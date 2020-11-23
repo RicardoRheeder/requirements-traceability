@@ -158,7 +158,6 @@ export function Tree_UpdateNodeName(customTreeData, targetID, title) {
  * @returns The modified tree structure
  */
 export function Tree_UpdateNodeText(customTreeData, targetID, text = null) {
-  console.log('update text')
   function parseData(TreeData) {
     var i = TreeData.length
     while (i--) {
@@ -191,8 +190,6 @@ export function Tree_UpdateIsBeingEdited(
   targetID,
   editingUser = null
 ) {
-  console.log('update highlight')
-
   function parseData(TreeData) {
     var i = TreeData.length
     while (i--) {
@@ -229,7 +226,6 @@ export function Tree_CombineLocalAndDatabaseTrees(
       ) {
         TreeData[i]['isBeingEdited'] = editingUser
         req = TreeData[i]
-        console.log('IDs match')
         break
       } else if (TreeData[i].hasOwnProperty('children')) {
         req = parseLocalTree(TreeData[i]['children'], targetID, req)
@@ -239,8 +235,6 @@ export function Tree_CombineLocalAndDatabaseTrees(
   }
 
   var localRequirement = parseLocalTree(localTree, targetID, {})
-  console.log('here is the local req')
-  console.log(JSON.stringify(localRequirement))
 
   function parseDatabaseTree(TreeData, localReq, localReqUniqueID) {
     var i = TreeData.length
@@ -265,8 +259,6 @@ export function Tree_CombineLocalAndDatabaseTrees(
     localRequirement['uniqueID']
   )
 
-  console.log('here is the updated doc')
-  console.log(combinedTree)
   return combinedTree
 }
 
@@ -281,7 +273,6 @@ export function Tree_GetRequirementObject(localTree, targetID, localEditingUser,
             TreeData[i]['isBeingEdited'] = desiredEditingUserState
           }
           req = TreeData[i]
-          console.log("IDs match")
           break
       } else if (TreeData[i].hasOwnProperty('children')){
         req = parseLocalTree(TreeData[i]['children'], targetID, req)
@@ -291,8 +282,6 @@ export function Tree_GetRequirementObject(localTree, targetID, localEditingUser,
   }
 
   var localRequirement = parseLocalTree(localTree, targetID, {})
-  console.log("here is the local req")
-  console.log(localRequirement)
   return localRequirement
 }
 
@@ -315,7 +304,5 @@ export function Tree_UpdateDatabaseTreeReq(databaseTree, localRequirement) {
   }
 
   var combinedTree = parseDatabaseTree(databaseTree, localRequirement, localRequirement['uniqueID'])
-  console.log("here is the updated doc")
-  console.log(combinedTree)
   return combinedTree;
 }

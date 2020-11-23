@@ -207,7 +207,6 @@ export const getTreeStart = () => {
 
 // action for getting tree on success
 export const getTreeSuccess = (doc) => {
-  console.log(doc)
   return {
     type: GET_TREE_SUCCESS,
     data: doc.data.response,
@@ -224,7 +223,6 @@ export const getTreeFailure = (error) => {
 
 // async action for getting tree structure
 export const getTreeAsync = (request) => {
-  console.log("FETCHING TREE")
   return (dispatch) => {
     dispatch(getTreeStart())
     axios
