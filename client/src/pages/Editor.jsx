@@ -1,13 +1,14 @@
 import React, { useState, useRef } from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Hierarchy } from '../components'
-
+import { Hierarchy, CollaboratorPanel, CollaboratorIcon } from '../components'
 import SplitPane from 'react-split-pane'
 import TextareaAutosize from 'react-textarea-autosize'
 
 import {
   Tree_Update,
+  Tree_UpdateIsBeingEdited,
   Tree_UpdateNodeText,
 } from '../utils/TreeNodeHelperFunctions'
 
@@ -17,12 +18,19 @@ import {
 } from '../redux/stores/common/actions'
 
 export default function Editor() {
+  const { user } = useAuth0()
   const dispatch = useDispatch()
   const paneRef = useRef(null)
+
+  var tempTree
 
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedNodeId = useSelector((state) => state.common.selectedID)
   const selectedDocObject = useSelector((state) => state.document.current_doc)
+  const userColorObject = useSelector(
+    (state) => state.common.userColorObject,
+    {}
+  )
   const selectedDocVersion = useSelector(
     (state) => state.common.currentSelectedDocVersion
   )
@@ -63,6 +71,20 @@ export default function Editor() {
     $(".app-root").prepend(navbar);
   }
 
+  const onFocusRequirement = (id) => {
+    console.log('On Focus: ' + id + ' ' + selectedNodeId)
+    dispatch(updateSelectedNodeID(id))
+    var td = Tree_UpdateIsBeingEdited(storeTreeData, id, user.nickname)
+    updateTree(td)
+  }
+
+  const offFocusRequirement = (id) => {
+    console.log('Off Focus: ' + id)
+    dispatch(updateSelectedNodeID(0))
+    var td = Tree_UpdateIsBeingEdited(storeTreeData, id, null)
+    updateTree(td)
+  }
+
   /**
    * Receives an array of objects (i.e. the tree or a children property)
    * For each object, a div is returned to represent a section of the tree
@@ -77,41 +99,57 @@ export default function Editor() {
     var indentVal = String(level * 20) + 'px' // Used for the indenting of sections
     level += 1
     // console.log(indentVal);
-    return struct.map(({ title, text, children, id, order }) => {
-      return (
-        <div
-          style={{ marginLeft: indentVal }}
-          key={title + '' + id}
-          className={
-            'section-div ' +
-            (parseInt(id) == parseInt(selectedNodeId)
-              ? 'selected ' + parseInt(id)
-              : 'not-selected ' + parseInt(id))
-          }
-          id={id}
-        >
-          <div>
-            <h2 className="section-headers">
-              {order} {title}
-            </h2>
+    return struct.map(
+      ({ title, text, children, id, order, isBeingEdited }, i) => {
+        return (
+          <div
+            style={{ marginLeft: indentVal }}
+            key={title + '' + id}
+            className={
+              (parseInt(id) == parseInt(selectedNodeId)
+                ? 'selected ' + parseInt(id)
+                : 'not-selected ' + parseInt(id)) +
+              (isBeingEdited != null && isBeingEdited != user.nickname
+                ? ' disabled'
+                : ' ')
+            }
+            id={id}
+          >
+            <div>
+              <h2 className="section-headers">
+                {order} {title}
+              </h2>
+              <span style={{ display: 'flex' }}>
+                {isBeingEdited != null ? (
+                  <CollaboratorIcon
+                    key={i}
+                    username={isBeingEdited}
+                    color={userColorObject[isBeingEdited]}
+                    smallIcon={true}
+                  />
+                ) : (
+                  ''
+                )}
+              </span>
+            </div>
+            <TextareaAutosize
+              type="text"
+              className="editor-input"
+              value={text}
+              onChange={updateNodeText}
+              onFocus={() => onFocusRequirement(id)}
+              onBlur={() => offFocusRequirement(id)}
+            ></TextareaAutosize>
+            {/* If children exist, recurse into it, and create sections out of it */}
+            {children != null ? (
+              CreateSectionsFromArrayOfStructs(children, level)
+            ) : (
+              <></>
+            )}
           </div>
-          <TextareaAutosize
-            type="text"
-            className="editor-input"
-            value={text}
-            onChange={updateNodeText}
-            onFocus={() => dispatch(updateSelectedNodeID(id))}
-          ></TextareaAutosize>
-
-          {/* If children exist, recurse into it, and create sections out of it */}
-          {children != null ? (
-            CreateSectionsFromArrayOfStructs(children, level)
-          ) : (
-            <></>
-          )}
-        </div>
-      )
-    })
+        )
+      }
+    )
   }
 
   return (
@@ -132,10 +170,17 @@ export default function Editor() {
         </div>
         <div className="editor-root-div styled-background-grey">
           <h1>
-            Editor:{' '}
-            {selectedDocObject
-              ? (selectedDocObject.title + ' ' + selectedDocVersion)
-              : ''}
+            {selectedDocObject != null ? (
+              <>
+                {selectedDocObject.title}
+                <span className="doc-version-title">
+                  {'(version: ' + selectedDocVersion + ')'}
+                </span>
+              </>
+            ) : (
+              'Error retrieving document name'
+            )}
+            <CollaboratorPanel />
           </h1>
           {CreateSectionsFromArrayOfStructs(Tree_Update(storeTreeData), 0)}
         </div>
