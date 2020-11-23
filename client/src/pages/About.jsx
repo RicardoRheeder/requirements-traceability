@@ -92,7 +92,7 @@ function About() {
         </div>
         <h1 className="about-description-title">Contact info:</h1>
         <div className="about-description form-container">
-          Contact link pending. . .<br></br>
+          Please send us feedback or questions bellow:
           <br></br>
           <a href="url"></a>
           <br></br>
