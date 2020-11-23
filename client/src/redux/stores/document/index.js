@@ -15,6 +15,12 @@ import {
   GET_TREE_START,
   GET_TREE_FAILURE,
   GET_TREE_SUCCESS,
+  SEND_DOC_START,
+  SEND_DOC_FAILURE,
+  SEND_DOC_SUCCESS,
+  SEND_REQ_START,
+  SEND_REQ_FAILURE,
+  SEND_REQ_SUCCESS,
   COMMIT_TREE_START,
   COMMIT_TREE_FAILURE,
   COMMIT_TREE_SUCCESS,
@@ -71,7 +77,23 @@ export default (state = initialState, action) => {
     case GET_TREE_FAILURE:
       return { ...state, isFetching: false, error: action.data }
     case GET_TREE_SUCCESS:
-      return { ...state, isFetching: false, success: action.data }
+      return { ...state, isFetching: false, fetchedTree: action.data }
+
+    // sending tree actions
+    case SEND_DOC_START:
+      return { ...state, isFetching: true }
+    case SEND_DOC_FAILURE:
+      return { ...state, isFetching: false, error: action.data }
+    case SEND_DOC_SUCCESS:
+      return { ...state, isFetching: false }
+
+    // sending requirement actions
+    case SEND_REQ_START:
+      return { ...state, isFetching: true }
+    case SEND_REQ_FAILURE:
+      return { ...state, isFetching: false, error: action.data }
+    case SEND_REQ_SUCCESS:
+      return { ...state, isFetching: false, fetchedTree: action.data }
 
     // committing tree actions
     case COMMIT_TREE_START:

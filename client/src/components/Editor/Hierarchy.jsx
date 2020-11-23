@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
 import { useDispatch, useSelector } from 'react-redux'
 import AutosizeInput from 'react-input-autosize'
 
@@ -10,10 +11,15 @@ import FileExplorerTheme from 'react-sortable-tree-theme-full-node-drag'
 
 import {
   setModalObject,
+  setShouldPullFromDB,
   updateDataTree,
   updateSelectedNodeID,
 } from '../../redux/stores/common/actions'
-import { getTreeAsync, sendDocAsync } from '../../redux/stores/document/actions'
+import {
+  getTreeAsync,
+  sendDocAsync,
+  sendReqAsync,
+} from '../../redux/stores/document/actions'
 
 import {
   Tree_Update,
@@ -21,9 +27,11 @@ import {
   Tree_DeleteNode,
   Tree_ExpandData,
   Tree_UpdateNodeName,
+  Tree_GetRequirementObject,
 } from '../../utils/TreeNodeHelperFunctions'
 
 export default function Hierarchy({ scrollToElementFunction }) {
+  const { user } = useAuth0()
   const dispatch = useDispatch()
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedDocObject = useSelector((state) => state.document.current_doc)
@@ -89,6 +97,12 @@ export default function Hierarchy({ scrollToElementFunction }) {
     dispatch(updateDataTree(JSON.parse(JSON.stringify(Tree_Update(nt)))))
   }
 
+  const moveNode = (tree) => {
+    updateTree(tree)
+
+    dispatch(sendDocAsync(JSON.stringify(tree), selectedDocObject._id))
+  }
+
   /**
    * Inserts a new node in the structure, then calls the updateTree function on it
    */
@@ -96,6 +110,8 @@ export default function Hierarchy({ scrollToElementFunction }) {
     // TreeData retrieved from function - has inserted node
     var td = Tree_InsertNode(customTreeData, selectedNodeId)
     updateTree(td)
+
+    dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
   }
 
   /**
@@ -107,8 +123,10 @@ export default function Hierarchy({ scrollToElementFunction }) {
     // Get new id to focus on
     let newSelectedNodeID = selectedNodeId - 1
     if (newSelectedNodeID < 0) newSelectedNodeID = 0
-    setSelectedNodeId(newSelectedNodeID)
+    dispatch(updateSelectedNodeID(newSelectedNodeID)) // Updating visual of node being selected
     updateTree(td)
+
+    dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
   }
 
   /**
@@ -119,6 +137,19 @@ export default function Hierarchy({ scrollToElementFunction }) {
     // console.log(name)
     var td = Tree_UpdateNodeName(customTreeData, selectedNodeId, name)
     updateTree(td)
+
+    // Get requirement we are editing, and remove the user's name from it
+    var requirement = JSON.stringify(
+      Tree_GetRequirementObject(
+        storeTreeData,
+        selectedNodeId,
+        user.nickname,
+        user.nickname
+      )
+    )
+
+    dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+    // dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
   }
 
   /**
@@ -146,16 +177,67 @@ export default function Hierarchy({ scrollToElementFunction }) {
    * @param {Object} event - HTML event that contains the information of what is selected in the browser
    * @param {Object} node - contains node specific info
    */
-  const nodeClicked = (event, node) => {
+  const onFocusRequirement = (event, node) => {
     if (
       event.target.className.includes('collapseButton') ||
       event.target.className.includes('expandButton')
     ) {
     } else {
-      // ignore the event
-      // console.log(node, 'node data')
-      setSelectedNodeId(node.id)
+      let id = node.id
+
+      if (id != selectedNodeId) {
+        console.log('in here')
+        console.log(id + ' ' + selectedNodeId)
+        if (selectedNodeId != 0) {
+          dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
+
+          // Get requirement we are editing, and remove the user's name from it
+          var requirement = JSON.stringify(
+            Tree_GetRequirementObject(
+              storeTreeData,
+              selectedNodeId,
+              user.nickname,
+              null
+            )
+          )
+          dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+        }
+
+        dispatch(updateSelectedNodeID(id)) // Updating visual of node being selected
+
+        // Get requirement we are editing, and add username
+        var requirement = JSON.stringify(
+          Tree_GetRequirementObject(
+            storeTreeData,
+            id,
+            user.nickname,
+            user.nickname
+          )
+        )
+        setTimeout(() => {
+          dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+          dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+        }, 100)
+      }
     }
+  }
+
+  const offFocusRequirement = (event, node) => {
+    // if (
+    //   event.target.className.includes('collapseButton') ||
+    //   event.target.className.includes('expandButton')
+    // ) {
+    // } else {
+    //   let id = node.id
+    //   dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
+    //   // Get requirement we are editing, and remove the user's name from it
+    //   var requirement = JSON.stringify(
+    //     Tree_GetRequirementObject(storeTreeData, id, user.nickname, null)
+    //   )
+    //   dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+    //   dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+    //   // setShouldPull(true) // Start pulling documents from the database again
+    // }
   }
 
   /**
@@ -165,12 +247,6 @@ export default function Hierarchy({ scrollToElementFunction }) {
     // console.log(selectedNodeId)
     scrollToElementFunction()
     // console.log('Double click')
-  }
-
-  const getTreeFromDB = () => {
-    //console.log(selectedDocId)
-    dispatch(getTreeAsync(selectedDocObject))
-    //console.log(getSuccess)
   }
 
   return (
@@ -261,7 +337,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
         <SortableTree
           theme={FileExplorerTheme}
           treeData={customTreeData}
-          onChange={updateTree}
+          onChange={moveNode}
           rowHeight={40}
           canDrag={({ node }) => !node.dragDisabled}
           searchQuery={searchString}
@@ -275,7 +351,8 @@ export default function Hierarchy({ scrollToElementFunction }) {
           generateNodeProps={(rowInfo) => {
             // console.log(rowInfo.path); // Prints all node's info
             let nodeProps = {
-              onClick: (event) => nodeClicked(event, rowInfo.node),
+              onClick: (event) => onFocusRequirement(event, rowInfo.node),
+              onBlur: (event) => offFocusRequirement(event, rowInfo.node),
               onDoubleClick: executeScroll,
               title: (
                 <span className="node-row-text">

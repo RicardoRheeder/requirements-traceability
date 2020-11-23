@@ -26,7 +26,7 @@ export default function Modal_CommitDocument() {
 
   const commitDocumentToDB = () => {
     let docObject = { tree: JSON.stringify(storeTreeData) }
-    let docID = selectedDocObject
+    let docID = selectedDocObject._id
     // committing the tree to the db (adding it to the versions array)
     dispatch(commitTreeAsync(docObject, docID, doc.title))
     dispatch(fetchUserDocsAsync(user))
