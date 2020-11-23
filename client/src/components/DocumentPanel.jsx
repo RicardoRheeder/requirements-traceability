@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Dropdown from 'react-dropdown'
 import { useHistory } from 'react-router-dom'
 
@@ -7,8 +7,12 @@ import {
   setSelectedDocumentPanelObject,
   setModalObject,
   updateDataTree,
+  setCurrentDocVersion,
 } from '../redux/stores/common/actions'
-import { updateCurrentDocument } from '../redux/stores/document/actions'
+import {
+  getDocAsync,
+  updateCurrentDocument,
+} from '../redux/stores/document/actions'
 
 export const DocumentPanel = ({ document }) => {
   const dispatch = useDispatch()
@@ -18,11 +22,46 @@ export const DocumentPanel = ({ document }) => {
     (state) => state.common.selectedDocumentPanelObject
   )
 
-  const testListOfVersions = ['1.1.0', '1.2.0']
-  const defaultOption = testListOfVersions[0]
+  const [selectedVersionTree, setSelectedVersionTree] = useState()
+  const [versionList, setVersionList] = useState([])
+  const [currentDropDownVersion, setCurrentDropDownVersion] = useState('')
+
+  useEffect(() => {
+    refreshVersionList()
+  }, [])
+
+  function refreshVersionList() {
+    let defaultOption = '0.0'
+    let tempVersionsList = []
+    if (document.versions.length > 0) {
+      // looping over versions array and parsing
+      document.versions.forEach((version) => {
+        const parsedVersion = JSON.parse(version)
+        tempVersionsList.push(parsedVersion.versionName)
+      })
+      tempVersionsList.reverse()
+      setSelectedVersionTree(JSON.parse(document.tree))
+      // setting default option
+      defaultOption = tempVersionsList[0]
+      setCurrentDropDownVersion(defaultOption)
+      setVersionList(tempVersionsList)
+    } else {
+      setCurrentDropDownVersion(defaultOption)
+      setSelectedVersionTree(JSON.parse(document.tree))
+    }
+  }
 
   const _onDropdownSelect = (thing) => {
-    console.log(thing)
+    // finding the corresponding tree for the version that was selected
+    document.versions.forEach((version) => {
+      const parsedVersion = JSON.parse(version)
+
+      if (thing.value == parsedVersion.versionName) {
+        dispatch(updateDataTree(JSON.parse(parsedVersion.tree)))
+        setCurrentDropDownVersion(parsedVersion.versionName)
+        setSelectedVersionTree(JSON.parse(parsedVersion.tree))
+      }
+    })
   }
 
   const inviteUserButton = () => {
@@ -30,8 +69,12 @@ export const DocumentPanel = ({ document }) => {
   }
 
   const openDocumentIntoEditor = () => {
-    dispatch(updateCurrentDocument(document))
-    dispatch(updateDataTree(JSON.parse(document.tree)))
+    // fetching the current document
+    dispatch(getDocAsync(document._id))
+    // updating the selected version
+    dispatch(updateDataTree(selectedVersionTree))
+    // setting the current version of the document
+    dispatch(setCurrentDocVersion(currentDropDownVersion))
     history.push('/editor')
   }
 
@@ -58,9 +101,9 @@ export const DocumentPanel = ({ document }) => {
 
       <div className="document-panel-dropdown">
         <Dropdown
-          options={testListOfVersions}
+          options={versionList}
           onChange={_onDropdownSelect}
-          value={defaultOption}
+          value={currentDropDownVersion}
           placeholder="Select an option"
           className="dropdown-custom-wrapper"
           controlClassName="dropdown-custom-control"

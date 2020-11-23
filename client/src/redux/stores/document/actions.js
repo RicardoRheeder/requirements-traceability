@@ -18,6 +18,15 @@ import {
   SEND_DOC_START,
   SEND_DOC_FAILURE,
   SEND_DOC_SUCCESS,
+  SEND_REQ_START,
+  SEND_REQ_FAILURE,
+  SEND_REQ_SUCCESS,
+  COMMIT_TREE_START,
+  COMMIT_TREE_FAILURE,
+  COMMIT_TREE_SUCCESS,
+  FETCH_DOC_START,
+  FETCH_DOC_FAILURE,
+  FETCH_DOC_SUCCESS,
 } from './actionTypes'
 
 const axios = require('axios').default
@@ -34,7 +43,6 @@ export const createDocStart = () => {
 
 // action to finish making a doc
 export const createDocSuccess = (doc) => {
-  console.log(doc)
   return {
     type: CREATE_DOC_SUCCESS,
     data: doc.data.response,
@@ -45,7 +53,7 @@ export const createDocSuccess = (doc) => {
 export const createDocFailure = (err) => {
   return {
     type: CREATE_DOC_FAILURE,
-    data: err,
+    data: err.data.message,
   }
 }
 
@@ -59,11 +67,9 @@ export const createDocAsync = (doc) => {
         admin: doc.admin,
       })
       .then((doc) => {
-        console.log(doc)
         dispatch(createDocSuccess(doc))
       })
       .catch((err) => {
-        console.log(err)
         dispatch(createDocFailure(err))
       })
   }
@@ -89,14 +95,13 @@ export const deleteDocSuccess = (docs) => {
 export const deleteDocFailure = (err) => {
   return {
     type: DELETE_DOC_FAILURE,
-    data: err,
+    data: err.data.message,
   }
 }
 
 // action for async deleting doc
 export const deleteDocAsync = (doc) => {
   return (dispatch) => {
-    console.log({ user: doc.user })
     dispatch(deleteDocStart())
     axios
       .delete(`${url}/documents/delete/${doc.id}`, { data: { user: doc.user } })
@@ -121,7 +126,7 @@ export const fetchUserDocsStart = () => {
 export const fetchUserDocsSuccess = (documents) => {
   return {
     type: FETCH_USER_DOCS_SUCCESS,
-    payload: documents,
+    payload: documents.data.response,
   }
 }
 
@@ -129,7 +134,7 @@ export const fetchUserDocsSuccess = (documents) => {
 export const fetchUserDocsFailure = (error) => {
   return {
     type: FETCH_USER_DOCS_FAILURE,
-    payload: error,
+    payload: error.data.message,
   }
 }
 
@@ -140,15 +145,19 @@ export const fetchUserDocsAsync = (user) => {
     // getting user docs
     axios
       .get(`${url}/users/get/documents-with-email/${user.email}`)
-      .then((docs) => dispatch(fetchUserDocsSuccess(docs.data)))
-      .catch((err) => dispatch(fetchUserDocsFailure(err)))
+      .then((docs) => dispatch(fetchUserDocsSuccess(docs)))
+      .catch((err) => {
+        dispatch(fetchUserDocsFailure(err))
+      })
   }
 }
 
+// Updating current document that the user has selected ********************************************
 export const updateCurrentDocument = (data) => ({
   type: UPDATE_CURRENT_DOCUMENT,
   data,
 })
+
 // Adding user to document ********************************************
 // action to start adding a user to a doc
 export const addUserToDocStart = () => {
@@ -161,7 +170,7 @@ export const addUserToDocStart = () => {
 export const addUserToDocSuccess = (doc) => {
   return {
     type: ADD_USER_TO_DOC_SUCCESS,
-    data: doc,
+    data: doc.data.response,
   }
 }
 
@@ -169,7 +178,7 @@ export const addUserToDocSuccess = (doc) => {
 export const addUserToDocFailure = (error) => {
   return {
     type: ADD_USER_TO_DOC_FAILURE,
-    data: error,
+    data: error.data.message,
   }
 }
 
@@ -183,7 +192,7 @@ export const addUserToDocAsync = (request) => {
         email: request.email,
         userId: request.userId,
       })
-      .then((doc) => dispatch(addUserToDocSuccess(doc.data)))
+      .then((doc) => dispatch(addUserToDocSuccess(doc)))
       .catch((err) => dispatch(addUserToDocFailure(err)))
   }
 }
@@ -192,16 +201,15 @@ export const addUserToDocAsync = (request) => {
 // action to start getting the tree structure
 export const getTreeStart = () => {
   return {
-    type: GET_TREE_START
+    type: GET_TREE_START,
   }
 }
 
 // action for getting tree on success
 export const getTreeSuccess = (doc) => {
-  console.log(doc)
   return {
     type: GET_TREE_SUCCESS,
-    data: doc
+    data: doc.data.response,
   }
 }
 
@@ -209,55 +217,160 @@ export const getTreeSuccess = (doc) => {
 export const getTreeFailure = (error) => {
   return {
     type: GET_TREE_FAILURE,
-    data: error
+    data: error.data.message,
   }
 }
 
 // async action for getting tree structure
-export const getTreeAsync = (request)=>{
-  //console.log(request._id)
-  return (dispatch) =>{
+export const getTreeAsync = (request) => {
+  return (dispatch) => {
     dispatch(getTreeStart())
-    axios.get(`${url}/documents/get-tree/${request._id}`)
-    .then((doc)=> dispatch(getTreeSuccess(doc.data)))
-    .catch((err)=> dispatch(getTreeFailure(err)))
+    axios
+      .get(`${url}/documents/get-tree/${request._id}`)
+      .then((doc) => dispatch(getTreeSuccess(doc)))
+      .catch((err) => dispatch(getTreeFailure(err)))
   }
 }
+// Committing tree to database *******************************
+export const commitTreeStart = () => {
+  return {
+    type: COMMIT_TREE_START,
+  }
+}
+
+export const commitTreeSuccess = (doc) => {
+  console.log(doc)
+  return {
+    type: COMMIT_TREE_SUCCESS,
+    data: doc.data.response,
+  }
+}
+
+export const commitTreeFailure = (err) => {
+  return {
+    type: COMMIT_TREE_FAILURE,
+    data: err.data.message,
+  }
+}
+
+export const commitTreeAsync = (doc, docID, versionName) => {
+  return (dispatch) => {
+    dispatch(commitTreeStart())
+    axios
+      .patch(`${url}/documents/commit-doc/${docID}`, {
+        tree: doc.tree,
+        name: versionName,
+      })
+      .then((doc) => {
+        dispatch(commitTreeSuccess(doc))
+      })
+      .catch((err) => {
+        dispatch(commitTreeFailure(err))
+      })
+  }
+}
+
+
 // Sending tree to database *******************************
 // Sending tree structure to database
 export const sendDocStart = () => {
   return {
-    type: SEND_DOC_START,
-  }
-}
-
-export const sendDocSuccess = (doc) => {
-  return {
-    type: SEND_DOC_SUCCESS,
-    data: doc,
-  }
-}
-
-export const sendDocFailure = (err) => {
-  return {
-    type: SEND_DOC_FAILURE,
-    data: err,
+    type: COMMIT_TREE_START,
   }
 }
 
 //send the document (tree structure) to the backend
-export const sendDocAsync = (doc, docID) => {
+export const sendDocAsync = (treeData, docID) => {
   return (dispatch) => {
-    dispatch(sendDocStart())
+    dispatch(commitTreeStart())
     axios
-      .patch(`${url}/documents/update-tree/${docID._id}`, { tree: doc.tree })
+      .patch(`${url}/documents/update-tree/${docID}`, { tree: treeData })
       .then((doc) => {
-        console.log(doc)
+        // console.log(doc)
         dispatch(sendDocSuccess(doc))
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
         dispatch(sendDocFailure(err))
       })
+  }
+}
+
+
+// Sending a requirement to database *******************************
+export const sendReqStart = () => {
+  return {
+    type: SEND_REQ_START,
+  }
+}
+
+export const sendReqSuccess = (tree) => {
+  return {
+    type: SEND_REQ_SUCCESS,
+    data: tree,
+  }
+}
+
+export const sendReqFailure = (err) => {
+  return {
+    type: SEND_REQ_FAILURE,
+    data: err,
+  }
+}
+
+//send the requirement to the backend
+export const sendReqAsync = (requirement, docID) => {
+  return (dispatch) => {
+    dispatch(sendReqStart())
+    axios
+      .patch(`${url}/documents/update-req/${docID}`, { req: requirement })
+      .then((doc) => {
+        // console.log(doc)
+        dispatch(sendReqSuccess(doc.tree))
+      })
+      .catch((err) => {
+        // console.log(err)
+        dispatch(sendReqFailure(err))
+      })
+    }
+  }
+
+//Fetching single document *************************
+// action to start the fetch of collaborators
+export const getDocStart = () => {
+  return {
+    type: FETCH_DOC_START,
+  }
+}
+
+// action for getting Doc on failure
+export const getDocFailure = (error) => {
+  return {
+    type: FETCH_DOC_FAILURE,
+    data: error.data.message,
+  }
+}
+
+// action for getting Doc on success
+export const getDocSuccess = (doc) => {
+  // console.log(`Document: ${doc.data.response}`)
+  return {
+    type: FETCH_DOC_SUCCESS,
+    data: doc.data.response,
+  }
+}
+
+// Get the doc asynchronously
+export const getDocAsync = (docId) => {
+  console.log(docId)
+  return (dispatch) => {
+    dispatch(getDocStart())
+    axios
+      .get(`${url}/documents/get/${docId}`)
+      .then((doc) => {
+        console.log(doc)
+        dispatch(getDocSuccess(doc))
+      })
+      .catch((error) => dispatch(getDocFailure(error)))
   }
 }

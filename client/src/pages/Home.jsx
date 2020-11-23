@@ -22,11 +22,12 @@ function Home() {
       dispatch(fetchUserInfoAsync(user))
       dispatch(fetchUserDocsAsync(user))
     }
-  }, [fetchUserInfoAsync, fetchUserDocsAsync])
+  }, [])
 
   // console.log(user)
   // console.log(userInfo)
   // console.log(errorMessage)
+  console.log('here')
 
   return (
     <div className="home-root styled-background-blue">

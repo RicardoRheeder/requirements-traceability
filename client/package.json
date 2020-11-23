@@ -44,6 +44,7 @@
     "@babel/preset-react": "^7.0.0",
     "@shelf/jest-mongodb": "^1.2.3",
     "axios": "^0.21.0",
+    "axios-mock-adapter": "^1.19.0",
     "babel-jest": "^26.5.2",
     "babel-loader": "^8.0.6",
     "chai": "^4.2.0",
@@ -94,7 +95,8 @@
     "clearMocks": true,
     "collectCoverage": true,
     "setupFiles": [
-      "jest-localstorage-mock"
+      "jest-localstorage-mock",
+      "axios-mock-adapter"
     ],
     "transform": {
       "^.+\\.[jt]sx?$": "babel-jest"
