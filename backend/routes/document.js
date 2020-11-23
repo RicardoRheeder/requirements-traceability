@@ -235,30 +235,21 @@ router.route('/update-tree/:id').patch((req, res) => {
 
 // update requirement within tree structure
 router.route('/update-req/:id').patch((req, res) => {
-  // console.log(req.params.id)
   const requirement = req.body.req
+
   // finding a document given its id
   Document.findById(req.params.id)
     .then((doc) => {
-      // console.log('here')
       const databaseTree = doc.tree
-      // console.log('here')
       const combinedTree = Tree_UpdateDatabaseTreeReq(databaseTree, requirement)
       // updating the documents tree to include the new requirement
       doc.tree = JSON.stringify(combinedTree)
 
-      console.log(doc.tree)
-
-      // res.json({
-      //   message: 'Tree successfully updated with requirement',
-      //   response: doc,
-      // })
       Document.findByIdAndUpdate(
         { _id: req.params.id },
         { $set: { tree: JSON.stringify(combinedTree) } }
       )
         .then((doc) => {
-          // console.log('over here')
           res.json({
             message: 'Tree structure updated with new requirement withing doc.',
             response: doc,

@@ -2,7 +2,11 @@ function Tree_UpdateDatabaseTreeReq(databaseTree, localRequirement) {
   // If the passed requirement is a string, you need to parse the localRequirement
   const localReq = JSON.parse(localRequirement)
   const dbTree = JSON.parse(databaseTree)
+
+  // console.log('===========================================')
+  // console.log(localReq)
   // console.log(dbTree)
+  // console.log('===========================================')
 
   function parseDatabaseTree(TreeData, localReq, localReqUniqueID) {
     var i = TreeData.length
@@ -22,8 +26,10 @@ function Tree_UpdateDatabaseTreeReq(databaseTree, localRequirement) {
   }
 
   var combinedTree = parseDatabaseTree(dbTree, localReq, localReq['uniqueID'])
-  console.log('here is the updated doc')
-  console.log(combinedTree)
+  // console.log('*********************** updated doc **************************')
+  // console.log(combinedTree)
+  // console.log('************************************************************')
+
   return combinedTree
 }
 

@@ -62,6 +62,9 @@ export default function Editor() {
     {}
   )
   const fetchedTree = useSelector((state) => state.document.fetchedTree)
+  const selectedDocVersion = useSelector(
+    (state) => state.common.currentSelectedDocVersion
+  )
 
   useInterval(() => {
     if (selectedDocObject != null && shouldPullFromDB == true) {
@@ -76,9 +79,16 @@ export default function Editor() {
       }
     }
   }, 1000)
-  const selectedDocVersion = useSelector(
-    (state) => state.common.currentSelectedDocVersion
-  )
+
+  useEffect(() => {
+    if (selectedDocObject != null) {
+      let tree = JSON.parse(selectedDocObject.tree)
+      if (!tree[0].hasOwnProperty('uniqueID')) {
+        var td = Tree_Update(tree)
+        dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
+      }
+    }
+  }, [selectedDocObject])
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -117,10 +127,10 @@ export default function Editor() {
 
   const onFocusRequirement = (id) => {
     if (id != selectedNodeId) {
-      // dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
+      dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
 
       if (selectedNodeId != 0) {
-        // dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
+        dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
 
         // Get requirement we are editing, and remove the user's name from it
         var requirement = JSON.stringify(
@@ -146,9 +156,10 @@ export default function Editor() {
           user.nickname
         )
       )
-
-      dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-      dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+      setTimeout(() => {
+        dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+        dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+      }, 100)
     }
   }
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
+import { setModalObject } from '../../redux/stores/common/actions'
 import { addUserToDocAsync } from '../../redux/stores/document/actions'
 
 export default function Modal_InviteUser() {
@@ -15,16 +16,16 @@ export default function Modal_InviteUser() {
     email: '',
   })
 
-  const handleSubmit = (e) => {
-    e.preventDefaults
-
+  const handleOnClick = () => {
     const request = {
       documentID: selectedDoc._id,
       userId: _id,
       email: email.email.trim(),
     }
     dispatch(addUserToDocAsync(request))
+    dispatch(setModalObject({ visible: false, mode: 0 }))
   }
+
   const handleChange = (e) => {
     const { value } = e.target
     setEmail({ ...email, email: value })
@@ -39,7 +40,7 @@ export default function Modal_InviteUser() {
         <h2>
           {'When entering multiple email addresses, use commas to separate.'}
         </h2>
-        <form onSubmit={handleSubmit}>
+        <form>
           <input
             className="modal-input"
             type="email"
@@ -50,7 +51,10 @@ export default function Modal_InviteUser() {
           />
 
           <div className="button-container">
-            <button className="orange-button modal-button">
+            <button
+              className="orange-button modal-button"
+              onClick={() => handleOnClick()}
+            >
               Submit
             </button>
             <button
