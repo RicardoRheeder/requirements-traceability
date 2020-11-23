@@ -1,7 +1,4 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
-import { useAuth0 } from '@auth0/auth0-react'
 
 function About() {
   const [emailSubject, setEmailSubject] = useState('')
@@ -9,7 +6,6 @@ function About() {
   const [userEmail, setUserEmail] = useState('')
 
   const [emailBody, setEmailBody] = useState('')
-
   const generateMailToString = () => {
     // A function to open the users mail app to send the feedback to our greenfoot gmail
     var email = 'tony+doctracer@persea.ca'
