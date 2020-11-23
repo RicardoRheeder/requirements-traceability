@@ -45,6 +45,7 @@ export default function Router() {
 
   return (
     <div className="app-root">
+      <ModalComponent />
       <HashRouter>
         <Switch>
           {!isAuthenticated ? (
@@ -56,7 +57,6 @@ export default function Router() {
           ) : (
             <>
               {loaderObject()}
-              <ModalComponent />
               <NavBar />
               <Route exact={true} path="/" children={<Home />} />
               <Route exact={true} path="/editor" children={<Editor />} />
