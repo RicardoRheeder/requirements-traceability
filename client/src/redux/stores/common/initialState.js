@@ -1,7 +1,11 @@
 export default {
   loggedIn: false,
   treeData: [
+<<<<<<< HEAD
     { title: 'HLRQ1', text: 'hlrq1 text', id: 1, status: ["unsatisfied","WIP","review","satisfied",["user input status","blue"]] },
+=======
+    { title: 'HLRQ1', text: 'hlrq1 text', id: 1, isBeingEdited: 'test' },
+>>>>>>> master
     { title: 'HLRQ2', text: 'hlrq2 text', id: 2 },
     {
       title: 'HLRQ3',
@@ -35,5 +39,7 @@ export default {
   // mode: 4 = export the document
   modalObject: { visible: false, mode: 0 },
   selectedDocumentPanelObject: 0,
+
+  userColorObject: {},
   currentSelectedDocVersion: '',
 }

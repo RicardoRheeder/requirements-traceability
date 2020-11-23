@@ -130,14 +130,43 @@ export function Tree_UpdateNodeName(customTreeData, targetID, title ) {
  * @param {string} text - The value to update the node's text property with
  * @returns The modified tree structure
  */
-export function Tree_UpdateNodeText(customTreeData, targetID, text ) {
+export function Tree_UpdateNodeText(customTreeData, targetID, text=null ) {
+  console.log("update text")
   function parseData(TreeData){
     var i = TreeData.length;
     while(i--){
       if( TreeData[i]
         && TreeData[i].hasOwnProperty('id')
         && (TreeData[i]['id'] === targetID ) ){
-          TreeData[i]['text'] = text
+          if ( text != null) TreeData[i]['text'] = text
+          break
+      } else if (TreeData[i].hasOwnProperty('children')){
+        parseData(TreeData[i]['children'])
+      }
+    }
+    return TreeData;
+  }
+  var treeWithNewText = parseData(customTreeData)
+  return treeWithNewText;
+}
+
+/**
+ * Returns an object of the tree with the selected ID's text property updated
+ * @param {Object} customTreeData - The tree data to parse
+ * @param {int} targetID - The ID of the node that is currently selected (the ID of the node to be deleted)
+ * @param {string} text - The value to update the node's text property with
+ * @returns The modified tree structure
+ */
+export function Tree_UpdateIsBeingEdited(customTreeData, targetID, editingUser=null ) {
+  console.log("update highlight")
+
+  function parseData(TreeData){
+    var i = TreeData.length;
+    while(i--){
+      if( TreeData[i]
+        && TreeData[i].hasOwnProperty('id')
+        && (TreeData[i]['id'] === targetID ) ){
+          TreeData[i]['isBeingEdited'] = editingUser
           break
       } else if (TreeData[i].hasOwnProperty('children')){
         parseData(TreeData[i]['children'])
