@@ -29,7 +29,6 @@ export default function Hierarchy({ scrollToElementFunction }) {
   const dispatch = useDispatch()
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedDocObject = useSelector((state) => state.document.current_doc)
-  // console.log(selectedDocObject)
 
   // Keeps track of which node ID is selected: Value will update with the selectedID stored in Redux
   const selectedNodeId = useSelector((state) => state.common.selectedID)
@@ -43,7 +42,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
 
   const [searchString, setSearchString] = useState('') // String in the search box
   const [searchFocusIndex, setSearchFocusIndex] = useState(0) // Which tree index to focus on
-  const [searchFoundCount, setSearchFoundCount] = useState(null) // Cound of searched items found
+  const [searchFoundCount, setSearchFoundCount] = useState(null) // Count of searched items found
   // state for use in dropdown versions list
   const [selectedVersionTree, setSelectedVersionTree] = useState() // selecting a document version
   const [versionList, setVersionList] = useState([]) // setting the version list
@@ -51,10 +50,10 @@ export default function Hierarchy({ scrollToElementFunction }) {
 
   // refreshing versions list on mount
   useEffect(() => {
-    if (selectedDocObject) {
+    if (selectedDocObject !== null) {
       refreshVersionList()
     }
-  }, [])
+  }, [selectedDocObject])
 
   // function for getting the versions list
   function refreshVersionList() {
@@ -386,9 +385,6 @@ export default function Hierarchy({ scrollToElementFunction }) {
           <button className="orange-button" onClick={() => print()}>
             EXPORT
           </button>
-          {/* <button className="orange-button" onClick={getTreeFromDB}>
-            PULL
-          </button> */}
           <button
             className="orange-button"
             onClick={() => dispatch(setModalObject({ visible: true, mode: 3 }))}
