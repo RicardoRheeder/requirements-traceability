@@ -239,6 +239,7 @@ export const commitTreeStart = () => {
 }
 
 export const commitTreeSuccess = (doc) => {
+  console.log(doc)
   return {
     type: COMMIT_TREE_SUCCESS,
     data: doc.data.response,
@@ -256,7 +257,7 @@ export const commitTreeAsync = (doc, docID, versionName) => {
   return (dispatch) => {
     dispatch(commitTreeStart())
     axios
-      .patch(`${url}/documents/commit-doc/${docID._id}`, {
+      .patch(`${url}/documents/commit-doc/${docID}`, {
         tree: doc.tree,
         name: versionName,
       })
@@ -351,20 +352,25 @@ export const getDocFailure = (error) => {
 }
 
 // action for getting Doc on success
-export const getDocSuccess = (collabs) => {
+export const getDocSuccess = (doc) => {
+  // console.log(`Document: ${doc.data.response}`)
   return {
     type: FETCH_DOC_SUCCESS,
-    data: collabs.data.response,
+    data: doc.data.response,
   }
 }
 
 // Get the doc asynchronously
 export const getDocAsync = (docId) => {
+  console.log(docId)
   return (dispatch) => {
     dispatch(getDocStart())
     axios
       .get(`${url}/documents/get/${docId}`)
-      .then((collabs) => dispatch(getDocSuccess(collabs)))
+      .then((doc) => {
+        console.log(doc)
+        dispatch(getDocSuccess(doc))
+      })
       .catch((error) => dispatch(getDocFailure(error)))
   }
 }
