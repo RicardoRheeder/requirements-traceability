@@ -2,11 +2,41 @@
     float: right;
 }
 
-.status-node{
+.satisifed{
+    font-size: 20px;
+    padding: 3px;
+    margin-left: 5px;
+    background-color:rgb(81, 201, 87);
+    color: black;
+    border-radius: 10px;
+    border: 2px solid black;
+}
+
+.unsatisfied{
+    font-size: 20px;
+    padding: 3px;
+    margin-left: 5px;
+    background-color:rgb(224, 95, 77);
+    color: black;
+    border-radius: 10px;
+    border: 2px solid black;
+}
+
+.review{
     font-size: 20px;
     padding: 3px;
     margin-left: 5px;
     background-color:rgb(240, 166, 82);
+    color: black;
+    border-radius: 10px;
+    border: 2px solid black;
+}
+
+.WIP{
+    font-size: 20px;
+    padding: 3px;
+    margin-left: 5px;
+    background-color:rgb(182, 173, 55);
     color: black;
     border-radius: 10px;
     border: 2px solid black;

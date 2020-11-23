@@ -6,10 +6,8 @@ export default function RequirementStatusContainer({listOfStatuses}) {
         return statusList.map((item, i) => {
             console.log(item);
             return (
-            <span>
-            <span key = {i} className="status-node">
+            <span key = {i} className={item}>
                 {item}
-            </span>
             </span>
             )
         });
