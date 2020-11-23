@@ -94,7 +94,6 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, error: action.data }
     case SEND_REQ_SUCCESS:
       return { ...state, isFetching: false, fetchedTree: action.data }
-      return { ...state, isFetching: false, success: action.data }
 
     // committing tree actions
     case COMMIT_TREE_START:
