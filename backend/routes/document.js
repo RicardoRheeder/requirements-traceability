@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const User = require('../models/user.model')
 const Document = require('../models/document.model')
-
+const Tree_UpdateDatabaseTreeReq = require('../utils/treeUpdate')
 // Post Routes*****************************************
 
 // Create a new document
@@ -233,6 +233,42 @@ router.route('/update-tree/:id').patch((req, res) => {
     .catch((err) => res.status(400).json('Error: ' + err))
 })
 
+// update requirement within tree structure
+router.route('/update-req/:id').patch((req, res) => {
+  const requirement = req.body.req
+
+  // finding a document given its id
+  Document.findById(req.params.id)
+    .then((doc) => {
+      const databaseTree = doc.tree
+      const combinedTree = Tree_UpdateDatabaseTreeReq(databaseTree, requirement)
+      // updating the documents tree to include the new requirement
+      doc.tree = JSON.stringify(combinedTree)
+
+      Document.findByIdAndUpdate(
+        { _id: req.params.id },
+        { $set: { tree: JSON.stringify(combinedTree) } }
+      )
+        .then((doc) => {
+          res.json({
+            message: 'Tree structure updated with new requirement withing doc.',
+            response: doc,
+          })
+        })
+        .catch((err) => {
+          res.status(400).json({
+            message: 'Failed to update tree with new requirement',
+            response: err,
+          })
+        })
+    })
+    .catch((err) =>
+      res.status(400).json({
+        message: 'failed to find document with id: ' + req.params.id,
+      })
+    )
+})
+
 // adding doc to the versions array
 router.route('/commit-doc/:id').patch((req, res) => {
   const newTree = req.body.tree
@@ -324,7 +360,7 @@ router.route('/delete/:id').delete((req, res) => {
     })
     .catch((err) => {
       res.status(400).json({
-        message: 'Error: Could not find Document with id: ',
+        message: 'Error: Could not find Document with id: '+ docID,
         response: err,
       })
     })

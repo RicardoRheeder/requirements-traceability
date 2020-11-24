@@ -31,11 +31,4 @@
     font-size: 20px;
     min-width: 95px;
   }
-
-  .disabled {
-    pointer-events: none;
-    cursor: not-allowed;
-    opacity: 0.65;
-    filter: alpha(opacity=65);
-  }
 }

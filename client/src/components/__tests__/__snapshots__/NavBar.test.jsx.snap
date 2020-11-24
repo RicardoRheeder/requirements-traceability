@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Nav Bar renders 1`] = `ShallowWrapper {}`;
+
+exports[`Nav Bar renders with children 1`] = `ReactWrapper {}`;
