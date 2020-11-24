@@ -9,6 +9,7 @@ describe('User Model', function(){
         testUser.validate(function(err){
                 expect(err.errors.username).to.exist
                 expect(err.errors.email).to.exist
+                expect(testUser.documents).to.be.empty
                 done();
         });
     });
