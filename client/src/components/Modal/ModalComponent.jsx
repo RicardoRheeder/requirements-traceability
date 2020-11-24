@@ -12,7 +12,7 @@ import {
 } from './'
 
 export default function ModalComponent() {
-  const modalObject = useSelector((state) => state.common.modalObject, [])
+  const modalObject = useSelector((state) => state.common.modalObject, {})
   const dispatch = useDispatch()
 
   const closeModal = () => {

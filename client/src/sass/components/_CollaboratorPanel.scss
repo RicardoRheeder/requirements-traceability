@@ -1,0 +1,29 @@
+.collaborator-panel {
+  display: flex;
+  position: relative;
+  float: right;
+  height: fit-content;
+}
+
+.collaborator-icon {
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: 600;
+  border: 1px solid black;
+  margin: 0px 3px;
+}
+
+.small {
+  width: 24px;
+  height: 24px;
+  line-height: 22px;
+  font-size: 16px;
+}
+
+.normal {
+  width: 32px;
+  height: 32px;
+  line-height: 30px;
+  font-size: 20px;
+}

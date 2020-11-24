@@ -16,16 +16,32 @@ export const FETCH_USER_DOCS_SUCCESS = 'FETCH_USER_DOCS_SUCCESS'
 export const FETCH_USER_DOCS_FAILURE = 'FETCH_USER_DOCS_FAILURE'
 
 export const UPDATE_CURRENT_DOCUMENT = 'UPDATE_CURRENT_DOCUMENT'
+
 // actions for adding a user to a document
-export const ADD_USER_TO_DOC_START = 'ADD_USER_TO_DOC_START';
-export const ADD_USER_TO_DOC_FAILURE = 'ADD_USER_TO_DOC_FAILURE';
-export const ADD_USER_TO_DOC_SUCCESS = 'ADD_USER_TO_DOC_SUCCESS';
+export const ADD_USER_TO_DOC_START = 'ADD_USER_TO_DOC_START'
+export const ADD_USER_TO_DOC_FAILURE = 'ADD_USER_TO_DOC_FAILURE'
+export const ADD_USER_TO_DOC_SUCCESS = 'ADD_USER_TO_DOC_SUCCESS'
 
 // actions for getting tree structure from the database
 export const GET_TREE_START = 'GET_TREE_START'
 export const GET_TREE_FAILURE = 'GET_TREE_FAILURE'
 export const GET_TREE_SUCCESS = 'GET_TREE_SUCCESS'
+
 // actions for sending the tree structure
-export const SEND_DOC_START = 'SEND_DOC_START';
-export const SEND_DOC_FAILURE = 'SEND_DOC_FAILURE';
-export const SEND_DOC_SUCCESS = 'SEND_DOC_SUCCESS';
+export const SEND_DOC_START = 'SEND_DOC_START'
+export const SEND_DOC_FAILURE = 'SEND_DOC_FAILURE'
+export const SEND_DOC_SUCCESS = 'SEND_DOC_SUCCESS'
+// actions for sending a requirement
+export const SEND_REQ_START = 'SEND_REQ_START'
+export const SEND_REQ_FAILURE = 'SEND_REQ_FAILURE'
+export const SEND_REQ_SUCCESS = 'SEND_REQ_SUCCESS'
+
+
+export const COMMIT_TREE_START = 'SEND_DOC_START'
+export const COMMIT_TREE_FAILURE = 'SEND_DOC_FAILURE'
+export const COMMIT_TREE_SUCCESS = 'SEND_DOC_SUCCESS'
+
+//actions for getting a single doc
+export const FETCH_DOC_START = 'FETCH_DOC_START'
+export const FETCH_DOC_FAILURE = 'FETCH FETCH_DOC_FAILURE'
+export const FETCH_DOC_SUCCESS = 'FETCH_DOC_SUCCESS'
