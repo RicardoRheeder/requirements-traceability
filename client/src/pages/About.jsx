@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 function About() {
   const [emailSubject, setEmailSubject] = useState('')
   const [userName, setUserName] = useState('')
-  const [userEmail, setUserEmail] = useState('')
-
   const [emailBody, setEmailBody] = useState('')
   const generateMailToString = () => {
     // A function to open the users mail app to send the feedback to our greenfoot gmail
@@ -17,8 +15,7 @@ function About() {
     var encodeFooter = (
       '\n\nFrom: ' +
       userName +
-      '\nEmail address: ' +
-      userEmail
+      '\n'
     )
       .split(' ')
       .join('%20')
@@ -108,18 +105,6 @@ function About() {
                   onChange={EditUserName}
                   className="about-input-field"
                   placeholder="Type your name..."
-                ></input>
-              </div>
-              <div className="label-containers">
-                <label className="form-labels" for="email">
-                  Email:{' '}
-                </label>{' '}
-                <input
-                  type="text"
-                  value={userEmail}
-                  onChange={EditUserEmail}
-                  className="about-input-field"
-                  placeholder="Type your email..."
                 ></input>
               </div>
               <div className="label-containers">
