@@ -14,7 +14,7 @@ export default function LeftContainer() {
   )
 
   const RenderDocumentPanels = (listOfDocs) => {
-    console.log(docs)
+    
 
     if (listOfDocs.length != 0) {
       return listOfDocs.map((document, i) => {
