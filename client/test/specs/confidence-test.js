@@ -66,10 +66,10 @@ describe('Basic functionality of app', function() {
     expect(EDITOR_HIERARCHY_NODE).toHaveValue('Title of your requirement. (1) edited')
   })
 
-  it('should select node and change name in editor', function() {
+  it('should select node and change description in editor', function() {
     const EDITOR_MAIN_NODE = $('.selected').$('textarea')
     EDITOR_MAIN_NODE.click()
-    EDITOR_MAIN_NODE.addValue(' edited')
+    EDITOR_MAIN_NODE.setValue(' edited')
     expect(EDITOR_MAIN_NODE).toHaveValue('Type contents of requirement here... edited')
   })
 
