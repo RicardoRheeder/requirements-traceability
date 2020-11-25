@@ -23,6 +23,7 @@ import {
   getTreeAsync,
   sendDocAsync,
   sendReqAsync,
+  sendReqAsyncOnUnmount,
 } from '../redux/stores/document/actions'
 
 function useInterval(callback, delay) {
@@ -88,7 +89,28 @@ export default function Editor() {
         dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
       }
     }
-  }, [selectedDocObject])
+
+    return () => {
+      if (selectedDocObject != null) {
+        console.log('leaving page ' + selectedNodeId)
+
+        if (selectedNodeId != 0) {
+          dispatch(
+            sendReqAsyncOnUnmount(
+              storeTreeData,
+              selectedNodeId,
+              user.nickname,
+              null,
+              selectedDocObject._id
+            )
+          ) // Send the updated requirement to the database
+          // console.log('On Focus: ' + id + ' ' + selectedNodeId)
+          dispatch(updateSelectedNodeID(0)) // Updating visual of node being selected
+          dispatch(setShouldPullFromDB(true)) // Don't pull when focussing on a requirement
+        }
+      }
+    }
+  }, [selectedDocObject, selectedNodeId])
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
