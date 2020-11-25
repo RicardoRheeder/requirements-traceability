@@ -208,7 +208,7 @@ export default function Editor() {
             <div className="req-header-container">
               <div className="left">
                 <h2 className="section-headers">
-                  {order} {title} {status != null ? <RequirementStatusContainer listOfStatuses={status} /> : <></>}
+                  {order} {title} 
                 </h2>
                 <span style={{ display: 'flex' }}>
                   {isBeingEdited != null ? (
@@ -223,6 +223,7 @@ export default function Editor() {
                   )}
                 </span>
               </div>
+              <RequirementStatusContainer listOfStatuses={status} />
 
               {parseInt(id) == parseInt(selectedNodeId) ? (
                 <div className="right">

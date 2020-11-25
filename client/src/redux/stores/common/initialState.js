@@ -2,7 +2,7 @@ export default {
   loggedIn: false,
   treeData: [
     { title: 'HLRQ1', text: 'hlrq1 text', id: 1, isBeingEdited: 'testUser1' },
-    { title: 'HLRQ2', text: 'hlrq2 text', id: 2, status: ["unsatisfied","WIP","review","satisfied",["User Input State","blue"],["UIS","red"],["UIS","green"],["UIS","yellow"],["UIS","orange"],["UIS","Grey"]] },
+    { title: 'HLRQ2', text: 'hlrq2 text', id: 2, status: ["unsatisfied","WIP","review","satisfied",["User Input Status","blue"],["UIS","red"],["UIS","green"],["UIS","yellow"],["UIS","orange"],["UIS","Grey"]] },
     {
       title: 'HLRQ3',
       // dragDisabled: true,

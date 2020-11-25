@@ -50,3 +50,12 @@
 .created-status-orange{
     background-color:rgb(214, 114, 0);
 }
+
+.add-status-button{
+    transform: translateY(-3px);;
+    margin-left: 5px;
+    margin-right: 20px;
+    border-radius: 10px;
+    border: 2px solid black;
+    float: right;
+  }
