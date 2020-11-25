@@ -122,8 +122,7 @@ export default function Editor() {
                 
               </h2>
               <span className="status-container">
-                <button className="add-status-button">+</button>
-                {status != null ? <RequirementStatusContainer listOfStatuses={status} /> : <></>}
+                <RequirementStatusContainer listOfStatuses={status} />
                 </span>
               <span style={{ display: 'flex' }}>
                 {isBeingEdited != null ? (

@@ -1,6 +1,11 @@
 import React from 'react'
+import { useState } from 'react';
 
 export default function RequirementStatusContainer({listOfStatuses}) {
+    const [whiteboxIsOpen,setWhiteboxIsOpen] = useState(false);
+    const openStatusSelection = () => {
+        setWhiteboxIsOpen(!whiteboxIsOpen)
+    }
     const renderStatuses = (statusList) => {
         console.log(statusList);
         var presets = ["satisfied","unsatisfied","WIP","review"];
@@ -63,7 +68,9 @@ export default function RequirementStatusContainer({listOfStatuses}) {
     }
     return (
         <span className="status-node-container">
-            {renderStatuses(listOfStatuses)}
+            <button className="add-status-button" onClick={()=>{openStatusSelection()}}>+</button>
+            {whiteboxIsOpen==true ? <div className="white-box"></div> : <></>}
+            {listOfStatuses != null ? renderStatuses(listOfStatuses) : ""}
         </span>
     )
 }
