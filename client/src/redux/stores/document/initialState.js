@@ -3,5 +3,6 @@ export default {
   current_doc: null,
   isFetching: false,
   error: null,
-  success: null
+  success: null,
+  fetchedTree: null,
 }

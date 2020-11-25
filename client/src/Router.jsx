@@ -2,7 +2,7 @@ import React from 'react'
 
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
 
-import { Home, NotFound, ReactPage, LandingPage, Editor } from './pages'
+import { Home, NotFound, ReactPage, LandingPage, Editor, About } from './pages'
 
 import { NavBar, ModalComponent } from './components'
 
@@ -60,6 +60,7 @@ export default function Router() {
               <NavBar />
               <Route exact={true} path="/" children={<Home />} />
               <Route exact={true} path="/editor" children={<Editor />} />
+              <Route exact={true} path="/about" children={<About />} />
             </>
           )}
         </Switch>

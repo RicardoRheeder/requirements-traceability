@@ -5,7 +5,8 @@ import {
     SET_MODALOBJECT,
     SET_SELECTED_DOCUMENTPANEL_OBJECT,
     SET_USERCOLOROBJECT,
-    SET_CURRENTDOCVERSION
+    SET_SHOULDPULLFROMDB,
+    SET_CURRENTDOCVERSION,
 } from './actionTypes';
 
 import initialState from './initialState'
@@ -24,8 +25,10 @@ export default (state = initialState, action) => {
             return { ...state, selectedDocumentPanelObject: action.data };
         case SET_USERCOLOROBJECT:
             return { ...state, userColorObject: {...state.userColorObject, ...action.data} };
+        case SET_SHOULDPULLFROMDB:
+            return { ...state, shouldPullFromDB: action.data };
         case SET_CURRENTDOCVERSION:
-          return { ...state, currentSelectedDocVersion: action.data };
+          return { ...state, currentSelectedDocVersion: action.data }
         default:
             return state;
     }

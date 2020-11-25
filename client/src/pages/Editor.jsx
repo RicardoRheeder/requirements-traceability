@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -10,20 +10,50 @@ import {
   Tree_Update,
   Tree_UpdateIsBeingEdited,
   Tree_UpdateNodeText,
+  Tree_CombineLocalAndDatabaseTrees,
+  Tree_GetRequirementObject,
 } from '../utils/TreeNodeHelperFunctions'
 
 import {
   updateDataTree,
   updateSelectedNodeID,
+  setShouldPullFromDB,
 } from '../redux/stores/common/actions'
+import {
+  getTreeAsync,
+  sendDocAsync,
+  sendReqAsync,
+} from '../redux/stores/document/actions'
+
+function useInterval(callback, delay) {
+  const savedCallback = useRef()
+
+  // Remember the latest function.
+  useEffect(() => {
+    savedCallback.current = callback
+  }, [callback])
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current()
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay)
+      return () => clearInterval(id)
+    }
+  }, [delay])
+}
 
 export default function Editor() {
   const { user } = useAuth0()
   const dispatch = useDispatch()
   const paneRef = useRef(null)
 
-  var tempTree
-
+  const shouldPullFromDB = useSelector(
+    (state) => state.common.shouldPullFromDB,
+    true
+  )
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedNodeId = useSelector((state) => state.common.selectedID)
   const selectedDocObject = useSelector((state) => state.document.current_doc)
@@ -31,9 +61,34 @@ export default function Editor() {
     (state) => state.common.userColorObject,
     {}
   )
+  const fetchedTree = useSelector((state) => state.document.fetchedTree)
   const selectedDocVersion = useSelector(
     (state) => state.common.currentSelectedDocVersion
   )
+
+  useInterval(() => {
+    if (selectedDocObject != null && shouldPullFromDB == true) {
+      dispatch(getTreeAsync(selectedDocObject))
+      console.log('Pull tree from database')
+
+      if (fetchedTree != null) {
+        let treeFromDB = null
+        // Update the isBeingEdited field with the user's nickname
+        treeFromDB = JSON.parse(fetchedTree)
+        updateTree(treeFromDB)
+      }
+    }
+  }, 1000)
+
+  useEffect(() => {
+    if (selectedDocObject != null) {
+      let tree = JSON.parse(selectedDocObject.tree)
+      if (!tree[0].hasOwnProperty('uniqueID')) {
+        var td = Tree_Update(tree)
+        dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
+      }
+    }
+  }, [selectedDocObject])
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -63,26 +118,62 @@ export default function Editor() {
    * @param {Object} element - the element reference to scroll to
    */
   const scrollToElement = (element) => {
-    
-    let navbar = $( ".navbar-root" );
-    console.log(navbar);
-    $( ".navbar-root" ).remove();
+    let navbar = $('.navbar-root')
+    $('.navbar-root').remove()
     element.scrollIntoView(true, { behavior: 'smooth' })
-    $(".app-root").prepend(navbar);
+    $('.app-root').prepend(navbar)
   }
 
   const onFocusRequirement = (id) => {
-    console.log('On Focus: ' + id + ' ' + selectedNodeId)
-    dispatch(updateSelectedNodeID(id))
-    var td = Tree_UpdateIsBeingEdited(storeTreeData, id, user.nickname)
-    updateTree(td)
+    if (id != selectedNodeId) {
+      dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
+
+      if (selectedNodeId != 0) {
+        dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
+
+        // Get requirement we are editing, and remove the user's name from it
+        var requirement = JSON.stringify(
+          Tree_GetRequirementObject(
+            storeTreeData,
+            selectedNodeId,
+            user.nickname,
+            null
+          )
+        )
+        dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+      }
+
+      // console.log('On Focus: ' + id + ' ' + selectedNodeId)
+      dispatch(updateSelectedNodeID(id)) // Updating visual of node being selected
+
+      // Get requirement we are editing, and add username
+      var requirement = JSON.stringify(
+        Tree_GetRequirementObject(
+          storeTreeData,
+          id,
+          user.nickname,
+          user.nickname
+        )
+      )
+      setTimeout(() => {
+        dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+        dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+      }, 100)
+    }
   }
 
   const offFocusRequirement = (id) => {
-    console.log('Off Focus: ' + id)
-    dispatch(updateSelectedNodeID(0))
-    var td = Tree_UpdateIsBeingEdited(storeTreeData, id, null)
-    updateTree(td)
+    // console.log('Off Focus: ' + id)
+    dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
+    // Get requirement we are editing, and remove the user's name from it
+    var requirement = JSON.stringify(
+      Tree_GetRequirementObject(storeTreeData, id, user.nickname, null)
+    )
+    setTimeout(() => {
+      dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+      dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+      dispatch(setShouldPullFromDB(true)) // Start pulling documents from the database again
+    }, 100)
   }
 
   /**
@@ -95,7 +186,6 @@ export default function Editor() {
    */
   const CreateSectionsFromArrayOfStructs = (struct, level) => {
     window.test = paneRef
-
     var indentVal = String(level * 20) + 'px' // Used for the indenting of sections
     level += 1
     // console.log(indentVal);
@@ -115,27 +205,38 @@ export default function Editor() {
             }
             id={id}
           >
-            <div>
-              <h2 className="section-headers">
-                
-                {order} {title} 
-                
-              </h2>
-              <span className="status-container">
-                <RequirementStatusContainer listOfStatuses={status} />
+            <div className="req-header-container">
+              <div className="left">
+                <h2 className="section-headers">
+                  {order} {title} 
+                </h2>
+                <span style={{ display: 'flex' }}>
+                  {isBeingEdited != null ? (
+                    <CollaboratorIcon
+                      key={i}
+                      username={isBeingEdited}
+                      color={userColorObject[isBeingEdited]}
+                      smallIcon={true}
+                    />
+                  ) : (
+                    ''
+                  )}
                 </span>
-              <span style={{ display: 'flex' }}>
-                {isBeingEdited != null ? (
-                  <CollaboratorIcon
-                    key={i}
-                    username={isBeingEdited}
-                    color={userColorObject[isBeingEdited]}
-                    smallIcon={true}
-                  />
-                ) : (
-                  ''
-                )}
-              </span>
+              </div>
+              <RequirementStatusContainer listOfStatuses={status} />
+
+              {parseInt(id) == parseInt(selectedNodeId) ? (
+                <div className="right">
+                  <button
+                    className="orange-button"
+                    onClick={() => offFocusRequirement(id)}
+                  >
+                    SUBMIT
+                  </button>
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
             <TextareaAutosize
               type="text"
@@ -143,7 +244,7 @@ export default function Editor() {
               value={text}
               onChange={updateNodeText}
               onFocus={() => onFocusRequirement(id)}
-              onBlur={() => offFocusRequirement(id)}
+              // onBlur={() => offFocusRequirement(id)}
             ></TextareaAutosize>
             {/* If children exist, recurse into it, and create sections out of it */}
             {children != null ? (
