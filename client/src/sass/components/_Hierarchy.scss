@@ -2,11 +2,199 @@
   background: #212a3f;
   overflow: auto;
 
+  .hierarchy-button {
+    height: 30px;
+    padding: 0px 10px;
+    margin: 0px 2px !important;
+    font-size: 16px !important;
+  }
+
+  .hierarchy-contents-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .tree-utilities {
+    flex: 0 0 auto;
+    padding: 0 15px;
+    height: 150px;
+    background: #2e2e2e;
+    border: 1px solid #f96302 !important;
+
+    .tree-utilities-header {
+      padding-top: 5px;
+
+      .utilities-header-style {
+        width: fit-content;
+        margin: 0 auto 5px auto;
+      }
+    }
+
+    .node-button-div {
+      line-height: 20px;
+      margin: 2px auto;
+      width: fit-content;
+    }
+
+    .search-panel {
+      font-size: 20px;
+      font-weight: 200;
+      height: 25px;
+    }
+
+    .search-box {
+      width: 100px;
+    }
+
+    .hierarchy-search {
+      overflow: visible;
+      background-color: #434f5b;
+      color: white;
+    }
+  }
+
+  .node-container {
+    height: calc(100vh - 345px);
+
+    .tree-visual {
+      flex: 1 0 50%;
+      padding: 0 0 0 15px;
+      height: 100%;
+
+      .tree-node-styling > * {
+        background: #434f5b;
+        border-color: transparent;
+      }
+
+      .tree-node-styling {
+        background: #434f5b;
+        border: 2px solid transparent;
+        font-size: 18px;
+        border-radius: 17px;
+        // &.type-a {
+        //     background-color: red;
+        // }
+        z-index: 100;
+      }
+
+      .selected-tree-node > * {
+        background: #f96302;
+        color: #212a3f;
+
+        input {
+          color: #212a3f;
+        }
+      }
+
+      .selected-tree-node {
+        background: #f96302 !important;
+        border: 2px solid #f96302;
+      }
+
+      .node-ordering-title {
+        margin: 0 2px 0 0;
+      }
+
+      .node-info-button {
+        border-radius: 25px;
+        padding: 0px 5px;
+        font-weight: 600;
+      }
+
+      .rstcustom__rowWrapper {
+        padding: 1px 1px 1px 0;
+      }
+
+      .rstcustom__rowContents {
+        border-radius: 12px;
+        min-width: 100px;
+        width: 150px;
+        padding: 0 3px 0 3px;
+      }
+
+      .row_inputfield {
+        input {
+          width: 100%;
+          background: transparent;
+          border: none;
+          font-size: 1.1rem;
+          color: #f2f2f2;
+        }
+      }
+
+      .rstcustom__rowTitle {
+        font-weight: bold;
+        font-size: 20px;
+      }
+
+      .rstcustom__rowSubtitle {
+        font-size: 15px;
+        line-height: 1;
+      }
+
+      .rst__lineHalfHorizontalRight::before,
+      .rst__lineFullVertical::after,
+      .rst__lineHalfVerticalTop::after,
+      .rst__lineHalfVerticalBottom::after {
+        position: absolute;
+        content: '';
+        background-color: #f96302;
+      }
+
+      .rst__lineFullVertical::after,
+      .rst__lineHalfVerticalTop::after,
+      .rst__lineHalfVerticalBottom::after {
+        width: 2px;
+      }
+
+      .rst__lineHalfHorizontalRight::before {
+        height: 2px;
+      }
+
+      .rst__nodeContent {
+        width: fit-content;
+      }
+      .rstcustom__rowWrapper {
+        width: fit-content;
+      }
+
+      .rstcustom__rowWrapper:hover {
+        opacity: 1 !important;
+        filter: brightness(1.25) !important;
+      }
+
+      .rstcustom__row {
+        width: fit-content;
+      }
+
+      .rstcustom__rowContents {
+        width: fit-content;
+      }
+
+      .rstcustom__rowLabel {
+        width: fit-content;
+        padding: 0px;
+      }
+
+      .rstcustom__rowTitle {
+        width: fit-content;
+      }
+      .node-row-text {
+        width: fit-content;
+      }
+
+      .ReactVirtualized__Grid__innerScrollContainer {
+        margin: 10px 0;
+      }
+    }
+  }
+
   .commit-pull-container {
     width: 100%;
-    height: 200px;
+    height: 95px;
     position: sticky !important;
-    bottom: 75px;
+    bottom: 100px;
     background: #2e2e2e;
     border: 1px solid #f96302 !important;
 
@@ -16,10 +204,9 @@
       margin: auto;
     }
 
-    .document-panel-dropdown {
-      margin: 15px 10px;
+    .version-list-dropdown {
+      margin: 10px 0 0 0;
       font-size: 20px;
-      min-width: 95px;
 
       .dropdown-custom-wrapper {
         font-size: 15px;
@@ -48,174 +235,6 @@
       margin: 15px 10px;
       font-size: 20px;
       min-width: 95px;
-    }
-  }
-
-  .tree-utilities {
-    flex: 0 0 auto;
-    padding: 0 15px;
-
-    .hierarchy-button {
-      height: 30px;
-      padding: 0px 10px;
-      margin: 0px 2px;
-    }
-
-    .tree-utilities-header {
-      padding-top: 10px;
-    }
-
-    .node-button-div {
-      line-height: 20px;
-      margin: 10px auto;
-      width: fit-content;
-    }
-
-    .node-form-div {
-      display: inline-block;
-    }
-
-    .search-panel {
-      font-size: 20px;
-      font-weight: 200;
-      height: 25px;
-    }
-
-    .search-box {
-      width: 100px;
-    }
-
-    .hierarchy-search {
-      overflow: visible;
-      background-color: #434f5b;
-      color: white;
-    }
-  }
-
-  .tree-visual {
-    flex: 1 0 50%;
-    padding: 0 0 0 15px;
-
-    .tree-node-styling > * {
-      background: #434f5b;
-      border-color: transparent;
-    }
-
-    .tree-node-styling {
-      background: #434f5b;
-      border: 2px solid transparent;
-      font-size: 18px;
-      border-radius: 17px;
-      // &.type-a {
-      //     background-color: red;
-      // }
-      z-index: 100;
-    }
-
-    .selected-tree-node > * {
-      background: #f96302;
-      color: #212a3f;
-
-      input {
-        color: #212a3f;
-      }
-    }
-
-    .selected-tree-node {
-      background: #f96302 !important;
-      border: 2px solid #f96302;
-    }
-
-    .node-ordering-title {
-      margin: 0 2px 0 0;
-    }
-
-    .node-info-button {
-      border-radius: 25px;
-      padding: 0px 5px;
-      font-weight: 600;
-    }
-
-    .rstcustom__rowWrapper {
-      padding: 1px 1px 1px 0;
-    }
-
-    .rstcustom__rowContents {
-      border-radius: 12px;
-      min-width: 100px;
-      width: 150px;
-      padding: 0 3px 0 3px;
-    }
-
-    .row_inputfield {
-      input {
-        width: 100%;
-        background: transparent;
-        border: none;
-        font-size: 1.1rem;
-        color: #f2f2f2;
-      }
-    }
-
-    .rstcustom__rowTitle {
-      font-weight: bold;
-      font-size: 20px;
-    }
-
-    .rstcustom__rowSubtitle {
-      font-size: 15px;
-      line-height: 1;
-    }
-
-    .rst__lineHalfHorizontalRight::before,
-    .rst__lineFullVertical::after,
-    .rst__lineHalfVerticalTop::after,
-    .rst__lineHalfVerticalBottom::after {
-      position: absolute;
-      content: '';
-      background-color: #f96302;
-    }
-
-    .rst__lineFullVertical::after,
-    .rst__lineHalfVerticalTop::after,
-    .rst__lineHalfVerticalBottom::after {
-      width: 2px;
-    }
-
-    .rst__lineHalfHorizontalRight::before {
-      height: 2px;
-    }
-
-    .rst__nodeContent {
-      width: fit-content;
-    }
-    .rstcustom__rowWrapper {
-      width: fit-content;
-    }
-
-    .rstcustom__rowWrapper:hover {
-      opacity: 1 !important;
-      filter: brightness(1.25) !important;
-    }
-
-    .rstcustom__row {
-      width: fit-content;
-    }
-
-    .rstcustom__rowContents {
-      width: fit-content;
-    }
-
-    .rstcustom__rowLabel {
-      width: fit-content;
-      padding: 0px;
-    }
-
-    .rstcustom__rowTitle {
-      width: fit-content;
-    }
-    .node-row-text {
-      width: fit-content;
     }
   }
 }
