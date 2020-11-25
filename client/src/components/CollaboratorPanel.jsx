@@ -46,12 +46,12 @@ export default function CollaboratorPanel() {
       let randomColor
 
       if (userColorObject) {
-        if (userColorObject[_id]) {
-          randomColor = userColorObject[_id]
+        if (userColorObject[username]) {
+          randomColor = userColorObject[username]
         } else {
           randomColor = getRandColor(getRandomInt(3, 6))
           setTimeout(() => {
-            dispatch(setUserColorObject({ [_id]: randomColor }))
+            dispatch(setUserColorObject({ [username]: randomColor }))
           }, 200)
         }
 

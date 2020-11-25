@@ -42,18 +42,6 @@ export default function NavBar() {
             </NavLink>
           </li>
 
-          <li className="nav-item">
-            <NavLink to={'/team'} id="NavToTeam">
-              <div className="nav-link">Team</div>
-            </NavLink>
-          </li>
-
-          <li className="nav-item">
-            <NavLink to={'/contact'} id="NavToContact">
-              <div className="nav-link">Contact</div>
-            </NavLink>
-          </li>
-
           {isAuthenticated ? (
             <li className="nav-item">
               <a className="nav-link">

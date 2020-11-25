@@ -15,6 +15,12 @@ import {
   GET_TREE_START,
   GET_TREE_FAILURE,
   GET_TREE_SUCCESS,
+  SEND_DOC_START,
+  SEND_DOC_FAILURE,
+  SEND_DOC_SUCCESS,
+  SEND_REQ_START,
+  SEND_REQ_FAILURE,
+  SEND_REQ_SUCCESS,
   COMMIT_TREE_START,
   COMMIT_TREE_FAILURE,
   COMMIT_TREE_SUCCESS,
@@ -233,6 +239,7 @@ export const commitTreeStart = () => {
 }
 
 export const commitTreeSuccess = (doc) => {
+  console.log(doc)
   return {
     type: COMMIT_TREE_SUCCESS,
     data: doc.data.response,
@@ -250,7 +257,7 @@ export const commitTreeAsync = (doc, docID, versionName) => {
   return (dispatch) => {
     dispatch(commitTreeStart())
     axios
-      .patch(`${url}/documents/commit-doc/${docID._id}`, {
+      .patch(`${url}/documents/commit-doc/${docID}`, {
         tree: doc.tree,
         name: versionName,
       })
@@ -262,6 +269,71 @@ export const commitTreeAsync = (doc, docID, versionName) => {
       })
   }
 }
+
+
+// Sending tree to database *******************************
+// Sending tree structure to database
+export const sendDocStart = () => {
+  return {
+    type: COMMIT_TREE_START,
+  }
+}
+
+//send the document (tree structure) to the backend
+export const sendDocAsync = (treeData, docID) => {
+  return (dispatch) => {
+    dispatch(commitTreeStart())
+    axios
+      .patch(`${url}/documents/update-tree/${docID}`, { tree: treeData })
+      .then((doc) => {
+        // console.log(doc)
+        dispatch(sendDocSuccess(doc))
+      })
+      .catch((err) => {
+        // console.log(err)
+        dispatch(sendDocFailure(err))
+      })
+  }
+}
+
+
+// Sending a requirement to database *******************************
+export const sendReqStart = () => {
+  return {
+    type: SEND_REQ_START,
+  }
+}
+
+export const sendReqSuccess = (tree) => {
+  return {
+    type: SEND_REQ_SUCCESS,
+    data: tree,
+  }
+}
+
+export const sendReqFailure = (err) => {
+  return {
+    type: SEND_REQ_FAILURE,
+    data: err,
+  }
+}
+
+//send the requirement to the backend
+export const sendReqAsync = (requirement, docID) => {
+  return (dispatch) => {
+    dispatch(sendReqStart())
+    axios
+      .patch(`${url}/documents/update-req/${docID}`, { req: requirement })
+      .then((doc) => {
+        // console.log(doc)
+        dispatch(sendReqSuccess(doc.tree))
+      })
+      .catch((err) => {
+        // console.log(err)
+        dispatch(sendReqFailure(err))
+      })
+    }
+  }
 
 //Fetching single document *************************
 // action to start the fetch of collaborators
@@ -280,20 +352,25 @@ export const getDocFailure = (error) => {
 }
 
 // action for getting Doc on success
-export const getDocSuccess = (collabs) => {
+export const getDocSuccess = (doc) => {
+  // console.log(`Document: ${doc.data.response}`)
   return {
     type: FETCH_DOC_SUCCESS,
-    data: collabs.data.response,
+    data: doc.data.response,
   }
 }
 
 // Get the doc asynchronously
 export const getDocAsync = (docId) => {
+  console.log(docId)
   return (dispatch) => {
     dispatch(getDocStart())
     axios
       .get(`${url}/documents/get/${docId}`)
-      .then((collabs) => dispatch(getDocSuccess(collabs)))
+      .then((doc) => {
+        console.log(doc)
+        dispatch(getDocSuccess(doc))
+      })
       .catch((error) => dispatch(getDocFailure(error)))
   }
 }

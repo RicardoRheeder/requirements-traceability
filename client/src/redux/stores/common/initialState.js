@@ -1,7 +1,7 @@
 export default {
   loggedIn: false,
   treeData: [
-    { title: 'HLRQ1', text: 'hlrq1 text', id: 1, isBeingEdited: 'test' },
+    { title: 'HLRQ1', text: 'hlrq1 text', id: 1, isBeingEdited: 'testUser1' },
     { title: 'HLRQ2', text: 'hlrq2 text', id: 2, status: ["unsatisfied","WIP","review","satisfied",["User Input State","blue"],["UIS","red"],["UIS","green"],["UIS","yellow"],["UIS","orange"],["UIS","Grey"]] },
     {
       title: 'HLRQ3',
@@ -17,7 +17,7 @@ export default {
       customField: 'test',
       expanded: false,
     },
-    { title: 'HLRQ5', text: 'HLRQ5 text', id: 2 },
+    { title: 'HLRQ5', text: 'HLRQ5 text', id: 2, isBeingEdited: 'testUser3' },
     { title: 'HLRQ6', text: 'HLRQ6 text', id: 2 },
     { title: 'HLRQ7', text: 'HLRQ7 text', id: 2 },
     { title: 'HLRQ8', text: 'HLRQ8 text', id: 2 },
@@ -37,5 +37,6 @@ export default {
   selectedDocumentPanelObject: 0,
 
   userColorObject: {},
+  shouldPullFromDB: true,
   currentSelectedDocVersion: '',
 }
