@@ -53,7 +53,7 @@ export default function Modal_CommitDocument() {
               className="orange-button modal-button"
               onClick={commitDocumentToDB}
             >
-              Submit
+              Save Version
             </button>
             <button
               className="orange-button modal-button"

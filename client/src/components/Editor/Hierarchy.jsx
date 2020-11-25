@@ -474,7 +474,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
             className="orange-button"
             onClick={() => dispatch(setModalObject({ visible: true, mode: 3 }))}
           >
-            COMMIT
+            Save Version
           </button>
         </div>
       </div>
