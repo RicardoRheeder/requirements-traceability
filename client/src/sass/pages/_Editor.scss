@@ -48,6 +48,26 @@
       }
     }
   }
+
+  .req-header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .left,
+    .right {
+      display: flex;
+      align-items: center;
+    }
+
+    .orange-button {
+      margin: 0px 5px;
+      border: 1px solid #2e2e2e00;
+    }
+    .orange-button:hover {
+      border: 1px solid #f96302;
+    }
+  }
   .doc-version-title {
     color: rgb(185, 185, 185);
     padding: 0px 5px;

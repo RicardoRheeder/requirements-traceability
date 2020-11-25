@@ -5,6 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import {
   fetchUserDocsAsync,
   commitTreeAsync,
+  getDocAsync,
 } from '../../redux/stores/document/actions'
 
 export default function Modal_CommitDocument() {
@@ -20,16 +21,16 @@ export default function Modal_CommitDocument() {
     title: '',
   })
 
-  const handleSubmit = (e) => {
-    e.preventDefaults
-  }
-
   const commitDocumentToDB = () => {
     let docObject = { tree: JSON.stringify(storeTreeData) }
-    let docID = selectedDocObject
+    let docID = selectedDocObject._id
     // committing the tree to the db (adding it to the versions array)
     dispatch(commitTreeAsync(docObject, docID, doc.title))
     dispatch(fetchUserDocsAsync(user))
+    setTimeout(() => {
+      dispatch(getDocAsync(docID))
+    }, 250)
+    dispatch(setModalObject({ visible: false, mode: 0 }))
   }
 
   const handleChange = (e) => {
@@ -41,7 +42,7 @@ export default function Modal_CommitDocument() {
     <div className="modal-root modal-root-child">
       <div className="modal-contents-container">
         <h1 className="modal-contents-title">Commit document</h1>
-        <form onSubmit={handleSubmit}>
+        <form>
           {/* <h2>Please enter a commit message.</h2>
           <input className="modal-input" onChange={handleChange} /> */}
           <h2>Please enter a version number.</h2>
