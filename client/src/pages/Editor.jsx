@@ -110,7 +110,7 @@ export default function Editor() {
         }
       }
     }
-  }, [selectedDocObject, selectedNodeId])
+  }, [selectedDocObject])
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
