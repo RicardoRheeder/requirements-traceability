@@ -2,102 +2,51 @@
     float: right;
 }
 
-.satisfied{
+.status-icon{
     font-size: 20px;
     padding: 3px;
     margin-left: 5px;
-    background-color:rgb(150, 230, 154);
     color: black;
     border-radius: 10px;
     border: 2px solid black;
+}
+
+.satisfied{
+    background-color:rgb(150, 230, 154);
 }
 
 .unsatisfied{
-    font-size: 20px;
-    padding: 3px;
-    margin-left: 5px;
     background-color:rgb(224, 95, 77);
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
 }
 
 .review{
-    font-size: 20px;
-    padding: 3px;
-    margin-left: 5px;
     background-color:rgb(240, 166, 82);
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
 }
 
 .WIP{
-    font-size: 20px;
-    padding: 3px;
-    margin-left: 5px;
     background-color:rgb(182, 173, 55);
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
 }
 
 .created-status-blue{
-    font-size: 20px;
-    padding: 3px;
-    margin-left: 5px;
     background-color:rgb(72, 147, 209);
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
 }
 
 .created-status-red{
-    font-size: 20px;
-    padding: 3px;
-    margin-left: 5px;
     background-color:rgb(189, 4, 4);
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
 }
 
 .created-status-green{
-    font-size: 20px;
-    padding: 3px;
-    margin-left: 5px;
     background-color:rgb(59, 184, 59);
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
 }
 
 .created-status-yellow{
-    font-size: 20px;
-    padding: 3px;
-    margin-left: 5px;
     background-color:rgb(233, 217, 0);
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
 }
 
 .created-status-grey{
-    font-size: 20px;
-    padding: 3px;
-    margin-left: 5px;
     background-color:rgb(151, 151, 151);
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
 }
 
 .created-status-orange{
-    font-size: 20px;
-    padding: 3px;
-    margin-left: 5px;
     background-color:rgb(214, 114, 0);
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
 }

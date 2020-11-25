@@ -8,7 +8,7 @@ export default function RequirementStatusContainer({listOfStatuses}) {
             console.log(item);
             if(presets.includes(item)){
             return (
-            <span key = {i} className={item}>
+            <span key = {i} className={item + " status-icon"}>
                 {item}
             </span>
             )}
@@ -16,43 +16,43 @@ export default function RequirementStatusContainer({listOfStatuses}) {
                 switch(item[1]){
                     case "blue":
                         return (
-                            <span key = {i} className="created-status-blue">
+                            <span key = {i} className="created-status-blue status-icon">
                                 {item[0]}
                             </span>
                             )
                     case "red":
                         return (
-                            <span key = {i} className="created-status-red">
+                            <span key = {i} className="created-status-red status-icon">
                                 {item[0]}
                             </span>
                             )
                     case "green":
                         return (
-                            <span key = {i} className="created-status-green">
+                            <span key = {i} className="created-status-green status-icon">
                                 {item[0]}
                             </span>
                             )
                     case "yellow":
                         return (
-                            <span key = {i} className="created-status-yellow">
+                            <span key = {i} className="created-status-yellow status-icon">
                                 {item[0]}
                             </span>
                             )
                     case "orange":
                         return (
-                            <span key = {i} className="created-status-orange">
+                            <span key = {i} className="created-status-orange status-icon">
                                 {item[0]}
                             </span>
                             )
                     case "grey":
                         return (
-                            <span key = {i} className="created-status-grey">
+                            <span key = {i} className="created-status-grey status-icon">
                                 {item[0]}
                             </span>
                             )
                     default:
                         return (
-                            <span key = {i} className="created-status-grey">
+                            <span key = {i} className="created-status-grey status-icon">
                                 {item[0]}
                             </span>
                             )
