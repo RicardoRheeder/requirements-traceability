@@ -29,6 +29,8 @@ import {
   FETCH_DOC_SUCCESS,
 } from './actionTypes'
 
+import {Tree_GetRequirementObject} from '../../../utils/TreeNodeHelperFunctions'
+
 const axios = require('axios').default
 
 const url = 'http://localhost:5000'
@@ -270,12 +272,21 @@ export const commitTreeAsync = (doc, docID, versionName) => {
   }
 }
 
-
 // Sending tree to database *******************************
 // Sending tree structure to database
 export const sendDocStart = () => {
   return {
-    type: COMMIT_TREE_START,
+    type: SEND_DOC_START,
+  }
+}
+export const sendDocSuccess = () => {
+  return {
+    type: SEND_DOC_SUCCESS,
+  }
+}
+export const sendDocFailure = () => {
+  return {
+    type: SEND_REQ_FAILURE,
   }
 }
 
@@ -295,7 +306,6 @@ export const sendDocAsync = (treeData, docID) => {
       })
   }
 }
-
 
 // Sending a requirement to database *******************************
 export const sendReqStart = () => {
@@ -320,6 +330,7 @@ export const sendReqFailure = (err) => {
 
 //send the requirement to the backend
 export const sendReqAsync = (requirement, docID) => {
+  console.log("sending req")
   return (dispatch) => {
     dispatch(sendReqStart())
     axios
@@ -332,8 +343,29 @@ export const sendReqAsync = (requirement, docID) => {
         // console.log(err)
         dispatch(sendReqFailure(err))
       })
-    }
   }
+}
+
+  //send the requirement to the backend
+export const sendReqAsyncOnUnmount = (storeTreeData, selectedNodeId, localUser, desiredUser, docID) => {
+  console.log("sending req on unmount")
+
+  return (dispatch) => {
+    console.log("id: " + selectedNodeId)
+
+    // Get requirement we are editing, and remove the user's name from it
+    var requirement = JSON.stringify(
+      Tree_GetRequirementObject(
+        storeTreeData,
+        selectedNodeId,
+        localUser,
+        desiredUser
+      ))
+    console.log("About to dispatch")
+    console.log(requirement)
+    dispatch(sendReqAsync(requirement, docID)) // Send the updated requirement to the database
+}
+}
 
 //Fetching single document *************************
 // action to start the fetch of collaborators
