@@ -85,10 +85,19 @@ describe('Basic functionality of app', function() {
     const COMMIT_BUTTON = $('button=COMMIT')
     COMMIT_BUTTON.click()
     const MODAL_INPUT = $('.modal-input')
+    expect(MODAL_INPUT).toExist()
     MODAL_INPUT.click()
     MODAL_INPUT.addValue("1.0.0")
-    const SUBMIT_BUTTON = $('.modal-button')
+    const SUBMIT_BUTTON = $('button=Submit')
+    expect(SUBMIT_BUTTON).toExist()
     SUBMIT_BUTTON.click()
+  })
+
+  it('should have document with new version number in editor', function() {
+    const DROPDOWN = $('.Dropdown-control')
+    DROPDOWN.click()
+    const VERSION = $('div=1.0.0')
+    expect(VERSION).toExist()
   })
 
   it('should navigate to home', function() {
@@ -98,7 +107,7 @@ describe('Basic functionality of app', function() {
     expect(HOME_ROOT).toExist()
   })
 
-  it('should have document with new version number', function() {
+  it('should have document with new version number in home', function() {
     const DROPDOWN = $('.Dropdown-control')
     DROPDOWN.click()
     const VERSION = $('div=1.0.0')
