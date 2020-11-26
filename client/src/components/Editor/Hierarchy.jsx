@@ -92,6 +92,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
     )
     if (selectedItem.value != mostRecentVersion.versionName) {
       dispatch(setShouldPullFromDB(false))
+      // dispatch(updateSelectedNodeID(0))
     } else {
       dispatch(setShouldPullFromDB(true))
     }
@@ -279,22 +280,18 @@ export default function Hierarchy({ scrollToElementFunction }) {
     }
   }
 
-  const offFocusRequirement = (event, node) => {
-    // if (
-    //   event.target.className.includes('collapseButton') ||
-    //   event.target.className.includes('expandButton')
-    // ) {
-    // } else {
-    //   let id = node.id
-    //   dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
-    //   // Get requirement we are editing, and remove the user's name from it
-    //   var requirement = JSON.stringify(
-    //     Tree_GetRequirementObject(storeTreeData, id, user.nickname, null)
-    //   )
-    //   dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-    //   dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
-    //   // setShouldPull(true) // Start pulling documents from the database again
-    // }
+  const offFocusRequirement_versioning = (id) => {
+    // console.log('Off Focus: ' + id)
+    dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
+    // Get requirement we are editing, and remove the user's name from it
+    var requirement = JSON.stringify(
+      Tree_GetRequirementObject(storeTreeData, id, user.nickname, null)
+    )
+    setTimeout(() => {
+      dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+      // dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+      dispatch(setShouldPullFromDB(true)) // Start pulling documents from the database again
+    }, 100)
   }
 
   /**
@@ -409,7 +406,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
             // console.log(rowInfo.path); // Prints all node's info
             let nodeProps = {
               onClick: (event) => onFocusRequirement(event, rowInfo.node),
-              onBlur: (event) => offFocusRequirement(event, rowInfo.node),
+              // onBlur: (event) => offFocusRequirement(event, rowInfo.node),
               onDoubleClick: executeScroll,
               title: (
                 <span className="node-row-text">
@@ -458,6 +455,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
             <Dropdown
               options={versionList}
               onChange={_onDropdownSelect}
+              onFocus={() => offFocusRequirement_versioning(selectedNodeId)}
               value={currentDropDownVersion}
               placeholder="Select an option"
               className="dropdown-custom-wrapper"
