@@ -1,9 +1,10 @@
 .landing-page-root {
-  height: 100%;
+  height: calc(100% - 100px);
   width: 100%;
   text-align: center;
   background: #212a3f;
   color: #f96302;
+  overflow: auto;
 }
 .logo-area {
   position: relative;
@@ -26,13 +27,14 @@
 
 .landing-logo-icon {
   height: 20%;
-  min-height: 100px;
+  min-height: 150px;
   width: auto;
   align-self: center;
 }
 
 .landing-logo-name {
-  height: 200px;
+  min-height: 100px;
+  height: 20%;
   width: auto;
   float: right;
 }
