@@ -99,6 +99,9 @@ export default function RequirementStatusContainer({listOfStatuses}) {
                                 <option value="review">Review</option>
                             </select>
                         </span>
+                        <br />
+                        <button className="submit-new-status">Submit New Status</button>
+                        <button className="submit-existing-status"> Submit Existing Status</button>
                     </div>
                 </div> : <></>}
             </div>

@@ -61,7 +61,7 @@
   }
 
   .white-box{
-      height: 125px;
+      height: 155px;
       width: 350px;
       background-color: white;
       display: flex;
@@ -113,4 +113,15 @@
 
 .grey-select{
     background-color: rgb(151,151,151);
+}
+
+.submit-new-status{
+    margin-top: 15px;
+    font-size: 10px;
+    margin-left: 15%;
+}
+
+.submit-existing-status{
+    font-size: 10px;
+    margin-left: 5px;
 }
