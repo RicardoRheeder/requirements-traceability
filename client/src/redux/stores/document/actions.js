@@ -29,6 +29,8 @@ import {
   FETCH_DOC_SUCCESS,
 } from './actionTypes'
 
+import {Tree_GetRequirementObject} from '../../../utils/TreeNodeHelperFunctions'
+
 const axios = require('axios').default
 
 const url = 'http://localhost:5000'
@@ -320,6 +322,7 @@ export const sendReqFailure = (err) => {
 
 //send the requirement to the backend
 export const sendReqAsync = (requirement, docID) => {
+  console.log("sending req")
   return (dispatch) => {
     dispatch(sendReqStart())
     axios
@@ -334,6 +337,27 @@ export const sendReqAsync = (requirement, docID) => {
       })
     }
   }
+
+  //send the requirement to the backend
+export const sendReqAsyncOnUnmount = (storeTreeData, selectedNodeId, localUser, desiredUser, docID) => {
+  console.log("sending req on unmount")
+
+  return (dispatch) => {
+    console.log("id: " + selectedNodeId)
+
+    // Get requirement we are editing, and remove the user's name from it
+    var requirement = JSON.stringify(
+      Tree_GetRequirementObject(
+        storeTreeData,
+        selectedNodeId,
+        localUser,
+        desiredUser
+      ))
+    console.log("About to dispatch")
+    console.log(requirement)
+    dispatch(sendReqAsync(requirement, docID)) // Send the updated requirement to the database
+}
+}
 
 //Fetching single document *************************
 // action to start the fetch of collaborators
