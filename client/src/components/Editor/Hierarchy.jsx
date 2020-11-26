@@ -155,6 +155,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
   }
 
   const moveNode = (tree) => {
+    dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
     updateTree(tree)
 
     dispatch(sendDocAsync(JSON.stringify(tree), selectedDocObject._id))
@@ -180,7 +181,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
     // Get new id to focus on
     let newSelectedNodeID = selectedNodeId - 1
     if (newSelectedNodeID < 0) newSelectedNodeID = 0
-    dispatch(updateSelectedNodeID(newSelectedNodeID)) // Updating visual of node being selected
+    dispatch(updateSelectedNodeID(0)) // Updating visual of node being selected
     updateTree(td)
 
     dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
@@ -226,7 +227,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
    * @param {int} id - the ID of the currently selected node to push to Redux
    */
   const setSelectedNodeId = (id) => {
-    dispatch(updateSelectedNodeID(id))
+    dispatch(updateSelectedNodeID(0))
   }
 
   /**
@@ -433,11 +434,23 @@ export default function Hierarchy({ scrollToElementFunction }) {
                   'tree-node-styling' +
                   (rowInfo.node.customField ? ' type-a' : ''),
               }
-              if (rowInfo.node && selectedNodeId === rowInfo.node.id) {
-                nodeProps.className =
-                  'selected-tree-node' + ' ' + nodeProps.className
-                // console.log(nodeProps);
-              }
+
+              nodeProps.className =
+                nodeProps.className +
+                (rowInfo.node && selectedNodeId === rowInfo.node.id
+                  ? ' selected-tree-node'
+                  : '') +
+                (rowInfo.node &&
+                rowInfo.node.isBeingEdited != null &&
+                rowInfo.node.isBeingEdited != user.nickname
+                  ? ' disabled'
+                  : '')
+              // if (rowInfo.node && selectedNodeId === rowInfo.node.id) {
+              //   nodeProps.className =
+              //     'selected-tree-node' + ' ' + nodeProps.className
+              //   // console.log(nodeProps);
+              // }
+
               return nodeProps
             }}
           />

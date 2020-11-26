@@ -92,8 +92,6 @@ export default function Editor() {
 
     return () => {
       if (selectedDocObject != null) {
-        console.log('leaving page ' + selectedNodeId)
-
         if (selectedNodeId != 0) {
           dispatch(
             sendReqAsyncOnUnmount(
