@@ -61,10 +61,17 @@
   }
 
   .white-box{
-      height: 200px;
-      width: 200px;
+      height: 150px;
+      width: 400px;
       background-color: white;
       display: flex;
       position: relative;
       float: right;
+      transform: translateX(-20px);
+      border: 2px solid black;
+  }
+
+  .white-box-container{
+      font-size: 15px;
+      color: black;
   }

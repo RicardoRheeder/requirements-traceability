@@ -73,7 +73,23 @@ export default function RequirementStatusContainer({listOfStatuses}) {
             {listOfStatuses != null ? renderStatuses(listOfStatuses) : ""}
         </span>
             <div className="white-box-container">
-                {whiteboxIsOpen==true ? <div className="white-box"></div> : <></>}
+                {whiteboxIsOpen==true ? <div className="white-box">
+                    <div>
+                        Status Name:
+                        <input className="status-name-input"></input>
+                        <br />
+                        Status Colour:
+                        <br />
+                        Available Statuses:
+                        <select>
+                            <option value="unsatisifed">Unsatisfied</option>
+                            <option value="satisifed">Satisfied</option>
+                            <option value="WIP">WIP</option>
+                            <option value="review">Review</option>
+                        </select>
+
+                    </div>
+                </div> : <></>}
             </div>
         </div>
     )
