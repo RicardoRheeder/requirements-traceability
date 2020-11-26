@@ -187,6 +187,10 @@
       .ReactVirtualized__Grid__innerScrollContainer {
         margin: 10px 0;
       }
+      .rst__virtualScrollOverride{
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+      }
     }
   }
 
