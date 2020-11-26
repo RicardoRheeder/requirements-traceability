@@ -49,11 +49,12 @@ export default function Router() {
       <HashRouter>
         <Switch>
           {!isAuthenticated ? (
-            <Route path="*">
+            <>
               {loaderObject()}
               <NavBar />
-              <LandingPage />
-            </Route>
+              <Route path="/" children={<LandingPage />}></Route>
+              <Route exact={true} path="/about" children={<About />} />
+            </>
           ) : (
             <>
               {loaderObject()}
