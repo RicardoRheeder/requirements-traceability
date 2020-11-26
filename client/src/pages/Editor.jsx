@@ -23,6 +23,7 @@ import {
   getTreeAsync,
   sendDocAsync,
   sendReqAsync,
+  sendReqAsyncOnUnmount,
 } from '../redux/stores/document/actions'
 
 function useInterval(callback, delay) {
@@ -88,6 +89,25 @@ export default function Editor() {
         dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
       }
     }
+
+    return () => {
+      if (selectedDocObject != null) {
+        if (selectedNodeId != 0) {
+          dispatch(
+            sendReqAsyncOnUnmount(
+              storeTreeData,
+              selectedNodeId,
+              user.nickname,
+              null,
+              selectedDocObject._id
+            )
+          ) // Send the updated requirement to the database
+          // console.log('On Focus: ' + id + ' ' + selectedNodeId)
+          dispatch(updateSelectedNodeID(0)) // Updating visual of node being selected
+          dispatch(setShouldPullFromDB(true)) // Don't pull when focussing on a requirement
+        }
+      }
+    }
   }, [selectedDocObject])
 
   /**
@@ -118,10 +138,13 @@ export default function Editor() {
    * @param {Object} element - the element reference to scroll to
    */
   const scrollToElement = (element) => {
-    let navbar = $('.navbar-root')
-    $('.navbar-root').remove()
-    element.scrollIntoView(true, { behavior: 'smooth' })
-    $('.app-root').prepend(navbar)
+    if (element != null) {
+      var navbar = $('.navbar-root')
+      $('.navbar-root').remove()
+      element.scrollIntoView(true, { behavior: 'smooth' })
+      $('.app-root').prepend(navbar)
+      console.log('scrolled to element')
+    }
   }
 
   const onFocusRequirement = (id) => {
@@ -196,6 +219,7 @@ export default function Editor() {
             style={{ marginLeft: indentVal }}
             key={title + '' + id}
             className={
+              'requirement ' +
               (parseInt(id) == parseInt(selectedNodeId)
                 ? 'selected ' + parseInt(id)
                 : 'not-selected ' + parseInt(id)) +

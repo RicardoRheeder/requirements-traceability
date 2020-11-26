@@ -156,6 +156,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
   }
 
   const moveNode = (tree) => {
+    dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
     updateTree(tree)
 
     dispatch(sendDocAsync(JSON.stringify(tree), selectedDocObject._id))
@@ -181,7 +182,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
     // Get new id to focus on
     let newSelectedNodeID = selectedNodeId - 1
     if (newSelectedNodeID < 0) newSelectedNodeID = 0
-    dispatch(updateSelectedNodeID(newSelectedNodeID)) // Updating visual of node being selected
+    dispatch(updateSelectedNodeID(0)) // Updating visual of node being selected
     updateTree(td)
 
     dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
@@ -227,7 +228,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
    * @param {int} id - the ID of the currently selected node to push to Redux
    */
   const setSelectedNodeId = (id) => {
-    dispatch(updateSelectedNodeID(id))
+    dispatch(updateSelectedNodeID(0))
   }
 
   /**
@@ -240,7 +241,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
       event.target.className.includes('collapseButton') ||
       event.target.className.includes('expandButton')
     ) {
-    } else {
+    } else if (node.isBeingEdited == null) {
       let id = node.id
 
       if (id != selectedNodeId) {
@@ -304,11 +305,11 @@ export default function Hierarchy({ scrollToElementFunction }) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+    <div className="hierarchy-contents-container">
       {/* Tree Utilities */}
       <div className="tree-utilities">
         <div className="tree-utilities-header">
-          <h1>Hierarchy</h1>
+          <h1 className="utilities-header-style">Hierarchy</h1>
         </div>
 
         {/* Expand/Collapse buttons */}
@@ -340,118 +341,123 @@ export default function Hierarchy({ scrollToElementFunction }) {
             Delete Node
           </button>
         </div>
-        <form
-          className="node-form-div"
-          onSubmit={(event) => {
-            event.preventDefault()
-          }}
-        >
-          <label htmlFor="find-box">
-            <div className="search-panel">
-              Search:&nbsp;
-              {/* Search box */}
-              <input
-                id="find-box"
-                className="search-box hierarchy-search"
-                type="text"
-                value={searchString}
-                onChange={(event) => setSearchString(event.target.value)}
-              />
-              {/* '<' and '>' buttons */}
-              <button
-                className="hierarchy-search"
-                type="button"
-                disabled={!searchFoundCount}
-                onClick={selectPrevMatch}
-              >
-                &lt;
-              </button>
-              <button
-                className="hierarchy-search"
-                type="submit"
-                disabled={!searchFoundCount}
-                onClick={selectNextMatch}
-              >
-                &gt;
-              </button>
-              {/* Search results */}
-              <span>
-                &nbsp;
-                {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
-                &nbsp;/&nbsp;
-                {searchFoundCount || 0}
-              </span>
-            </div>
-          </label>
-        </form>
+        <div className="search-panel">
+          Search:&nbsp;
+          {/* Search box */}
+          <input
+            id="find-box"
+            className="search-box hierarchy-search"
+            type="text"
+            value={searchString}
+            onChange={(event) => setSearchString(event.target.value)}
+          />
+          {/* '<' and '>' buttons */}
+          <button
+            className="hierarchy-search"
+            type="button"
+            disabled={!searchFoundCount}
+            onClick={selectPrevMatch}
+          >
+            &lt;
+          </button>
+          <button
+            className="hierarchy-search"
+            type="submit"
+            disabled={!searchFoundCount}
+            onClick={selectNextMatch}
+          >
+            &gt;
+          </button>
+          {/* Search results */}
+          <span>
+            &nbsp;
+            {searchFoundCount > 0 ? searchFocusIndex + 1 : 0}
+            &nbsp;/&nbsp;
+            {searchFoundCount || 0}
+          </span>
+        </div>
       </div>
 
-      {/* Tree Visual */}
-      <div className="tree-visual">
-        <SortableTree
-          theme={FileExplorerTheme}
-          treeData={customTreeData}
-          onChange={moveNode}
-          rowHeight={40}
-          canDrag={({ node }) => !node.dragDisabled}
-          searchQuery={searchString}
-          searchFocusOffset={searchFocusIndex}
-          searchFinishCallback={(matches) => {
-            setSearchFoundCount(matches.length)
-            matches.length > 0
-              ? setSearchFocusIndex(searchFocusIndex % matches.length)
-              : setSearchFocusIndex(0)
-          }}
-          generateNodeProps={(rowInfo) => {
-            // console.log(rowInfo.path); // Prints all node's info
-            let nodeProps = {
-              onClick: (event) => onFocusRequirement(event, rowInfo.node),
-              // onBlur: (event) => offFocusRequirement(event, rowInfo.node),
-              onDoubleClick: executeScroll,
-              title: (
-                <span className="node-row-text">
-                  <span className="node-ordering-title">
-                    {rowInfo.node.order}
+      <div className="node-container">
+        {/* Tree Visual */}
+        <div className="tree-visual">
+          <SortableTree
+            theme={FileExplorerTheme}
+            treeData={customTreeData}
+            onChange={moveNode}
+            rowHeight={40}
+            canDrag={({ node }) => !node.dragDisabled}
+            searchQuery={searchString}
+            searchFocusOffset={searchFocusIndex}
+            searchFinishCallback={(matches) => {
+              setSearchFoundCount(matches.length)
+              matches.length > 0
+                ? setSearchFocusIndex(searchFocusIndex % matches.length)
+                : setSearchFocusIndex(0)
+            }}
+            generateNodeProps={(rowInfo) => {
+              // console.log(rowInfo.path); // Prints all node's info
+              let nodeProps = {
+                onClick: (event) => onFocusRequirement(event, rowInfo.node),
+                onBlur: (event) => offFocusRequirement(event, rowInfo.node),
+                onDoubleClick: executeScroll,
+                title: (
+                  <span className="node-row-text">
+                    <span className="node-ordering-title">
+                      {rowInfo.node.order}
+                    </span>
+                    <AutosizeInput
+                      className="row_inputfield"
+                      value={rowInfo.node.title}
+                      style={{ background: 'transparent' }}
+                      onChange={(event) => {
+                        const name = event.target.value
+                        updateNodeName(name)
+                      }}
+                    />
                   </span>
-                  <AutosizeInput
-                    className="row_inputfield"
-                    value={rowInfo.node.title}
-                    style={{ background: 'transparent' }}
-                    onChange={(event) => {
-                      const name = event.target.value
-                      updateNodeName(name)
-                    }}
-                  />
-                </span>
-              ),
-              buttons: [
-                <button
-                  className="node-info-button"
-                  onClick={() => alertNodeInfo(rowInfo)}
-                >
-                  i
-                </button>,
-              ],
-              listIndex: 0,
-              lowerSiblingCounts: [],
-              className:
-                'tree-node-styling' +
-                (rowInfo.node.customField ? ' type-a' : ''),
-            }
-            if (rowInfo.node && selectedNodeId === rowInfo.node.id) {
+                ),
+                buttons: [
+                  <button
+                    className="node-info-button"
+                    onClick={() => alertNodeInfo(rowInfo)}
+                  >
+                    i
+                  </button>,
+                ],
+                listIndex: 0,
+                lowerSiblingCounts: [],
+                className:
+                  'tree-node-styling' +
+                  (rowInfo.node.customField ? ' type-a' : ''),
+              }
+
               nodeProps.className =
-                'selected-tree-node' + ' ' + nodeProps.className
-              // console.log(nodeProps);
-            }
-            return nodeProps
-          }}
-        />
+                nodeProps.className +
+                (rowInfo.node && selectedNodeId === rowInfo.node.id
+                  ? ' selected-tree-node'
+                  : '') +
+                (rowInfo.node &&
+                rowInfo.node.isBeingEdited != null &&
+                rowInfo.node.isBeingEdited != user.nickname
+                  ? ' disabled'
+                  : '')
+              // if (rowInfo.node && selectedNodeId === rowInfo.node.id) {
+              //   nodeProps.className =
+              //     'selected-tree-node' + ' ' + nodeProps.className
+              //   // console.log(nodeProps);
+              // }
+
+              return nodeProps
+            }}
+          />
+        </div>
       </div>
 
       {/* Pull/Commit button panel */}
       <div className="commit-pull-container">
         <div className="center-div">
-          <div className="document-panel-dropdown">
+          <div className="version-list-dropdown">
             <Dropdown
               options={versionList}
               onChange={_onDropdownSelect}
@@ -465,11 +471,14 @@ export default function Hierarchy({ scrollToElementFunction }) {
               arrowClassName="dropdown-custom-arrow"
             />
           </div>
-          <button className="orange-button" onClick={() => print()}>
+          <button
+            className="orange-button hierarchy-button"
+            onClick={() => print()}
+          >
             EXPORT
           </button>
           <button
-            className="orange-button"
+            className="orange-button hierarchy-button"
             onClick={() => dispatch(setModalObject({ visible: true, mode: 3 }))}
           >
             Save Version

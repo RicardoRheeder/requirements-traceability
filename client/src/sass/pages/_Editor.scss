@@ -13,7 +13,7 @@
       padding: 10px;
       background: #434f5b;
       overflow: auto;
-      height: 100%;
+      height: calc(100% - 100px);
 
       .editor-input {
         width: 99%;

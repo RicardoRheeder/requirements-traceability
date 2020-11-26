@@ -1,10 +1,7 @@
-process.env.NODE_ENV = 'test';
-
-
 let mongoose = require('mongoose')
 const stub = require('sinon')
 let Document = require('../models/document.model');
-const User = require('../models/user.model')
+let User = require('../models/user.model')
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 const routes = require('../routes/document')
@@ -16,26 +13,22 @@ let should = chai.should();
 let id = require('mongoose').Types.ObjectId();
 chai.use(chaiHttp);
 
-
-
 describe('document routes', function() {
     beforeEach((done) => {
-        Document.remove({}, (err) => {
+        User.remove({}, (err) => {
             done();
         });
         
     });
 
-    describe('/documents', () => {
-        it('should get all the docs', (done) =>{
-            chai.request(server).get('/documents').end((err,res) => {
+    describe('/users', () =>{
+        it('should get all the users', (done)=> {
+            chai.request(server).get('/users').end((err,res) => {
                 res.should.have.status(200);
                 res.body.response.should.be.a('array'); 
                 res.body.response.should.be.empty
                 done();
             })
-            
-        })   
+        })
     })
-    
 })
