@@ -35,26 +35,69 @@ describe('Basic functionality of app', function() {
     expect(HOME_ROOT).toExist()
   })
 
+  it('should create new document', function() {
+    const ADD_BUTTON = $('button=Add')
+    ADD_BUTTON.click()
+    const MODAL_INPUT = $('.modal-input')
+    MODAL_INPUT.click()
+    MODAL_INPUT.addValue("TestDocument")
+    const SUBMIT_BUTTON = $('.modal-button')
+    SUBMIT_BUTTON.click()
+  })
+
+  it('should have document with current version number', function() {
+    const DROPDOWN = $('.Dropdown-control')
+    DROPDOWN.click()
+    const VERSION = $('div=0.0')
+    expect(VERSION).toExist()
+  })
+
   it('should navigate to new document', function() {
-    const EDITOR_BUTTON = $('#NavToEditor').$('.nav-link')
-    EDITOR_BUTTON.click()
+    const DOCUMENT = $('.document-panel-component')
+    DOCUMENT.doubleClick()
     const EDITOR_ROOT = $('.editor-root')
     expect(EDITOR_ROOT).toExist()
   })
 
   it('should select node and change name in hierarchy', function() {
-    const EDITOR_HIERARCHY_NODE = $('.row_inputfield');
+    const EDITOR_HIERARCHY_NODE = $('.row_inputfield').$('input')
     EDITOR_HIERARCHY_NODE.click()
-    EDITOR_HIERARCHY_NODE.setValue('Example Title')
-    expect(EDITOR_HIERARCHY_NODE).toHaveValue('Example Title')
-
+    EDITOR_HIERARCHY_NODE.setValue(' edited')
+    expect(EDITOR_HIERARCHY_NODE).toHaveValue('Title of your requirement. (1) edited')
   })
 
-  it('should select node and change text in editor', function() {
-    const EDITOR_MAIN_NODE = $('.editor-input');
+  it('should select node and change description in editor', function() {
+    const EDITOR_MAIN_NODE = $('.selected').$('textarea')
     EDITOR_MAIN_NODE.click()
-    EDITOR_MAIN_NODE.addValue(' example')
-    expect(EDITOR_MAIN_NODE).toHaveValue('hlrq1 text example')
+    EDITOR_MAIN_NODE.setValue(' edited')
+    expect(EDITOR_MAIN_NODE).toHaveValue('Type contents of requirement here... edited')
+  })
+
+  it('should find edited requirement via search', function() {
+    const SEARCH_PANEL = $('.search-panel').$('input')
+    SEARCH_PANEL.click()
+    SEARCH_PANEL.setValue('edited')
+    const SEARCH_SELECTED = $('.rstcustom__rowSearchMatch')
+    expect(SEARCH_SELECTED).toExist()
+  })
+
+  it('should commit changes', function() {
+    const COMMIT_BUTTON = $('button=COMMIT')
+    COMMIT_BUTTON.click()
+    const MODAL_INPUT = $('.modal-input')
+    expect(MODAL_INPUT).toExist()
+    MODAL_INPUT.click()
+    MODAL_INPUT.addValue("1.0.0")
+    const SUBMIT_BUTTON = $('button=Submit')
+    expect(SUBMIT_BUTTON).toExist()
+    SUBMIT_BUTTON.click()
+  })
+
+  it('should have document with new version number in editor', function() {
+    const DROPDOWN = $('.Dropdown-control')
+    DROPDOWN.click()
+    const VERSION = $('div=1.0.0')
+    expect(VERSION).toExist()
   })
 
   it('should navigate to home', function() {
@@ -62,6 +105,25 @@ describe('Basic functionality of app', function() {
     HOME_BUTTON.click()
     const HOME_ROOT = $('.home-root')
     expect(HOME_ROOT).toExist()
+  })
+
+  it('should have document with new version number in home', function() {
+    const DROPDOWN = $('.Dropdown-control')
+    DROPDOWN.click()
+    const VERSION = $('div=1.0.0')
+    expect(VERSION).toExist()
+  })
+
+  it('should delete document', function() {
+    const DOCUMENT = $('.document-panel-component')
+    DOCUMENT.click()
+    const REMOVE_BUTTON = $('button=Remove')
+    REMOVE_BUTTON.click()
+    const MODAL_INPUT = $('.modal-input')
+    MODAL_INPUT.click()
+    MODAL_INPUT.addValue("TestDocument")
+    const SUBMIT_BUTTON = $('.modal-button')
+    SUBMIT_BUTTON.click()
   })
 
   it('should log out', function() {
