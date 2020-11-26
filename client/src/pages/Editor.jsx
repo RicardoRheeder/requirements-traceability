@@ -138,10 +138,13 @@ export default function Editor() {
    * @param {Object} element - the element reference to scroll to
    */
   const scrollToElement = (element) => {
-    let navbar = $('.navbar-root')
-    $('.navbar-root').remove()
-    element.scrollIntoView(true, { behavior: 'smooth' })
-    $('.app-root').prepend(navbar)
+    if (element != null) {
+      var navbar = $('.navbar-root')
+      $('.navbar-root').remove()
+      element.scrollIntoView(true, { behavior: 'smooth' })
+      $('.app-root').prepend(navbar)
+      console.log('scrolled to element')
+    }
   }
 
   const onFocusRequirement = (id) => {
@@ -216,6 +219,7 @@ export default function Editor() {
             style={{ marginLeft: indentVal }}
             key={title + '' + id}
             className={
+              'requirement ' +
               (parseInt(id) == parseInt(selectedNodeId)
                 ? 'selected ' + parseInt(id)
                 : 'not-selected ' + parseInt(id)) +

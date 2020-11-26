@@ -240,7 +240,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
       event.target.className.includes('collapseButton') ||
       event.target.className.includes('expandButton')
     ) {
-    } else {
+    } else if (node.isBeingEdited == null) {
       let id = node.id
 
       if (id != selectedNodeId) {
