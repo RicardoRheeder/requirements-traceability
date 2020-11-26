@@ -3,6 +3,16 @@ const path = require("path");
 var webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
+const dotenv = require("dotenv");
+
+// call dotenv and it will return an Object with a parsed key
+const env = dotenv.config().parsed;
+
+// reduce it to a nice object, the same as before
+const envKeys = Object.keys(env).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next]);
+  return prev;
+}, {});
 
 ("use strict");
 module.exports = {
@@ -16,8 +26,24 @@ module.exports = {
     publicPath: "./",
   },
 
+  devServer: {
+    inline: true,
+    contentBase: path.resolve(__dirname, "../build"),
+    hot: true,
+    port: 9090,
+    // https: true
+    watchOptions: {
+      poll: true,
+      ignored: [
+        path.resolve(__dirname, "../build"),
+        path.resolve(__dirname, "../node_modules"),
+      ],
+    },
+  },
+
   plugins: [
-    new Dotenv(),
+    new webpack.DefinePlugin(envKeys),
+
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify("production"),

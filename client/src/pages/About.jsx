@@ -48,7 +48,7 @@ function About() {
       <div className="about-content-area">
         <img
           className="about-logo-banner"
-          src="/assets/images/Doc_Tracer_Banner_1_lite.png"
+          src="./assets/images/Doc_Tracer_Banner_1_lite.png"
         ></img>
         <h1 className="about-description-title">What is Doc Tracer?</h1>
         <div className="about-description">
