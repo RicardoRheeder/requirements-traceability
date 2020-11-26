@@ -272,12 +272,21 @@ export const commitTreeAsync = (doc, docID, versionName) => {
   }
 }
 
-
 // Sending tree to database *******************************
 // Sending tree structure to database
 export const sendDocStart = () => {
   return {
-    type: COMMIT_TREE_START,
+    type: SEND_DOC_START,
+  }
+}
+export const sendDocSuccess = () => {
+  return {
+    type: SEND_DOC_SUCCESS,
+  }
+}
+export const sendDocFailure = () => {
+  return {
+    type: SEND_REQ_FAILURE,
   }
 }
 
@@ -297,7 +306,6 @@ export const sendDocAsync = (treeData, docID) => {
       })
   }
 }
-
 
 // Sending a requirement to database *******************************
 export const sendReqStart = () => {
@@ -335,8 +343,8 @@ export const sendReqAsync = (requirement, docID) => {
         // console.log(err)
         dispatch(sendReqFailure(err))
       })
-    }
   }
+}
 
   //send the requirement to the backend
 export const sendReqAsyncOnUnmount = (storeTreeData, selectedNodeId, localUser, desiredUser, docID) => {
