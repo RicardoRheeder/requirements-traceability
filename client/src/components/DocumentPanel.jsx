@@ -93,7 +93,7 @@ export const DocumentPanel = ({ document }) => {
         <button className="add-person-button" onClick={inviteUserButton}>
           <img
             className="add-person-button-image"
-            src="/assets/images/add-friend-icon.png"
+            src="./assets/images/add-friend-icon.png"
           ></img>
         </button>
         <h2>{document.title}</h2>

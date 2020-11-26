@@ -12,7 +12,7 @@ export default function NavBar() {
     <div className="navbar-root fixed-top">
       <img
         className="nav-icon"
-        src="/assets/images/Doc_Tracer_Icon_1_gradient.png"
+        src="./assets/images/Doc_Tracer_Icon_1_gradient.png"
       ></img>
 
       <div className="navbar-options-container">
