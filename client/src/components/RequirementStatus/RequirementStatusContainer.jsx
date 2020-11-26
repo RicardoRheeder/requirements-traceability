@@ -67,10 +67,14 @@ export default function RequirementStatusContainer({listOfStatuses}) {
         });
     }
     return (
+        <div className="requirement-status-field">
         <span className="status-node-container">
             <button className="add-status-button" onClick={()=>{openStatusSelection()}}>+</button>
-            {whiteboxIsOpen==true ? <div className="white-box"></div> : <></>}
             {listOfStatuses != null ? renderStatuses(listOfStatuses) : ""}
         </span>
+            <div className="white-box-container">
+                {whiteboxIsOpen==true ? <div className="white-box"></div> : <></>}
+            </div>
+        </div>
     )
 }
