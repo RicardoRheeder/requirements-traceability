@@ -33,7 +33,7 @@
     "singleQuote": true,
     "bracketSpacing": true
   },
-  "mocha":{
+  "mocha": {
     "exit": true,
     "timeout": 100000
   }
