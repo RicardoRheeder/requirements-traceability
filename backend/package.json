@@ -4,7 +4,7 @@
   "description": "Boilerplate for backend",
   "main": "server.js",
   "scripts": {
-    "test": "mocha",
+    "test": "nyc --all mocha",
     "start": "node server.js",
     "server": "nodemon server.js"
   },
@@ -19,8 +19,10 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "mocha": "^8.2.0",
     "nodemon": "^2.0.4",
+    "nyc": "^15.1.0",
     "sinon": "^9.2.1"
   },
   "prettier": {
@@ -30,5 +32,9 @@
     "semi": false,
     "singleQuote": true,
     "bracketSpacing": true
+  },
+  "mocha":{
+    "exit": true,
+    "timeout": 100000
   }
 }
