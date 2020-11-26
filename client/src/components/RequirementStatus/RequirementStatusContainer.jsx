@@ -75,19 +75,30 @@ export default function RequirementStatusContainer({listOfStatuses}) {
             <div className="white-box-container">
                 {whiteboxIsOpen==true ? <div className="white-box">
                     <div>
-                        Status Name:
-                        <input className="status-name-input"></input>
+                        <span className="status-input-span status-span">
+                            Status Name:
+                            <input className="status-name-input"></input>
+                        </span>
                         <br />
-                        Status Colour:
+                        <span className="colour-select-span status-span">
+                            Status Colour:
+                            <button className="blue-select colour-button"></button>
+                            <button className="red-select colour-button"></button>
+                            <button className="green-select colour-button"></button>
+                            <button className="yellow-select colour-button"></button>
+                            <button className="orange-select colour-button"></button>
+                            <button className="grey-select colour-button"></button>
+                        </span>
                         <br />
-                        Available Statuses:
-                        <select>
-                            <option value="unsatisifed">Unsatisfied</option>
-                            <option value="satisifed">Satisfied</option>
-                            <option value="WIP">WIP</option>
-                            <option value="review">Review</option>
-                        </select>
-
+                        <span className="available-status-span status-span">
+                            Available Statuses:
+                            <select className="available-statuses-selectbox">
+                                <option value="unsatisifed">Unsatisfied</option>
+                                <option value="satisifed">Satisfied</option>
+                                <option value="WIP">WIP</option>
+                                <option value="review">Review</option>
+                            </select>
+                        </span>
                     </div>
                 </div> : <></>}
             </div>
