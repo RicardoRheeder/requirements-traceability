@@ -42,6 +42,9 @@ export default function Hierarchy({
   const dispatch = useDispatch()
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedDocObject = useSelector((state) => state.document.current_doc)
+  const selectedDocVersion = useSelector(
+    (state) => state.common.currentSelectedDocVersion
+  )
 
   // Keeps track of which node ID is selected: Value will update with the selectedID stored in Redux
   // const selectedNodeId = useSelector((state) => state.common.selectedID)
@@ -79,7 +82,9 @@ export default function Hierarchy({
       })
       tempVersionsList.reverse()
       // setting default option
+
       defaultOption = tempVersionsList[0]
+
       setCurrentDropDownVersion(defaultOption)
       setVersionList(tempVersionsList)
     } else {
@@ -302,6 +307,16 @@ export default function Hierarchy({
     // console.log('Double click')
   }
 
+  const exportDocOnClick = (selectedNodeId) => {
+    print()
+    offFocusRequirement_versioning(selectedNodeId)
+  }
+
+  const saveDocOnClick = (selectedNodeId) => {
+    dispatch(setModalObject({ visible: true, mode: 3 }))
+    offFocusRequirement_versioning(selectedNodeId)
+  }
+
   return (
     <div className="hierarchy-contents-container">
       {/* Tree Utilities */}
@@ -471,13 +486,13 @@ export default function Hierarchy({
           </div>
           <button
             className="orange-button hierarchy-button"
-            onClick={() => print()}
+            onClick={() => exportDocOnClick(selectedNodeId)}
           >
             EXPORT
           </button>
           <button
             className="orange-button hierarchy-button"
-            onClick={() => dispatch(setModalObject({ visible: true, mode: 3 }))}
+            onClick={() => saveDocOnClick(selectedNodeId)}
           >
             Save Version
           </button>
