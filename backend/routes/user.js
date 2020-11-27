@@ -177,11 +177,12 @@ router.route('/update/:id').put((req, res) => {
 })
 
 // updating the users recent docs field
-router.route('/update/recent-docs/:id').patch((req, res) => {
-  const userID = req.params.id
+router.route('/update/recent-docs/:email').patch((req, res) => {
+  // const userID = req.params.id
+  const email = req.params.email
   const documentID = req.body.id
 
-  User.findById(userID)
+  User.findOne({ email: email })
     .then((user) => {
       // making a new array set to users recent docs array
       let newArray = user.recent_docs
@@ -202,7 +203,7 @@ router.route('/update/recent-docs/:id').patch((req, res) => {
         }
       }
       User.findByIdAndUpdate(
-        { _id: userID },
+        { _id: user._id },
         { $set: { recent_docs: newArray } }
       )
         .then((user) =>
