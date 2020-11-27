@@ -5,6 +5,9 @@ import {
   FETCH_USER_RECENT_DOCS_START,
   FETCH_USER_RECENT_DOCS_SUCCESS,
   FETCH_USER_RECENT_DOCS_FAILURE,
+  UPDATE_USER_RECENT_DOCS_START,
+  UPDATE_USER_RECENT_DOCS_SUCCESS,
+  UPDATE_USER_RECENT_DOCS_FAILURE,
 } from './actionTypes'
 
 const axios = require('axios').default
@@ -91,13 +94,42 @@ export const fetchUserRecentDocsFailure = (errorMessage) => {
   }
 }
 
-export const fetchUserRecentDocsAsync = ({ email }) => {
+export const fetchUserRecentDocsAsync = (user_email) => {
   return (dispatch) => {
     dispatch(fetchUserRecentDocsStart())
     // making a get request for recent docs
     axios
-      .get(`${url}//get/recent-docs-with-email/${email}`)
+      .get(`${url}/get/recent-docs-with-email/${user_email}`)
       .then((docs) => dispatch(fetchUserRecentDocsSuccess(docs)))
       .catch((err) => dispatch(fetchUserRecentDocsFailure(err)))
+  }
+}
+
+// Actions for updating recent docs ***********************************
+export const UpdateUserRecentDocsStart = () => {
+  return {
+    type: UPDATE_USER_RECENT_DOCS_START,
+  }
+}
+export const UpdateUserRecentDocsSuccess = () => {
+  return {
+    type: UPDATE_USER_RECENT_DOCS_SUCCESS,
+  }
+}
+export const UpdateUserRecentDocsFailure = (errorMessage) => {
+  return {
+    type: UPDATE_USER_RECENT_DOCS_FAILURE,
+    payload: errorMessage.data.message,
+  }
+}
+
+export const UpdateUserRecentDocsAsync = (user_email, doc_id) => {
+  return (dispatch) => {
+    dispatch(fetchUserRecentDocsStart())
+    // making a get request for recent docs
+    axios
+      .patch(`${url}/update/recent-docs//${user_email}`, { id: doc_id })
+      .then(() => dispatch(UpdateUserRecentDocsSuccess()))
+      .catch((err) => dispatch(UpdateUserRecentDocsFailure(err)))
   }
 }
