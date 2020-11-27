@@ -21,8 +21,11 @@ export function Tree_Update(customTreeData) {
 
       idCounter += 1
 
-      if (!TreeData[index].hasOwnProperty('uniqueID')){
-        TreeData[index]['uniqueID'] = getRndInteger(parseInt('0'), parseInt('99999999'))
+      if (!TreeData[index].hasOwnProperty('uniqueID')) {
+        TreeData[index]['uniqueID'] = getRndInteger(
+          parseInt('0'),
+          parseInt('99999999')
+        )
       }
 
       if (
@@ -262,19 +265,29 @@ export function Tree_CombineLocalAndDatabaseTrees(
   return combinedTree
 }
 
-export function Tree_GetRequirementObject(localTree, targetID, localEditingUser, desiredEditingUserState=null ) {
-  function parseLocalTree(TreeData, targetID, req){
-    var i = TreeData.length;
-    while(i--){
-      if( TreeData[i]
-        && TreeData[i].hasOwnProperty('id')
-        && (TreeData[i]['id'] === targetID ) ){
-          if(TreeData[i]['isBeingEdited'] == localEditingUser || TreeData[i]['isBeingEdited'] == null){
-            TreeData[i]['isBeingEdited'] = desiredEditingUserState
-          }
-          req = TreeData[i]
-          break
-      } else if (TreeData[i].hasOwnProperty('children')){
+export function Tree_GetRequirementObject(
+  localTree,
+  targetID,
+  localEditingUser,
+  desiredEditingUserState = null
+) {
+  function parseLocalTree(TreeData, targetID, req) {
+    var i = TreeData.length
+    while (i--) {
+      if (
+        TreeData[i] &&
+        TreeData[i].hasOwnProperty('id') &&
+        TreeData[i]['id'] === targetID
+      ) {
+        if (
+          TreeData[i]['isBeingEdited'] == localEditingUser ||
+          TreeData[i]['isBeingEdited'] == null
+        ) {
+          TreeData[i]['isBeingEdited'] = desiredEditingUserState
+        }
+        req = TreeData[i]
+        break
+      } else if (TreeData[i].hasOwnProperty('children')) {
         req = parseLocalTree(TreeData[i]['children'], targetID, req)
       }
     }
@@ -288,21 +301,27 @@ export function Tree_GetRequirementObject(localTree, targetID, localEditingUser,
 export function Tree_UpdateDatabaseTreeReq(databaseTree, localRequirement) {
   // If the passed requirement is a string, you need to parse the localRequirement
   // JSON.parse(localRequirement)
-  function parseDatabaseTree(TreeData, localReq, localReqUniqueID){
-    var i = TreeData.length;
-    while(i--){
-      if( TreeData[i]
-        && TreeData[i].hasOwnProperty('uniqueID')
-        && (TreeData[i]['uniqueID'] === localReqUniqueID ) ){
-          TreeData[i] = localReq
-          break
-      } else if (TreeData[i].hasOwnProperty('children')){
+  function parseDatabaseTree(TreeData, localReq, localReqUniqueID) {
+    var i = TreeData.length
+    while (i--) {
+      if (
+        TreeData[i] &&
+        TreeData[i].hasOwnProperty('uniqueID') &&
+        TreeData[i]['uniqueID'] === localReqUniqueID
+      ) {
+        TreeData[i] = localReq
+        break
+      } else if (TreeData[i].hasOwnProperty('children')) {
         parseDatabaseTree(TreeData[i]['children'], localReq, localReqUniqueID)
       }
     }
-    return TreeData;
+    return TreeData
   }
 
-  var combinedTree = parseDatabaseTree(databaseTree, localRequirement, localRequirement['uniqueID'])
-  return combinedTree;
+  var combinedTree = parseDatabaseTree(
+    databaseTree,
+    localRequirement,
+    localRequirement['uniqueID']
+  )
+  return combinedTree
 }
