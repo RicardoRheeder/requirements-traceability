@@ -100,7 +100,7 @@ export const DocumentPanel = ({ document }) => {
       </div>
 
       <div className="document-panel-dropdown">
-        <Dropdown
+        {/* <Dropdown
           options={versionList}
           onChange={_onDropdownSelect}
           value={currentDropDownVersion}
@@ -110,7 +110,7 @@ export const DocumentPanel = ({ document }) => {
           placeholderClassName="dropdown-custom-placeholder"
           menuClassName="dropdown-custom-menu"
           arrowClassName="dropdown-custom-arrow"
-        />
+        /> */}
       </div>
     </div>
   )
