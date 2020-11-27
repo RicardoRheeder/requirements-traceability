@@ -52,7 +52,7 @@ export default function Router() {
             <>
               {loaderObject()}
               <NavBar />
-              <Route path="/" children={<LandingPage />}></Route>
+              <Route exact={true} path="/" children={<LandingPage />}></Route>
               <Route exact={true} path="/about" children={<About />} />
             </>
           ) : (

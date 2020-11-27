@@ -10,11 +10,12 @@ export default function NavBar() {
 
   return (
     <div className="navbar-root fixed-top">
+      <NavLink to={'/'} id="NavToRoot">
       <img
         className="nav-icon"
         src="/assets/images/Doc_Tracer_Icon_1_gradient.png"
       ></img>
-
+      </NavLink>
       <div className="navbar-options-container">
         <ul className="navbar-option text-uppercase">
           {isAuthenticated ? (
@@ -53,6 +54,6 @@ export default function NavBar() {
           )}
         </ul>
       </div>
-    </div>    
+    </div>
   )
 }
