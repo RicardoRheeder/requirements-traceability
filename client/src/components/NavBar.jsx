@@ -13,7 +13,7 @@ export default function NavBar() {
       <NavLink to={'/'} id="NavToRoot">
       <img
         className="nav-icon"
-        src="/assets/images/Doc_Tracer_Icon_1_gradient.png"
+        src="./assets/images/Doc_Tracer_Icon_1_gradient.png"
       ></img>
       </NavLink>
       <div className="navbar-options-container">
