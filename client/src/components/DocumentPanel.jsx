@@ -100,7 +100,7 @@ export const DocumentPanel = ({ document }) => {
       </div>
 
       <div className="doc-version-title">
-        {currentDropDownVersion}
+        {'(Latest version: ' + currentDropDownVersion + ')'}
         {/* <Dropdown
           options={versionList}
           onChange={_onDropdownSelect}
