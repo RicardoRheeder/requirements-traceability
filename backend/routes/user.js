@@ -135,6 +135,52 @@ router.route('/update/:id').put((req, res) => {
     )
 })
 
+// updating the users recent docs field
+router.route('/update/recent-docs/:id').patch((req, res) => {
+  const userID = req.params.id
+  const documentID = req.body.id
+
+  User.findById(userID)
+    .then((user) => {
+      // making a new array set to users recent docs array
+      let newArray = user.recent_docs
+      // checking if the users recent doc array is full
+      if (user.recent_docs.length >= 3) {
+        console.log('bigger than three')
+        // removing old element and inserting new element
+        newArray.pop()
+        newArray.unshift(documentID)
+      }
+      // if the recent doc array is not full add to it
+      else {
+        // adding new element to the start
+        newArray.unshift(documentID)
+      }
+      User.findByIdAndUpdate(
+        { _id: userID },
+        { $set: { recent_docs: newArray } }
+      )
+        .then((user) =>
+          res.json({
+            message: 'User recent docs array updated.',
+            response: user,
+          })
+        )
+        .catch((err) =>
+          res.status(400).json({
+            message: 'Error: user recent docs array could not be updated',
+            response: err,
+          })
+        )
+    })
+    .catch((err) =>
+      res.status(400).json({
+        message: 'Error: user could not be found with id',
+        response: err,
+      })
+    )
+})
+
 // Delete Routes*****************************************
 
 // deleting a specific user
