@@ -37,7 +37,7 @@ function Home() {
         <div className="home-header">
           <img
             className="home-logo-banner"
-            src="/assets/images/Doc_Tracer_Logo_2.png"
+            src="./assets/images/Doc_Tracer_Logo_2.png"
           ></img>
         </div>
         <div className="home-subheader">Recent Documents</div>

@@ -96,7 +96,7 @@ export const DocumentPanel = ({ document }) => {
         <button className="add-person-button" onClick={inviteUserButton}>
           <img
             className="add-person-button-image"
-            src="/assets/images/add-friend-icon.png"
+            src="./assets/images/add-friend-icon.png"
           ></img>
         </button>
         <h2 className="doc-panel-header">{document.title}</h2>
@@ -104,17 +104,6 @@ export const DocumentPanel = ({ document }) => {
 
       <div className="doc-version-title">
         {'(Latest version: ' + currentDropDownVersion + ')'}
-        {/* <Dropdown
-          options={versionList}
-          onChange={_onDropdownSelect}
-          value={currentDropDownVersion}
-          placeholder="Select an option"
-          className="dropdown-custom-wrapper"
-          controlClassName="dropdown-custom-control"
-          placeholderClassName="dropdown-custom-placeholder"
-          menuClassName="dropdown-custom-menu"
-          arrowClassName="dropdown-custom-arrow"
-        /> */}
       </div>
     </div>
   )

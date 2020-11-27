@@ -3,11 +3,14 @@
   color: #f2f2f2;
 
   .SplitPane {
+    min-width: 100%;
   }
 
   .Pane {
     overflow: auto;
     // top: 100px;
+    min-width: 24%;
+    max-width: 76%;
 
     .editor-root-div {
       padding: 10px;
