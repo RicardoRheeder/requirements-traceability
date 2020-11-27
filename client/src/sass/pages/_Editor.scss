@@ -8,6 +8,7 @@
   .Pane {
     overflow: auto;
     // top: 100px;
+    min-width: 320px;
 
     .editor-root-div {
       padding: 10px;
