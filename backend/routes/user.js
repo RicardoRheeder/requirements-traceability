@@ -188,14 +188,18 @@ router.route('/update/recent-docs/:id').patch((req, res) => {
       // checking if the users recent doc array is full
       if (user.recent_docs.length >= 3) {
         console.log('bigger than three')
-        // removing old element and inserting new element
-        newArray.pop()
-        newArray.unshift(documentID)
+        // removing old element and adding if not already in array
+        if (!newArray.includes(documentID)) {
+          newArray.pop()
+          newArray.unshift(documentID)
+        }
       }
       // if the recent doc array is not full add to it
       else {
-        // adding new element to the start
-        newArray.unshift(documentID)
+        // adding new element to the start if id not already in array
+        if (!newArray.includes(documentID)) {
+          newArray.unshift(documentID)
+        }
       }
       User.findByIdAndUpdate(
         { _id: userID },
