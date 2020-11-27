@@ -94,22 +94,17 @@ export default function Editor() {
 
     return () => {
       if (selectedDocObject != null) {
-        // dispatch(getTreeAsync(selectedDocObject))
         if (selectedNodeId != 0) {
-          setTimeout(() => {
-            dispatch(
-              sendReqAsyncOnUnmount(
-                storeTreeData,
-                selectedNodeId,
-                user.nickname,
-                null,
-                selectedDocObject._id
-              )
-            ) // Send the updated requirement to the database
-          }, 50)
-          // console.log('On Focus: ' + id + ' ' + selectedNodeId)
+          dispatch(
+            sendReqAsyncOnUnmount(
+              storeTreeData,
+              selectedNodeId,
+              user.nickname,
+              null,
+              selectedDocObject._id
+            )
+          ) // Send the updated requirement to the database
         }
-        // dispatch(updateSelectedNodeID(0)) // Updating visual of node being selected
         setSelectedNodeId(0)
         dispatch(setShouldPullFromDB(true)) // Don't pull when focussing on a requirement
       }

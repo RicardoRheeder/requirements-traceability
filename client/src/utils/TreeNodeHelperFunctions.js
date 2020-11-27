@@ -271,11 +271,6 @@ export function Tree_GetRequirementObject(
   localEditingUser,
   desiredEditingUserState = null
 ) {
-  console.log(localTree)
-  console.log(targetID)
-  console.log(localEditingUser)
-  console.log(desiredEditingUserState)
-
   function parseLocalTree(TreeData, targetID, req) {
     var i = TreeData.length
     while (i--) {

@@ -241,7 +241,6 @@ export const commitTreeStart = () => {
 }
 
 export const commitTreeSuccess = (doc) => {
-  console.log(doc)
   return {
     type: COMMIT_TREE_SUCCESS,
     data: doc.data.response,
@@ -297,11 +296,9 @@ export const sendDocAsync = (treeData, docID) => {
     axios
       .patch(`${url}/documents/update-tree/${docID}`, { tree: treeData })
       .then((doc) => {
-        // console.log(doc)
         dispatch(sendDocSuccess(doc))
       })
       .catch((err) => {
-        // console.log(err)
         dispatch(sendDocFailure(err))
       })
   }
@@ -330,17 +327,14 @@ export const sendReqFailure = (err) => {
 
 //send the requirement to the backend
 export const sendReqAsync = (requirement, docID) => {
-  console.log('this is the requirement: ' + requirement)
   return (dispatch) => {
     dispatch(sendReqStart())
     axios
       .patch(`${url}/documents/update-req/${docID}`, { req: requirement })
       .then((doc) => {
-        // console.log(doc)
         dispatch(sendReqSuccess(doc.tree))
       })
       .catch((err) => {
-        // console.log(err)
         dispatch(sendReqFailure(err))
       })
   }
@@ -355,7 +349,6 @@ export const sendReqAsyncOnUnmount = (
   docID
 ) => {
   return (dispatch) => {
-    console.log('sojfoijefosejf')
     // Get requirement we are editing, and remove the user's name from it
     var requirement = JSON.stringify(
       Tree_GetRequirementObject(
@@ -365,7 +358,6 @@ export const sendReqAsyncOnUnmount = (
         desiredUser
       )
     )
-    console.log(storeTreeData)
     dispatch(sendReqAsync(requirement, docID)) // Send the updated requirement to the database
   }
 }
@@ -388,7 +380,6 @@ export const getDocFailure = (error) => {
 
 // action for getting Doc on success
 export const getDocSuccess = (doc) => {
-  // console.log(`Document: ${doc.data.response}`)
   return {
     type: FETCH_DOC_SUCCESS,
     data: doc.data.response,
@@ -397,13 +388,11 @@ export const getDocSuccess = (doc) => {
 
 // Get the doc asynchronously
 export const getDocAsync = (docId) => {
-  console.log(docId)
   return (dispatch) => {
     dispatch(getDocStart())
     axios
       .get(`${url}/documents/get/${docId}`)
       .then((doc) => {
-        console.log(doc)
         dispatch(getDocSuccess(doc))
       })
       .catch((error) => dispatch(getDocFailure(error)))
