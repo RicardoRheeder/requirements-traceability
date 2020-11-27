@@ -32,14 +32,18 @@ import {
 } from '../../utils/TreeNodeHelperFunctions'
 import ReactDropdown from 'react-dropdown'
 
-export default function Hierarchy({ scrollToElementFunction }) {
+export default function Hierarchy({
+  scrollToElementFunction,
+  setSelectedNodeId,
+  selectedNodeId,
+}) {
   const { user } = useAuth0()
   const dispatch = useDispatch()
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedDocObject = useSelector((state) => state.document.current_doc)
 
   // Keeps track of which node ID is selected: Value will update with the selectedID stored in Redux
-  const selectedNodeId = useSelector((state) => state.common.selectedID)
+  // const selectedNodeId = useSelector((state) => state.common.selectedID)
 
   const useCustomTreeData = () =>
     Tree_Update(useSelector((state) => state.common.treeData))
@@ -93,6 +97,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
     if (selectedItem.value != mostRecentVersion.versionName) {
       dispatch(setShouldPullFromDB(false))
       // dispatch(updateSelectedNodeID(0))
+      setSelectedNodeId(0)
     } else {
       dispatch(setShouldPullFromDB(true))
     }
@@ -156,7 +161,8 @@ export default function Hierarchy({ scrollToElementFunction }) {
   }
 
   const moveNode = (tree) => {
-    dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
+    // dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
+    setSelectedNodeId(0)
     updateTree(tree)
 
     dispatch(sendDocAsync(JSON.stringify(tree), selectedDocObject._id))
@@ -182,7 +188,8 @@ export default function Hierarchy({ scrollToElementFunction }) {
     // Get new id to focus on
     let newSelectedNodeID = selectedNodeId - 1
     if (newSelectedNodeID < 0) newSelectedNodeID = 0
-    dispatch(updateSelectedNodeID(0)) // Updating visual of node being selected
+    // dispatch(updateSelectedNodeID(0)) // Updating visual of node being selected
+    setSelectedNodeId(0)
     updateTree(td)
 
     dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
@@ -224,14 +231,6 @@ export default function Hierarchy({ scrollToElementFunction }) {
   const collapseAll = () => expand(false)
 
   /**
-   * Sends the clicked node's ID to Redux's selectedID
-   * @param {int} id - the ID of the currently selected node to push to Redux
-   */
-  const setSelectedNodeId = (id) => {
-    dispatch(updateSelectedNodeID(0))
-  }
-
-  /**
    * The handler for node onClick events
    * @param {Object} event - HTML event that contains the information of what is selected in the browser
    * @param {Object} node - contains node specific info
@@ -245,8 +244,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
       let id = node.id
 
       if (id != selectedNodeId) {
-        console.log('in here')
-        console.log(id + ' ' + selectedNodeId)
+        // console.log(id + ' ' + selectedNodeId)
         if (selectedNodeId != 0) {
           dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
 
@@ -262,7 +260,8 @@ export default function Hierarchy({ scrollToElementFunction }) {
           dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
         }
 
-        dispatch(updateSelectedNodeID(id)) // Updating visual of node being selected
+        // dispatch(updateSelectedNodeID(id)) // Updating visual of node being selected
+        setSelectedNodeId(id)
 
         // Get requirement we are editing, and add username
         var requirement = JSON.stringify(
@@ -283,7 +282,8 @@ export default function Hierarchy({ scrollToElementFunction }) {
 
   const offFocusRequirement_versioning = (id) => {
     // console.log('Off Focus: ' + id)
-    dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
+    // dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
+    setSelectedNodeId(0)
     // Get requirement we are editing, and remove the user's name from it
     var requirement = JSON.stringify(
       Tree_GetRequirementObject(storeTreeData, id, user.nickname, null)

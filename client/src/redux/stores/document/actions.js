@@ -330,7 +330,6 @@ export const sendReqFailure = (err) => {
 
 //send the requirement to the backend
 export const sendReqAsync = (requirement, docID) => {
-  console.log('blah blah blah')
   return (dispatch) => {
     dispatch(sendReqStart())
     axios
