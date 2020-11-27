@@ -3,6 +3,7 @@ import Dropdown from 'react-dropdown'
 import { useHistory } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
+import { useAuth0 } from '@auth0/auth0-react'
 import {
   setSelectedDocumentPanelObject,
   setModalObject,
@@ -13,8 +14,10 @@ import {
   getDocAsync,
   updateCurrentDocument,
 } from '../redux/stores/document/actions'
+import { UpdateUserRecentDocsAsync } from '../redux/stores/user/actions'
 
 export const DocumentPanel = ({ document }) => {
+  const { user } = useAuth0()
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -54,19 +57,6 @@ export const DocumentPanel = ({ document }) => {
     }
   }
 
-  // const _onDropdownSelect = (thing) => {
-  //   // finding the corresponding tree for the version that was selected
-  //   document.versions.forEach((version) => {
-  //     const parsedVersion = JSON.parse(version)
-
-  //     if (thing.value == parsedVersion.versionName) {
-  //       dispatch(updateDataTree(JSON.parse(parsedVersion.tree)))
-  //       setCurrentDropDownVersion(parsedVersion.versionName)
-  //       setSelectedVersionTree(JSON.parse(parsedVersion.tree))
-  //     }
-  //   })
-  // }
-
   const inviteUserButton = () => {
     dispatch(setModalObject({ visible: true, mode: 2 }))
   }
@@ -78,6 +68,8 @@ export const DocumentPanel = ({ document }) => {
     dispatch(updateDataTree(selectedVersionTree))
     // setting the current version of the document
     dispatch(setCurrentDocVersion(CURRENTWORKINGVERSION))
+    // updating recent docs array
+    dispatch(UpdateUserRecentDocsAsync(user.email, document._id))
     history.push('/editor')
   }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import {
@@ -14,11 +14,6 @@ function Home() {
   // getting the current user who is signed in
   const { user } = useAuth0()
   const dispatch = useDispatch()
-
-  // getting info and errorMessage from initial state
-  const userInfo = useSelector((state) => state.user.info)
-  const errorMessage = useSelector((state) => state.user.errorMessage)
-  const recent_docs = useSelector((state) => state.user.recent_docs)
 
   // use effect to fetch the user info when the component mounts
   useEffect(() => {
@@ -42,7 +37,6 @@ function Home() {
             src="./assets/images/Doc_Tracer_Logo_2.png"
           ></img>
         </div>
-        {/* <div className="home-subheader">Recent Documents</div> */}
         <RecentDocCard />
       </div>
       <div className="right-container">Notifications</div>

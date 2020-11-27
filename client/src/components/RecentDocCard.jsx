@@ -8,8 +8,6 @@ export default function RecentDocCard({}) {
   const renderRecentDocs = (recent_docs) => {
     if (recent_docs != null) {
       return recent_docs.map((recent_doc, i) => {
-        console.log(recent_doc)
-
         return <DocumentPanel document={recent_doc} key={i} />
       })
     }
