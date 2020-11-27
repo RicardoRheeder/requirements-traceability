@@ -107,6 +107,47 @@ router.route('/get/documents-with-email/:email').get((req, res) => {
       })
     })
 })
+
+// getting users recent doc array with id
+router.route('/get/recent-docs/:id').get((req, res) => {
+  const userID = req.params.id
+  User.findById(userID)
+    .populate('recent_docs')
+    .exec()
+    .then((user) => {
+      res.json({
+        message: 'Got the users recent docs with the id that was given',
+        response: user.recent_docs,
+      })
+    })
+    .catch((err) =>
+      res.json({
+        message: 'Error: could not get users recent docs with id given',
+        response: err,
+      })
+    )
+})
+
+// getting users recent doc array with email
+router.route('/get/recent-docs-with-email/:email').get((req, res) => {
+  const email = req.params.email
+  User.findOne({ email: email })
+    .populate('recent_docs')
+    .exec()
+    .then((user) => {
+      res.json({
+        message: 'Got the users recent docs with the email that was given',
+        response: user.recent_docs,
+      })
+    })
+    .catch((err) =>
+      res.json({
+        message: 'Error: could not get users recent docs with email given',
+        response: err,
+      })
+    )
+})
+
 // Update Routes*****************************************
 
 // updating a specific user
