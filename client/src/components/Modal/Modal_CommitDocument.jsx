@@ -11,6 +11,7 @@ import { setCurrentDocVersion } from '../../redux/stores/common/actions'
 
 export default function Modal_CommitDocument() {
   const { user } = useAuth0()
+  const CURRENTWORKINGVERSION = 'Current working version'
 
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedDocObject = useSelector((state) => state.document.current_doc)
@@ -32,7 +33,7 @@ export default function Modal_CommitDocument() {
       dispatch(getDocAsync(docID))
     }, 250)
     dispatch(setModalObject({ visible: false, mode: 0 }))
-    dispatch(setCurrentDocVersion(doc.title))
+    dispatch(setCurrentDocVersion(CURRENTWORKINGVERSION))
   }
 
   const handleChange = (e) => {
