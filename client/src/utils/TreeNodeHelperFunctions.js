@@ -263,6 +263,11 @@ export function Tree_CombineLocalAndDatabaseTrees(
 }
 
 export function Tree_GetRequirementObject(localTree, targetID, localEditingUser, desiredEditingUserState=null ) {
+  console.log(localTree)
+  console.log(targetID)
+  console.log(localEditingUser)
+  console.log(desiredEditingUserState)
+
   function parseLocalTree(TreeData, targetID, req){
     var i = TreeData.length;
     while(i--){
