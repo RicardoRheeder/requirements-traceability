@@ -7,6 +7,7 @@ import {
   commitTreeAsync,
   getDocAsync,
 } from '../../redux/stores/document/actions'
+import { setCurrentDocVersion } from '../../redux/stores/common/actions'
 
 export default function Modal_CommitDocument() {
   const { user } = useAuth0()
@@ -31,6 +32,7 @@ export default function Modal_CommitDocument() {
       dispatch(getDocAsync(docID))
     }, 250)
     dispatch(setModalObject({ visible: false, mode: 0 }))
+    dispatch(setCurrentDocVersion(doc.title))
   }
 
   const handleChange = (e) => {

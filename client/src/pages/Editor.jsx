@@ -112,8 +112,8 @@ export default function Editor() {
         // dispatch(updateSelectedNodeID(0)) // Updating visual of node being selected
         setSelectedNodeId(0)
         dispatch(setShouldPullFromDB(true)) // Don't pull when focussing on a requirement
-        dispatch(updateDataTree([])) // resetting the local tree when leaving editor
       }
+      dispatch(updateDataTree([])) // resetting the local tree when leaving editor
     }
   }, [selectedDocObject, dispatch])
 
@@ -298,7 +298,6 @@ export default function Editor() {
       }
     )
   }
-  console.log('herererere: ' + selectedNodeId)
   return (
     <div className="editor-root">
       <SplitPane

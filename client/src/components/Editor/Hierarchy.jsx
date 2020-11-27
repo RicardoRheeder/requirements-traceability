@@ -11,6 +11,7 @@ import SortableTree, {
 import FileExplorerTheme from 'react-sortable-tree-theme-full-node-drag'
 
 import {
+  setCurrentDocVersion,
   setModalObject,
   setShouldPullFromDB,
   updateDataTree,
@@ -41,6 +42,9 @@ export default function Hierarchy({
   const dispatch = useDispatch()
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedDocObject = useSelector((state) => state.document.current_doc)
+  const selectedDocVersion = useSelector(
+    (state) => state.common.currentSelectedDocVersion
+  )
 
   // Keeps track of which node ID is selected: Value will update with the selectedID stored in Redux
   // const selectedNodeId = useSelector((state) => state.common.selectedID)
@@ -55,8 +59,7 @@ export default function Hierarchy({
   const [searchString, setSearchString] = useState('') // String in the search box
   const [searchFocusIndex, setSearchFocusIndex] = useState(0) // Which tree index to focus on
   const [searchFoundCount, setSearchFoundCount] = useState(null) // Count of searched items found
-  // state for use in dropdown versions list
-  const [selectedVersionTree, setSelectedVersionTree] = useState() // selecting a document version
+
   const [versionList, setVersionList] = useState([]) // setting the version list
   const [currentDropDownVersion, setCurrentDropDownVersion] = useState('') // selecting a item in dropdown
 
@@ -78,14 +81,14 @@ export default function Hierarchy({
         tempVersionsList.push(parsedVersion.versionName)
       })
       tempVersionsList.reverse()
-      setSelectedVersionTree(JSON.parse(selectedDocObject.tree))
       // setting default option
+
       defaultOption = tempVersionsList[0]
+
       setCurrentDropDownVersion(defaultOption)
       setVersionList(tempVersionsList)
     } else {
       setCurrentDropDownVersion(defaultOption)
-      setSelectedVersionTree(JSON.parse(selectedDocObject.tree))
     }
   }
 
@@ -108,7 +111,7 @@ export default function Hierarchy({
       if (selectedItem.value == parsedVersion.versionName) {
         dispatch(updateDataTree(JSON.parse(parsedVersion.tree)))
         setCurrentDropDownVersion(parsedVersion.versionName)
-        setSelectedVersionTree(JSON.parse(parsedVersion.tree))
+        dispatch(setCurrentDocVersion(selectedItem.value))
       }
     })
   }
@@ -304,6 +307,16 @@ export default function Hierarchy({
     // console.log('Double click')
   }
 
+  const exportDocOnClick = (selectedNodeId) => {
+    print()
+    offFocusRequirement_versioning(selectedNodeId)
+  }
+
+  const saveDocOnClick = (selectedNodeId) => {
+    dispatch(setModalObject({ visible: true, mode: 3 }))
+    offFocusRequirement_versioning(selectedNodeId)
+  }
+
   return (
     <div className="hierarchy-contents-container">
       {/* Tree Utilities */}
@@ -473,13 +486,13 @@ export default function Hierarchy({
           </div>
           <button
             className="orange-button hierarchy-button"
-            onClick={() => print()}
+            onClick={() => exportDocOnClick(selectedNodeId)}
           >
             EXPORT
           </button>
           <button
             className="orange-button hierarchy-button"
-            onClick={() => dispatch(setModalObject({ visible: true, mode: 3 }))}
+            onClick={() => saveDocOnClick(selectedNodeId)}
           >
             Save Version
           </button>
