@@ -13,21 +13,18 @@
     position: relative;
     overflow-y: auto;
     display: block;
-    height: calc(100% - 175px);
+    height: calc(100% - 110px);
   }
 
   .add-remove-button-container {
     display: block;
-    height: 75px;
-    position: sticky;
-    bottom: 0px;
+    height: 5%;
     width: 100%;
     background: #2e2e2e;
-    border: 1px solid #f96302 !important;
   }
 
   .add-remove-button {
-    margin: 15px 10px;
+    margin: 10px 30px;
     font-size: 20px;
     min-width: 95px;
   }
