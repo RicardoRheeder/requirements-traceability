@@ -14,7 +14,6 @@ export const setLoggedIn = (data) => ({ type: SET_LOGGEDIN, data })
 // export const updateDataTree = (data) => ({ type: UPDATE_TREEDATA, data })
 
 export const updateDataTree = (data) => {
-  console.log('jaoasjfojseofjsoefjosijefosjefojsefjsoeifjsoejfoijf')
   return {
     type: UPDATE_TREEDATA,
     data,

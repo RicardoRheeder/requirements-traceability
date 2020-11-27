@@ -96,15 +96,17 @@ export default function Editor() {
       if (selectedDocObject != null) {
         // dispatch(getTreeAsync(selectedDocObject))
         if (selectedNodeId != 0) {
-          dispatch(
-            sendReqAsyncOnUnmount(
-              storeTreeData,
-              selectedNodeId,
-              user.nickname,
-              null,
-              selectedDocObject._id
-            )
-          ) // Send the updated requirement to the database
+          setTimeout(() => {
+            dispatch(
+              sendReqAsyncOnUnmount(
+                storeTreeData,
+                selectedNodeId,
+                user.nickname,
+                null,
+                selectedDocObject._id
+              )
+            ) // Send the updated requirement to the database
+          }, 50)
           // console.log('On Focus: ' + id + ' ' + selectedNodeId)
         }
         // dispatch(updateSelectedNodeID(0)) // Updating visual of node being selected

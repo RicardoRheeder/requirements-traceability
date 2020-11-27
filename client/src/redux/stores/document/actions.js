@@ -330,6 +330,7 @@ export const sendReqFailure = (err) => {
 
 //send the requirement to the backend
 export const sendReqAsync = (requirement, docID) => {
+  console.log('this is the requirement: ' + requirement)
   return (dispatch) => {
     dispatch(sendReqStart())
     axios
@@ -354,6 +355,7 @@ export const sendReqAsyncOnUnmount = (
   docID
 ) => {
   return (dispatch) => {
+    console.log('sojfoijefosejf')
     // Get requirement we are editing, and remove the user's name from it
     var requirement = JSON.stringify(
       Tree_GetRequirementObject(
@@ -363,6 +365,7 @@ export const sendReqAsyncOnUnmount = (
         desiredUser
       )
     )
+    console.log(storeTreeData)
     dispatch(sendReqAsync(requirement, docID)) // Send the updated requirement to the database
   }
 }
