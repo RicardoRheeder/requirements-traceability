@@ -296,7 +296,6 @@ export default function Editor() {
       }
     )
   }
-  console.log('herererere: ' + selectedNodeId)
   return (
     <div className="editor-root">
       <SplitPane
