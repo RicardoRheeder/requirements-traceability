@@ -399,7 +399,7 @@ export default function Hierarchy({ scrollToElementFunction }) {
               // console.log(rowInfo.path); // Prints all node's info
               let nodeProps = {
                 onClick: (event) => onFocusRequirement(event, rowInfo.node),
-                onBlur: (event) => offFocusRequirement(event, rowInfo.node),
+                // onBlur: (event) => offFocusRequirement(event, rowInfo.node),
                 onDoubleClick: executeScroll,
                 title: (
                   <span className="node-row-text">

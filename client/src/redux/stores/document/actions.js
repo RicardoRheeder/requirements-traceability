@@ -29,7 +29,7 @@ import {
   FETCH_DOC_SUCCESS,
 } from './actionTypes'
 
-import {Tree_GetRequirementObject} from '../../../utils/TreeNodeHelperFunctions'
+import { Tree_GetRequirementObject } from '../../../utils/TreeNodeHelperFunctions'
 
 const axios = require('axios').default
 
@@ -330,6 +330,7 @@ export const sendReqFailure = (err) => {
 
 //send the requirement to the backend
 export const sendReqAsync = (requirement, docID) => {
+  console.log('blah blah blah')
   return (dispatch) => {
     dispatch(sendReqStart())
     axios
@@ -345,8 +346,14 @@ export const sendReqAsync = (requirement, docID) => {
   }
 }
 
-  //send the requirement to the backend
-export const sendReqAsyncOnUnmount = (storeTreeData, selectedNodeId, localUser, desiredUser, docID) => {
+//send the requirement to the backend
+export const sendReqAsyncOnUnmount = (
+  storeTreeData,
+  selectedNodeId,
+  localUser,
+  desiredUser,
+  docID
+) => {
   return (dispatch) => {
     // Get requirement we are editing, and remove the user's name from it
     var requirement = JSON.stringify(
@@ -355,9 +362,10 @@ export const sendReqAsyncOnUnmount = (storeTreeData, selectedNodeId, localUser, 
         selectedNodeId,
         localUser,
         desiredUser
-      ))
+      )
+    )
     dispatch(sendReqAsync(requirement, docID)) // Send the updated requirement to the database
-}
+  }
 }
 
 //Fetching single document *************************
