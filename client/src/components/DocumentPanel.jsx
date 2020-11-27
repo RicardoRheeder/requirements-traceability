@@ -96,7 +96,7 @@ export const DocumentPanel = ({ document }) => {
             src="./assets/images/add-friend-icon.png"
           ></img>
         </button>
-        <h2>{document.title}</h2>
+        <h2 className="doc-title">{document.title}</h2>
       </div>
 
       <div className="document-panel-dropdown">

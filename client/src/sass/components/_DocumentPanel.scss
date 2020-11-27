@@ -22,6 +22,14 @@
     float: left;
     width: 100%;
     height: 30px;
+    
+    .doc-title{
+      text-overflow: ellipsis;
+      max-block-size: 150px;
+      font-weight: 500;
+      max-width: 250px;
+      overflow: hidden;
+    }
 
     .add-person-button {
       height: 35px !important;
