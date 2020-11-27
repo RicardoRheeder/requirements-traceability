@@ -26,6 +26,7 @@ import {
   sendReqAsyncOnUnmount,
 } from '../redux/stores/document/actions'
 
+var selectedNodeId = 0
 function useInterval(callback, delay) {
   const savedCallback = useRef()
 
@@ -56,7 +57,8 @@ export default function Editor() {
     true
   )
   const storeTreeData = useSelector((state) => state.common.treeData, [])
-  const selectedNodeId = useSelector((state) => state.common.selectedID)
+  // const selectedNodeId = useSelector((state) => state.common.selectedID)
+  // var selectedNodeId = 0
   const selectedDocObject = useSelector((state) => state.document.current_doc)
   const userColorObject = useSelector(
     (state) => state.common.userColorObject,
@@ -70,7 +72,7 @@ export default function Editor() {
   useInterval(() => {
     if (selectedDocObject != null && shouldPullFromDB == true) {
       dispatch(getTreeAsync(selectedDocObject))
-      console.log('Pull tree from database')
+      // console.log('Pull tree from database')
 
       if (fetchedTree != null) {
         let treeFromDB = null
@@ -102,13 +104,13 @@ export default function Editor() {
               selectedDocObject._id
             )
           ) // Send the updated requirement to the database
-          // console.log('On Focus: ' + id + ' ' + selectedNodeId)
-          dispatch(updateSelectedNodeID(0)) // Updating visual of node being selected
-          dispatch(setShouldPullFromDB(true)) // Don't pull when focussing on a requirement
         }
+        setSelectedNodeId(0)
+        dispatch(setShouldPullFromDB(true)) // Don't pull when focussing on a requirement
       }
+      dispatch(updateDataTree([])) // resetting the local tree when leaving editor
     }
-  }, [selectedDocObject])
+  }, [selectedDocObject, dispatch])
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -167,7 +169,8 @@ export default function Editor() {
       }
 
       // console.log('On Focus: ' + id + ' ' + selectedNodeId)
-      dispatch(updateSelectedNodeID(id)) // Updating visual of node being selected
+      // dispatch(updateSelectedNodeID(id)) // Updating visual of node being selected
+      setSelectedNodeId(id)
 
       // Get requirement we are editing, and add username
       var requirement = JSON.stringify(
@@ -187,7 +190,8 @@ export default function Editor() {
 
   const offFocusRequirement = (id) => {
     // console.log('Off Focus: ' + id)
-    dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
+    // dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
+    setSelectedNodeId(0)
     // Get requirement we are editing, and remove the user's name from it
     var requirement = JSON.stringify(
       Tree_GetRequirementObject(storeTreeData, id, user.nickname, null)
@@ -197,6 +201,15 @@ export default function Editor() {
       dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
       dispatch(setShouldPullFromDB(true)) // Start pulling documents from the database again
     }, 100)
+  }
+
+  /**
+   * Sends the clicked node's ID to Redux's selectedID
+   * @param {int} id - the ID of the currently selected node to push to Redux
+   */
+  const setSelectedNodeId = (id) => {
+    // console.log(id)
+    selectedNodeId = id
   }
 
   /**
@@ -280,7 +293,6 @@ export default function Editor() {
       }
     )
   }
-
   return (
     <div className="editor-root">
       <SplitPane
@@ -295,6 +307,8 @@ export default function Editor() {
             scrollToElementFunction={(el) =>
               scrollToElement(paneRef.current.pane2.querySelector('.selected'))
             }
+            setSelectedNodeId={setSelectedNodeId}
+            selectedNodeId={selectedNodeId}
           />
         </div>
         <div className="editor-root-div styled-background-grey">

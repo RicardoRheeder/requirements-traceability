@@ -7,9 +7,11 @@ import {
   commitTreeAsync,
   getDocAsync,
 } from '../../redux/stores/document/actions'
+import { setCurrentDocVersion } from '../../redux/stores/common/actions'
 
 export default function Modal_CommitDocument() {
   const { user } = useAuth0()
+  const CURRENTWORKINGVERSION = 'Current working version'
 
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedDocObject = useSelector((state) => state.document.current_doc)
@@ -31,6 +33,7 @@ export default function Modal_CommitDocument() {
       dispatch(getDocAsync(docID))
     }, 250)
     dispatch(setModalObject({ visible: false, mode: 0 }))
+    dispatch(setCurrentDocVersion(CURRENTWORKINGVERSION))
   }
 
   const handleChange = (e) => {
@@ -53,7 +56,7 @@ export default function Modal_CommitDocument() {
               className="orange-button modal-button"
               onClick={commitDocumentToDB}
             >
-              Submit
+              Save Version
             </button>
             <button
               className="orange-button modal-button"
