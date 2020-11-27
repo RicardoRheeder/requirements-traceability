@@ -42,10 +42,10 @@ export default function Hierarchy({
   const dispatch = useDispatch()
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   const selectedDocObject = useSelector((state) => state.document.current_doc)
-  const selectedDocVersion = useSelector(
+  const currentSelectedDocVersion = useSelector(
     (state) => state.common.currentSelectedDocVersion
   )
-
+  const CURRENTWORKINGVERSION = 'Current working version'
   // Keeps track of which node ID is selected: Value will update with the selectedID stored in Redux
   // const selectedNodeId = useSelector((state) => state.common.selectedID)
 
@@ -80,6 +80,7 @@ export default function Hierarchy({
         const parsedVersion = JSON.parse(version)
         tempVersionsList.push(parsedVersion.versionName)
       })
+      tempVersionsList.push(CURRENTWORKINGVERSION)
       tempVersionsList.reverse()
       // setting default option
 
@@ -97,23 +98,39 @@ export default function Hierarchy({
     let mostRecentVersion = JSON.parse(
       selectedDocObject.versions[selectedDocObject.versions.length - 1]
     )
-    if (selectedItem.value != mostRecentVersion.versionName) {
-      dispatch(setShouldPullFromDB(false))
-      // dispatch(updateSelectedNodeID(0))
-      setSelectedNodeId(0)
-    } else {
-      dispatch(setShouldPullFromDB(true))
-    }
+    // if (selectedItem.value != mostRecentVersion.versionName) {
+    //   dispatch(setShouldPullFromDB(false))
+    //   // dispatch(updateSelectedNodeID(0))
+    //   setSelectedNodeId(0)
+    // } else {
+    //   dispatch(setShouldPullFromDB(true))
+    // }
+
+    let isCurrentWorkingVersion = true
+
     // finding the corresponding tree for the version that was selected
     selectedDocObject.versions.forEach((version) => {
       const parsedVersion = JSON.parse(version)
 
       if (selectedItem.value == parsedVersion.versionName) {
+        dispatch(setShouldPullFromDB(false))
+        setSelectedNodeId(0)
         dispatch(updateDataTree(JSON.parse(parsedVersion.tree)))
         setCurrentDropDownVersion(parsedVersion.versionName)
         dispatch(setCurrentDocVersion(selectedItem.value))
+        isCurrentWorkingVersion = false
       }
     })
+
+    if (
+      isCurrentWorkingVersion &&
+      currentSelectedDocVersion != CURRENTWORKINGVERSION
+    ) {
+      dispatch(setCurrentDocVersion(CURRENTWORKINGVERSION))
+      dispatch(setShouldPullFromDB(true))
+      setCurrentDropDownVersion(CURRENTWORKINGVERSION)
+
+    }
   }
 
   /**

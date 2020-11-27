@@ -25,13 +25,13 @@ export const DocumentPanel = ({ document }) => {
   const [selectedVersionTree, setSelectedVersionTree] = useState()
   const [versionList, setVersionList] = useState([])
   const [currentDropDownVersion, setCurrentDropDownVersion] = useState('')
+  const CURRENTWORKINGVERSION = 'Current working version'
 
   useEffect(() => {
     refreshVersionList()
   }, [])
 
   function refreshVersionList() {
-    let defaultOption = '0.0'
     let tempVersionsList = []
     if (document.versions.length > 0) {
       // looping over versions array and parsing
@@ -39,30 +39,33 @@ export const DocumentPanel = ({ document }) => {
         const parsedVersion = JSON.parse(version)
         tempVersionsList.push(parsedVersion.versionName)
       })
+      tempVersionsList.push(CURRENTWORKINGVERSION)
       tempVersionsList.reverse()
+
+      var defaultOption = '0.0'
       setSelectedVersionTree(JSON.parse(document.tree))
       // setting default option
-      defaultOption = tempVersionsList[0]
+      defaultOption = tempVersionsList[1]
       setCurrentDropDownVersion(defaultOption)
       setVersionList(tempVersionsList)
     } else {
-      setCurrentDropDownVersion(defaultOption)
       setSelectedVersionTree(JSON.parse(document.tree))
+      setCurrentDropDownVersion(defaultOption)
     }
   }
 
-  const _onDropdownSelect = (thing) => {
-    // finding the corresponding tree for the version that was selected
-    document.versions.forEach((version) => {
-      const parsedVersion = JSON.parse(version)
+  // const _onDropdownSelect = (thing) => {
+  //   // finding the corresponding tree for the version that was selected
+  //   document.versions.forEach((version) => {
+  //     const parsedVersion = JSON.parse(version)
 
-      if (thing.value == parsedVersion.versionName) {
-        dispatch(updateDataTree(JSON.parse(parsedVersion.tree)))
-        setCurrentDropDownVersion(parsedVersion.versionName)
-        setSelectedVersionTree(JSON.parse(parsedVersion.tree))
-      }
-    })
-  }
+  //     if (thing.value == parsedVersion.versionName) {
+  //       dispatch(updateDataTree(JSON.parse(parsedVersion.tree)))
+  //       setCurrentDropDownVersion(parsedVersion.versionName)
+  //       setSelectedVersionTree(JSON.parse(parsedVersion.tree))
+  //     }
+  //   })
+  // }
 
   const inviteUserButton = () => {
     dispatch(setModalObject({ visible: true, mode: 2 }))
@@ -74,7 +77,7 @@ export const DocumentPanel = ({ document }) => {
     // updating the selected version
     dispatch(updateDataTree(selectedVersionTree))
     // setting the current version of the document
-    dispatch(setCurrentDocVersion(currentDropDownVersion))
+    dispatch(setCurrentDocVersion(CURRENTWORKINGVERSION))
     history.push('/editor')
   }
 
@@ -96,11 +99,11 @@ export const DocumentPanel = ({ document }) => {
             src="/assets/images/add-friend-icon.png"
           ></img>
         </button>
-        <h2>{document.title}</h2>
+        <h2 className="doc-panel-header">{document.title}</h2>
       </div>
 
       <div className="doc-version-title">
-        {currentDropDownVersion}
+        {'(Latest version: ' + currentDropDownVersion + ')'}
         {/* <Dropdown
           options={versionList}
           onChange={_onDropdownSelect}
