@@ -39,8 +39,14 @@ export default function LeftContainer() {
   }
 
   const RenderDocumentPanels = (listOfDocs) => {
-    if (listOfDocs.length != 0) {
-      return listOfDocs.map((document, i) => {
+    var orderedDocList = [];
+    var i;
+    for(i=listOfDocs.length-1; i >= 0; i--){
+      orderedDocList.push(listOfDocs[i]);
+    }
+    console.log(orderedDocList);
+    if (orderedDocList.length != 0) {
+      return orderedDocList.map((document, i) => {
         return <DocumentPanel document={document} key={i} />
       })
     }
