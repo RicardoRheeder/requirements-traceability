@@ -293,6 +293,10 @@ export default function Editor() {
       }
     )
   }
+  const updateDocName = e => {
+    console.log(e.target.textContent);
+    
+  }
   return (
     <div className="editor-root">
       <SplitPane
@@ -315,7 +319,9 @@ export default function Editor() {
           <h1>
             {selectedDocObject != null ? (
               <>
+                <label contentEditable="true" onKeyUp={updateDocName}>
                 {selectedDocObject.title}
+                </label>
                 <span className="doc-version-title">
                   {'(version: ' + selectedDocVersion + ')'}
                 </span>
