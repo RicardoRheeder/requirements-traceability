@@ -1,19 +1,19 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
-import { fetchUserInfoAsync } from '../redux/stores/user/actions'
+import {
+  fetchUserInfoAsync,
+  fetchUserRecentDocsAsync,
+} from '../redux/stores/user/actions'
 import { fetchUserDocsAsync } from '../redux/stores/document/actions'
 import { LeftContainer } from '../components'
+import RecentDocCard from '../components/RecentDocCard'
 
 function Home() {
   // getting the current user who is signed in
   const { user } = useAuth0()
   const dispatch = useDispatch()
-
-  // getting info and errorMessage from initial state
-  const userInfo = useSelector((state) => state.user.info)
-  const errorMessage = useSelector((state) => state.user.errorMessage)
 
   // use effect to fetch the user info when the component mounts
   useEffect(() => {
@@ -21,13 +21,10 @@ function Home() {
       // dispatching async call with the user as a parameter
       dispatch(fetchUserInfoAsync(user))
       dispatch(fetchUserDocsAsync(user))
+      dispatch(fetchUserRecentDocsAsync(user.email))
     }
   }, [])
-
-  // console.log(user)
-  // console.log(userInfo)
-  // console.log(errorMessage)
-
+  // console.log(recent_docs)
   return (
     <div className="home-root styled-background-blue">
       <div className="left-container">
@@ -40,7 +37,8 @@ function Home() {
             src="./assets/images/Doc_Tracer_Logo_2.png"
           ></img>
         </div>
-        <div className="home-subheader">Recent Documents</div>
+        <h1>Your Recent Docs:</h1>
+        <RecentDocCard />
       </div>
       <div className="right-container">Notifications</div>
     </div>
