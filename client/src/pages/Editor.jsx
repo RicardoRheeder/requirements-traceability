@@ -2,7 +2,12 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Hierarchy, CollaboratorPanel, CollaboratorIcon, RequirementStatusContainer } from '../components'
+import {
+  Hierarchy,
+  CollaboratorPanel,
+  CollaboratorIcon,
+  RequirementStatusContainer,
+} from '../components'
 import SplitPane from 'react-split-pane'
 import TextareaAutosize from 'react-textarea-autosize'
 
@@ -245,7 +250,7 @@ export default function Editor() {
             <div className="req-header-container">
               <div className="left">
                 <h2 className="section-headers">
-                  {order} {title} 
+                  {order} {title}
                 </h2>
                 <span style={{ display: 'flex' }}>
                   {isBeingEdited != null ? (
@@ -260,20 +265,22 @@ export default function Editor() {
                   )}
                 </span>
               </div>
-              <RequirementStatusContainer requirementStatuses={statusList} />
 
+              <div className="right">
+                <RequirementStatusContainer
+                  requirementStatuses={statusList}
+                />
               {parseInt(id) == parseInt(selectedNodeId) ? (
-                <div className="right">
                   <button
                     className="orange-button"
                     onClick={() => offFocusRequirement(id)}
                   >
                     SUBMIT
                   </button>
-                </div>
               ) : (
                 <></>
-              )}
+                )}
+                </div>
             </div>
             <TextareaAutosize
               type="text"

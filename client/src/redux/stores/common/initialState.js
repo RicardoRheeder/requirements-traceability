@@ -36,7 +36,7 @@ export default {
   // mode: 4 = export the document
   // mode: 5 = create/add requirement status
 
-  modalObject: { visible: false, mode: 0 },
+  modalObject: { visible: true, mode: 5 },
   selectedDocumentPanelObject: 0,
 
   userColorObject: {},
