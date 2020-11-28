@@ -40,8 +40,7 @@ export default function LeftContainer() {
 
   const RenderDocumentPanels = (listOfDocs) => {
     var orderedDocList = [];
-    var i;
-    for(i=listOfDocs.length-1; i >= 0; i--){
+    for(let i=listOfDocs.length-1; i >= 0; i--){
       orderedDocList.push(listOfDocs[i]);
     }
     if (orderedDocList.length != 0) {
