@@ -188,7 +188,6 @@ router.route('/update/recent-docs/:email').patch((req, res) => {
       let newArray = user.recent_docs
       // checking if the users recent doc array is full
       if (user.recent_docs.length >= 3) {
-        console.log('bigger than three')
         // removing old element and adding if not already in array
         if (!newArray.includes(documentID)) {
           newArray.pop()

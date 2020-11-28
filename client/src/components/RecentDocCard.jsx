@@ -7,7 +7,6 @@ import { fetchUserRecentDocsAsync } from '../redux/stores/user/actions'
 export default function RecentDocCard({}) {
   const dispatch = useDispatch()
   const recent_docs = useSelector((state) => state.user.recent_docs)
-
   const renderRecentDocs = (recent_docs) => {
     if (recent_docs != null) {
       return recent_docs.map((recent_doc, i) => {
