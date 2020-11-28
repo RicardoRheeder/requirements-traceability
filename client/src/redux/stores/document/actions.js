@@ -403,6 +403,7 @@ export const getDocAsync = (docId) => {
       })
       .catch((error) => dispatch(getDocFailure(error)))
   }
+}
 
   // Setting the statuses array in the backend actions**********************
   // start the request
@@ -473,4 +474,3 @@ export const getDocAsync = (docId) => {
       .catch((error) => dispatch(getStatusesFailure(error)))
     }
   }
-}
