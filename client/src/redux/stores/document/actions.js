@@ -27,6 +27,12 @@ import {
   FETCH_DOC_START,
   FETCH_DOC_FAILURE,
   FETCH_DOC_SUCCESS,
+  SET_STATUSES_START,
+  SET_STATUSES_SUCCESS,
+  SET_STATUSES_FAILURE,
+  GET_STATUSES_START,
+  GET_STATUSES_FAILURE,
+  GET_STATUSES_SUCCESS
 } from './actionTypes'
 
 import { Tree_GetRequirementObject } from '../../../utils/TreeNodeHelperFunctions'
@@ -398,3 +404,73 @@ export const getDocAsync = (docId) => {
       .catch((error) => dispatch(getDocFailure(error)))
   }
 }
+
+  // Setting the statuses array in the backend actions**********************
+  // start the request
+  export const setStatusesStart = () => {
+    return{
+      type: SET_STATUSES_START,
+    }
+  }
+
+  // set the returned document on success
+  export const setStatusesSuccess = (res) => {
+    return{
+      type: SET_STATUSES_SUCCESS,
+      data: res.data.response,
+    }
+  }
+
+  // set the error message on failure
+  export const setStatusesFailure = (res) => {
+    return{
+      type: SET_STATUSES_FAILURE,
+      data: res.data.message,
+    }
+  }
+
+  // set the statuses array asynchronously
+  export const setStatusesAsync = (documentID, statusArray) => {
+    return (dispatch) => {
+      dispatch(setStatusesStart())
+      axios
+      .patch(`${url}/documents/set-statuses/${documentID}`, {statuses: statusArray})
+      .then((res) => dispatch(setStatusesSuccess(res)))
+      .catch((error) => dispatch(setStatusesFailure(error)))
+    }
+  }
+
+  // Getting the statuses array for given document**********************************
+  // Start the request
+  export const getStatusesStart = () => {
+    return{
+      type: GET_STATUSES_START,
+    }
+  }
+
+  // set the returned array on success
+  export const getStatusesSuccess = (res) => {
+    return{
+      type: GET_STATUSES_SUCCESS,
+      data: res.data.response,
+    }
+  }
+
+  // set the error message on failure
+  export const getStatusesFailure = () => {
+    return{
+      type: GET_STATUSES_FAILURE,
+      data: res.data.message
+    }
+  }
+
+  // get the statuses array asynchronously
+  export const getStatusesAsync = (docID) => {
+    return (dispatch) => {
+      dispatch(getStatusesStart())
+      axios
+      .get(`${url}/documents/get-statuses/${docID}`)
+      .then((res) => dispatch(getStatusesStart(res)))
+      .catch((error) => dispatch(getStatusesFailure(error)))
+    }
+  }

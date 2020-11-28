@@ -39,6 +39,7 @@ router.route('/create-document').post((req, res) => {
     admin,
     collaborators,
     tree: JSON.stringify(tree),
+    statuses: [{"satisfied":"#00d084"}, {"unsatisfied":"#b80000"}, {"WIP":"#ffc107"}, {"review":"#FF5722"}],
     versions: [JSON.stringify(newVersion)],
   })
 
@@ -133,6 +134,19 @@ router.route('/get-collabs/:id').get((req, res) => {
       res.json({ message: 'collaborators found', response: collabs })
     )
     .catch((error) => res.json({ message: 'Error:', response: error }))
+})
+
+// Get the list of status requirements for a document given its id
+router.route('/get-statuses/:id').get((req, res) => {
+  const docID = req.params.id
+
+  Document.findById(docID, 'statuses')
+  .populate('stauses')
+  .exec()
+  .then((statuses) => 
+    res.json({ message: 'statuses found', response: statuses})
+  )
+  .catch((error) => res.status(400).json({ message: `Error: could not find document with id - ${docID}`, response: error}))
 })
 
 // Update Routes*****************************************
@@ -299,6 +313,27 @@ router.route('/commit-doc/:id').patch((req, res) => {
         response: err,
       })
     )
+})
+
+// Set the statuses array for a given document
+router.route('/set-statuses/:id').patch((req, res) => {
+  const newStatuses = req.body.statuses
+  const docID = req.params.id
+
+  Document.findByIdAndUpdate(docID,
+    {
+      $set: {statuses: newStatuses}
+    },
+    // Return the document after the array has been set, not before
+    {new: true}
+  )
+  .then((doc) => 
+  res.json({ message: "Statuses set successfully", response: doc}
+  ))
+
+  .catch((error) => 
+  res.status(400).json({message: `Error: could not find document with id - ${docID}`, response: error})
+  )
 })
 
 // Delete Routes*****************************************
