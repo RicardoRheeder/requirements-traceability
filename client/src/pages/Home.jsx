@@ -37,6 +37,7 @@ function Home() {
             src="./assets/images/Doc_Tracer_Logo_2.png"
           ></img>
         </div>
+        <h1>Your Recent Docs:</h1>
         <RecentDocCard />
       </div>
       <div className="right-container">Notifications</div>

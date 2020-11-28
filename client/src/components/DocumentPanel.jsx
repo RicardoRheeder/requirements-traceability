@@ -32,7 +32,7 @@ export const DocumentPanel = ({ document }) => {
 
   useEffect(() => {
     refreshVersionList()
-  }, [])
+  }, [document.versions])
 
   function refreshVersionList() {
     let tempVersionsList = []

@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector, dispatch } from 'react-redux'
 import { DocumentPanel } from './DocumentPanel'
+import { useAuth0 } from '@auth0/auth0-react'
+import { fetchUserRecentDocsAsync } from '../redux/stores/user/actions'
 
 export default function RecentDocCard({}) {
+  const dispatch = useDispatch()
   const recent_docs = useSelector((state) => state.user.recent_docs)
 
   const renderRecentDocs = (recent_docs) => {
