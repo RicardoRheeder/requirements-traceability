@@ -45,3 +45,14 @@ export const COMMIT_TREE_SUCCESS = 'SEND_DOC_SUCCESS'
 export const FETCH_DOC_START = 'FETCH_DOC_START'
 export const FETCH_DOC_FAILURE = 'FETCH FETCH_DOC_FAILURE'
 export const FETCH_DOC_SUCCESS = 'FETCH_DOC_SUCCESS'
+
+// actions for setting the statuses array for a document
+export const SET_STATUSES_START = 'SET_STATUSES_START'
+export const SET_STATUSES_SUCCESS = 'SET_STATUSES_SUCCESS'
+export const SET_STATUSES_FAILURE = 'SET_STATUSES_FAILURE'
+
+// actions for getting the statuses array for a document
+export const GET_STATUSES_START = 'GET_STATUSES_START'
+export const GET_STATUSES_FAILURE = 'GET_STATUSES_FAILURE'
+export const GET_STATUSES_SUCCESS = 'GET_STATUSES_SUCCESS'
+

@@ -27,7 +27,15 @@ import {
   FETCH_DOC_START,
   FETCH_DOC_FAILURE,
   FETCH_DOC_SUCCESS,
+  SET_STATUSES_START,
+  SET_STATUSES_SUCCESS,
+  SET_STATUSES_FAILURE,
+  GET_STATUSES_START,
+  GET_STATUSES_FAILURE,
+  GET_STATUSES_SUCCESS
 } from './actionTypes'
+
+import { Tree_GetRequirementObject } from '../../../utils/TreeNodeHelperFunctions'
 
 const axios = require('axios').default
 
@@ -239,7 +247,6 @@ export const commitTreeStart = () => {
 }
 
 export const commitTreeSuccess = (doc) => {
-  console.log(doc)
   return {
     type: COMMIT_TREE_SUCCESS,
     data: doc.data.response,
@@ -270,12 +277,21 @@ export const commitTreeAsync = (doc, docID, versionName) => {
   }
 }
 
-
 // Sending tree to database *******************************
 // Sending tree structure to database
 export const sendDocStart = () => {
   return {
-    type: COMMIT_TREE_START,
+    type: SEND_DOC_START,
+  }
+}
+export const sendDocSuccess = () => {
+  return {
+    type: SEND_DOC_SUCCESS,
+  }
+}
+export const sendDocFailure = () => {
+  return {
+    type: SEND_REQ_FAILURE,
   }
 }
 
@@ -286,16 +302,13 @@ export const sendDocAsync = (treeData, docID) => {
     axios
       .patch(`${url}/documents/update-tree/${docID}`, { tree: treeData })
       .then((doc) => {
-        // console.log(doc)
         dispatch(sendDocSuccess(doc))
       })
       .catch((err) => {
-        // console.log(err)
         dispatch(sendDocFailure(err))
       })
   }
 }
-
 
 // Sending a requirement to database *******************************
 export const sendReqStart = () => {
@@ -325,15 +338,35 @@ export const sendReqAsync = (requirement, docID) => {
     axios
       .patch(`${url}/documents/update-req/${docID}`, { req: requirement })
       .then((doc) => {
-        // console.log(doc)
         dispatch(sendReqSuccess(doc.tree))
       })
       .catch((err) => {
-        // console.log(err)
         dispatch(sendReqFailure(err))
       })
-    }
   }
+}
+
+//send the requirement to the backend
+export const sendReqAsyncOnUnmount = (
+  storeTreeData,
+  selectedNodeId,
+  localUser,
+  desiredUser,
+  docID
+) => {
+  return (dispatch) => {
+    // Get requirement we are editing, and remove the user's name from it
+    var requirement = JSON.stringify(
+      Tree_GetRequirementObject(
+        storeTreeData,
+        selectedNodeId,
+        localUser,
+        desiredUser
+      )
+    )
+    dispatch(sendReqAsync(requirement, docID)) // Send the updated requirement to the database
+  }
+}
 
 //Fetching single document *************************
 // action to start the fetch of collaborators
@@ -353,7 +386,6 @@ export const getDocFailure = (error) => {
 
 // action for getting Doc on success
 export const getDocSuccess = (doc) => {
-  // console.log(`Document: ${doc.data.response}`)
   return {
     type: FETCH_DOC_SUCCESS,
     data: doc.data.response,
@@ -362,15 +394,83 @@ export const getDocSuccess = (doc) => {
 
 // Get the doc asynchronously
 export const getDocAsync = (docId) => {
-  console.log(docId)
   return (dispatch) => {
     dispatch(getDocStart())
     axios
       .get(`${url}/documents/get/${docId}`)
       .then((doc) => {
-        console.log(doc)
         dispatch(getDocSuccess(doc))
       })
       .catch((error) => dispatch(getDocFailure(error)))
   }
 }
+
+  // Setting the statuses array in the backend actions**********************
+  // start the request
+  export const setStatusesStart = () => {
+    return{
+      type: SET_STATUSES_START,
+    }
+  }
+
+  // set the returned document on success
+  export const setStatusesSuccess = (res) => {
+    return{
+      type: SET_STATUSES_SUCCESS,
+      data: res.data.response,
+    }
+  }
+
+  // set the error message on failure
+  export const setStatusesFailure = (res) => {
+    return{
+      type: SET_STATUSES_FAILURE,
+      data: res.data.message,
+    }
+  }
+
+  // set the statuses array asynchronously
+  export const setStatusesAsync = (documentID, statusArray) => {
+    return (dispatch) => {
+      dispatch(setStatusesStart())
+      axios
+      .patch(`${url}/documents/set-statuses/${documentID}`, {statuses: statusArray})
+      .then((res) => dispatch(setStatusesSuccess(res)))
+      .catch((error) => dispatch(setStatusesFailure(error)))
+    }
+  }
+
+  // Getting the statuses array for given document**********************************
+  // Start the request
+  export const getStatusesStart = () => {
+    return{
+      type: GET_STATUSES_START,
+    }
+  }
+
+  // set the returned array on success
+  export const getStatusesSuccess = (res) => {
+    return{
+      type: GET_STATUSES_SUCCESS,
+      data: res.data.response,
+    }
+  }
+
+  // set the error message on failure
+  export const getStatusesFailure = () => {
+    return{
+      type: GET_STATUSES_FAILURE,
+      data: res.data.message
+    }
+  }
+
+  // get the statuses array asynchronously
+  export const getStatusesAsync = (docID) => {
+    return (dispatch) => {
+      dispatch(getStatusesStart())
+      axios
+      .get(`${url}/documents/get-statuses/${docID}`)
+      .then((res) => dispatch(getStatusesStart(res)))
+      .catch((error) => dispatch(getStatusesFailure(error)))
+    }
+  }

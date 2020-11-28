@@ -27,7 +27,6 @@ function Home() {
   // console.log(user)
   // console.log(userInfo)
   // console.log(errorMessage)
-  console.log('here')
 
   return (
     <div className="home-root styled-background-blue">
@@ -38,7 +37,7 @@ function Home() {
         <div className="home-header">
           <img
             className="home-logo-banner"
-            src="/assets/images/Doc_Tracer_Logo_2.png"
+            src="./assets/images/Doc_Tracer_Logo_2.png"
           ></img>
         </div>
         <div className="home-subheader">Recent Documents</div>
