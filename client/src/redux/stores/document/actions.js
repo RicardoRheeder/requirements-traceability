@@ -502,11 +502,11 @@ export const getDocAsync = (docId) => {
     }
   }
 
-  export const setDocTitleAsync = (docTitle) => {
+  export const setDocTitleAsync = (docID, docTitle) => {
     return (dispatch) => {
       dispatch(setDocTitleStart())
       axios
-      .get(`${url}/documents/set-title/${docTitle}`)
+      .patch(`${url}/documents/set-title/${docID}`, {title:docTitle})
       .then((res) => dispatch(setDocTitleSuccess(res)))
       .catch((error) => dispatch(setDocTitleFailure(error)))
     }
