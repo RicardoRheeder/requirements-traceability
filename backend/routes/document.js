@@ -336,6 +336,25 @@ router.route('/set-statuses/:id').patch((req, res) => {
   )
 })
 
+// Set the document title for a given document
+router.route('/set-title/:id').patch((req,res) => {
+  const newTitle = req.body.title
+  const docID = req.params.id
+
+  Document.findByIdAndUpdate(docID,
+    {
+      $set: {title: newTitle}
+    })
+    .then((doc) =>
+    res.json({message: "Document title set successfully", response: doc}
+    ))
+
+    .catch((error) =>
+    res.status(400).json({message: `Error: could not find document with id - ${docID}`, response: error})
+    )
+})
+
+
 // Delete Routes*****************************************
 
 // delete a single doc
