@@ -190,7 +190,7 @@ export default function Editor() {
     level += 1
     // console.log(indentVal);
     return struct.map(
-      ({ title, text, children, id, order, status, isBeingEdited }, i) => {
+      ({ title, text, children, id, order, statusList, isBeingEdited }, i) => {
         return (
           <div
             style={{ marginLeft: indentVal }}
@@ -223,7 +223,7 @@ export default function Editor() {
                   )}
                 </span>
               </div>
-              <RequirementStatusContainer listOfStatuses={status} />
+              <RequirementStatusContainer requirementStatuses={statusList} />
 
               {parseInt(id) == parseInt(selectedNodeId) ? (
                 <div className="right">

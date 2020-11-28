@@ -9,6 +9,7 @@ import {
   Modal_InviteUser,
   Modal_CommitDocument,
   Modal_ExportDocument,
+  Modal_SetRequirementStatus,
 } from './'
 
 export default function ModalComponent() {
@@ -43,6 +44,8 @@ export default function ModalComponent() {
             <Modal_CommitDocument />
           ) : modalObject.mode == 4 ? (
             <Modal_ExportDocument />
+          ) : modalObject.mode == 5 ? (
+            <Modal_SetRequirementStatus />
           ) : (
             <></>
           )}
