@@ -10,7 +10,16 @@ import {
 } from './actionTypes'
 
 export const setLoggedIn = (data) => ({ type: SET_LOGGEDIN, data })
-export const updateDataTree = (data) => ({ type: UPDATE_TREEDATA, data })
+
+// export const updateDataTree = (data) => ({ type: UPDATE_TREEDATA, data })
+
+export const updateDataTree = (data) => {
+  return {
+    type: UPDATE_TREEDATA,
+    data,
+  }
+}
+
 export const updateSelectedNodeID = (data) => ({
   type: UPDATE_SELECTEDNODEID,
   data,
@@ -25,7 +34,10 @@ export const setUserColorObject = (data) => ({
   type: SET_USERCOLOROBJECT,
   data,
 })
-export const setShouldPullFromDB = (data) => ({ type: SET_SHOULDPULLFROMDB, data })
+export const setShouldPullFromDB = (data) => ({
+  type: SET_SHOULDPULLFROMDB,
+  data,
+})
 
 export const setCurrentDocVersion = (data) => ({
   type: SET_CURRENTDOCVERSION,
