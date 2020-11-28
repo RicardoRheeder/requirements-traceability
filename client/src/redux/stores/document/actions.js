@@ -495,7 +495,7 @@ export const getDocAsync = (docId) => {
   }
 
   // set the error message on failure
-  export const setDocTitleFailure = () => {
+  export const setDocTitleFailure = (error) => {
     return{
       type: SET_DOC_TITLE_FAILURE,
       data: res.data.message
