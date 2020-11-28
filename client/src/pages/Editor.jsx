@@ -24,6 +24,7 @@ import {
   sendDocAsync,
   sendReqAsync,
   sendReqAsyncOnUnmount,
+  setDocTitleAsync,
 } from '../redux/stores/document/actions'
 
 var selectedNodeId = 0
@@ -294,8 +295,7 @@ export default function Editor() {
     )
   }
   const updateDocName = e => {
-    console.log(e.target.textContent);
-    
+      dispatch(setDocTitleAsync(selectedDocObject._id,e.target.textContent))
   }
   return (
     <div className="editor-root">
