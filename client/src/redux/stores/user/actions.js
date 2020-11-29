@@ -8,6 +8,12 @@ import {
   UPDATE_USER_RECENT_DOCS_START,
   UPDATE_USER_RECENT_DOCS_SUCCESS,
   UPDATE_USER_RECENT_DOCS_FAILURE,
+  FETCH_USER_NOTIFICATIONS_START,
+  FETCH_USER_NOTIFICATIONS_SUCCESS,
+  FETCH_USER_NOTIFICATIONS_FAILURE,
+  UPDATE_USER_NOTIFICATIONS_START,
+  UPDATE_USER_NOTIFICATIONS_SUCCESS,
+  UPDATE_USER_NOTIFICATIONS_FAILURE,
 } from './actionTypes'
 
 const axios = require('axios').default
@@ -111,9 +117,10 @@ export const UpdateUserRecentDocsStart = () => {
     type: UPDATE_USER_RECENT_DOCS_START,
   }
 }
-export const UpdateUserRecentDocsSuccess = () => {
+export const UpdateUserRecentDocsSuccess = (docs) => {
   return {
     type: UPDATE_USER_RECENT_DOCS_SUCCESS,
+    payload: docs.data.response,
   }
 }
 export const UpdateUserRecentDocsFailure = (errorMessage) => {
@@ -133,3 +140,65 @@ export const UpdateUserRecentDocsAsync = (user_email, doc_id) => {
       .catch((err) => dispatch(UpdateUserRecentDocsFailure(err)))
   }
 }
+
+// Actions for fetching notification docs ***********************************
+export const fetchUserNotificationsStart = () => {
+  return {
+    type: FETCH_USER_NOTIFICATIONS_START,
+  }
+}
+export const fetchUserNotificationsSuccess = (notifications) => {
+  return {
+    type: FETCH_USER_NOTIFICATIONS_SUCCESS,
+    payload: notifications.data.response,
+  }
+}
+export const fetchUserNotificationsFailure = (errorMessage) => {
+  return {
+    type: FETCH_USER_NOTIFICATIONS_FAILURE,
+    payload: errorMessage.data.message,
+  }
+}
+
+export const fetchUserNotificationsAsync = (user_email) => {
+  return (dispatch) => {
+    dispatch(fetchUserNotificationsStart())
+    // making a get request for recent docs
+    axios
+      .get(`${url}/get/recent-notifications-with-email/${user_email}`)
+      .then((notifications) =>
+        dispatch(fetchUserNotificationsSuccess(notifications))
+      )
+      .catch((err) => dispatch(fetchUserNotificationsFailure(err)))
+  }
+}
+
+// // Actions for updating recent docs ***********************************
+// export const UpdateUserRecentDocsStart = () => {
+//   return {
+//     type: UPDATE_USER_RECENT_DOCS_START,
+//   }
+// }
+// export const UpdateUserRecentDocsSuccess = (docs) => {
+//   return {
+//     type: UPDATE_USER_RECENT_DOCS_SUCCESS,
+//     payload: docs.data.response,
+//   }
+// }
+// export const UpdateUserRecentDocsFailure = (errorMessage) => {
+//   return {
+//     type: UPDATE_USER_RECENT_DOCS_FAILURE,
+//     payload: errorMessage.data.message,
+//   }
+// }
+
+// export const UpdateUserRecentDocsAsync = (user_email, doc_id) => {
+//   return (dispatch) => {
+//     dispatch(fetchUserRecentDocsStart())
+//     // making a get request for recent docs
+//     axios
+//       .patch(`${url}/update/recent-docs/${user_email}`, { id: doc_id })
+//       .then(() => dispatch(UpdateUserRecentDocsSuccess()))
+//       .catch((err) => dispatch(UpdateUserRecentDocsFailure(err)))
+//   }
+// }
