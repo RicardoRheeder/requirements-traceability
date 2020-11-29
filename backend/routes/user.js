@@ -148,6 +148,46 @@ router.route('/get/recent-docs-with-email/:email').get((req, res) => {
     )
 })
 
+// getting users notifications using id
+router.route('/get/recent-notifications/:id').get((req, res) => {
+  const userID = req.params.id
+  User.findById(userID)
+    .populate('notifications')
+    .exec()
+    .then((user) => {
+      res.json({
+        message: 'Got the users notifications with the id that was given',
+        response: user.notifications,
+      })
+    })
+    .catch((err) =>
+      res.json({
+        message: 'Error: could not get users notifications with id given',
+        response: err,
+      })
+    )
+})
+
+// getting users notifications using email
+router.route('/get/recent-notifications-with-email/:email').get((req, res) => {
+  const email = req.params.email
+  User.findOne({ email: email })
+    .populate('notifications')
+    .exec()
+    .then((user) => {
+      res.json({
+        message: 'Got the users notifications with the email that was given',
+        response: user.notifications,
+      })
+    })
+    .catch((err) =>
+      res.json({
+        message: 'Error: could not get users notifications with email given',
+        response: err,
+      })
+    )
+})
+
 // Update Routes*****************************************
 
 // updating a specific user
