@@ -107,6 +107,47 @@ router.route('/get/documents-with-email/:email').get((req, res) => {
       })
     })
 })
+
+// getting users recent doc array with id
+router.route('/get/recent-docs/:id').get((req, res) => {
+  const userID = req.params.id
+  User.findById(userID)
+    .populate('recent_docs')
+    .exec()
+    .then((user) => {
+      res.json({
+        message: 'Got the users recent docs with the id that was given',
+        response: user.recent_docs,
+      })
+    })
+    .catch((err) =>
+      res.json({
+        message: 'Error: could not get users recent docs with id given',
+        response: err,
+      })
+    )
+})
+
+// getting users recent doc array with email
+router.route('/get/recent-docs-with-email/:email').get((req, res) => {
+  const email = req.params.email
+  User.findOne({ email: email })
+    .populate('recent_docs')
+    .exec()
+    .then((user) => {
+      res.json({
+        message: 'Got the users recent docs with the email that was given',
+        response: user.recent_docs,
+      })
+    })
+    .catch((err) =>
+      res.json({
+        message: 'Error: could not get users recent docs with email given',
+        response: err,
+      })
+    )
+})
+
 // Update Routes*****************************************
 
 // updating a specific user
@@ -130,6 +171,56 @@ router.route('/update/:id').put((req, res) => {
     .catch((err) =>
       res.status(400).json({
         message: 'Error: could not find user with the id that was given',
+        response: err,
+      })
+    )
+})
+
+// updating the users recent docs field
+router.route('/update/recent-docs/:email').patch((req, res) => {
+  // const userID = req.params.id
+  const email = req.params.email
+  const documentID = req.body.id
+
+  User.findOne({ email: email })
+    .then((user) => {
+      // making a new array set to users recent docs array
+      let newArray = user.recent_docs
+      // checking if the users recent doc array is full
+      if (user.recent_docs.length >= 3) {
+        // removing old element and adding if not already in array
+        if (!newArray.includes(documentID)) {
+          newArray.pop()
+          newArray.unshift(documentID)
+        }
+      }
+      // if the recent doc array is not full add to it
+      else {
+        // adding new element to the start if id not already in array
+        if (!newArray.includes(documentID)) {
+          newArray.unshift(documentID)
+        }
+      }
+      User.findByIdAndUpdate(
+        { _id: user._id },
+        { $set: { recent_docs: newArray } }
+      )
+        .then((user) =>
+          res.json({
+            message: 'User recent docs array updated.',
+            response: user,
+          })
+        )
+        .catch((err) =>
+          res.status(400).json({
+            message: 'Error: user recent docs array could not be updated',
+            response: err,
+          })
+        )
+    })
+    .catch((err) =>
+      res.status(400).json({
+        message: 'Error: user could not be found with id',
         response: err,
       })
     )
