@@ -171,7 +171,6 @@ router.route('/get/recent-notifications/:id').get((req, res) => {
 // getting users notifications using email
 router.route('/get/recent-notifications-with-email/:email').get((req, res) => {
   const email = req.params.email
-  console.log(email)
   User.findOne({ email: email })
     .then((user) => {
       res.json({
