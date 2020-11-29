@@ -8,8 +8,19 @@ export default function StatusIcon({
 }) {
   return (
     <span
-      style={{ backgroundColor: statusColor }}
-      className={'status-icon' + (isSelected == true ? ' status-selected' : '') + (canBeDeleted == true ? ' status-deletable' : '')}
+      style={{
+        backgroundImage:
+          'radial-gradient(ellipse, ' +
+          statusColor +
+          ' 0%, ' +
+          statusColor +
+          ' 60%, #000000 100%)',
+      }}
+      className={
+        'status-icon' +
+        (isSelected == true ? ' status-selected' : '') +
+        (canBeDeleted == true ? ' status-deletable' : '')
+      }
     >
       {statusName}
     </span>
