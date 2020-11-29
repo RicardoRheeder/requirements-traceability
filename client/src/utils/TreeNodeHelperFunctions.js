@@ -325,3 +325,32 @@ export function Tree_UpdateDatabaseTreeReq(databaseTree, localRequirement) {
   )
   return combinedTree
 }
+
+export function Tree_UpdateReqList(customTreeData, targetID, statusName) {
+  function parseData(TreeData) {
+    var i = TreeData.length
+    while (i--) {
+      if (
+        TreeData[i] &&
+        TreeData[i].hasOwnProperty('id') &&
+        TreeData[i]['id'] === targetID
+      ) {
+        if (!TreeData[i].hasOwnProperty('statusList')){
+          TreeData[i]['statusList'] = []
+        }
+        if (!TreeData[i]['statusList'].includes(statusName)){
+          TreeData[i]['statusList'].push(statusName)
+        }
+
+        break
+      } else if (TreeData[i].hasOwnProperty('children')) {
+        parseData(TreeData[i]['children'])
+      }
+    }
+    return TreeData
+  }
+  var treeWithNewStatus = parseData(customTreeData)
+  console.log(treeWithNewStatus)
+  return treeWithNewStatus
+
+}

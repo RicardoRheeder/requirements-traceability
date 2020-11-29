@@ -45,7 +45,7 @@ export default function ModalComponent() {
           ) : modalObject.mode == 4 ? (
             <Modal_ExportDocument />
           ) : modalObject.mode == 5 ? (
-            <Modal_SetRequirementStatus />
+            <Modal_SetRequirementStatus reqID={modalObject.requirementID} />
           ) : (
             <></>
           )}

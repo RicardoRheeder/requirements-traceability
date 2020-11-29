@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setModalObject } from '../../redux/stores/common/actions'
-import { getStatusesAsync } from '../../redux/stores/document/actions'
+import {
+  setModalObject,
+  updateDataTree,
+} from '../../redux/stores/common/actions'
+import {
+  getStatusesAsync,
+  setStatusesAsync,
+} from '../../redux/stores/document/actions'
 import { SketchPicker } from 'react-color'
 import { StatusIcon } from '../RequirementStatus'
+import {
+  Tree_Update,
+  Tree_UpdateReqList,
+} from '../../utils/TreeNodeHelperFunctions'
 
-export default function Modal_SetRequirementStatus() {
+export default function Modal_SetRequirementStatus({ reqID = null }) {
   const dispatch = useDispatch()
   const selectedDocObject = useSelector((state) => state.document.current_doc)
   const modalObject = useSelector((state) => state.common.modalObject, [])
+  const storeTreeData = useSelector((state) => state.common.treeData, [])
+  const fetchedStatuses = useSelector(
+    (state) => state.document.fetchedStatuses,
+    {}
+  )
 
   useEffect(() => {
     if (selectedDocObject != null) {
@@ -16,15 +31,6 @@ export default function Modal_SetRequirementStatus() {
       console.log('fetching statuses')
     }
   }, [modalObject])
-
-  const selectedDoc = useSelector(
-    (state) => state.common.selectedDocumentPanelObject
-  )
-
-  const fetchedStatuses = useSelector(
-    (state) => state.document.fetchedStatuses,
-    {}
-  )
 
   const [statusListFromDoc, setStatusListFromDoc] = useState({
     satisfied: '#00d084',
@@ -39,14 +45,34 @@ export default function Modal_SetRequirementStatus() {
   const handleChange = (color) => setColor(color)
 
   const handleOnClick = () => {
+    var td = Tree_UpdateReqList(storeTreeData, reqID, selectedIconName)
+    updateTree(td)
     dispatch(setModalObject({ visible: false, mode: 0 }))
+
+    console.log(reqID)
+  }
+
+  /**
+   * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
+   * @param {Object} tree - the tree stucture to clean and push to Redux store
+   */
+  const updateTree = (tree) => {
+    // NewTree - a new array just used so that REACT knows to rerender
+    var nt = [].concat(tree)
+    dispatch(updateDataTree(JSON.parse(JSON.stringify(Tree_Update(nt)))))
   }
 
   const handleReqCreate = () => {
-    setStatusListFromDoc((state) => ({ ...state, [reqName]: color['hex'] }))
+    let newStatusObj = {
+      ...fetchedStatuses,
+      [reqName]: color['hex'],
+    }
+    console.log(newStatusObj)
+    dispatch(setStatusesAsync(selectedDocObject._id, newStatusObj))
+    setTimeout(() => {
+      dispatch(getStatusesAsync(selectedDocObject._id))
+    }, 1000)
   }
-
-  const handeReqNameChange = () => {}
 
   function getDocumentRequirements() {
     if (fetchedStatuses == null) {
@@ -55,7 +81,7 @@ export default function Modal_SetRequirementStatus() {
 
     var arrayOfKeys = Object.keys(fetchedStatuses)
     return arrayOfKeys.map((status, i) => {
-      console.log(status)
+      // console.log(status)
       return (
         <span
           onClick={() => {
@@ -79,7 +105,7 @@ export default function Modal_SetRequirementStatus() {
         <div className="left-container">
           <h2>{'List of available statuses:'}</h2>
           <div>
-            {'Selected status: '}
+            <div className="container-header">{'Selected status: '}</div>
             {fetchedStatuses != null ? (
               <StatusIcon
                 statusName={selectedIconName}
@@ -104,9 +130,10 @@ export default function Modal_SetRequirementStatus() {
         <div className="right-container">
           <div>
             <h2>{'Create new status: '}</h2>
-            <div>
+            <div className="container-header">
               {'New status name: '}
               <input
+                className="status-name-input"
                 onChange={(e) => setReqName(e.target.value)}
                 value={reqName}
               />

@@ -450,9 +450,10 @@ export const getDocAsync = (docId) => {
 
   // set the returned array on success
   export const getStatusesSuccess = (res) => {
+    console.log(res)
     return{
       type: GET_STATUSES_SUCCESS,
-      data: res.data.response,
+      data: res.data.response.statuses,
     }
   }
 

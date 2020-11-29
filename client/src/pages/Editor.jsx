@@ -269,6 +269,8 @@ export default function Editor() {
               <div className="right">
                 <RequirementStatusContainer
                   requirementStatuses={statusList}
+                  onFocusReq={onFocusRequirement}
+                  reqID={id}
                 />
               {parseInt(id) == parseInt(selectedNodeId) ? (
                   <button
