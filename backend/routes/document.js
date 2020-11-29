@@ -39,7 +39,7 @@ router.route('/create-document').post((req, res) => {
     admin,
     collaborators,
     tree: JSON.stringify(tree),
-    statuses: [{"satisfied":"#00d084"}, {"unsatisfied":"#b80000"}, {"WIP":"#ffc107"}, {"review":"#FF5722"}],
+    statuses: {"satisfied":"#00d084", "unsatisfied":"#b80000", "WIP":"#ffc107", "review":"#FF5722"},
     versions: [JSON.stringify(newVersion)],
   })
 
