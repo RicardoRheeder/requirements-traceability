@@ -8,9 +8,10 @@ export default function RecentDocCard({}) {
   const dispatch = useDispatch()
   const recent_docs = useSelector((state) => state.user.recent_docs)
   const docs = useSelector((state) => state.document.documents)
+  const { user } = useAuth0()
 
   // use effect to fetch the user info when the component mounts
-  useEffect(() => {}, [docs])
+  useEffect(() => {}, [docs, recent_docs])
 
   const renderRecentDocs = (recent_docs) => {
     if (recent_docs != null) {
