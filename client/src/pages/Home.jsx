@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import {
   fetchUserInfoAsync,
+  fetchUserNotificationsAsync,
   fetchUserRecentDocsAsync,
 } from '../redux/stores/user/actions'
 import { fetchUserDocsAsync } from '../redux/stores/document/actions'
@@ -22,6 +23,7 @@ function Home() {
       dispatch(fetchUserInfoAsync(user))
       dispatch(fetchUserDocsAsync(user))
       dispatch(fetchUserRecentDocsAsync(user.email))
+      dispatch(fetchUserNotificationsAsync(user.email))
     }
   }, [])
   // console.log(recent_docs)
