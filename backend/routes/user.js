@@ -171,9 +171,8 @@ router.route('/get/recent-notifications/:id').get((req, res) => {
 // getting users notifications using email
 router.route('/get/recent-notifications-with-email/:email').get((req, res) => {
   const email = req.params.email
+  console.log(email)
   User.findOne({ email: email })
-    .populate('notifications')
-    .exec()
     .then((user) => {
       res.json({
         message: 'Got the users notifications with the email that was given',
@@ -250,7 +249,8 @@ router.route('/update/recent-docs/:email').patch((req, res) => {
         }
         User.findByIdAndUpdate(
           { _id: user._id },
-          { $set: { recent_docs: newArray } }
+          { $set: { recent_docs: newArray } },
+          { new: true }
         )
           .then((user) =>
             res.json({
