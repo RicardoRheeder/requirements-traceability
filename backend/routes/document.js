@@ -268,7 +268,6 @@ router.route('/update-req/:id').patch((req, res) => {
         { new: true }
       )
         .then((doc) => {
-          console.log(doc)
           res.json({
             message: 'Tree structure updated with new requirement withing doc.',
             response: doc,
