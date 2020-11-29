@@ -14,33 +14,33 @@ export default function LeftContainer() {
     (state) => state.common.selectedDocumentPanelObject
   )
 
-  const [searchboxIsEmpty, setSearchboxIsEmpty] = useState(true);
-  const [orderedDocList, setOrderedDocList] = useState([]);
-  
-  const updateSearch = e => {
-    if(e.target.value.length==0){
-      setSearchboxIsEmpty(true);
+  const [searchboxIsEmpty, setSearchboxIsEmpty] = useState(true)
+  const [orderedDocList, setOrderedDocList] = useState([])
+
+  const updateSearch = (e) => {
+    if (e.target.value.length == 0) {
+      setSearchboxIsEmpty(true)
+    } else {
+      setSearchboxIsEmpty(false)
     }
-    else{
-      setSearchboxIsEmpty(false);
-    }
-    console.log(searchboxIsEmpty);
-    var matchingSearchs = [];
-    for (let i = 0; i<docs.length; i++){
-      var lowerCaseTitle = docs[i].title.toLowerCase();
-      var lowerCaseSearchValue = e.target.value.toLowerCase();
-      if(lowerCaseTitle.includes(lowerCaseSearchValue)){
-        console.log(docs[i].title + " contains " + e.target.value);
-        matchingSearchs[matchingSearchs.length] = docs[i];
+    console.log(searchboxIsEmpty)
+    var matchingSearchs = []
+    for (let i = 0; i < docs.length; i++) {
+      var lowerCaseTitle = docs[i].title.toLowerCase()
+      var lowerCaseSearchValue = e.target.value.toLowerCase()
+      if (lowerCaseTitle.includes(lowerCaseSearchValue)) {
+        console.log(docs[i].title + ' contains ' + e.target.value)
+        matchingSearchs[matchingSearchs.length] = docs[i]
       }
     }
-    console.log(matchingSearchs);
-    setOrderedDocList(matchingSearchs);
+    console.log(matchingSearchs)
+    setOrderedDocList(matchingSearchs)
   }
 
   const RenderDocumentPanels = (listOfDocs) => {
     if (listOfDocs.length != 0) {
       return listOfDocs.map((document, i) => {
+        // console.log(document)
         return <DocumentPanel document={document} key={i} />
       })
     }
@@ -63,10 +63,18 @@ export default function LeftContainer() {
   return (
     <div className="left-container-root">
       <div className="document-searchbox-container">
-        Search:{" "}
-        <input className="document-searchbox" type="text" onChange={updateSearch}></input>
+        Search:{' '}
+        <input
+          className="document-searchbox"
+          type="text"
+          onChange={updateSearch}
+        ></input>
       </div>
-      <div className="display-area">{searchboxIsEmpty ? RenderDocumentPanels(docs): RenderDocumentPanels(orderedDocList)}</div>
+      <div className="display-area">
+        {searchboxIsEmpty
+          ? RenderDocumentPanels(docs)
+          : RenderDocumentPanels(orderedDocList)}
+      </div>
       <div className="add-remove-button-container">
         <button
           className="orange-button add-remove-button"

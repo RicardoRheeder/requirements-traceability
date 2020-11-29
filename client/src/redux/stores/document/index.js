@@ -32,7 +32,10 @@ import {
   SET_STATUSES_FAILURE,
   GET_STATUSES_START,
   GET_STATUSES_FAILURE,
-  GET_STATUSES_SUCCESS
+  GET_STATUSES_SUCCESS,
+  SET_DOC_TITLE_START,
+  SET_DOC_TITLE_FAILURE,
+  SET_DOC_TITLE_SUCCESS
 } from './actionTypes'
 
 import initialState from './initialState'
@@ -133,6 +136,13 @@ export default (state = initialState, action) => {
     case SET_STATUSES_SUCCESS:
       return { ...state, isFetching: false, success: action.data}
 
+    // Setting the document title
+    case SET_DOC_TITLE_START:
+        return { ...state, isFetching: true}
+    case SET_DOC_TITLE_FAILURE:
+        return { ...state, isFetching: false, error: action.data}
+    case SET_DOC_TITLE_SUCCESS:
+        return { ...state, isFetching: false, success: action.data}
 
     default:
       return state
