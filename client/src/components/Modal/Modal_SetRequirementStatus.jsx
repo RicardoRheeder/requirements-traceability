@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setModalObject } from '../../redux/stores/common/actions'
-import { addUserToDocAsync } from '../../redux/stores/document/actions'
+import { getStatusesAsync } from '../../redux/stores/document/actions'
 import { SketchPicker } from 'react-color'
 import { StatusIcon } from '../RequirementStatus'
 
 export default function Modal_SetRequirementStatus() {
+  const dispatch = useDispatch()
+  const selectedDocObject = useSelector((state) => state.document.current_doc)
   const modalObject = useSelector((state) => state.common.modalObject, [])
+
+  // useEffect(() => {
+  //   if (selectedDocObject != null) {
+  //     dispatch(getStatusesAsync(selectedDocObject._id))
+  //   }
+  // }, [modalObject])
+
   const selectedDoc = useSelector(
     (state) => state.common.selectedDocumentPanelObject
   )
 
-  const dispatch = useDispatch()
-
-  // var statusListFromDoc = {
-  //   satisfied: '#00d084',
-  //   unsatisfied: '#b80000',
-  //   WIP: '#ffc107',
-  //   review: '#FF5722',
-  // }
+  // const fetchedStatuses = useSelector(
+  //   (state) => state.document.fetchedStatuses,
+  //   {}
+  // )
 
   const [statusListFromDoc, setStatusListFromDoc] = useState({
     satisfied: '#00d084',
@@ -27,6 +32,7 @@ export default function Modal_SetRequirementStatus() {
     review: '#FF5722',
   })
 
+  const [selectedIconName, setSelectedIconName] = useState('unsatisfied')
   const [reqName, setReqName] = useState('')
   const [color, setColor] = useState('')
   const handleChange = (color) => setColor(color)
@@ -36,24 +42,31 @@ export default function Modal_SetRequirementStatus() {
   }
 
   const handleReqCreate = () => {
-    // var tempStatusObject = statusListFromDoc
-    // tempStatusObject[reqName] = color['hex']
-    // console.log(tempStatusObject)
-
     setStatusListFromDoc((state) => ({ ...state, [reqName]: color['hex'] }))
   }
 
   const handeReqNameChange = () => {}
 
   function getDocumentRequirements() {
+    if (statusListFromDoc == null) {
+      return <></>
+    }
+
     var arrayOfKeys = Object.keys(statusListFromDoc)
-    return arrayOfKeys.map((status) => {
+    return arrayOfKeys.map((status, i) => {
       console.log(status)
       return (
-        <StatusIcon
-          statusName={status}
-          statusColor={statusListFromDoc[status]}
-        />
+        <span
+          onClick={() => {
+            setSelectedIconName(status)
+          }}
+        >
+          <StatusIcon
+            statusName={status}
+            statusColor={statusListFromDoc[status]}
+            isSelected={status == selectedIconName ? true : false}
+          />
+        </span>
       )
     })
   }
@@ -64,7 +77,13 @@ export default function Modal_SetRequirementStatus() {
         <h1 className="modal-contents-title">Set/Create a status</h1>
         <div className="left-container">
           <h2>{'List of available statuses:'}</h2>
-          <div>{'Select a requirement below: '}</div>
+          <div>
+            {'Selected status: '}
+            <StatusIcon
+              statusName={selectedIconName}
+              statusColor={statusListFromDoc[selectedIconName]}
+            />
+          </div>
           <div className="modal-status-container">
             {getDocumentRequirements()}
           </div>

@@ -13,6 +13,14 @@
   border: 2px solid black;
 }
 
+.status-selected {
+  padding: 5px 10px;
+  font-size: 15px !important;
+  margin: 1px 1px;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
 .add-status-button {
   display: inline-flex;
   transform: translateY(-3px);
