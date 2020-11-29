@@ -48,8 +48,6 @@ export default function Modal_SetRequirementStatus({ reqID = null }) {
     var td = Tree_UpdateReqStatusList(storeTreeData, reqID, selectedIconName)
     updateTree(td)
     dispatch(setModalObject({ visible: false, mode: 0 }))
-
-    console.log(reqID)
   }
 
   /**
@@ -67,7 +65,6 @@ export default function Modal_SetRequirementStatus({ reqID = null }) {
       ...fetchedStatuses,
       [reqName]: color['hex'],
     }
-    console.log(newStatusObj)
     dispatch(setStatusesAsync(selectedDocObject._id, newStatusObj))
     setTimeout(() => {
       dispatch(getStatusesAsync(selectedDocObject._id))

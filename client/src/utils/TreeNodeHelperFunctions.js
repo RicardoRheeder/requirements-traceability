@@ -351,7 +351,6 @@ export function Tree_UpdateReqStatusList(customTreeData, targetID, statusName) {
     return TreeData
   }
   var treeWithNewStatus = parseData(customTreeData)
-  console.log(treeWithNewStatus)
   return treeWithNewStatus
 }
 
@@ -382,7 +381,6 @@ export function Tree_RemoveReqStatus(customTreeData, targetID, statusName) {
     return TreeData
   }
   var treeWithRemovedStatus = parseData(customTreeData)
-  console.log(treeWithRemovedStatus)
   return treeWithRemovedStatus
 }
 
@@ -407,6 +405,5 @@ export function Tree_CountSatisfiedReqs(customTreeData) {
   }
 
   var satisfiedArray = parseData(customTreeData, [0, 0])
-
   return satisfiedArray
 }

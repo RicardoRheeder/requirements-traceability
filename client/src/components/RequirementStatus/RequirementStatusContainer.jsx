@@ -28,7 +28,6 @@ export default function RequirementStatusContainer({
       var td = Tree_RemoveReqStatus(storeTreeData, reqID, statusName)
       updateTree(td)
       dispatch(setModalObject({ visible: false, mode: 0 }))
-      console.log(statusName)
     }, 100)
   }
 

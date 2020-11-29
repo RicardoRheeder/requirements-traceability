@@ -14,8 +14,6 @@ export default function LeftContainer() {
     (state) => state.common.selectedDocumentPanelObject
   )
 
-  console.log(docs)
-
   const [searchboxIsEmpty, setSearchboxIsEmpty] = useState(true)
   const [orderedDocList, setOrderedDocList] = useState([])
 
@@ -28,7 +26,6 @@ export default function LeftContainer() {
     } else {
       setSearchboxIsEmpty(false)
     }
-    console.log(searchboxIsEmpty)
     var matchingSearchs = []
     for (let i = 0; i < docs.length; i++) {
       var lowerCaseTitle = docs[i].title.toLowerCase()
@@ -38,7 +35,6 @@ export default function LeftContainer() {
         matchingSearchs[matchingSearchs.length] = docs[i]
       }
     }
-    console.log(matchingSearchs)
     setOrderedDocList(matchingSearchs)
   }
 
@@ -46,7 +42,6 @@ export default function LeftContainer() {
     if (listOfDocs.length != 0) {
       return listOfDocs.map((document, i) => {
         let tempDoc = JSON.parse(JSON.stringify(document))
-        console.log(document)
         return <DocumentPanel document={tempDoc} key={i} />
       })
     }

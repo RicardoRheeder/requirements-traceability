@@ -44,7 +44,6 @@ export const DocumentPanel = ({ document }) => {
   function getStatusSatisfactory() {
     if (document != null && document.tree != null) {
       let tempArray = Tree_CountSatisfiedReqs(JSON.parse(document.tree))
-      console.log(tempArray)
       setSatisfiedArray(tempArray)
     }
   }
