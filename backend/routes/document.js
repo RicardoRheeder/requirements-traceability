@@ -15,16 +15,19 @@ router.route('/create-document').post((req, res) => {
       title: 'Title of your requirement. (1)',
       text: 'Type contents of requirement here...',
       id: 1,
+      statusList: ['unsatisfied'],
     },
     {
       title: 'Title of your requirement. (2)',
-      id: 2,
       text: 'Type contents of requirement here...',
+      id: 2,
+      statusList: ['unsatisfied'],
       children: [
         {
-          title: 'Title of your requirement. (3)',
+          title: 'Title of your sub-requirement. (3)',
           text: 'Type contents of requirement here...',
           id: 3,
+          statusList: ['unsatisfied'],
         },
       ],
     },
