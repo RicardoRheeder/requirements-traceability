@@ -9,6 +9,7 @@ const userSchema = new Schema(
     email: { type: String, required: true, unique: true },
     documents: [{ type: Schema.Types.ObjectId, ref: 'Document' }],
     recent_docs: [{ type: Schema.Types.ObjectId, ref: 'Document' }],
+    notifications: [{ type: Schema.Types.ObjectId, ref: 'Notification' }],
   },
   {
     timestamps: true,
