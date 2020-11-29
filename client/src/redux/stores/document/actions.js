@@ -32,7 +32,10 @@ import {
   SET_STATUSES_FAILURE,
   GET_STATUSES_START,
   GET_STATUSES_FAILURE,
-  GET_STATUSES_SUCCESS
+  GET_STATUSES_SUCCESS,
+  SET_DOC_TITLE_START,
+  SET_DOC_TITLE_FAILURE,
+  SET_DOC_TITLE_SUCCESS
 } from './actionTypes'
 
 import { Tree_GetRequirementObject } from '../../../utils/TreeNodeHelperFunctions'
@@ -472,5 +475,39 @@ export const getDocAsync = (docId) => {
       .get(`${url}/documents/get-statuses/${docID}`)
       .then((res) => dispatch(getStatusesStart(res)))
       .catch((error) => dispatch(getStatusesFailure(error)))
+    }
+  }
+
+  // Setting the title of a document
+  // Start the request
+  export const setDocTitleStart = () => {
+    return{
+      type: SET_DOC_TITLE_START,
+    }
+  }
+
+  // set the returned title on success
+  export const setDocTitleSuccess = (res) => {
+    return{
+      type: SET_DOC_TITLE_SUCCESS,
+      data: res.data.response,
+    }
+  }
+
+  // set the error message on failure
+  export const setDocTitleFailure = (error) => {
+    return{
+      type: SET_DOC_TITLE_FAILURE,
+      data: res.data.message
+    }
+  }
+
+  export const setDocTitleAsync = (docID, docTitle) => {
+    return (dispatch) => {
+      dispatch(setDocTitleStart())
+      axios
+      .patch(`${url}/documents/set-title/${docID}`, {title:docTitle})
+      .then((res) => dispatch(setDocTitleSuccess(res)))
+      .catch((error) => dispatch(setDocTitleFailure(error)))
     }
   }
