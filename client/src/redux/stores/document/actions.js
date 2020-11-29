@@ -470,7 +470,7 @@ export const getDocAsync = (docId) => {
       dispatch(getStatusesStart())
       axios
       .get(`${url}/documents/get-statuses/${docID}`)
-      .then((res) => dispatch(getStatusesStart(res)))
+      .then((res) => dispatch(getStatusesSuccess(res)))
       .catch((error) => dispatch(getStatusesFailure(error)))
     }
   }

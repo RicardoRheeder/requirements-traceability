@@ -10,20 +10,21 @@ export default function Modal_SetRequirementStatus() {
   const selectedDocObject = useSelector((state) => state.document.current_doc)
   const modalObject = useSelector((state) => state.common.modalObject, [])
 
-  // useEffect(() => {
-  //   if (selectedDocObject != null) {
-  //     dispatch(getStatusesAsync(selectedDocObject._id))
-  //   }
-  // }, [modalObject])
+  useEffect(() => {
+    if (selectedDocObject != null) {
+      dispatch(getStatusesAsync(selectedDocObject._id))
+      console.log('fetching statuses')
+    }
+  }, [modalObject])
 
   const selectedDoc = useSelector(
     (state) => state.common.selectedDocumentPanelObject
   )
 
-  // const fetchedStatuses = useSelector(
-  //   (state) => state.document.fetchedStatuses,
-  //   {}
-  // )
+  const fetchedStatuses = useSelector(
+    (state) => state.document.fetchedStatuses,
+    {}
+  )
 
   const [statusListFromDoc, setStatusListFromDoc] = useState({
     satisfied: '#00d084',
@@ -48,11 +49,11 @@ export default function Modal_SetRequirementStatus() {
   const handeReqNameChange = () => {}
 
   function getDocumentRequirements() {
-    if (statusListFromDoc == null) {
+    if (fetchedStatuses == null) {
       return <></>
     }
 
-    var arrayOfKeys = Object.keys(statusListFromDoc)
+    var arrayOfKeys = Object.keys(fetchedStatuses)
     return arrayOfKeys.map((status, i) => {
       console.log(status)
       return (
@@ -63,7 +64,7 @@ export default function Modal_SetRequirementStatus() {
         >
           <StatusIcon
             statusName={status}
-            statusColor={statusListFromDoc[status]}
+            statusColor={fetchedStatuses[status]}
             isSelected={status == selectedIconName ? true : false}
           />
         </span>
@@ -79,10 +80,14 @@ export default function Modal_SetRequirementStatus() {
           <h2>{'List of available statuses:'}</h2>
           <div>
             {'Selected status: '}
-            <StatusIcon
-              statusName={selectedIconName}
-              statusColor={statusListFromDoc[selectedIconName]}
-            />
+            {fetchedStatuses != null ? (
+              <StatusIcon
+                statusName={selectedIconName}
+                statusColor={fetchedStatuses[selectedIconName]}
+              />
+            ) : (
+              <></>
+            )}
           </div>
           <div className="modal-status-container">
             {getDocumentRequirements()}
