@@ -275,6 +275,7 @@ export default function Editor() {
 
               <div className="right">
                 <RequirementStatusContainer
+                  key={i}
                   requirementStatuses={statusList}
                   onFocusReq={onFocusRequirement}
                   reqID={id}

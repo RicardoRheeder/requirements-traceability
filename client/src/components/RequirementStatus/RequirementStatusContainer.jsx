@@ -36,8 +36,13 @@ export default function RequirementStatusContainer({
     return requirementStatuses.map((name, i) => {
       var color = fetchedStatuses[name]
       return (
-        <span onClick={() => removeStatus(name)}>
-          <StatusIcon key={i} statusName={name} statusColor={color} canBeDeleted={true} />
+        <span key={i} onClick={() => removeStatus(name)}>
+          <StatusIcon
+            key={i}
+            statusName={name}
+            statusColor={color}
+            canBeDeleted={true}
+          />
         </span>
       )
     })

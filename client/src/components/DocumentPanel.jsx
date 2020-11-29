@@ -17,8 +17,6 @@ import {
 import { UpdateUserRecentDocsAsync } from '../redux/stores/user/actions'
 import { Tree_CountSatisfiedReqs } from '../utils/TreeNodeHelperFunctions'
 
-var satisfiedArray = [0, 0]
-
 export const DocumentPanel = ({ document }) => {
   const { user } = useAuth0()
   const dispatch = useDispatch()
@@ -27,20 +25,27 @@ export const DocumentPanel = ({ document }) => {
   const selectedDocumentPanelObject = useSelector(
     (state) => state.common.selectedDocumentPanelObject
   )
+  const docs = useSelector((state) => state.document.documents)
 
   const [selectedVersionTree, setSelectedVersionTree] = useState()
   const [versionList, setVersionList] = useState([])
   const [currentDropDownVersion, setCurrentDropDownVersion] = useState('')
+  const [satisfiedArray, setSatisfiedArray] = useState([0, 0])
   const CURRENTWORKINGVERSION = 'Current working version'
 
   useEffect(() => {
     refreshVersionList()
-    getStatusSatisfactory()
   }, [document.versions])
+
+  useEffect(() => {
+    getStatusSatisfactory()
+  }, [docs])
 
   function getStatusSatisfactory() {
     if (document != null && document.tree != null) {
-      satisfiedArray = Tree_CountSatisfiedReqs(JSON.parse(document.tree))
+      let tempArray = Tree_CountSatisfiedReqs(JSON.parse(document.tree))
+      console.log(tempArray)
+      setSatisfiedArray(tempArray)
     }
   }
 

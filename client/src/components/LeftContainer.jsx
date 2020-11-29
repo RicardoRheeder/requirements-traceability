@@ -14,8 +14,13 @@ export default function LeftContainer() {
     (state) => state.common.selectedDocumentPanelObject
   )
 
+  console.log(docs)
+
   const [searchboxIsEmpty, setSearchboxIsEmpty] = useState(true)
   const [orderedDocList, setOrderedDocList] = useState([])
+
+  // use effect to fetch the user info when the component mounts
+  useEffect(() => {}, [docs])
 
   const updateSearch = (e) => {
     if (e.target.value.length == 0) {
@@ -40,8 +45,9 @@ export default function LeftContainer() {
   const RenderDocumentPanels = (listOfDocs) => {
     if (listOfDocs.length != 0) {
       return listOfDocs.map((document, i) => {
-        // console.log(document)
-        return <DocumentPanel document={document} key={i} />
+        let tempDoc = JSON.parse(JSON.stringify(document))
+        console.log(document)
+        return <DocumentPanel document={tempDoc} key={i} />
       })
     }
     return (
