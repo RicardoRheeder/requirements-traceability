@@ -6,10 +6,13 @@ import {
   fetchUserInfoAsync,
   fetchUserNotificationsAsync,
   fetchUserRecentDocsAsync,
+  UpdateUserNotificationsAsync,
 } from '../redux/stores/user/actions'
 import { fetchUserDocsAsync } from '../redux/stores/document/actions'
 import { LeftContainer } from '../components'
 import RecentDocCard from '../components/RecentDocCard'
+import NotificationCard from '../components/NotificationCard'
+import RightContainer from '../components/RightContainer'
 
 function Home() {
   // getting the current user who is signed in
@@ -42,7 +45,7 @@ function Home() {
         <h1>Your Recent Docs:</h1>
         <RecentDocCard />
       </div>
-      <div className="right-container">Notifications</div>
+      <RightContainer />
     </div>
   )
 }
