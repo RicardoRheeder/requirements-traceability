@@ -173,32 +173,39 @@ export const fetchUserNotificationsAsync = (user_email) => {
   }
 }
 
-// // Actions for updating recent docs ***********************************
-// export const UpdateUserRecentDocsStart = () => {
-//   return {
-//     type: UPDATE_USER_RECENT_DOCS_START,
-//   }
-// }
-// export const UpdateUserRecentDocsSuccess = (docs) => {
-//   return {
-//     type: UPDATE_USER_RECENT_DOCS_SUCCESS,
-//     payload: docs.data.response,
-//   }
-// }
-// export const UpdateUserRecentDocsFailure = (errorMessage) => {
-//   return {
-//     type: UPDATE_USER_RECENT_DOCS_FAILURE,
-//     payload: errorMessage.data.message,
-//   }
-// }
+// // Actions for updating notifications  ***********************************
+export const UpdateUserNotificationsStart = () => {
+  return {
+    type: UPDATE_USER_NOTIFICATIONS_START,
+  }
+}
+export const UpdateUserNotificationsSuccess = (notifications) => {
+  return {
+    type: UPDATE_USER_NOTIFICATIONS_SUCCESS,
+    payload: notifications.data.response,
+  }
+}
+export const UpdateUserNotificationsFailure = (errorMessage) => {
+  return {
+    type: UPDATE_USER_NOTIFICATIONS_FAILURE,
+    payload: errorMessage.data.message,
+  }
+}
 
-// export const UpdateUserRecentDocsAsync = (user_email, doc_id) => {
-//   return (dispatch) => {
-//     dispatch(fetchUserRecentDocsStart())
-//     // making a get request for recent docs
-//     axios
-//       .patch(`${url}/update/recent-docs/${user_email}`, { id: doc_id })
-//       .then(() => dispatch(UpdateUserRecentDocsSuccess()))
-//       .catch((err) => dispatch(UpdateUserRecentDocsFailure(err)))
-//   }
-// }
+export const UpdateUserNotificationsAsync = (
+  user_email,
+  notificationString
+) => {
+  return (dispatch) => {
+    dispatch(UpdateUserNotificationsStart())
+    // making a get request for recent docs
+    axios
+      .patch(`${url}/update/recent-notifications/${user_email}`, {
+        notificationString: notificationString,
+      })
+      .then((notifications) =>
+        dispatch(UpdateUserNotificationsSuccess(notifications))
+      )
+      .catch((err) => dispatch(UpdateUserNotificationsFailure(err)))
+  }
+}
