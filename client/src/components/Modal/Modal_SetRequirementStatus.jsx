@@ -12,7 +12,7 @@ import { SketchPicker } from 'react-color'
 import { StatusIcon } from '../RequirementStatus'
 import {
   Tree_Update,
-  Tree_UpdateReqList,
+  Tree_UpdateReqStatusList,
 } from '../../utils/TreeNodeHelperFunctions'
 
 export default function Modal_SetRequirementStatus({ reqID = null }) {
@@ -30,7 +30,7 @@ export default function Modal_SetRequirementStatus({ reqID = null }) {
       dispatch(getStatusesAsync(selectedDocObject._id))
       console.log('fetching statuses')
     }
-  }, [modalObject])
+  }, [])
 
   const [statusListFromDoc, setStatusListFromDoc] = useState({
     satisfied: '#00d084',
@@ -45,7 +45,7 @@ export default function Modal_SetRequirementStatus({ reqID = null }) {
   const handleChange = (color) => setColor(color)
 
   const handleOnClick = () => {
-    var td = Tree_UpdateReqList(storeTreeData, reqID, selectedIconName)
+    var td = Tree_UpdateReqStatusList(storeTreeData, reqID, selectedIconName)
     updateTree(td)
     dispatch(setModalObject({ visible: false, mode: 0 }))
 

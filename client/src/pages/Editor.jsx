@@ -25,6 +25,7 @@ import {
   setShouldPullFromDB,
 } from '../redux/stores/common/actions'
 import {
+  getStatusesAsync,
   getTreeAsync,
   sendDocAsync,
   sendReqAsync,
@@ -100,6 +101,7 @@ export default function Editor() {
     return () => {
       if (selectedDocObject != null) {
         if (selectedNodeId != 0) {
+          console.log('leaving editor')
           dispatch(
             sendReqAsyncOnUnmount(
               storeTreeData,
@@ -116,6 +118,11 @@ export default function Editor() {
       dispatch(updateDataTree([])) // resetting the local tree when leaving editor
     }
   }, [selectedDocObject, dispatch])
+
+  useEffect(() => {
+    if (selectedDocObject != null)
+      dispatch(getStatusesAsync(selectedDocObject._id))
+  }, [selectedDocObject])
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -271,18 +278,20 @@ export default function Editor() {
                   requirementStatuses={statusList}
                   onFocusReq={onFocusRequirement}
                   reqID={id}
+                  storeTreeData={storeTreeData}
+                  updateTree={updateTree}
                 />
-              {parseInt(id) == parseInt(selectedNodeId) ? (
+                {parseInt(id) == parseInt(selectedNodeId) ? (
                   <button
-                    className="orange-button"
+                    className="orange-button container-width"
                     onClick={() => offFocusRequirement(id)}
                   >
                     SUBMIT
                   </button>
-              ) : (
-                <></>
+                ) : (
+                  <span className="container-width" />
                 )}
-                </div>
+              </div>
             </div>
             <TextareaAutosize
               type="text"

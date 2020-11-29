@@ -15,6 +15,9 @@ import {
   updateCurrentDocument,
 } from '../redux/stores/document/actions'
 import { UpdateUserRecentDocsAsync } from '../redux/stores/user/actions'
+import { Tree_CountSatisfiedReqs } from '../utils/TreeNodeHelperFunctions'
+
+var satisfiedArray = [0, 0]
 
 export const DocumentPanel = ({ document }) => {
   const { user } = useAuth0()
@@ -32,7 +35,14 @@ export const DocumentPanel = ({ document }) => {
 
   useEffect(() => {
     refreshVersionList()
+    getStatusSatisfactory()
   }, [document.versions])
+
+  function getStatusSatisfactory() {
+    if (document != null && document.tree != null) {
+      satisfiedArray = Tree_CountSatisfiedReqs(JSON.parse(document.tree))
+    }
+  }
 
   function refreshVersionList() {
     let tempVersionsList = []
@@ -92,6 +102,16 @@ export const DocumentPanel = ({ document }) => {
           ></img>
         </button>
         <h2 className="doc-panel-header">{document.title}</h2>
+        <div
+          className={
+            'status' +
+            (satisfiedArray[0] == satisfiedArray[1]
+              ? ' satisfied'
+              : ' unsatisfied')
+          }
+        >
+          {satisfiedArray[0] + '/' + satisfiedArray[1]}
+        </div>
       </div>
 
       <div className="doc-version-title">

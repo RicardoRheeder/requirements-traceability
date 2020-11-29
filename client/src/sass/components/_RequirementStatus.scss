@@ -21,6 +21,11 @@
   font-weight: bold;
 }
 
+.status-deletable:hover {
+  filter: brightness(0.7);
+  background-color: red !important;
+}
+
 .add-status-button {
   display: inline-flex;
   transform: translateY(-3px);

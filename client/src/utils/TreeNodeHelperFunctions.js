@@ -71,9 +71,10 @@ export function Tree_ExpandData(TreeData, expanded) {
 export function Tree_InsertNode(customTreeData, selectedNodeID) {
   var newNode = {
     title: 'New Node',
-    id: 999,
+    id: -1,
     text: 'Text here',
-    expanded: false,
+    expanded: true,
+    statusList:['unsatisfied']
   }
   function parseData(TreeData) {
     Object.keys(TreeData).forEach((index) => {
@@ -326,7 +327,7 @@ export function Tree_UpdateDatabaseTreeReq(databaseTree, localRequirement) {
   return combinedTree
 }
 
-export function Tree_UpdateReqList(customTreeData, targetID, statusName) {
+export function Tree_UpdateReqStatusList(customTreeData, targetID, statusName) {
   function parseData(TreeData) {
     var i = TreeData.length
     while (i--) {
@@ -352,5 +353,60 @@ export function Tree_UpdateReqList(customTreeData, targetID, statusName) {
   var treeWithNewStatus = parseData(customTreeData)
   console.log(treeWithNewStatus)
   return treeWithNewStatus
+}
 
+export function Tree_RemoveReqStatus(customTreeData, targetID, statusName) {
+  function parseData(TreeData) {
+    var i = TreeData.length
+    while (i--) {
+      if (
+        TreeData[i] &&
+        TreeData[i].hasOwnProperty('id') &&
+        TreeData[i]['id'] === targetID
+      ) {
+        if (!TreeData[i].hasOwnProperty('statusList')){
+          TreeData[i]['statusList'] = []
+        }
+        if (TreeData[i]['statusList'].includes(statusName)){
+          const index = TreeData[i]['statusList'].indexOf(statusName);
+          if (index > -1) {
+            TreeData[i]['statusList'].splice(index, 1);
+          }
+        }
+
+        break
+      } else if (TreeData[i].hasOwnProperty('children')) {
+        parseData(TreeData[i]['children'])
+      }
+    }
+    return TreeData
+  }
+  var treeWithRemovedStatus = parseData(customTreeData)
+  console.log(treeWithRemovedStatus)
+  return treeWithRemovedStatus
+}
+
+export function Tree_CountSatisfiedReqs(customTreeData) {
+
+  function parseData(TreeData, arrayOfResults) {
+    for (var index in TreeData){
+      var requirement = TreeData[index]
+
+      if (requirement.hasOwnProperty('statusList') && requirement['statusList'].includes("satisfied")){
+        arrayOfResults[0] = arrayOfResults[0] + 1
+      }
+      arrayOfResults[1] = arrayOfResults[1] + 1
+
+
+      if (requirement.hasOwnProperty('children')) {
+        parseData(requirement['children'], arrayOfResults)
+      }
+    }
+
+    return arrayOfResults
+  }
+
+  var satisfiedArray = parseData(customTreeData, [0, 0])
+
+  return satisfiedArray
 }

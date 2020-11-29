@@ -40,6 +40,29 @@
     text-align: left;
   }
 
+  .status {
+    margin: 10px auto;
+    position: relative;
+    height: fit-content;
+    font-weight: 600;
+    line-height: normal;
+    text-align: right;
+    background-color: #212a3f;
+    width: fit-content;
+    margin-right: inherit;
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 14px;
+  }
+
+  .satisfied {
+    color: green !important;
+  }
+
+  .unsatisfied {
+    color: red !important;
+  }
+
   .document-panel-title {
     font-size: 18px;
     float: left;

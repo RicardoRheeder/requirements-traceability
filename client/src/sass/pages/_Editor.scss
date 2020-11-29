@@ -77,7 +77,12 @@
   }
 }
 
-.status-container{
+.status-container {
   float: right;
   transform: translateY(10px);
+}
+
+.container-width {
+  width: 80px;
+  height: 30px;
 }
