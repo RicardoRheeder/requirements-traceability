@@ -195,7 +195,7 @@ export default function Editor() {
       )
       setTimeout(() => {
         dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-        dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+        // dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
       }, 100)
     }
   }

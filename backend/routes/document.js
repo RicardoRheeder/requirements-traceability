@@ -264,9 +264,11 @@ router.route('/update-req/:id').patch((req, res) => {
 
       Document.findByIdAndUpdate(
         { _id: req.params.id },
-        { $set: { tree: JSON.stringify(combinedTree) } }
+        { $set: { tree: JSON.stringify(combinedTree) } },
+        { new: true }
       )
         .then((doc) => {
+          console.log(doc)
           res.json({
             message: 'Tree structure updated with new requirement withing doc.',
             response: doc,

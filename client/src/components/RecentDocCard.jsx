@@ -11,7 +11,7 @@ export default function RecentDocCard({}) {
   const { user } = useAuth0()
 
   // use effect to fetch the user info when the component mounts
-  useEffect(() => {}, [docs, recent_docs])
+  useEffect(() => {}, [docs])
 
   const renderRecentDocs = (recent_docs) => {
     if (recent_docs != null) {
