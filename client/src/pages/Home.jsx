@@ -1,14 +1,18 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import {
   fetchUserInfoAsync,
+  fetchUserNotificationsAsync,
   fetchUserRecentDocsAsync,
+  UpdateUserNotificationsAsync,
 } from '../redux/stores/user/actions'
 import { fetchUserDocsAsync } from '../redux/stores/document/actions'
 import { LeftContainer } from '../components'
 import RecentDocCard from '../components/RecentDocCard'
+import NotificationCard from '../components/NotificationCard'
+import RightContainer from '../components/RightContainer'
 
 function Home() {
   // getting the current user who is signed in
@@ -22,8 +26,10 @@ function Home() {
       dispatch(fetchUserInfoAsync(user))
       dispatch(fetchUserDocsAsync(user))
       dispatch(fetchUserRecentDocsAsync(user.email))
+      dispatch(fetchUserNotificationsAsync(user.email))
     }
   }, [])
+
   // console.log(recent_docs)
   return (
     <div className="home-root styled-background-blue">
@@ -40,7 +46,7 @@ function Home() {
         <h1>Your Recent Docs:</h1>
         <RecentDocCard />
       </div>
-      <div className="right-container">Notifications</div>
+      <RightContainer />
     </div>
   )
 }

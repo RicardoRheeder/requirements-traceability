@@ -2,12 +2,13 @@ export default {
   loggedIn: false,
   treeData: [
     { title: 'HLRQ1', text: 'hlrq1 text', id: 1, isBeingEdited: 'testUser1' },
-    { title: 'HLRQ2', text: 'hlrq2 text', id: 2 },
+    { title: 'HLRQ2', text: 'hlrq2 text', id: 2, statusList: [ 'unsatisfied', 'WIP', 'review']},
     {
       title: 'HLRQ3',
       // dragDisabled: true,
       text: 'hlrq3 text',
       id: 3,
+      statusList: ['satisfied']
     },
     {
       title: 'HLRQ4',
@@ -33,6 +34,8 @@ export default {
   // mode: 2 = invite user to document
   // mode: 3 = commit the document
   // mode: 4 = export the document
+  // mode: 5 = create/add requirement status
+
   modalObject: { visible: false, mode: 0 },
   selectedDocumentPanelObject: 0,
 

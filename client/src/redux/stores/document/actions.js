@@ -320,10 +320,11 @@ export const sendReqStart = () => {
   }
 }
 
-export const sendReqSuccess = (tree) => {
+export const sendReqSuccess = (doc) => {
+  console.log(doc)
   return {
     type: SEND_REQ_SUCCESS,
-    data: tree,
+    data: doc.data.tree,
   }
 }
 
@@ -341,7 +342,8 @@ export const sendReqAsync = (requirement, docID) => {
     axios
       .patch(`${url}/documents/update-req/${docID}`, { req: requirement })
       .then((doc) => {
-        dispatch(sendReqSuccess(doc.tree))
+        console.log(doc)
+        dispatch(sendReqSuccess(doc))
       })
       .catch((err) => {
         dispatch(sendReqFailure(err))
@@ -455,12 +457,12 @@ export const getDocAsync = (docId) => {
   export const getStatusesSuccess = (res) => {
     return{
       type: GET_STATUSES_SUCCESS,
-      data: res.data.response,
+      data: res.data.response.statuses,
     }
   }
 
   // set the error message on failure
-  export const getStatusesFailure = () => {
+  export const getStatusesFailure = (res) => {
     return{
       type: GET_STATUSES_FAILURE,
       data: res.data.message
@@ -473,7 +475,7 @@ export const getDocAsync = (docId) => {
       dispatch(getStatusesStart())
       axios
       .get(`${url}/documents/get-statuses/${docID}`)
-      .then((res) => dispatch(getStatusesStart(res)))
+      .then((res) => dispatch(getStatusesSuccess(res)))
       .catch((error) => dispatch(getStatusesFailure(error)))
     }
   }
