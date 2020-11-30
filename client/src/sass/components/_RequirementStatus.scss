@@ -34,70 +34,12 @@
   float: right;
 }
 
-.white-box {
-  height: 155px;
-  width: 350px;
-  background-color: white;
-  display: flex;
-  position: relative;
-  float: right;
-  transform: translateX(-20px);
-  border: 2px solid black;
-}
-
-.white-box-container {
-  font-size: 15px;
-  color: black;
-}
-
-// Collapse common fields under a common name
-.status-span {
-  display: inline-block;
-  padding-top: 10px;
-  padding-left: 15px;
-}
-
 .colour-button {
   border-radius: 50%;
   border: 2px solid black;
   margin-left: 5px;
   height: 25px;
   width: 25px;
-}
-
-.blue-select {
-  background-color: rgb(72, 147, 209);
-}
-
-.red-select {
-  background-color: rgb(189, 4, 4);
-}
-
-.green-select {
-  background-color: rgb(59, 184, 59);
-}
-
-.yellow-select {
-  background-color: rgb(233, 217, 0);
-}
-
-.orange-select {
-  background-color: rgb(214, 114, 0);
-}
-
-.grey-select {
-  background-color: rgb(151, 151, 151);
-}
-
-.submit-new-status {
-  margin-top: 15px;
-  font-size: 10px;
-  margin-left: 15%;
-}
-
-.submit-existing-status {
-  font-size: 10px;
-  margin-left: 5px;
 }
 
 .modal-status {
