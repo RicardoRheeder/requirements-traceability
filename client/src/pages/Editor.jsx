@@ -319,7 +319,7 @@ export default function Editor() {
           <h1>
             {selectedDocObject != null ? (
               <>
-                <label contentEditable="true" onKeyUp={updateDocName}>
+                <label contentEditable="true" onBlur={updateDocName}>
                 {selectedDocObject.title}
                 </label>
                 <span className="doc-version-title">
