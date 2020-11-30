@@ -71,7 +71,7 @@ export function Tree_ExpandData(TreeData, expanded) {
 export function Tree_InsertNode(customTreeData, selectedNodeID) {
   var newNode = {
     title: 'New Node',
-    id: -1,
+    id: 999,
     text: 'Text here',
     expanded: true,
     statusList:['unsatisfied']
