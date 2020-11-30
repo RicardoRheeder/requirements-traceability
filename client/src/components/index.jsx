@@ -10,5 +10,7 @@ export { DocumentPanel } from './DocumentPanel'
 
 export { default as ModalComponent } from './Modal/ModalComponent'
 
+export { default as RequirementStatusContainer } from "./RequirementStatus/RequirementStatusContainer"
+
 export { default as CollaboratorPanel } from './CollaboratorPanel'
 export { default as CollaboratorIcon } from './CollaboratorIcon'

@@ -13,12 +13,12 @@
     position: relative;
     overflow-y: auto;
     display: block;
-    height: calc(100% - 270px);
+    height: calc(100% - 250px);
   }
 
   .add-remove-button-container {
     display: block;
-    height: 5%;
+    height: 50px;
     width: 100%;
     background: #2e2e2e;
   }
@@ -27,5 +27,9 @@
     margin: 10px 30px;
     font-size: 20px;
     min-width: 95px;
+  }
+
+  .document-searchbox-container{
+    height: 100px;
   }
 }

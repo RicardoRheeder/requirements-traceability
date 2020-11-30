@@ -17,13 +17,15 @@ export default function LeftContainer() {
   const [searchboxIsEmpty, setSearchboxIsEmpty] = useState(true)
   const [orderedDocList, setOrderedDocList] = useState([])
 
+  // use effect to fetch the user info when the component mounts
+  useEffect(() => {}, [docs])
+
   const updateSearch = (e) => {
     if (e.target.value.length == 0) {
       setSearchboxIsEmpty(true)
     } else {
       setSearchboxIsEmpty(false)
     }
-    console.log(searchboxIsEmpty)
     var matchingSearchs = []
     for (let i = 0; i < docs.length; i++) {
       var lowerCaseTitle = docs[i].title.toLowerCase()
@@ -33,7 +35,6 @@ export default function LeftContainer() {
         matchingSearchs[matchingSearchs.length] = docs[i]
       }
     }
-    console.log(matchingSearchs)
     setOrderedDocList(matchingSearchs)
   }
 
@@ -43,8 +44,10 @@ export default function LeftContainer() {
       orderedDocList.push(listOfDocs[i]);
     }
     if (orderedDocList.length != 0) {
+      
       return orderedDocList.map((document, i) => {
-        return <DocumentPanel document={document} key={i} />
+        let tempDoc = JSON.parse(JSON.stringify(document))
+        return <DocumentPanel document={tempDoc} key={i} />
       })
     }
     return (

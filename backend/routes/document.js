@@ -15,16 +15,19 @@ router.route('/create-document').post((req, res) => {
       title: 'Title of your requirement. (1)',
       text: 'Type contents of requirement here...',
       id: 1,
+      statusList: ['unsatisfied'],
     },
     {
       title: 'Title of your requirement. (2)',
-      id: 2,
       text: 'Type contents of requirement here...',
+      id: 2,
+      statusList: ['unsatisfied'],
       children: [
         {
-          title: 'Title of your requirement. (3)',
+          title: 'Title of your sub-requirement. (3)',
           text: 'Type contents of requirement here...',
           id: 3,
+          statusList: ['unsatisfied'],
         },
       ],
     },
@@ -39,7 +42,7 @@ router.route('/create-document').post((req, res) => {
     admin,
     collaborators,
     tree: JSON.stringify(tree),
-    statuses: [{"satisfied":"#00d084"}, {"unsatisfied":"#b80000"}, {"WIP":"#ffc107"}, {"review":"#FF5722"}],
+    statuses: {"satisfied":"#00d084", "unsatisfied":"#b80000", "WIP":"#ffc107", "review":"#FF5722"},
     versions: [JSON.stringify(newVersion)],
   })
 
@@ -261,7 +264,8 @@ router.route('/update-req/:id').patch((req, res) => {
 
       Document.findByIdAndUpdate(
         { _id: req.params.id },
-        { $set: { tree: JSON.stringify(combinedTree) } }
+        { $set: { tree: JSON.stringify(combinedTree) } },
+        { new: true }
       )
         .then((doc) => {
           res.json({

@@ -2,7 +2,12 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Hierarchy, CollaboratorPanel, CollaboratorIcon } from '../components'
+import {
+  Hierarchy,
+  CollaboratorPanel,
+  CollaboratorIcon,
+  RequirementStatusContainer,
+} from '../components'
 import SplitPane from 'react-split-pane'
 import TextareaAutosize from 'react-textarea-autosize'
 
@@ -20,6 +25,7 @@ import {
   setShouldPullFromDB,
 } from '../redux/stores/common/actions'
 import {
+  getStatusesAsync,
   getTreeAsync,
   sendDocAsync,
   sendReqAsync,
@@ -95,6 +101,7 @@ export default function Editor() {
     return () => {
       if (selectedDocObject != null) {
         if (selectedNodeId != 0) {
+          console.log('leaving editor')
           dispatch(
             sendReqAsyncOnUnmount(
               storeTreeData,
@@ -111,6 +118,11 @@ export default function Editor() {
       dispatch(updateDataTree([])) // resetting the local tree when leaving editor
     }
   }, [selectedDocObject, dispatch])
+
+  useEffect(() => {
+    if (selectedDocObject != null)
+      dispatch(getStatusesAsync(selectedDocObject._id))
+  }, [selectedDocObject])
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -183,7 +195,7 @@ export default function Editor() {
       )
       setTimeout(() => {
         dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-        dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+        // dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
       }, 100)
     }
   }
@@ -226,7 +238,7 @@ export default function Editor() {
     level += 1
     // console.log(indentVal);
     return struct.map(
-      ({ title, text, children, id, order, isBeingEdited }, i) => {
+      ({ title, text, children, id, order, statusList, isBeingEdited }, i) => {
         return (
           <div
             style={{ marginLeft: indentVal }}
@@ -261,18 +273,26 @@ export default function Editor() {
                 </span>
               </div>
 
-              {parseInt(id) == parseInt(selectedNodeId) ? (
-                <div className="right">
+              <div className="right">
+                <RequirementStatusContainer
+                  key={i}
+                  requirementStatuses={statusList}
+                  onFocusReq={onFocusRequirement}
+                  reqID={id}
+                  storeTreeData={storeTreeData}
+                  updateTree={updateTree}
+                />
+                {parseInt(id) == parseInt(selectedNodeId) ? (
                   <button
-                    className="orange-button"
+                    className="orange-button container-width"
                     onClick={() => offFocusRequirement(id)}
                   >
                     SUBMIT
                   </button>
-                </div>
-              ) : (
-                <></>
-              )}
+                ) : (
+                  <span className="container-width" />
+                )}
+              </div>
             </div>
             <TextareaAutosize
               type="text"

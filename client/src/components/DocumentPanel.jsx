@@ -15,6 +15,7 @@ import {
   updateCurrentDocument,
 } from '../redux/stores/document/actions'
 import { UpdateUserRecentDocsAsync } from '../redux/stores/user/actions'
+import { Tree_CountSatisfiedReqs } from '../utils/TreeNodeHelperFunctions'
 
 export const DocumentPanel = ({ document }) => {
   const { user } = useAuth0()
@@ -24,15 +25,28 @@ export const DocumentPanel = ({ document }) => {
   const selectedDocumentPanelObject = useSelector(
     (state) => state.common.selectedDocumentPanelObject
   )
+  const docs = useSelector((state) => state.document.documents)
 
   const [selectedVersionTree, setSelectedVersionTree] = useState()
   const [versionList, setVersionList] = useState([])
   const [currentDropDownVersion, setCurrentDropDownVersion] = useState('')
+  const [satisfiedArray, setSatisfiedArray] = useState([0, 0])
   const CURRENTWORKINGVERSION = 'Current working version'
 
   useEffect(() => {
     refreshVersionList()
   }, [document.versions])
+
+  useEffect(() => {
+    getStatusSatisfactory()
+  }, [docs])
+
+  function getStatusSatisfactory() {
+    if (document != null && document.tree != null) {
+      let tempArray = Tree_CountSatisfiedReqs(JSON.parse(document.tree))
+      setSatisfiedArray(tempArray)
+    }
+  }
 
   function refreshVersionList() {
     let tempVersionsList = []
@@ -92,6 +106,16 @@ export const DocumentPanel = ({ document }) => {
           ></img>
         </button>
         <h2 className="doc-panel-header">{document.title}</h2>
+        <div
+          className={
+            'status' +
+            (satisfiedArray[0] == satisfiedArray[1]
+              ? ' satisfied'
+              : ' unsatisfied')
+          }
+        >
+          {satisfiedArray[0] + '/' + satisfiedArray[1]}
+        </div>
       </div>
 
       <div className="doc-version-title">
