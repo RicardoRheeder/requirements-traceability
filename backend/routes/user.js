@@ -148,6 +148,44 @@ router.route('/get/recent-docs-with-email/:email').get((req, res) => {
     )
 })
 
+// getting users notifications using id
+router.route('/get/recent-notifications/:id').get((req, res) => {
+  const userID = req.params.id
+  User.findById(userID)
+    .populate('notifications')
+    .exec()
+    .then((user) => {
+      res.json({
+        message: 'Got the users notifications with the id that was given',
+        response: user.notifications,
+      })
+    })
+    .catch((err) =>
+      res.json({
+        message: 'Error: could not get users notifications with id given',
+        response: err,
+      })
+    )
+})
+
+// getting users notifications using email
+router.route('/get/recent-notifications-with-email/:email').get((req, res) => {
+  const email = req.params.email
+  User.findOne({ email: email })
+    .then((user) => {
+      res.json({
+        message: 'Got the users notifications with the email that was given',
+        response: user.notifications,
+      })
+    })
+    .catch((err) =>
+      res.json({
+        message: 'Error: could not get users notifications with email given',
+        response: err,
+      })
+    )
+})
+
 // Update Routes*****************************************
 
 // updating a specific user
@@ -182,48 +220,112 @@ router.route('/update/recent-docs/:email').patch((req, res) => {
   const email = req.params.email
   const documentID = req.body.id
 
-  User.findOne({ email: email })
-    .then((user) => {
-      // making a new array set to users recent docs array
-      let newArray = user.recent_docs
-      // checking if the users recent doc array is full
-      if (user.recent_docs.length >= 3) {
-        // removing old element and adding if not already in array
-        if (!newArray.includes(documentID)) {
-          newArray.pop()
-          newArray.unshift(documentID)
-        }
-      }
-      // if the recent doc array is not full add to it
-      else {
-        // adding new element to the start if id not already in array
-        if (!newArray.includes(documentID)) {
-          newArray.unshift(documentID)
-        }
-      }
-      User.findByIdAndUpdate(
-        { _id: user._id },
-        { $set: { recent_docs: newArray } }
-      )
-        .then((user) =>
-          res.json({
-            message: 'User recent docs array updated.',
-            response: user,
-          })
-        )
-        .catch((err) =>
-          res.status(400).json({
-            message: 'Error: user recent docs array could not be updated',
-            response: err,
-          })
-        )
+  // handling if the request body is undefined
+  if (!documentID) {
+    res.status(400).json({
+      message: 'Error: document id string is undefined',
+      response: null,
     })
-    .catch((err) =>
-      res.status(400).json({
-        message: 'Error: user could not be found with id',
-        response: err,
+  } else {
+    User.findOne({ email: email })
+      .then((user) => {
+        // making a new array set to users recent docs array
+        let newArray = user.recent_docs
+        // checking if the users recent doc array is full
+        if (user.recent_docs.length >= 3) {
+          // removing old element and adding if not already in array
+          if (!newArray.includes(documentID)) {
+            newArray.pop()
+            newArray.unshift(documentID)
+          }
+        }
+        // if the recent doc array is not full add to it
+        else {
+          // adding new element to the start if id not already in array
+          if (!newArray.includes(documentID)) {
+            newArray.unshift(documentID)
+          }
+        }
+        User.findByIdAndUpdate(
+          { _id: user._id },
+          { $set: { recent_docs: newArray } },
+          { new: true }
+        )
+          .then((user) =>
+            res.json({
+              message: 'User recent docs array updated.',
+              response: user,
+            })
+          )
+          .catch((err) =>
+            res.status(400).json({
+              message: 'Error: user recent docs array could not be updated',
+              response: err,
+            })
+          )
       })
-    )
+      .catch((err) =>
+        res.status(400).json({
+          message: 'Error: user could not be found with email',
+          response: err,
+        })
+      )
+  }
+})
+
+// updating a users recent notifications field
+router.route('/update/recent-notifications/:email').patch((req, res) => {
+  const email = req.params.email
+  const notificationString = req.body.notificationString
+  // handling if notification string is undefined
+  if (!notificationString) {
+    res.status(400).json({
+      message: 'Error: notifications string is undefined',
+      response: null,
+    })
+  } else {
+    User.findOne({ email: email })
+      .then((user) => {
+        // making a new array set to users recent notifications array
+        let newArray = user.notifications
+        // checking if the users recent doc array is full
+        if (user.notifications.length >= 10) {
+          // removing old element and adding new element
+          newArray.pop()
+          newArray.unshift(notificationString)
+        }
+        // if the recent doc array is not full add to it
+        else {
+          // adding new element to the start if id not already in array
+          newArray.unshift(notificationString)
+        }
+        // updating user notifications array
+        User.findByIdAndUpdate(
+          { _id: user._id },
+          { $set: { notifications: newArray } },
+          { new: true }
+        )
+          .then((user) =>
+            res.json({
+              message: 'User recent notifications array updated.',
+              response: user,
+            })
+          )
+          .catch((err) =>
+            res.status(400).json({
+              message:
+                'Error: user recent notifications array could not be updated',
+              response: err,
+            })
+          )
+      })
+      .catch((err) =>
+        res.status(400).json({
+          message: 'Error: user could not be found with email',
+          response: err,
+        })
+      )
+  }
 })
 
 // Delete Routes*****************************************
