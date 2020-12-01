@@ -129,7 +129,6 @@ export default function Hierarchy({
       dispatch(setCurrentDocVersion(CURRENTWORKINGVERSION))
       dispatch(setShouldPullFromDB(true))
       setCurrentDropDownVersion(CURRENTWORKINGVERSION)
-
     }
   }
 

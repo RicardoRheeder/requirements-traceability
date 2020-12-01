@@ -42,7 +42,12 @@ router.route('/create-document').post((req, res) => {
     admin,
     collaborators,
     tree: JSON.stringify(tree),
-    statuses: {"satisfied":"#00d084", "unsatisfied":"#b80000", "WIP":"#ffc107", "review":"#FF5722"},
+    statuses: {
+      satisfied: '#00d084',
+      unsatisfied: '#b80000',
+      WIP: '#ffc107',
+      review: '#FF5722',
+    },
     versions: [JSON.stringify(newVersion)],
   })
 
@@ -144,12 +149,19 @@ router.route('/get-statuses/:id').get((req, res) => {
   const docID = req.params.id
 
   Document.findById(docID, 'statuses')
-  .populate('stauses')
-  .exec()
-  .then((statuses) => 
-    res.json({ message: 'statuses found', response: statuses})
-  )
-  .catch((error) => res.status(400).json({ message: `Error: could not find document with id - ${docID}`, response: error}))
+    .populate('stauses')
+    .exec()
+    .then((statuses) =>
+      res.json({ message: 'statuses found', response: statuses })
+    )
+    .catch((error) =>
+      res
+        .status(400)
+        .json({
+          message: `Error: could not find document with id - ${docID}`,
+          response: error,
+        })
+    )
 })
 
 // Update Routes*****************************************
@@ -324,20 +336,26 @@ router.route('/set-statuses/:id').patch((req, res) => {
   const newStatuses = req.body.statuses
   const docID = req.params.id
 
-  Document.findByIdAndUpdate(docID,
+  Document.findByIdAndUpdate(
+    docID,
     {
-      $set: {statuses: newStatuses}
+      $set: { statuses: newStatuses },
     },
     // Return the document after the array has been set, not before
-    {new: true}
+    { new: true }
   )
-  .then((doc) => 
-  res.json({ message: "Statuses set successfully", response: doc}
-  ))
+    .then((doc) =>
+      res.json({ message: 'Statuses set successfully', response: doc })
+    )
 
-  .catch((error) => 
-  res.status(400).json({message: `Error: could not find document with id - ${docID}`, response: error})
-  )
+    .catch((error) =>
+      res
+        .status(400)
+        .json({
+          message: `Error: could not find document with id - ${docID}`,
+          response: error,
+        })
+    )
 })
 
 // Set the document title for a given document
@@ -345,22 +363,27 @@ router.route('/set-title/:id').patch((req, res) => {
   const newTitle = req.body.title
   const docID = req.params.id
 
-  Document.findByIdAndUpdate(docID,
+  Document.findByIdAndUpdate(
+    docID,
     {
-      $set: {title: newTitle}
+      $set: { title: newTitle },
     },
     // Return the document after the array has been set, not before
-    {new: true}
+    { new: true }
   )
-  .then((doc) => 
-  res.json({ message: "Document title set successfully", response: doc}
-  ))
+    .then((doc) =>
+      res.json({ message: 'Document title set successfully', response: doc })
+    )
 
-  .catch((error) => 
-  res.status(400).json({message: `Error: could not find document with id - ${docID}`, response: error})
-  )
+    .catch((error) =>
+      res
+        .status(400)
+        .json({
+          message: `Error: could not find document with id - ${docID}`,
+          response: error,
+        })
+    )
 })
-
 
 // Delete Routes*****************************************
 
@@ -421,7 +444,7 @@ router.route('/delete/:id').delete((req, res) => {
     })
     .catch((err) => {
       res.status(400).json({
-        message: 'Error: Could not find Document with id: '+ docID,
+        message: 'Error: Could not find Document with id: ' + docID,
         response: err,
       })
     })

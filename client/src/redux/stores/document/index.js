@@ -35,7 +35,11 @@ import {
   GET_STATUSES_SUCCESS,
   SET_DOC_TITLE_START,
   SET_DOC_TITLE_FAILURE,
-  SET_DOC_TITLE_SUCCESS
+  SET_DOC_TITLE_SUCCESS,
+  SET_CURRENT_DOC,
+  FETCH_DOC_COLLABORATORS_START,
+  FETCH_DOC_COLLABORATORS_SUCCESS,
+  FETCH_DOC_COLLABORATORS_FAILURE,
 } from './actionTypes'
 
 import initialState from './initialState'
@@ -113,36 +117,56 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false }
 
     // Getting a single doc
+    case FETCH_DOC_COLLABORATORS_START:
+      return { ...state, isFetching: true }
+    case FETCH_DOC_COLLABORATORS_FAILURE:
+      return { ...state, isFetching: false, error: action.data }
+    case FETCH_DOC_COLLABORATORS_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        current_document_collaborators: action.data,
+      }
+
+    // Getting a doc collaborators
     case FETCH_DOC_START:
       return { ...state, isFetching: true }
     case FETCH_DOC_FAILURE:
       return { ...state, isFetching: false, error: action.data }
     case FETCH_DOC_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        current_doc: action.data,
+      }
+
+    // setting the current doc
+    case SET_CURRENT_DOC:
       return { ...state, isFetching: false, current_doc: action.data }
 
     // Getting the statuses array for a document
     case GET_STATUSES_START:
-      return { ...state, isFetching: true}
+      return { ...state, isFetching: true }
     case GET_STATUSES_FAILURE:
-      return { ...state, isFetching: false, error: action.data}
+      return { ...state, isFetching: false, error: action.data }
     case GET_STATUSES_SUCCESS:
-      return { ...state, isFetching: false, fetchedStatuses: action.data}
+      return { ...state, isFetching: false, fetchedStatuses: action.data }
 
     // Setting the statuses array for a document
     case SET_STATUSES_START:
-      return { ...state, isFetching: true}
+      return { ...state, isFetching: true }
     case SET_STATUSES_FAILURE:
-      return { ...state, isFetching: false, error: action.data}
+      return { ...state, isFetching: false, error: action.data }
     case SET_STATUSES_SUCCESS:
-      return { ...state, isFetching: false, success: action.data}
+      return { ...state, isFetching: false, success: action.data }
 
     // Setting the document title
     case SET_DOC_TITLE_START:
-        return { ...state, isFetching: true}
+      return { ...state, isFetching: true }
     case SET_DOC_TITLE_FAILURE:
-        return { ...state, isFetching: false, error: action.data}
+      return { ...state, isFetching: false, error: action.data }
     case SET_DOC_TITLE_SUCCESS:
-        return { ...state, isFetching: false, success: action.data}
+      return { ...state, isFetching: false, success: action.data }
 
     default:
       return state
