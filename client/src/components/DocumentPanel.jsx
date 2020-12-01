@@ -13,6 +13,7 @@ import {
 import {
   getDocAsync,
   setCurrentDoc,
+  setFetchedTree,
   updateCurrentDocument,
 } from '../redux/stores/document/actions'
 import { UpdateUserRecentDocsAsync } from '../redux/stores/user/actions'
@@ -82,7 +83,9 @@ export const DocumentPanel = ({ document }) => {
     // dispatch(getDocAsync(document._id))
     dispatch(setCurrentDoc(document))
     // updating the selected version
-    dispatch(updateDataTree(selectedVersionTree))
+    // dispatch(updateDataTree(selectedVersionTree))
+    dispatch(updateDataTree(JSON.parse(selectedDocumentPanelObject.tree)))
+    dispatch(setFetchedTree(JSON.parse(selectedDocumentPanelObject.tree)))
     // setting the current version of the document
     dispatch(setCurrentDocVersion(CURRENTWORKINGVERSION))
     // updating recent docs array

@@ -40,6 +40,7 @@ import {
   FETCH_DOC_COLLABORATORS_START,
   FETCH_DOC_COLLABORATORS_SUCCESS,
   FETCH_DOC_COLLABORATORS_FAILURE,
+  SET_FETCHED_TREE,
 } from './actionTypes'
 
 import initialState from './initialState'
@@ -91,6 +92,10 @@ export default (state = initialState, action) => {
       return { ...state, isFetching: false, error: action.data }
     case GET_TREE_SUCCESS:
       return { ...state, isFetching: false, fetchedTree: action.data }
+
+    // action for setting fetched tree
+    case SET_FETCHED_TREE:
+      return { ...state, fetchedTree: action.data }
 
     // sending tree actions
     case SEND_DOC_START:
