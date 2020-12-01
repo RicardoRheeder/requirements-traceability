@@ -56,6 +56,7 @@ deploy_doc_tracer:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     # deploy updates
     - ssh root@cmpt371.persea.ca "cd requirements-traceability/backend && git pull origin master && npm install && cd ../client && npm install"
+    - ssh root@cmpt371.persea.ca "cd requirements-traceability && pm2 startOrRestart ecosystem.config.yml"
   environment:
     name: doc_tracer
     url: cmpt371.persea.ca
