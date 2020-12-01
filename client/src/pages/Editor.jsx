@@ -30,6 +30,7 @@ import {
   sendDocAsync,
   sendReqAsync,
   sendReqAsyncOnUnmount,
+  setDocTitleAsync,
 } from '../redux/stores/document/actions'
 
 var selectedNodeId = 0
@@ -313,6 +314,9 @@ export default function Editor() {
       }
     )
   }
+  const updateDocName = e => {
+      dispatch(setDocTitleAsync(selectedDocObject._id,e.target.textContent))
+  }
   return (
     <div className="editor-root">
       <SplitPane
@@ -335,7 +339,9 @@ export default function Editor() {
           <h1>
             {selectedDocObject != null ? (
               <>
+                <label contentEditable="true" onBlur={updateDocName}>
                 {selectedDocObject.title}
+                </label>
                 <span className="doc-version-title">
                   {'(version: ' + selectedDocVersion + ')'}
                 </span>
