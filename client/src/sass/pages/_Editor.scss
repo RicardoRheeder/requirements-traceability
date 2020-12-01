@@ -6,6 +6,23 @@
     min-width: 100%;
   }
 
+  .editor-row_inputfield {
+    input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      font-size: 1.1rem;
+      color: #f2f2f2;
+
+      font-size: 26px !important;
+      font-style: normal;
+      font-variant: normal;
+      font-weight: 700;
+      line-height: 26.4px;
+      text-decoration: underline;
+    }
+  }
+
   .Pane {
     overflow: auto;
     // top: 100px;

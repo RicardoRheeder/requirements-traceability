@@ -34,8 +34,10 @@ import {
   sendReqAsyncOnUnmount,
   setCurrentDoc,
   setFetchedTree,
+  setDocTitleAsync,
 } from '../redux/stores/document/actions'
 import { UpdateUserNotificationsAsync } from '../redux/stores/user/actions'
+import AutosizeInput from 'react-input-autosize'
 
 var selectedNodeId = 0
 function useInterval(callback, delay) {
@@ -62,7 +64,7 @@ export default function Editor() {
   const { user } = useAuth0()
   const dispatch = useDispatch()
   const paneRef = useRef(null)
-
+  const [documentName, setDocumentName] = useState('')
   const shouldPullFromDB = useSelector(
     (state) => state.common.shouldPullFromDB,
     true
@@ -103,6 +105,7 @@ export default function Editor() {
       // dispatch(getDocAsync(current_doc._id))
       dispatch(getDocCollaboratorsAsync(current_doc._id))
       // updateTree(JSON.parse(current_doc.tree))
+      setDocumentName(current_doc.title)
     }
   }, [])
 
@@ -139,8 +142,7 @@ export default function Editor() {
   }, [current_doc, dispatch])
 
   useEffect(() => {
-    if (current_doc != null)
-      dispatch(getStatusesAsync(current_doc._id))
+    if (current_doc != null) dispatch(getStatusesAsync(current_doc._id))
   }, [current_doc])
 
   /**
@@ -243,6 +245,14 @@ export default function Editor() {
     selectedNodeId = id
   }
 
+  const updateDocName = (e) => {
+    dispatch(setDocTitleAsync(current_doc._id, documentName))
+  }
+
+  const onChangeDocumentName = (event) => {
+    setDocumentName(event.target.value)
+  }
+
   /**
    * Receives an array of objects (i.e. the tree or a children property)
    * For each object, a div is returned to represent a section of the tree
@@ -332,6 +342,7 @@ export default function Editor() {
       }
     )
   }
+
   return (
     <div className="editor-root">
       <SplitPane
@@ -354,7 +365,13 @@ export default function Editor() {
           <h1>
             {current_doc != null ? (
               <>
-                {current_doc.title}
+                <AutosizeInput
+                  className="editor-row_inputfield"
+                  value={documentName}
+                  style={{ background: 'transparent' }}
+                  onChange={onChangeDocumentName}
+                  onBlur={updateDocName}
+                />
                 <span className="doc-version-title">
                   {'(version: ' + selectedDocVersion + ')'}
                 </span>
