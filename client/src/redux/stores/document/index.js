@@ -119,7 +119,7 @@ export default (state = initialState, action) => {
     case COMMIT_TREE_FAILURE:
       return { ...state, isFetching: false, error: action.data }
     case COMMIT_TREE_SUCCESS:
-      return { ...state, isFetching: false }
+      return { ...state, isFetching: false, current_doc: action.data }
 
     // Getting a single doc
     case FETCH_DOC_COLLABORATORS_START:

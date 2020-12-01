@@ -255,6 +255,8 @@ export const commitTreeStart = () => {
 }
 
 export const commitTreeSuccess = (doc) => {
+  console.log("TEST COMMIT")
+  console.log(doc)
   return {
     type: COMMIT_TREE_SUCCESS,
     data: doc.data.response,

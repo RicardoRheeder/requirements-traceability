@@ -110,9 +110,14 @@ export default function Editor() {
   }, [])
 
   useEffect(() => {
-    if (current_doc != null) {
-      let tree = JSON.parse(current_doc.tree)
-      if (!tree[0].hasOwnProperty('uniqueID')) {
+    if (current_doc != null && current_doc != {}) {
+      let tree = {}
+      if (typeof current_doc.tree === 'string') {
+        tree = JSON.parse(current_doc.tree)
+      } else {
+        tree = current_doc.tree
+      }
+      if (tree && tree.length > 0 && !tree[0].hasOwnProperty('uniqueID')) {
         var td = Tree_Update(tree)
         dispatch(sendDocAsync(JSON.stringify(td), current_doc._id))
       }

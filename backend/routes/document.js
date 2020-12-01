@@ -313,7 +313,8 @@ router.route('/commit-doc/:id').patch((req, res) => {
     {
       $addToSet: { versions: JSON.stringify(newVersion) },
       $set: { tree: newTree },
-    }
+    },
+    {new: true}
   )
     .then((doc) =>
       res.json({
