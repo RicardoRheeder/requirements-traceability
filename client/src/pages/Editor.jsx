@@ -246,6 +246,17 @@ export default function Editor() {
   }
 
   const updateDocName = (e) => {
+    dispatch(
+      UpdateUserNotificationsAsync(
+        current_doc._id,
+        user.nickname +
+          " changed the title of document '" +
+          current_doc.title +
+          "' to '" +
+          documentName +
+          "'"
+      )
+    )
     dispatch(setDocTitleAsync(current_doc._id, documentName))
   }
 
