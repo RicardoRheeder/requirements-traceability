@@ -238,11 +238,11 @@ export const getTreeFailure = (error) => {
 }
 
 // async action for getting tree structure
-export const getTreeAsync = (request) => {
+export const getTreeAsync = (docObj) => {
   return (dispatch) => {
     dispatch(getTreeStart())
     axios
-      .get(`${url}/documents/get-tree/${request._id}`)
+      .get(`${url}/documents/get-tree/${docObj._id}`)
       .then((doc) => dispatch(getTreeSuccess(doc)))
       .catch((err) => dispatch(getTreeFailure(err)))
   }
@@ -256,7 +256,7 @@ export const commitTreeStart = () => {
 
 export const commitTreeSuccess = (doc) => {
   console.log("TEST COMMIT")
-  console.log(doc)
+  console.log(doc.data.response)
   return {
     type: COMMIT_TREE_SUCCESS,
     data: doc.data.response,
@@ -308,7 +308,7 @@ export const sendDocFailure = () => {
 //send the document (tree structure) to the backend
 export const sendDocAsync = (treeData, docID) => {
   return (dispatch) => {
-    dispatch(commitTreeStart())
+    dispatch(sendDocStart())
     axios
       .patch(`${url}/documents/update-tree/${docID}`, { tree: treeData })
       .then((doc) => {
@@ -524,6 +524,8 @@ export const getStatusesFailure = (res) => {
 
 // get the statuses array asynchronously
 export const getStatusesAsync = (docID) => {
+  console.log("DOC ID")
+  console.log(docID)
   return (dispatch) => {
     dispatch(getStatusesStart())
     axios

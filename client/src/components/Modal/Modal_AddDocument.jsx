@@ -6,6 +6,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { setModalObject } from '../../redux/stores/common/actions'
 import { useAuth0 } from '@auth0/auth0-react'
+import { fetchUserRecentDocsAsync } from '../../redux/stores/user/actions'
 
 export default function Modal_AddDocument() {
   const { user } = useAuth0()
@@ -22,7 +23,8 @@ export default function Modal_AddDocument() {
     dispatch(createDocAsync(newDoc))
     setDoc({ title: '' })
     dispatch(setModalObject({ visible: false, mode: 0 }))
-    dispatch(fetchUserDocsAsync(user))
+
+    dispatch(fetchUserRecentDocsAsync(user.email))
   }
 
   const handleChange = (e) => {
@@ -39,11 +41,7 @@ export default function Modal_AddDocument() {
           <input className="modal-input" onChange={handleChange} />
 
           <div className="button-container">
-            <button
-              className="orange-button modal-button"
-            >
-              Submit
-            </button>
+            <button className="orange-button modal-button">Submit</button>
             <button
               className="orange-button modal-button"
               onClick={() =>

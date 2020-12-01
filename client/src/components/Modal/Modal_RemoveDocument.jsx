@@ -27,9 +27,8 @@ export default function Modal_RemoveDocument() {
     }
     setDoc({ title: '' })
     dispatch(setModalObject({ visible: false, mode: 0 }))
-    dispatch(fetchUserDocsAsync(user))
-    dispatch(fetchUserRecentDocsAsync(user.email))
 
+    dispatch(fetchUserRecentDocsAsync(user.email))
   }
 
   const handleChange = (e) => {
@@ -57,9 +56,7 @@ export default function Modal_RemoveDocument() {
           <input className="modal-input" onChange={handleChange} />
 
           <div className="button-container">
-            <button className="orange-button modal-button">
-              Submit
-            </button>
+            <button className="orange-button modal-button">Submit</button>
             <button
               className="orange-button modal-button"
               onClick={() =>

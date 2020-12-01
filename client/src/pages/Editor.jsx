@@ -83,7 +83,14 @@ export default function Editor() {
   )
 
   useInterval(() => {
-    if (current_doc != null && shouldPullFromDB == true) {
+    if (
+      current_doc != null &&
+      shouldPullFromDB == true &&
+      Object.keys(current_doc).length != 0
+    ) {
+      console.log('Current doc')
+      console.log(current_doc)
+
       dispatch(getTreeAsync(current_doc))
       // console.log('Pull tree from database')
 
@@ -120,6 +127,7 @@ export default function Editor() {
       if (tree && tree.length > 0 && !tree[0].hasOwnProperty('uniqueID')) {
         var td = Tree_Update(tree)
         dispatch(sendDocAsync(JSON.stringify(td), current_doc._id))
+        // dispatch(getStatusesAsync(current_doc._id))
       }
     }
 
@@ -147,7 +155,8 @@ export default function Editor() {
   }, [current_doc, dispatch])
 
   useEffect(() => {
-    if (current_doc != null) dispatch(getStatusesAsync(current_doc._id))
+    if (current_doc != null && current_doc != {})
+      dispatch(getStatusesAsync(current_doc._id))
   }, [current_doc])
 
   /**
