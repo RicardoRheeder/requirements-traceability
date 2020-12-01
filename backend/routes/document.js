@@ -139,7 +139,6 @@ router.route('/get-collabs/:id').get((req, res) => {
     .populate('collaborators')
     .exec()
     .then((collabs) => {
-      console.log(collabs)
       res.json({ message: 'collaborators found', response: collabs })
     })
     .catch((error) => res.json({ message: 'Error:', response: error }))
