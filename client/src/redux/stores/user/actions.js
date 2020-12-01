@@ -137,7 +137,7 @@ export const UpdateUserRecentDocsAsync = (user_email, doc_id) => {
     // making a get request for recent docs
     axios
       .patch(`${url}/update/recent-docs/${user_email}`, { id: doc_id })
-      .then(() => dispatch(UpdateUserRecentDocsSuccess()))
+      .then((docs) => dispatch(UpdateUserRecentDocsSuccess(docs)))
       .catch((err) => dispatch(UpdateUserRecentDocsFailure(err)))
   }
 }
