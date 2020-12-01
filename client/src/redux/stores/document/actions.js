@@ -40,6 +40,7 @@ import {
   FETCH_DOC_COLLABORATORS_START,
   FETCH_DOC_COLLABORATORS_SUCCESS,
   FETCH_DOC_COLLABORATORS_FAILURE,
+  SET_FETCHED_TREE,
 } from './actionTypes'
 
 import { Tree_GetRequirementObject } from '../../../utils/TreeNodeHelperFunctions'
@@ -561,5 +562,13 @@ export const setDocTitleAsync = (docID, docTitle) => {
       .patch(`${url}/documents/set-title/${docID}`, { title: docTitle })
       .then((res) => dispatch(setDocTitleSuccess(res)))
       .catch((error) => dispatch(setDocTitleFailure(error)))
+  }
+}
+
+// Setting fetched tree actions **********************
+export const setFetchedTree = (tree) => {
+  return {
+    type: SET_FETCHED_TREE,
+    data: tree,
   }
 }

@@ -63,6 +63,9 @@ export const SET_DOC_TITLE_SUCCESS = 'SET_DOC_TITLE_SUCCESS'
 // action for setting current doc
 export const SET_CURRENT_DOC = 'SET_CURRENT_DOC'
 
+// action for setting fetched tree
+export const SET_FETCHED_TREE = 'SET_FETCHED_TREE'
+
 // action for fetching collaborators
 export const FETCH_DOC_COLLABORATORS_START = 'FETCH_DOC_COLLABORATORS_START'
 export const FETCH_DOC_COLLABORATORS_SUCCESS = 'FETCH_DOC_COLLABORATORS_SUCCESS'

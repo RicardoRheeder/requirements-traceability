@@ -32,6 +32,8 @@ import {
   sendDocAsync,
   sendReqAsync,
   sendReqAsyncOnUnmount,
+  setCurrentDoc,
+  setFetchedTree,
 } from '../redux/stores/document/actions'
 import { UpdateUserNotificationsAsync } from '../redux/stores/user/actions'
 
@@ -96,6 +98,7 @@ export default function Editor() {
     if (selectedDocObject != null) {
       // dispatch(getDocAsync(selectedDocObject._id))
       dispatch(getDocCollaboratorsAsync(selectedDocObject._id))
+      // updateTree(JSON.parse(selectedDocObject.tree))
     }
   }, [])
 
@@ -126,6 +129,8 @@ export default function Editor() {
         dispatch(setShouldPullFromDB(true)) // Don't pull when focussing on a requirement
       }
       dispatch(updateDataTree([])) // resetting the local tree when leaving editor
+      dispatch(setCurrentDoc({}))
+      dispatch(setFetchedTree(JSON.stringify([])))
     }
   }, [selectedDocObject, dispatch])
 
