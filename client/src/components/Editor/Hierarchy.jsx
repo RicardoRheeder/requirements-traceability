@@ -241,23 +241,26 @@ export default function Hierarchy({
    * Delete a node in the structure, then calls the updateTree function on it
    * @param {string} name - the name/title to update the node with
    */
-  const updateNodeName = (name) => {
-    // console.log(name)
-    var td = Tree_UpdateNodeName(customTreeData, selectedNodeId, name)
+  const updateNodeName = (event) => {
+    var td = Tree_UpdateNodeName(
+      customTreeData,
+      selectedNodeId,
+      event.target.value
+    )
     updateTree(td)
 
-    // Get requirement we are editing, and remove the user's name from it
-    var requirement = JSON.stringify(
-      Tree_GetRequirementObject(
-        storeTreeData,
-        selectedNodeId,
-        user.nickname,
-        user.nickname
-      )
-    )
+    // // Get requirement we are editing, and remove the user's name from it
+    // var requirement = JSON.stringify(
+    //   Tree_GetRequirementObject(
+    //     storeTreeData,
+    //     selectedNodeId,
+    //     user.nickname,
+    //     user.nickname
+    //   )
+    // )
 
-    dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-    // dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
+    // dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+    // // dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
   }
 
   /**
@@ -286,6 +289,8 @@ export default function Hierarchy({
       let id = node.id
       console.log(id)
       if (id != selectedNodeId) {
+        dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
+
         // console.log(id + ' ' + selectedNodeId)
         if (selectedNodeId != 0) {
           dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
@@ -316,7 +321,7 @@ export default function Hierarchy({
         )
         setTimeout(() => {
           dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-          dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+          // dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
         }, 100)
       }
     }
@@ -462,10 +467,10 @@ export default function Hierarchy({
                       className="row_inputfield"
                       value={rowInfo.node.title}
                       style={{ background: 'transparent' }}
-                      onChange={(event) => {
-                        const name = event.target.value
-                        updateNodeName(name)
-                      }}
+                      onChange={updateNodeName}
+                      onFocus={(event) =>
+                        onFocusRequirement(event, rowInfo.node)
+                      }
                     />
                   </span>
                 ),

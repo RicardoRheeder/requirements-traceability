@@ -88,7 +88,11 @@ export default function Editor() {
       if (fetchedTree != null) {
         let treeFromDB = null
         // Update the isBeingEdited field with the user's nickname
-        treeFromDB = JSON.parse(fetchedTree)
+        if (typeof fetchedTree === 'string') {
+          treeFromDB = JSON.parse(fetchedTree)
+        } else {
+          treeFromDB = fetchedTree
+        }
         updateTree(treeFromDB)
       }
     }
@@ -225,7 +229,7 @@ export default function Editor() {
     )
     setTimeout(() => {
       dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-      dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+      // dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
       dispatch(setShouldPullFromDB(true)) // Start pulling documents from the database again
     }, 100)
   }
