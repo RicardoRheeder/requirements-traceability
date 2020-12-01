@@ -205,7 +205,12 @@ export default function Editor() {
       )
       setTimeout(() => {
         dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-        dispatch(UpdateUserNotificationsAsync(user.email, 'test test'))
+        dispatch(
+          UpdateUserNotificationsAsync(
+            selectedDocObject._id,
+            'Faiz selected req'
+          )
+        )
         // dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
       }, 100)
     }
