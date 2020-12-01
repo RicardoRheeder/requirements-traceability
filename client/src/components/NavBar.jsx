@@ -11,10 +11,10 @@ export default function NavBar() {
   return (
     <div className="navbar-root fixed-top">
       <NavLink to={'/'} id="NavToRoot">
-      <img
-        className="nav-icon"
-        src="./assets/images/Doc_Tracer_Icon_1_gradient.png"
-      ></img>
+        <img
+          className="nav-icon"
+          src="./assets/images/Doc_Tracer_Icon_1_gradient.png"
+        ></img>
       </NavLink>
       <div className="navbar-options-container">
         <ul className="navbar-option text-uppercase">
@@ -29,9 +29,9 @@ export default function NavBar() {
           )}
           {isAuthenticated ? (
             <li className="nav-item">
-              <NavLink to={'/editor'} id="NavToEditor">
+              {/* <NavLink to={'/editor'} id="NavToEditor">
                 <div className="nav-link">Editor</div>
-              </NavLink>
+              </NavLink> */}
             </li>
           ) : (
             <></>
