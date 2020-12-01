@@ -6,7 +6,6 @@ export default function RightContainer() {
   const notifications = useSelector((state) => state.user.notifications)
 
   const renderRecentNotifications = (notifications) => {
-    console.log(notifications)
     if (notifications != null && Array.isArray(notifications)) {
       return notifications.map((notification, i) => {
         return <NotificationCard notification={notification} key={i} />
