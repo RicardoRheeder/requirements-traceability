@@ -193,21 +193,17 @@ export const UpdateUserNotificationsFailure = (errorMessage) => {
   }
 }
 
-export const UpdateUserNotificationsAsync = (
-  user_email,
-  notificationString
-) => {
+export const UpdateUserNotificationsAsync = (docID, notificationString) => {
   return (dispatch) => {
     dispatch(UpdateUserNotificationsStart())
     // making a get request for recent docs
     axios
-      .patch(`${url}/update/recent-notifications/${user_email}`, {
+      .patch(`${url}/update/recent-notifications/${docID}`, {
         notificationString: notificationString,
       })
-      .then((notifications) =>{
+      .then((notifications) => {
         dispatch(UpdateUserNotificationsSuccess(notifications))
-      }
-      )
+      })
       .catch((err) => dispatch(UpdateUserNotificationsFailure(err)))
   }
 }

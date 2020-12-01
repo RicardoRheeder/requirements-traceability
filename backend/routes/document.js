@@ -138,9 +138,10 @@ router.route('/get-collabs/:id').get((req, res) => {
   Document.findById(docID, 'collaborators')
     .populate('collaborators')
     .exec()
-    .then((collabs) =>
+    .then((collabs) => {
+      console.log(collabs)
       res.json({ message: 'collaborators found', response: collabs })
-    )
+    })
     .catch((error) => res.json({ message: 'Error:', response: error }))
 })
 
@@ -155,12 +156,10 @@ router.route('/get-statuses/:id').get((req, res) => {
       res.json({ message: 'statuses found', response: statuses })
     )
     .catch((error) =>
-      res
-        .status(400)
-        .json({
-          message: `Error: could not find document with id - ${docID}`,
-          response: error,
-        })
+      res.status(400).json({
+        message: `Error: could not find document with id - ${docID}`,
+        response: error,
+      })
     )
 })
 
@@ -349,12 +348,10 @@ router.route('/set-statuses/:id').patch((req, res) => {
     )
 
     .catch((error) =>
-      res
-        .status(400)
-        .json({
-          message: `Error: could not find document with id - ${docID}`,
-          response: error,
-        })
+      res.status(400).json({
+        message: `Error: could not find document with id - ${docID}`,
+        response: error,
+      })
     )
 })
 
@@ -376,12 +373,10 @@ router.route('/set-title/:id').patch((req, res) => {
     )
 
     .catch((error) =>
-      res
-        .status(400)
-        .json({
-          message: `Error: could not find document with id - ${docID}`,
-          response: error,
-        })
+      res.status(400).json({
+        message: `Error: could not find document with id - ${docID}`,
+        response: error,
+      })
     )
 })
 
