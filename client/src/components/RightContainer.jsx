@@ -12,15 +12,15 @@ export default function RightContainer() {
       })
     }
     return (
-      <div className="left-container-placeholder">
-        <h2>No existing notifications.</h2>
+      <div className="right-container-placeholder">
+        <div className="notification-header">No existing notifications.</div>
       </div>
     )
   }
 
   return (
     <div className="right-container">
-      <h1>Notifications: </h1>
+      <div className="notification-header">Notifications: </div>
       {renderRecentNotifications(notifications)}
     </div>
   )

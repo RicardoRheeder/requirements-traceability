@@ -105,11 +105,9 @@ export const DocumentPanel = ({ document }) => {
       onDoubleClick={openDocumentIntoEditor}
     >
       <div className="document-panel-title">
-        <button className="add-person-button" onClick={inviteUserButton}>
-          <img
-            className="add-person-button-image"
-            src="./assets/images/add-friend-icon.png"
-          ></img>
+        <button className="add-person-button" style={{
+            backgroundImage: `url('./assets/images/add-friend-icon.png')`,
+          }} onClick={inviteUserButton}>
         </button>
         <h2 className="doc-panel-header">{document.title}</h2>
         <div

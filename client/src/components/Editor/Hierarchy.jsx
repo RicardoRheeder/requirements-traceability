@@ -213,7 +213,6 @@ export default function Hierarchy({
    */
   const deleteNode = () => {
     var reqName = Tree_GetNodeTitle(customTreeData, selectedNodeId)
-    console.log(reqName)
 
     // TreeData retrieved from function - has deleted node
     var td = Tree_DeleteNode(customTreeData, 'id', selectedNodeId)
@@ -248,19 +247,6 @@ export default function Hierarchy({
       event.target.value
     )
     updateTree(td)
-
-    // // Get requirement we are editing, and remove the user's name from it
-    // var requirement = JSON.stringify(
-    //   Tree_GetRequirementObject(
-    //     storeTreeData,
-    //     selectedNodeId,
-    //     user.nickname,
-    //     user.nickname
-    //   )
-    // )
-
-    // dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-    // // dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
   }
 
   /**
