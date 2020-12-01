@@ -30,8 +30,10 @@ import {
   Tree_ExpandData,
   Tree_UpdateNodeName,
   Tree_GetRequirementObject,
+  Tree_GetNodeTitle,
 } from '../../utils/TreeNodeHelperFunctions'
 import ReactDropdown from 'react-dropdown'
+import { UpdateUserNotificationsAsync } from '../../redux/stores/user/actions'
 
 export default function Hierarchy({
   scrollToElementFunction,
@@ -196,12 +198,23 @@ export default function Hierarchy({
     updateTree(td)
 
     dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
+    dispatch(
+      UpdateUserNotificationsAsync(
+        selectedDocObject._id,
+        user.nickname +
+          ' created a new requirement within ' +
+          selectedDocObject.title
+      )
+    )
   }
 
   /**
    * Delete a node in the structure, then calls the updateTree function on it
    */
   const deleteNode = () => {
+    var reqName = Tree_GetNodeTitle(customTreeData, selectedNodeId)
+    console.log(reqName)
+
     // TreeData retrieved from function - has deleted node
     var td = Tree_DeleteNode(customTreeData, 'id', selectedNodeId)
     // Get new id to focus on
@@ -212,6 +225,16 @@ export default function Hierarchy({
     updateTree(td)
 
     dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
+    dispatch(
+      UpdateUserNotificationsAsync(
+        selectedDocObject._id,
+        user.nickname +
+          ' delete requirement ' +
+          reqName +
+          ' within ' +
+          selectedDocObject.title
+      )
+    )
   }
 
   /**
@@ -261,7 +284,7 @@ export default function Hierarchy({
     ) {
     } else if (node.isBeingEdited == null) {
       let id = node.id
-
+      console.log(id)
       if (id != selectedNodeId) {
         // console.log(id + ' ' + selectedNodeId)
         if (selectedNodeId != 0) {
