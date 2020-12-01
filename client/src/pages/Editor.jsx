@@ -25,6 +25,8 @@ import {
   setShouldPullFromDB,
 } from '../redux/stores/common/actions'
 import {
+  getDocAsync,
+  getDocCollaboratorsAsync,
   getStatusesAsync,
   getTreeAsync,
   sendDocAsync,
@@ -89,6 +91,13 @@ export default function Editor() {
       }
     }
   }, 1000)
+
+  useEffect(() => {
+    if (selectedDocObject != null) {
+      // dispatch(getDocAsync(selectedDocObject._id))
+      dispatch(getDocCollaboratorsAsync(selectedDocObject._id))
+    }
+  }, [])
 
   useEffect(() => {
     if (selectedDocObject != null) {

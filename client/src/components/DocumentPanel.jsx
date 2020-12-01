@@ -12,6 +12,7 @@ import {
 } from '../redux/stores/common/actions'
 import {
   getDocAsync,
+  setCurrentDoc,
   updateCurrentDocument,
 } from '../redux/stores/document/actions'
 import { UpdateUserRecentDocsAsync } from '../redux/stores/user/actions'
@@ -78,7 +79,8 @@ export const DocumentPanel = ({ document }) => {
 
   const openDocumentIntoEditor = () => {
     // fetching the current document
-    dispatch(getDocAsync(document._id))
+    // dispatch(getDocAsync(document._id))
+    dispatch(setCurrentDoc(document))
     // updating the selected version
     dispatch(updateDataTree(selectedVersionTree))
     // setting the current version of the document

@@ -1,6 +1,10 @@
 import React from 'react'
 
-export default function CollaboratorIcon({ username, color, smallIcon=false }) {
+export default function CollaboratorIcon({
+  username,
+  color,
+  smallIcon = false,
+}) {
   return (
     <div
       className={
@@ -16,7 +20,7 @@ export default function CollaboratorIcon({ username, color, smallIcon=false }) {
           ' 35%, #000000 100%)',
       }}
     >
-      {username[0].toUpperCase()}
+      {username && username.length > 0 ? username[0].toUpperCase() : ''}
     </div>
   )
 }
