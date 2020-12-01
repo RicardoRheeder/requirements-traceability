@@ -4,10 +4,12 @@ import { useSelector } from 'react-redux'
 
 export default function RightContainer() {
   const notifications = useSelector((state) => state.user.notifications)
+
   const renderRecentNotifications = (notifications) => {
-    if (notifications != null) {
-      return notifications.map((not, i) => {
-        return <NotificationCard notification={not} key={i} />
+    console.log(notifications)
+    if (notifications != null && Array.isArray(notifications)) {
+      return notifications.map((notification, i) => {
+        return <NotificationCard notification={notification} key={i} />
       })
     }
     return (

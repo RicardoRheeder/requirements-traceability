@@ -124,6 +124,7 @@ export const UpdateUserRecentDocsSuccess = (docs) => {
   }
 }
 export const UpdateUserRecentDocsFailure = (errorMessage) => {
+  console.log(errorMessage)
   return {
     type: UPDATE_USER_RECENT_DOCS_FAILURE,
     payload: errorMessage.data.message,
@@ -203,8 +204,9 @@ export const UpdateUserNotificationsAsync = (
       .patch(`${url}/update/recent-notifications/${user_email}`, {
         notificationString: notificationString,
       })
-      .then((notifications) =>
+      .then((notifications) =>{
         dispatch(UpdateUserNotificationsSuccess(notifications))
+      }
       )
       .catch((err) => dispatch(UpdateUserNotificationsFailure(err)))
   }

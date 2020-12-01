@@ -31,6 +31,7 @@ import {
   sendReqAsync,
   sendReqAsyncOnUnmount,
 } from '../redux/stores/document/actions'
+import { UpdateUserNotificationsAsync } from '../redux/stores/user/actions'
 
 var selectedNodeId = 0
 function useInterval(callback, delay) {
@@ -195,6 +196,7 @@ export default function Editor() {
       )
       setTimeout(() => {
         dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+        dispatch(UpdateUserNotificationsAsync(user.email, 'test test'))
         // dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
       }, 100)
     }

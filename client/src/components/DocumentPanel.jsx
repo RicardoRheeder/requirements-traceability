@@ -26,6 +26,7 @@ export const DocumentPanel = ({ document }) => {
     (state) => state.common.selectedDocumentPanelObject
   )
   const docs = useSelector((state) => state.document.documents)
+  const recent_docs = useSelector((state) => state.user.recent_docs)
 
   const [selectedVersionTree, setSelectedVersionTree] = useState()
   const [versionList, setVersionList] = useState([])
@@ -39,7 +40,7 @@ export const DocumentPanel = ({ document }) => {
 
   useEffect(() => {
     getStatusSatisfactory()
-  }, [docs])
+  }, [docs, recent_docs])
 
   function getStatusSatisfactory() {
     if (document != null && document.tree != null) {
