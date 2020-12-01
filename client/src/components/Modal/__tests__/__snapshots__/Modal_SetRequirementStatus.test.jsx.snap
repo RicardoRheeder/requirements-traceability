@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Set req status modal component renders 1`] = `ShallowWrapper {}`;
+
+exports[`Set req status modal component renders with children 1`] = `ReactWrapper {}`;
