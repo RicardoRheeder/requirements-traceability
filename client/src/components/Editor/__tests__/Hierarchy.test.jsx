@@ -1,6 +1,7 @@
 import React from "react"
 import Enzyme, { shallow, mount} from "enzyme"
 import Hierarchy from "../Hierarchy"
+import {nodecontainer} from "../Hierarchy"
 import Adapter from "enzyme-adapter-react-16"
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store"
@@ -31,8 +32,11 @@ describe("Hierarchy", () => {
                 
             },
             document: {
-                current_doc: null
+                current_doc: {versions: ["versionName=0.0", "versionName=1.1"],}
             }
+        });
+        JSON.parse = jest.fn().mockImplementation(() => {
+            return {versionName: "1.1"}
         });
     });
     test("renders", () => {
@@ -41,8 +45,19 @@ describe("Hierarchy", () => {
         expect(wrapper).toMatchSnapshot();
     });
     test("renders with children", () => {
-        const wrapper = mount(<Provider store = {store}><Hierarchy/></Provider>);
+        const scrollMock = () => {
+            true
+        }
+        const setIdMock = (num) => {
+            true
+        }
+        const wrapper = mount(<Provider store = {store}><Hierarchy scrollToElementFunction={scrollMock
+          }
+          setSelectedNodeId={setIdMock}
+          selectedNodeId={1}/></Provider>);
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
+    
+    
 });

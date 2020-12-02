@@ -2,4 +2,6 @@
 
 exports[`Hierarchy renders 1`] = `ShallowWrapper {}`;
 
+exports[`Hierarchy renders nodecontainer 1`] = `ShallowWrapper {}`;
+
 exports[`Hierarchy renders with children 1`] = `ReactWrapper {}`;

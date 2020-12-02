@@ -14,21 +14,26 @@ let id = require('mongoose').Types.ObjectId();
 chai.use(chaiHttp);
 
 describe('document routes', function() {
-    beforeEach((done) => {
-        User.remove({}, (err) => {
-            done();
-        });
-        
-    });
+    
 
     describe('/users', () =>{
         it('should get all the users', (done)=> {
             chai.request(server).get('/users').end((err,res) => {
                 res.should.have.status(200);
                 res.body.response.should.be.a('array'); 
-                res.body.response.should.be.empty
+                res.body.response.should.not.be.empty
                 done();
             })
+        })
+        it('should create a user', (done)=> {
+            let tuser = {
+                username: "jadyny",
+                email: "jadyn2004@live.ca"
+            }
+            chai.request(server).post('/users/create-user').send(tuser).end((err,res) => {
+                res.should.have.status(200);
+                done();
+            }) 
         })
     })
 })
