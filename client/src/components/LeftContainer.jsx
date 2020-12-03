@@ -4,6 +4,7 @@ import { setModalObject } from '../redux/stores/common/actions'
 import { useAuth0 } from '@auth0/auth0-react'
 import { DocumentPanel } from './'
 import { fetchUserDocsAsync } from '../redux/stores/document/actions'
+import { fetchUserInfoAsync } from '../redux/stores/user/actions'
 import { useState } from 'react'
 
 export default function LeftContainer() {
@@ -63,7 +64,13 @@ export default function LeftContainer() {
   }
 
   const removeDocumentButton = () => {
-    dispatch(setModalObject({ visible: true, mode: 1 }))
+    dispatch(fetchUserInfoAsync(user))
+    console.log(user);
+    console.log(selectedDoc);
+    var adminEmail = "";
+    if(user.email==adminEmail){
+      dispatch(setModalObject({ visible: true, mode: 1 }))
+    }
   }
 
   return (
