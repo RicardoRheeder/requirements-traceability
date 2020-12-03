@@ -330,8 +330,16 @@ export default function Hierarchy({
   }
 
   const saveDocOnClick = (selectedNodeId) => {
-    dispatch(setModalObject({ visible: true, mode: 3 }))
-    offFocusRequirement_versioning(selectedNodeId)
+    var adminEmail = "";
+    for(var i=0; i<selectedDocObject.collaborators.length; i++){
+      if(selectedDocObject.collaborators[i]._id==selectedDocObject.admin){
+        adminEmail = selectedDocObject.collaborators[i].email;
+      }
+    }
+    if(user.email==adminEmail){
+      dispatch(setModalObject({ visible: true, mode: 3 }))
+      offFocusRequirement_versioning(selectedNodeId)
+    }
   }
 
   return (
