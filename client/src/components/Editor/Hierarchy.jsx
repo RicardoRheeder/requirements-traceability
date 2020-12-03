@@ -344,11 +344,8 @@ export default function Hierarchy({
   }
 
   const saveDocOnClick = (selectedNodeId) => {
-    dispatch(fetchUserInfoAsync(user))
-    if(userInfo._id==current_doc.admin){
-      dispatch(setModalObject({ visible: true, mode: 3 }))
-      offFocusRequirement_versioning(selectedNodeId)
-    }
+    dispatch(setModalObject({ visible: true, mode: 3 }))
+    offFocusRequirement_versioning(selectedNodeId)
   }
 
   return (
