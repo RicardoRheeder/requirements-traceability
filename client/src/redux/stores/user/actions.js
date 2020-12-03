@@ -124,6 +124,7 @@ export const UpdateUserRecentDocsSuccess = (docs) => {
   }
 }
 export const UpdateUserRecentDocsFailure = (errorMessage) => {
+  console.log(errorMessage)
   return {
     type: UPDATE_USER_RECENT_DOCS_FAILURE,
     payload: errorMessage.data.message,
@@ -136,7 +137,7 @@ export const UpdateUserRecentDocsAsync = (user_email, doc_id) => {
     // making a get request for recent docs
     axios
       .patch(`${url}/update/recent-docs/${user_email}`, { id: doc_id })
-      .then(() => dispatch(UpdateUserRecentDocsSuccess()))
+      .then((docs) => dispatch(UpdateUserRecentDocsSuccess(docs)))
       .catch((err) => dispatch(UpdateUserRecentDocsFailure(err)))
   }
 }
@@ -192,20 +193,17 @@ export const UpdateUserNotificationsFailure = (errorMessage) => {
   }
 }
 
-export const UpdateUserNotificationsAsync = (
-  user_email,
-  notificationString
-) => {
+export const UpdateUserNotificationsAsync = (docID, notificationString) => {
   return (dispatch) => {
     dispatch(UpdateUserNotificationsStart())
     // making a get request for recent docs
     axios
-      .patch(`${url}/update/recent-notifications/${user_email}`, {
+      .patch(`${url}/update/recent-notifications/${docID}`, {
         notificationString: notificationString,
       })
-      .then((notifications) =>
+      .then((notifications) => {
         dispatch(UpdateUserNotificationsSuccess(notifications))
-      )
+      })
       .catch((err) => dispatch(UpdateUserNotificationsFailure(err)))
   }
 }

@@ -30,8 +30,10 @@ import {
   Tree_ExpandData,
   Tree_UpdateNodeName,
   Tree_GetRequirementObject,
+  Tree_GetNodeTitle,
 } from '../../utils/TreeNodeHelperFunctions'
 import ReactDropdown from 'react-dropdown'
+import { UpdateUserNotificationsAsync } from '../../redux/stores/user/actions'
 
 export default function Hierarchy({
   scrollToElementFunction,
@@ -41,7 +43,7 @@ export default function Hierarchy({
   const { user } = useAuth0()
   const dispatch = useDispatch()
   const storeTreeData = useSelector((state) => state.common.treeData, [])
-  const selectedDocObject = useSelector((state) => state.document.current_doc)
+  const current_doc = useSelector((state) => state.document.current_doc)
   const currentSelectedDocVersion = useSelector(
     (state) => state.common.currentSelectedDocVersion
   )
@@ -65,18 +67,18 @@ export default function Hierarchy({
 
   // refreshing versions list on mount
   useEffect(() => {
-    if (selectedDocObject !== null) {
+    if (current_doc !== null) {
       refreshVersionList()
     }
-  }, [selectedDocObject])
+  }, [current_doc])
 
   // function for getting the versions list
   function refreshVersionList() {
     let defaultOption = '0.0'
     let tempVersionsList = []
-    if (selectedDocObject.versions.length > 0) {
+    if (current_doc && current_doc.versions && current_doc.versions.length > 0) {
       // looping over versions array and parsing
-      selectedDocObject.versions.forEach((version) => {
+      current_doc.versions.forEach((version) => {
         const parsedVersion = JSON.parse(version)
         tempVersionsList.push(parsedVersion.versionName)
       })
@@ -96,7 +98,7 @@ export default function Hierarchy({
   // Function for selecting items in dropdown
   const _onDropdownSelect = (selectedItem) => {
     let mostRecentVersion = JSON.parse(
-      selectedDocObject.versions[selectedDocObject.versions.length - 1]
+      current_doc.versions[current_doc.versions.length - 1]
     )
     // if (selectedItem.value != mostRecentVersion.versionName) {
     //   dispatch(setShouldPullFromDB(false))
@@ -109,7 +111,7 @@ export default function Hierarchy({
     let isCurrentWorkingVersion = true
 
     // finding the corresponding tree for the version that was selected
-    selectedDocObject.versions.forEach((version) => {
+    current_doc.versions.forEach((version) => {
       const parsedVersion = JSON.parse(version)
 
       if (selectedItem.value == parsedVersion.versionName) {
@@ -129,7 +131,6 @@ export default function Hierarchy({
       dispatch(setCurrentDocVersion(CURRENTWORKINGVERSION))
       dispatch(setShouldPullFromDB(true))
       setCurrentDropDownVersion(CURRENTWORKINGVERSION)
-
     }
   }
 
@@ -185,7 +186,7 @@ export default function Hierarchy({
     setSelectedNodeId(0)
     updateTree(tree)
 
-    dispatch(sendDocAsync(JSON.stringify(tree), selectedDocObject._id))
+    dispatch(sendDocAsync(JSON.stringify(tree), current_doc._id))
   }
 
   /**
@@ -196,13 +197,23 @@ export default function Hierarchy({
     var td = Tree_InsertNode(customTreeData, selectedNodeId)
     updateTree(td)
 
-    dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
+    dispatch(sendDocAsync(JSON.stringify(td), current_doc._id))
+    dispatch(
+      UpdateUserNotificationsAsync(
+        current_doc._id,
+        user.nickname +
+          ' created a new requirement within ' +
+          current_doc.title
+      )
+    )
   }
 
   /**
    * Delete a node in the structure, then calls the updateTree function on it
    */
   const deleteNode = () => {
+    var reqName = Tree_GetNodeTitle(customTreeData, selectedNodeId)
+
     // TreeData retrieved from function - has deleted node
     var td = Tree_DeleteNode(customTreeData, 'id', selectedNodeId)
     // Get new id to focus on
@@ -212,30 +223,30 @@ export default function Hierarchy({
     setSelectedNodeId(0)
     updateTree(td)
 
-    dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
+    dispatch(sendDocAsync(JSON.stringify(td), current_doc._id))
+    dispatch(
+      UpdateUserNotificationsAsync(
+        current_doc._id,
+        user.nickname +
+          ' delete requirement ' +
+          reqName +
+          ' within ' +
+          current_doc.title
+      )
+    )
   }
 
   /**
    * Delete a node in the structure, then calls the updateTree function on it
    * @param {string} name - the name/title to update the node with
    */
-  const updateNodeName = (name) => {
-    // console.log(name)
-    var td = Tree_UpdateNodeName(customTreeData, selectedNodeId, name)
-    updateTree(td)
-
-    // Get requirement we are editing, and remove the user's name from it
-    var requirement = JSON.stringify(
-      Tree_GetRequirementObject(
-        storeTreeData,
-        selectedNodeId,
-        user.nickname,
-        user.nickname
-      )
+  const updateNodeName = (event) => {
+    var td = Tree_UpdateNodeName(
+      customTreeData,
+      selectedNodeId,
+      event.target.value
     )
-
-    dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-    // dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
+    updateTree(td)
   }
 
   /**
@@ -262,8 +273,10 @@ export default function Hierarchy({
     ) {
     } else if (node.isBeingEdited == null) {
       let id = node.id
-
+      console.log(id)
       if (id != selectedNodeId) {
+        dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
+
         // console.log(id + ' ' + selectedNodeId)
         if (selectedNodeId != 0) {
           dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
@@ -277,7 +290,7 @@ export default function Hierarchy({
               null
             )
           )
-          dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+          dispatch(sendReqAsync(requirement, current_doc._id)) // Send the updated requirement to the database
         }
 
         // dispatch(updateSelectedNodeID(id)) // Updating visual of node being selected
@@ -293,8 +306,8 @@ export default function Hierarchy({
           )
         )
         setTimeout(() => {
-          dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-          dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+          dispatch(sendReqAsync(requirement, current_doc._id)) // Send the updated requirement to the database
+          // dispatch(getTreeAsync(current_doc)) // Get the most up to date document from the db
         }, 100)
       }
     }
@@ -309,8 +322,8 @@ export default function Hierarchy({
       Tree_GetRequirementObject(storeTreeData, id, user.nickname, null)
     )
     setTimeout(() => {
-      dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-      // dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+      dispatch(sendReqAsync(requirement, current_doc._id)) // Send the updated requirement to the database
+      // dispatch(getTreeAsync(current_doc)) // Get the most up to date document from the db
       dispatch(setShouldPullFromDB(true)) // Start pulling documents from the database again
     }, 100)
   }
@@ -440,10 +453,10 @@ export default function Hierarchy({
                       className="row_inputfield"
                       value={rowInfo.node.title}
                       style={{ background: 'transparent' }}
-                      onChange={(event) => {
-                        const name = event.target.value
-                        updateNodeName(name)
-                      }}
+                      onChange={updateNodeName}
+                      onFocus={(event) =>
+                        onFocusRequirement(event, rowInfo.node)
+                      }
                     />
                   </span>
                 ),

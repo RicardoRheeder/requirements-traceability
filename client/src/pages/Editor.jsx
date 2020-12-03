@@ -25,13 +25,19 @@ import {
   setShouldPullFromDB,
 } from '../redux/stores/common/actions'
 import {
+  getDocAsync,
+  getDocCollaboratorsAsync,
   getStatusesAsync,
   getTreeAsync,
   sendDocAsync,
   sendReqAsync,
   sendReqAsyncOnUnmount,
+  setCurrentDoc,
+  setFetchedTree,
   setDocTitleAsync,
 } from '../redux/stores/document/actions'
+import { UpdateUserNotificationsAsync } from '../redux/stores/user/actions'
+import AutosizeInput from 'react-input-autosize'
 
 var selectedNodeId = 0
 function useInterval(callback, delay) {
@@ -58,7 +64,7 @@ export default function Editor() {
   const { user } = useAuth0()
   const dispatch = useDispatch()
   const paneRef = useRef(null)
-
+  const [documentName, setDocumentName] = useState('')
   const shouldPullFromDB = useSelector(
     (state) => state.common.shouldPullFromDB,
     true
@@ -66,7 +72,7 @@ export default function Editor() {
   const storeTreeData = useSelector((state) => state.common.treeData, [])
   // const selectedNodeId = useSelector((state) => state.common.selectedID)
   // var selectedNodeId = 0
-  const selectedDocObject = useSelector((state) => state.document.current_doc)
+  const current_doc = useSelector((state) => state.document.current_doc)
   const userColorObject = useSelector(
     (state) => state.common.userColorObject,
     {}
@@ -77,30 +83,56 @@ export default function Editor() {
   )
 
   useInterval(() => {
-    if (selectedDocObject != null && shouldPullFromDB == true) {
-      dispatch(getTreeAsync(selectedDocObject))
+    if (
+      current_doc != null &&
+      shouldPullFromDB == true &&
+      Object.keys(current_doc).length != 0
+    ) {
+      console.log('Current doc')
+      console.log(current_doc)
+
+      dispatch(getTreeAsync(current_doc))
       // console.log('Pull tree from database')
 
       if (fetchedTree != null) {
         let treeFromDB = null
         // Update the isBeingEdited field with the user's nickname
-        treeFromDB = JSON.parse(fetchedTree)
+        if (typeof fetchedTree === 'string') {
+          treeFromDB = JSON.parse(fetchedTree)
+        } else {
+          treeFromDB = fetchedTree
+        }
         updateTree(treeFromDB)
       }
     }
   }, 1000)
 
   useEffect(() => {
-    if (selectedDocObject != null) {
-      let tree = JSON.parse(selectedDocObject.tree)
-      if (!tree[0].hasOwnProperty('uniqueID')) {
+    if (current_doc != null) {
+      // dispatch(getDocAsync(current_doc._id))
+      dispatch(getDocCollaboratorsAsync(current_doc._id))
+      // updateTree(JSON.parse(current_doc.tree))
+      setDocumentName(current_doc.title)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (current_doc != null && current_doc != {}) {
+      let tree = {}
+      if (typeof current_doc.tree === 'string') {
+        tree = JSON.parse(current_doc.tree)
+      } else {
+        tree = current_doc.tree
+      }
+      if (tree && tree.length > 0 && !tree[0].hasOwnProperty('uniqueID')) {
         var td = Tree_Update(tree)
-        dispatch(sendDocAsync(JSON.stringify(td), selectedDocObject._id))
+        dispatch(sendDocAsync(JSON.stringify(td), current_doc._id))
+        // dispatch(getStatusesAsync(current_doc._id))
       }
     }
 
     return () => {
-      if (selectedDocObject != null) {
+      if (current_doc != null) {
         if (selectedNodeId != 0) {
           console.log('leaving editor')
           dispatch(
@@ -109,7 +141,7 @@ export default function Editor() {
               selectedNodeId,
               user.nickname,
               null,
-              selectedDocObject._id
+              current_doc._id
             )
           ) // Send the updated requirement to the database
         }
@@ -117,13 +149,15 @@ export default function Editor() {
         dispatch(setShouldPullFromDB(true)) // Don't pull when focussing on a requirement
       }
       dispatch(updateDataTree([])) // resetting the local tree when leaving editor
+      dispatch(setCurrentDoc({}))
+      dispatch(setFetchedTree(JSON.stringify([])))
     }
-  }, [selectedDocObject, dispatch])
+  }, [current_doc, dispatch])
 
   useEffect(() => {
-    if (selectedDocObject != null)
-      dispatch(getStatusesAsync(selectedDocObject._id))
-  }, [selectedDocObject])
+    if (current_doc != null && current_doc != {})
+      dispatch(getStatusesAsync(current_doc._id))
+  }, [current_doc])
 
   /**
    * Receives a tree structure, sends it to get the IDs cleaned up, and pushes it to Redux
@@ -178,7 +212,7 @@ export default function Editor() {
             null
           )
         )
-        dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
+        dispatch(sendReqAsync(requirement, current_doc._id)) // Send the updated requirement to the database
       }
 
       // console.log('On Focus: ' + id + ' ' + selectedNodeId)
@@ -195,8 +229,8 @@ export default function Editor() {
         )
       )
       setTimeout(() => {
-        dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-        // dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+        dispatch(sendReqAsync(requirement, current_doc._id)) // Send the updated requirement to the database
+        // dispatch(getTreeAsync(current_doc)) // Get the most up to date document from the db
       }, 100)
     }
   }
@@ -210,8 +244,8 @@ export default function Editor() {
       Tree_GetRequirementObject(storeTreeData, id, user.nickname, null)
     )
     setTimeout(() => {
-      dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-      dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+      dispatch(sendReqAsync(requirement, current_doc._id)) // Send the updated requirement to the database
+      // dispatch(getTreeAsync(current_doc)) // Get the most up to date document from the db
       dispatch(setShouldPullFromDB(true)) // Start pulling documents from the database again
     }, 100)
   }
@@ -223,6 +257,25 @@ export default function Editor() {
   const setSelectedNodeId = (id) => {
     // console.log(id)
     selectedNodeId = id
+  }
+
+  const updateDocName = (e) => {
+    dispatch(
+      UpdateUserNotificationsAsync(
+        current_doc._id,
+        user.nickname +
+          " changed the title of document '" +
+          current_doc.title +
+          "' to '" +
+          documentName +
+          "'"
+      )
+    )
+    dispatch(setDocTitleAsync(current_doc._id, documentName))
+  }
+
+  const onChangeDocumentName = (event) => {
+    setDocumentName(event.target.value)
   }
 
   /**
@@ -314,9 +367,7 @@ export default function Editor() {
       }
     )
   }
-  const updateDocName = e => {
-      dispatch(setDocTitleAsync(selectedDocObject._id,e.target.textContent))
-  }
+
   return (
     <div className="editor-root">
       <SplitPane
@@ -337,11 +388,15 @@ export default function Editor() {
         </div>
         <div className="editor-root-div styled-background-grey">
           <h1>
-            {selectedDocObject != null ? (
+            {current_doc != null ? (
               <>
-                <label contentEditable="true" onBlur={updateDocName}>
-                {selectedDocObject.title}
-                </label>
+                <AutosizeInput
+                  className="editor-row_inputfield"
+                  value={documentName}
+                  style={{ background: 'transparent' }}
+                  onChange={onChangeDocumentName}
+                  onBlur={updateDocName}
+                />
                 <span className="doc-version-title">
                   {'(version: ' + selectedDocVersion + ')'}
                 </span>

@@ -81,11 +81,13 @@ export default function Modal_SetRequirementStatus({ reqID = null }) {
       // console.log(status)
       return (
         <span
+          key={i}
           onClick={() => {
             setSelectedIconName(status)
           }}
         >
           <StatusIcon
+            key={i}
             statusName={status}
             statusColor={fetchedStatuses[status]}
             isSelected={status == selectedIconName ? true : false}
