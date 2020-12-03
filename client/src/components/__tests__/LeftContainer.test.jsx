@@ -19,6 +19,9 @@ describe("LeftContainer", () => {
             },
             common: {
                 selectedDocumentPanelObject: {title: 'testdoc'}
+            },
+            user: {
+                recent_docs: []
             }
             
         });

@@ -35,7 +35,12 @@ import {
   GET_STATUSES_SUCCESS,
   SET_DOC_TITLE_START,
   SET_DOC_TITLE_FAILURE,
-  SET_DOC_TITLE_SUCCESS
+  SET_DOC_TITLE_SUCCESS,
+  SET_CURRENT_DOC,
+  FETCH_DOC_COLLABORATORS_START,
+  FETCH_DOC_COLLABORATORS_SUCCESS,
+  FETCH_DOC_COLLABORATORS_FAILURE,
+  SET_FETCHED_TREE,
 } from './actionTypes'
 
 import { Tree_GetRequirementObject } from '../../../utils/TreeNodeHelperFunctions'
@@ -233,11 +238,11 @@ export const getTreeFailure = (error) => {
 }
 
 // async action for getting tree structure
-export const getTreeAsync = (request) => {
+export const getTreeAsync = (docObj) => {
   return (dispatch) => {
     dispatch(getTreeStart())
     axios
-      .get(`${url}/documents/get-tree/${request._id}`)
+      .get(`${url}/documents/get-tree/${docObj._id}`)
       .then((doc) => dispatch(getTreeSuccess(doc)))
       .catch((err) => dispatch(getTreeFailure(err)))
   }
@@ -250,6 +255,8 @@ export const commitTreeStart = () => {
 }
 
 export const commitTreeSuccess = (doc) => {
+  console.log("TEST COMMIT")
+  console.log(doc.data.response)
   return {
     type: COMMIT_TREE_SUCCESS,
     data: doc.data.response,
@@ -301,7 +308,7 @@ export const sendDocFailure = () => {
 //send the document (tree structure) to the backend
 export const sendDocAsync = (treeData, docID) => {
   return (dispatch) => {
-    dispatch(commitTreeStart())
+    dispatch(sendDocStart())
     axios
       .patch(`${url}/documents/update-tree/${docID}`, { tree: treeData })
       .then((doc) => {
@@ -373,6 +380,14 @@ export const sendReqAsyncOnUnmount = (
   }
 }
 
+//setting current doc *************************
+export const setCurrentDoc = (document) => {
+  return {
+    type: SET_CURRENT_DOC,
+    data: document,
+  }
+}
+
 //Fetching single document *************************
 // action to start the fetch of collaborators
 export const getDocStart = () => {
@@ -410,106 +425,154 @@ export const getDocAsync = (docId) => {
   }
 }
 
-  // Setting the statuses array in the backend actions**********************
-  // start the request
-  export const setStatusesStart = () => {
-    return{
-      type: SET_STATUSES_START,
-    }
+// Fetching document collaborators **********************
+export const getDocCollaboratorsStart = () => {
+  return {
+    type: FETCH_DOC_COLLABORATORS_START,
   }
+}
 
-  // set the returned document on success
-  export const setStatusesSuccess = (res) => {
-    return{
-      type: SET_STATUSES_SUCCESS,
-      data: res.data.response,
-    }
+// action for getting Doc on failure
+export const getDocCollaboratorsFailure = (error) => {
+  return {
+    type: FETCH_DOC_COLLABORATORS_FAILURE,
+    data: error.data.message,
   }
+}
 
-  // set the error message on failure
-  export const setStatusesFailure = (res) => {
-    return{
-      type: SET_STATUSES_FAILURE,
-      data: res.data.message,
-    }
+// action for getting Doc on success
+export const getDocCollaboratorsSuccess = (collaborators) => {
+  return {
+    type: FETCH_DOC_COLLABORATORS_SUCCESS,
+    data: collaborators.data.response.collaborators,
   }
+}
 
-  // set the statuses array asynchronously
-  export const setStatusesAsync = (documentID, statusArray) => {
-    return (dispatch) => {
-      dispatch(setStatusesStart())
-      axios
-      .patch(`${url}/documents/set-statuses/${documentID}`, {statuses: statusArray})
+// action for getting collaborators async
+export const getDocCollaboratorsAsync = (docId) => {
+  return (dispatch) => {
+    dispatch(getDocCollaboratorsStart())
+    axios
+      .get(`${url}/documents/get-collabs/${docId}`)
+      .then((collaborators) => {
+        dispatch(getDocCollaboratorsSuccess(collaborators))
+      })
+      .catch((error) => dispatch(getDocCollaboratorsFailure(error)))
+  }
+}
+
+// Setting the statuses array in the backend actions**********************
+// start the request
+export const setStatusesStart = () => {
+  return {
+    type: SET_STATUSES_START,
+  }
+}
+
+// set the returned document on success
+export const setStatusesSuccess = (res) => {
+  return {
+    type: SET_STATUSES_SUCCESS,
+    data: res.data.response,
+  }
+}
+
+// set the error message on failure
+export const setStatusesFailure = (res) => {
+  return {
+    type: SET_STATUSES_FAILURE,
+    data: res.data.message,
+  }
+}
+
+// set the statuses array asynchronously
+export const setStatusesAsync = (documentID, statusArray) => {
+  return (dispatch) => {
+    dispatch(setStatusesStart())
+    axios
+      .patch(`${url}/documents/set-statuses/${documentID}`, {
+        statuses: statusArray,
+      })
       .then((res) => dispatch(setStatusesSuccess(res)))
       .catch((error) => dispatch(setStatusesFailure(error)))
-    }
   }
+}
 
-  // Getting the statuses array for given document**********************************
-  // Start the request
-  export const getStatusesStart = () => {
-    return{
-      type: GET_STATUSES_START,
-    }
+// Getting the statuses array for given document**********************************
+// Start the request
+export const getStatusesStart = () => {
+  return {
+    type: GET_STATUSES_START,
   }
+}
 
-  // set the returned array on success
-  export const getStatusesSuccess = (res) => {
-    return{
-      type: GET_STATUSES_SUCCESS,
-      data: res.data.response.statuses,
-    }
+// set the returned array on success
+export const getStatusesSuccess = (res) => {
+  return {
+    type: GET_STATUSES_SUCCESS,
+    data: res.data.response.statuses,
   }
+}
 
-  // set the error message on failure
-  export const getStatusesFailure = (res) => {
-    return{
-      type: GET_STATUSES_FAILURE,
-      data: res.data.message
-    }
+// set the error message on failure
+export const getStatusesFailure = (res) => {
+  return {
+    type: GET_STATUSES_FAILURE,
+    data: res.data.message,
   }
+}
 
-  // get the statuses array asynchronously
-  export const getStatusesAsync = (docID) => {
-    return (dispatch) => {
-      dispatch(getStatusesStart())
-      axios
+// get the statuses array asynchronously
+export const getStatusesAsync = (docID) => {
+  console.log("DOC ID")
+  console.log(docID)
+  return (dispatch) => {
+    dispatch(getStatusesStart())
+    axios
       .get(`${url}/documents/get-statuses/${docID}`)
       .then((res) => dispatch(getStatusesSuccess(res)))
       .catch((error) => dispatch(getStatusesFailure(error)))
-    }
   }
+}
 
-  // Setting the title of a document
-  // Start the request
-  export const setDocTitleStart = () => {
-    return{
-      type: SET_DOC_TITLE_START,
-    }
+// Setting the title of a document
+// Start the request
+export const setDocTitleStart = () => {
+  return {
+    type: SET_DOC_TITLE_START,
   }
+}
 
-  // set the returned title on success
-  export const setDocTitleSuccess = (res) => {
-    return{
-      type: SET_DOC_TITLE_SUCCESS,
-      data: res.data.response,
-    }
+// set the returned title on success
+export const setDocTitleSuccess = (res) => {
+  return {
+    type: SET_DOC_TITLE_SUCCESS,
+    data: res.data.response,
   }
+}
 
-  // set the error message on failure
-  export const setDocTitleFailure = (error) => {
-    return{
-      type: SET_DOC_TITLE_FAILURE,
-      data: res.data.message
-    }
+// set the error message on failure
+export const setDocTitleFailure = (error) => {
+  return {
+    type: SET_DOC_TITLE_FAILURE,
+    data: res.data.message,
   }
+}
 
-  export const setDocTitleAsync = (docID, docTitle) => {
-    return (dispatch) => {
-      dispatch(setDocTitleStart())
-      axios
-      .patch(`${url}/documents/set-title/${docID}`, {title:docTitle})
+export const setDocTitleAsync = (docID, docTitle) => {
+  return (dispatch) => {
+    dispatch(setDocTitleStart())
+    axios
+      .patch(`${url}/documents/set-title/${docID}`, { title: docTitle })
       .then((res) => dispatch(setDocTitleSuccess(res)))
       .catch((error) => dispatch(setDocTitleFailure(error)))
-    }
   }
+}
+
+// Setting fetched tree actions **********************
+export const setFetchedTree = (tree) => {
+  return {
+    type: SET_FETCHED_TREE,
+    data: tree,
+  }
+}

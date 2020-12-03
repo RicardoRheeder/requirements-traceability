@@ -20,11 +20,22 @@
     min-height: 100% !important;
   }
 
+  .editor-root {
+    width: 100% !important;
+  }
+
+  .Pane {
+    width: 100% !important;
+  }
+
   .Pane,
   .editor-root-div {
     overflow: visible !important;
     height: auto !important;
     min-height: 100% !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
   }
 
   .editor-root-div {

@@ -126,6 +126,28 @@ export function Tree_DeleteNode(customTreeData, attr = 'id', targetID) {
   return treeWithDeletedChild
 }
 
+export function Tree_GetNodeTitle(customTreeData, targetID) {
+  var reqName = ''
+  function parseData(TreeData) {
+    var i = TreeData.length
+    while (i--) {
+      if (
+        TreeData[i] &&
+        TreeData[i].hasOwnProperty('id') &&
+        TreeData[i]['id'] === targetID
+      ) {
+        reqName = TreeData[i]['title']
+        break
+      } else if (TreeData[i].hasOwnProperty('children')) {
+        parseData(TreeData[i]['children'])
+      }
+    }
+    return
+  }
+  parseData(customTreeData)
+  return reqName
+}
+
 /**
  * Returns an object of the tree with the selected ID's title property updated
  * @param {Object} customTreeData - The tree data to parse

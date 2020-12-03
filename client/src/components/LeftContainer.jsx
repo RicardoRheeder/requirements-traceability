@@ -40,12 +40,12 @@ export default function LeftContainer() {
   }
 
   const RenderDocumentPanels = (listOfDocs) => {
-    var orderedDocList = [];
-    for(let i=listOfDocs.length-1; i >= 0; i--){
-      orderedDocList.push(listOfDocs[i]);
+    console.log(listOfDocs)
+    var orderedDocList = []
+    for (let i = listOfDocs.length - 1; i >= 0; i--) {
+      orderedDocList.push(listOfDocs[i])
     }
     if (orderedDocList.length != 0) {
-      
       return orderedDocList.map((document, i) => {
         let tempDoc = JSON.parse(JSON.stringify(document))
         return <DocumentPanel document={tempDoc} key={i} />

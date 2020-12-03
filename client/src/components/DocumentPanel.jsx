@@ -12,6 +12,8 @@ import {
 } from '../redux/stores/common/actions'
 import {
   getDocAsync,
+  setCurrentDoc,
+  setFetchedTree,
   updateCurrentDocument,
 } from '../redux/stores/document/actions'
 import { UpdateUserRecentDocsAsync } from '../redux/stores/user/actions'
@@ -26,6 +28,7 @@ export const DocumentPanel = ({ document }) => {
     (state) => state.common.selectedDocumentPanelObject
   )
   const docs = useSelector((state) => state.document.documents)
+  const recent_docs = useSelector((state) => state.user.recent_docs)
 
   const [selectedVersionTree, setSelectedVersionTree] = useState()
   const [versionList, setVersionList] = useState([])
@@ -39,7 +42,7 @@ export const DocumentPanel = ({ document }) => {
 
   useEffect(() => {
     getStatusSatisfactory()
-  }, [docs])
+  }, [docs, recent_docs])
 
   function getStatusSatisfactory() {
     if (document != null && document.tree != null) {
@@ -77,9 +80,12 @@ export const DocumentPanel = ({ document }) => {
 
   const openDocumentIntoEditor = () => {
     // fetching the current document
-    dispatch(getDocAsync(document._id))
+    // dispatch(getDocAsync(document._id))
+    dispatch(setCurrentDoc(document))
     // updating the selected version
-    dispatch(updateDataTree(selectedVersionTree))
+    // dispatch(updateDataTree(selectedVersionTree))
+    dispatch(updateDataTree(JSON.parse(selectedDocumentPanelObject.tree)))
+    dispatch(setFetchedTree(JSON.parse(selectedDocumentPanelObject.tree)))
     // setting the current version of the document
     dispatch(setCurrentDocVersion(CURRENTWORKINGVERSION))
     // updating recent docs array
@@ -99,11 +105,9 @@ export const DocumentPanel = ({ document }) => {
       onDoubleClick={openDocumentIntoEditor}
     >
       <div className="document-panel-title">
-        <button className="add-person-button" onClick={inviteUserButton}>
-          <img
-            className="add-person-button-image"
-            src="./assets/images/add-friend-icon.png"
-          ></img>
+        <button className="add-person-button" style={{
+            backgroundImage: `url('./assets/images/add-friend-icon.png')`,
+          }} onClick={inviteUserButton}>
         </button>
         <h2 className="doc-panel-header">{document.title}</h2>
         <div

@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const User = require('../models/user.model')
+const Document = require('../models/document.model')
 
 // Post Routes*****************************************
 
@@ -273,10 +274,11 @@ router.route('/update/recent-docs/:email').patch((req, res) => {
   }
 })
 
-// updating a users recent notifications field
-router.route('/update/recent-notifications/:email').patch((req, res) => {
-  const email = req.params.email
+// updating a users recent notifications field using doc id
+router.route('/update/recent-notifications/:id').patch((req, res) => {
+  // const email = req.params.email
   const notificationString = req.body.notificationString
+  const docID = req.params.id
   // handling if notification string is undefined
   if (!notificationString) {
     res.status(400).json({
@@ -284,47 +286,63 @@ router.route('/update/recent-notifications/:email').patch((req, res) => {
       response: null,
     })
   } else {
-    User.findOne({ email: email })
-      .then((user) => {
-        // making a new array set to users recent notifications array
-        let newArray = user.notifications
-        // checking if the users recent doc array is full
-        if (user.notifications.length >= 10) {
-          // removing old element and adding new element
-          newArray.pop()
-          newArray.unshift(notificationString)
+    Document.findById(docID, 'collaborators')
+      .then((collabs) => {
+        const collabsArray = collabs.collaborators
+        // making sure there are collaborators
+        if (collabsArray.length > 1) {
+          // looping over each collaborator and updating their notifications
+          for (let i = 0; i < collabsArray.length; i++) {
+            User.findById(collabsArray[i])
+              .then((user) => {
+                // making a new array set to users recent notifications array
+                let newArray = user.notifications
+                // checking if the users recent doc array is full
+                if (user.notifications.length >= 50) {
+                  // removing old element and adding new element
+                  newArray.pop()
+                  newArray.unshift(notificationString)
+                }
+                // if the recent doc array is not full add to it
+                else {
+                  // adding new element to the start if id not already in array
+                  newArray.unshift(notificationString)
+                }
+                // updating user notifications array
+                User.findByIdAndUpdate(
+                  { _id: user._id },
+                  { $set: { notifications: newArray } },
+                  { new: true }
+                )
+                  .then((user) =>
+                    res.json({
+                      message: 'User recent notifications array updated.',
+                      response: user,
+                    })
+                  )
+                  .catch((err) =>
+                    res.status(400).json({
+                      message:
+                        'Error: user recent notifications array could not be updated',
+                      response: err,
+                    })
+                  )
+              })
+              .catch((err) =>
+                res.status(400).json({
+                  message: 'Error: user could not be found with email',
+                  response: err,
+                })
+              )
+          }
         }
-        // if the recent doc array is not full add to it
-        else {
-          // adding new element to the start if id not already in array
-          newArray.unshift(notificationString)
-        }
-        // updating user notifications array
-        User.findByIdAndUpdate(
-          { _id: user._id },
-          { $set: { notifications: newArray } },
-          { new: true }
-        )
-          .then((user) =>
-            res.json({
-              message: 'User recent notifications array updated.',
-              response: user,
-            })
-          )
-          .catch((err) =>
-            res.status(400).json({
-              message:
-                'Error: user recent notifications array could not be updated',
-              response: err,
-            })
-          )
       })
-      .catch((err) =>
+      .catch((err) => {
         res.status(400).json({
-          message: 'Error: user could not be found with email',
+          message: 'Error: could not find document with id',
           response: err,
         })
-      )
+      })
   }
 })
 

@@ -11,10 +11,10 @@ export default function RecentDocCard({}) {
   const { user } = useAuth0()
 
   // use effect to fetch the user info when the component mounts
-  useEffect(() => {}, [docs])
+  useEffect(() => {}, [docs, recent_docs])
 
   const renderRecentDocs = (recent_docs) => {
-    if (recent_docs != null) {
+    if (recent_docs != null && Array.isArray(recent_docs)) {
       return recent_docs.map((recent_doc, i) => {
         return <DocumentPanel document={recent_doc} key={i} />
       })
