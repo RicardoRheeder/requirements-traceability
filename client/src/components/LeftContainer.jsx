@@ -14,6 +14,7 @@ export default function LeftContainer() {
   const selectedDoc = useSelector(
     (state) => state.common.selectedDocumentPanelObject
   )
+  const userInfo = useSelector((state) => state.user.info,'')
 
   const [searchboxIsEmpty, setSearchboxIsEmpty] = useState(true)
   const [orderedDocList, setOrderedDocList] = useState([])
@@ -65,10 +66,7 @@ export default function LeftContainer() {
 
   const removeDocumentButton = () => {
     dispatch(fetchUserInfoAsync(user))
-    console.log(user);
-    console.log(selectedDoc);
-    var adminEmail = "";
-    if(user.email==adminEmail){
+    if(userInfo._id==selectedDoc.admin){
       dispatch(setModalObject({ visible: true, mode: 1 }))
     }
   }
