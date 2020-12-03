@@ -33,7 +33,7 @@ import {
   Tree_GetNodeTitle,
 } from '../../utils/TreeNodeHelperFunctions'
 import ReactDropdown from 'react-dropdown'
-import { fetchUserInfoAsync, UpdateUserNotificationsAsync } from '../../redux/stores/user/actions'
+import { UpdateUserNotificationsAsync } from '../../redux/stores/user/actions'
 
 export default function Hierarchy({
   scrollToElementFunction,
@@ -47,7 +47,6 @@ export default function Hierarchy({
   const currentSelectedDocVersion = useSelector(
     (state) => state.common.currentSelectedDocVersion
   )
-  const userInfo = useSelector((state) => state.user.info,'')
   const CURRENTWORKINGVERSION = 'Current working version'
   // Keeps track of which node ID is selected: Value will update with the selectedID stored in Redux
   // const selectedNodeId = useSelector((state) => state.common.selectedID)
