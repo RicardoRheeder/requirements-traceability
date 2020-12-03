@@ -33,7 +33,7 @@ import {
   Tree_GetNodeTitle,
 } from '../../utils/TreeNodeHelperFunctions'
 import ReactDropdown from 'react-dropdown'
-import { UpdateUserNotificationsAsync } from '../../redux/stores/user/actions'
+import { fetchUserInfoAsync, UpdateUserNotificationsAsync } from '../../redux/stores/user/actions'
 
 export default function Hierarchy({
   scrollToElementFunction,
@@ -47,6 +47,7 @@ export default function Hierarchy({
   const currentSelectedDocVersion = useSelector(
     (state) => state.common.currentSelectedDocVersion
   )
+  const userInfo = useSelector((state) => state.user.info,'')
   const CURRENTWORKINGVERSION = 'Current working version'
   // Keeps track of which node ID is selected: Value will update with the selectedID stored in Redux
   // const selectedNodeId = useSelector((state) => state.common.selectedID)
@@ -343,13 +344,10 @@ export default function Hierarchy({
   }
 
   const saveDocOnClick = (selectedNodeId) => {
-    var adminEmail = "";
-    for(var i=0; i<selectedDocObject.collaborators.length; i++){
-      if(selectedDocObject.collaborators[i]._id==selectedDocObject.admin){
-        adminEmail = selectedDocObject.collaborators[i].email;
-      }
-    }
-    if(user.email==adminEmail){
+    dispatch(fetchUserInfoAsync(user))
+    console.log(userInfo._id);
+    console.log(current_doc.admin);
+    if(userInfo._id==current_doc.admin){
       dispatch(setModalObject({ visible: true, mode: 3 }))
       offFocusRequirement_versioning(selectedNodeId)
     }
