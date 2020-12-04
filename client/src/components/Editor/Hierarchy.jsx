@@ -47,7 +47,7 @@ export default function Hierarchy({
   const currentSelectedDocVersion = useSelector(
     (state) => state.common.currentSelectedDocVersion
   )
-  const fetchedUserInfo = useSelector((state) => state.user.info)
+  const fetchedUserInfo = useSelector((state) => state.user)
   const CURRENTWORKINGVERSION = 'Current working version'
   // Keeps track of which node ID is selected: Value will update with the selectedID stored in Redux
   // const selectedNodeId = useSelector((state) => state.common.selectedID)
@@ -345,9 +345,10 @@ export default function Hierarchy({
 
   const saveDocOnClick = (selectedNodeId) => {
     dispatch(fetchUserInfoAsync(user))
-    
-    dispatch(setModalObject({ visible: true, mode: 3 }))
-    offFocusRequirement_versioning(selectedNodeId)
+    if(fetchedUserInfo.info._id==current_doc.admin){
+      dispatch(setModalObject({ visible: true, mode: 3 }))
+      offFocusRequirement_versioning(selectedNodeId)
+    }
   }
 
   return (
