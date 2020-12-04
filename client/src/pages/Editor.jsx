@@ -88,8 +88,8 @@ export default function Editor() {
       shouldPullFromDB == true &&
       Object.keys(current_doc).length != 0
     ) {
-      console.log('Current doc')
-      console.log(current_doc)
+      //console.log('Current doc')
+      //console.log(current_doc)
 
       dispatch(getTreeAsync(current_doc))
       // console.log('Pull tree from database')
