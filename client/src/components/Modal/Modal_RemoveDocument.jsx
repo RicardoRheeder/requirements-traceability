@@ -6,6 +6,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { useAuth0 } from '@auth0/auth0-react'
 import { setModalObject } from '../../redux/stores/common/actions'
+import { fetchUserRecentDocsAsync } from '../../redux/stores/user/actions'
 
 export default function Modal_RemoveDocument() {
   const { user } = useAuth0()
@@ -27,6 +28,8 @@ export default function Modal_RemoveDocument() {
     setDoc({ title: '' })
     dispatch(setModalObject({ visible: false, mode: 0 }))
     dispatch(fetchUserDocsAsync(user))
+    dispatch(fetchUserRecentDocsAsync(user.email))
+
   }
 
   const handleChange = (e) => {

@@ -1,20 +1,66 @@
 .document-panel-component {
   position: relative;
   width: 90%;
-  height: 100px;
+  height: 65px;
   background-color: #f96302;
   color: black;
   padding: 5px;
   margin: 15px auto;
   border-bottom: 2px solid #212a3f;
   border-radius: 4px;
+  line-height: 0px;
+  min-width: 190px;
 
   &.selected {
     background-color: #212a3f;
-    color: #f96302;
+    color: #f96302 !important;
     border: 2px solid #f96302;
     border-radius: 4px;
     z-index: 500;
+  }
+
+  .doc-panel-header {
+    font-family: Verdana, Tahoma, sans-serif;
+    font-size: 20px !important;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 700;
+    /* line-height: 20.4px; */
+    text-align: left;
+    margin: 5px;
+  }
+
+  .doc-version-title {
+    margin: 10px auto;
+    position: relative;
+    height: fit-content;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: normal;
+    text-align: left;
+  }
+
+  .status {
+    margin: 10px auto;
+    position: relative;
+    height: fit-content;
+    font-weight: 600;
+    line-height: normal;
+    text-align: right;
+    background-color: #212a3f;
+    width: fit-content;
+    margin-right: inherit;
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 14px;
+  }
+
+  .satisfied {
+    color: green !important;
+  }
+
+  .unsatisfied {
+    color: red !important;
   }
 
   .document-panel-title {
@@ -22,6 +68,14 @@
     float: left;
     width: 100%;
     height: 30px;
+
+    .doc-title {
+      text-overflow: ellipsis;
+      max-block-size: 150px;
+      font-weight: 500;
+      max-width: 250px;
+      overflow: hidden;
+    }
 
     .add-person-button {
       height: 35px !important;

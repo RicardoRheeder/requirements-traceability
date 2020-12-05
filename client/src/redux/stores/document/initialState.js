@@ -5,4 +5,5 @@ export default {
   error: null,
   success: null,
   fetchedTree: null,
+  fetchedStatuses: null
 }

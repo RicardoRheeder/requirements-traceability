@@ -2,7 +2,12 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Hierarchy, CollaboratorPanel, CollaboratorIcon } from '../components'
+import {
+  Hierarchy,
+  CollaboratorPanel,
+  CollaboratorIcon,
+  RequirementStatusContainer,
+} from '../components'
 import SplitPane from 'react-split-pane'
 import TextareaAutosize from 'react-textarea-autosize'
 
@@ -20,12 +25,15 @@ import {
   setShouldPullFromDB,
 } from '../redux/stores/common/actions'
 import {
+  getStatusesAsync,
   getTreeAsync,
   sendDocAsync,
   sendReqAsync,
   sendReqAsyncOnUnmount,
+  setDocTitleAsync,
 } from '../redux/stores/document/actions'
 
+var selectedNodeId = 0
 function useInterval(callback, delay) {
   const savedCallback = useRef()
 
@@ -56,7 +64,8 @@ export default function Editor() {
     true
   )
   const storeTreeData = useSelector((state) => state.common.treeData, [])
-  const selectedNodeId = useSelector((state) => state.common.selectedID)
+  // const selectedNodeId = useSelector((state) => state.common.selectedID)
+  // var selectedNodeId = 0
   const selectedDocObject = useSelector((state) => state.document.current_doc)
   const userColorObject = useSelector(
     (state) => state.common.userColorObject,
@@ -70,7 +79,7 @@ export default function Editor() {
   useInterval(() => {
     if (selectedDocObject != null && shouldPullFromDB == true) {
       dispatch(getTreeAsync(selectedDocObject))
-      console.log('Pull tree from database')
+      // console.log('Pull tree from database')
 
       if (fetchedTree != null) {
         let treeFromDB = null
@@ -93,6 +102,7 @@ export default function Editor() {
     return () => {
       if (selectedDocObject != null) {
         if (selectedNodeId != 0) {
+          console.log('leaving editor')
           dispatch(
             sendReqAsyncOnUnmount(
               storeTreeData,
@@ -102,12 +112,17 @@ export default function Editor() {
               selectedDocObject._id
             )
           ) // Send the updated requirement to the database
-          // console.log('On Focus: ' + id + ' ' + selectedNodeId)
-          dispatch(updateSelectedNodeID(0)) // Updating visual of node being selected
-          dispatch(setShouldPullFromDB(true)) // Don't pull when focussing on a requirement
         }
+        setSelectedNodeId(0)
+        dispatch(setShouldPullFromDB(true)) // Don't pull when focussing on a requirement
       }
+      dispatch(updateDataTree([])) // resetting the local tree when leaving editor
     }
+  }, [selectedDocObject, dispatch])
+
+  useEffect(() => {
+    if (selectedDocObject != null)
+      dispatch(getStatusesAsync(selectedDocObject._id))
   }, [selectedDocObject])
 
   /**
@@ -167,7 +182,8 @@ export default function Editor() {
       }
 
       // console.log('On Focus: ' + id + ' ' + selectedNodeId)
-      dispatch(updateSelectedNodeID(id)) // Updating visual of node being selected
+      // dispatch(updateSelectedNodeID(id)) // Updating visual of node being selected
+      setSelectedNodeId(id)
 
       // Get requirement we are editing, and add username
       var requirement = JSON.stringify(
@@ -180,14 +196,15 @@ export default function Editor() {
       )
       setTimeout(() => {
         dispatch(sendReqAsync(requirement, selectedDocObject._id)) // Send the updated requirement to the database
-        dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
+        // dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
       }, 100)
     }
   }
 
   const offFocusRequirement = (id) => {
     // console.log('Off Focus: ' + id)
-    dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
+    // dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
+    setSelectedNodeId(0)
     // Get requirement we are editing, and remove the user's name from it
     var requirement = JSON.stringify(
       Tree_GetRequirementObject(storeTreeData, id, user.nickname, null)
@@ -197,6 +214,15 @@ export default function Editor() {
       dispatch(getTreeAsync(selectedDocObject)) // Get the most up to date document from the db
       dispatch(setShouldPullFromDB(true)) // Start pulling documents from the database again
     }, 100)
+  }
+
+  /**
+   * Sends the clicked node's ID to Redux's selectedID
+   * @param {int} id - the ID of the currently selected node to push to Redux
+   */
+  const setSelectedNodeId = (id) => {
+    // console.log(id)
+    selectedNodeId = id
   }
 
   /**
@@ -213,7 +239,7 @@ export default function Editor() {
     level += 1
     // console.log(indentVal);
     return struct.map(
-      ({ title, text, children, id, order, isBeingEdited }, i) => {
+      ({ title, text, children, id, order, statusList, isBeingEdited }, i) => {
         return (
           <div
             style={{ marginLeft: indentVal }}
@@ -248,18 +274,26 @@ export default function Editor() {
                 </span>
               </div>
 
-              {parseInt(id) == parseInt(selectedNodeId) ? (
-                <div className="right">
+              <div className="right">
+                <RequirementStatusContainer
+                  key={i}
+                  requirementStatuses={statusList}
+                  onFocusReq={onFocusRequirement}
+                  reqID={id}
+                  storeTreeData={storeTreeData}
+                  updateTree={updateTree}
+                />
+                {parseInt(id) == parseInt(selectedNodeId) ? (
                   <button
-                    className="orange-button"
+                    className="orange-button container-width"
                     onClick={() => offFocusRequirement(id)}
                   >
                     SUBMIT
                   </button>
-                </div>
-              ) : (
-                <></>
-              )}
+                ) : (
+                  <span className="container-width" />
+                )}
+              </div>
             </div>
             <TextareaAutosize
               type="text"
@@ -280,7 +314,9 @@ export default function Editor() {
       }
     )
   }
-
+  const updateDocName = e => {
+      dispatch(setDocTitleAsync(selectedDocObject._id,e.target.textContent))
+  }
   return (
     <div className="editor-root">
       <SplitPane
@@ -295,13 +331,17 @@ export default function Editor() {
             scrollToElementFunction={(el) =>
               scrollToElement(paneRef.current.pane2.querySelector('.selected'))
             }
+            setSelectedNodeId={setSelectedNodeId}
+            selectedNodeId={selectedNodeId}
           />
         </div>
         <div className="editor-root-div styled-background-grey">
           <h1>
             {selectedDocObject != null ? (
               <>
+                <label contentEditable="true" onBlur={updateDocName}>
                 {selectedDocObject.title}
+                </label>
                 <span className="doc-version-title">
                   {'(version: ' + selectedDocVersion + ')'}
                 </span>
