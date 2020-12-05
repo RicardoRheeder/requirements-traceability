@@ -2,9 +2,7 @@ apps:
   - script    : 'npm start'
     name      : 'backend'
     cwd       : '/root/requirements-traceability/backend'
-    watch     : true
 
-  - script    : 'npm start'
+  - script    : 'npm run deploy'
     name      : 'frontend'
     cwd       : '/root/requirements-traceability/client'
-    watch     : true
