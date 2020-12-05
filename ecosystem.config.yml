@@ -1,0 +1,8 @@
+apps:
+  - script    : 'npm start'
+    name      : 'backend'
+    cwd       : '/root/requirements-traceability/backend'
+
+  - script    : 'npm run deploy'
+    name      : 'frontend'
+    cwd       : '/root/requirements-traceability/client'
