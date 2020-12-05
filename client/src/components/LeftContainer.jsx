@@ -71,6 +71,19 @@ export default function LeftContainer() {
     }
   }
 
+  function isAdmin(){
+    console.log("HERE")
+    if(userInfo!=null&&selectedDoc!=0){
+      if(userInfo._id==selectedDoc.admin){
+        return true
+      }
+      else{
+        return false
+      }
+    }
+    return false
+  }
+
   return (
     <div className="left-container-root">
       <div className="document-searchbox-container">
@@ -96,7 +109,7 @@ export default function LeftContainer() {
 
         <button
           className={
-            'orange-button add-remove-button ' + (selectedDoc ? '' : 'disabled')
+            'orange-button add-remove-button ' + (selectedDoc ? '' : 'disabled') + (isAdmin() ? '' : ' disabled')
           }
           onClick={removeDocumentButton}
         >
