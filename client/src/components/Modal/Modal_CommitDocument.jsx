@@ -35,8 +35,8 @@ export default function Modal_CommitDocument() {
 
     // committing the tree to the db (adding it to the versions array)
     dispatch(commitTreeAsync(docObject, docID, doc.title))
-    console.log('selected DOC')
-    console.log(selectedDocumentPanelObject)
+    // console.log('selected DOC')
+    // console.log(selectedDocumentPanelObject)
     // dispatch(updateDataTree(JSON.parse(selectedDocumentPanelObject.tree)))
     // setTimeout(() => {
     //   dispatch(setFetchedTree(JSON.parse(selectedDocumentPanelObject.tree)))

@@ -330,7 +330,6 @@ export const sendReqStart = () => {
 }
 
 export const sendReqSuccess = (doc) => {
-  console.log(doc)
   return {
     type: SEND_REQ_SUCCESS,
     data: doc.data.tree,
@@ -351,7 +350,6 @@ export const sendReqAsync = (requirement, docID) => {
     axios
       .patch(`${url}/documents/update-req/${docID}`, { req: requirement })
       .then((doc) => {
-        console.log(doc)
         dispatch(sendReqSuccess(doc))
       })
       .catch((err) => {
@@ -526,8 +524,6 @@ export const getStatusesFailure = (res) => {
 
 // get the statuses array asynchronously
 export const getStatusesAsync = (docID) => {
-  console.log('DOC ID')
-  console.log(docID)
   return (dispatch) => {
     dispatch(getStatusesStart())
     axios

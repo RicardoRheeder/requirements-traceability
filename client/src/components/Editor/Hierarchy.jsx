@@ -186,11 +186,20 @@ export default function Hierarchy({
   }
 
   const moveNode = (tree) => {
-    // dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
     setSelectedNodeId(0)
     updateTree(tree)
 
     dispatch(sendTreeAsync(JSON.stringify(tree), current_doc._id))
+  }
+
+  const moveNodeNotification = (nodeID) => {
+    var oldReqName = Tree_GetNodeTitle(customTreeData, nodeID)
+    dispatch(
+      UpdateUserNotificationsAsync(
+        current_doc._id,
+        `${current_doc.title}:\n${user.nickname} moved req ${oldReqName}`
+      )
+    )
   }
 
   /**
@@ -202,10 +211,13 @@ export default function Hierarchy({
     updateTree(td)
 
     dispatch(sendTreeAsync(JSON.stringify(td), current_doc._id))
+
+    var reqName = Tree_GetNodeTitle(td, (selectedNodeId += 1))
+
     dispatch(
       UpdateUserNotificationsAsync(
         current_doc._id,
-        user.nickname + ' created a new requirement within ' + current_doc.title
+        `${current_doc.title}:\n${user.nickname} created a requirement ${reqName}`
       )
     )
   }
@@ -221,7 +233,6 @@ export default function Hierarchy({
     // Get new id to focus on
     let newSelectedNodeID = selectedNodeId - 1
     if (newSelectedNodeID < 0) newSelectedNodeID = 0
-    // dispatch(updateSelectedNodeID(0)) // Updating visual of node being selected
     setSelectedNodeId(0)
     updateTree(td)
 
@@ -229,11 +240,7 @@ export default function Hierarchy({
     dispatch(
       UpdateUserNotificationsAsync(
         current_doc._id,
-        user.nickname +
-          ' delete requirement ' +
-          reqName +
-          ' within ' +
-          current_doc.title
+        `${current_doc.title}:\n${user.nickname} delete requirement ${reqName}`
       )
     )
   }
@@ -273,13 +280,12 @@ export default function Hierarchy({
       event.target.className.includes('collapseButton') ||
       event.target.className.includes('expandButton')
     ) {
+      offFocusRequirement(selectedNodeId)
     } else if (node.isBeingEdited == null) {
       let id = node.id
-      console.log(id)
       if (id != selectedNodeId) {
         dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
 
-        // console.log(id + ' ' + selectedNodeId)
         if (selectedNodeId != 0) {
           dispatch(setShouldPullFromDB(false)) // Don't pull when focussing on a requirement
 
@@ -295,7 +301,6 @@ export default function Hierarchy({
           dispatch(sendReqAsync(requirement, current_doc._id)) // Send the updated requirement to the database
         }
 
-        // dispatch(updateSelectedNodeID(id)) // Updating visual of node being selected
         setSelectedNodeId(id)
 
         // Get requirement we are editing, and add username
@@ -309,23 +314,27 @@ export default function Hierarchy({
         )
         setTimeout(() => {
           dispatch(sendReqAsync(requirement, current_doc._id)) // Send the updated requirement to the database
-          // dispatch(getTreeAsync(current_doc)) // Get the most up to date document from the db
         }, 100)
       }
     }
   }
 
-  const offFocusRequirement_versioning = (id) => {
-    // console.log('Off Focus: ' + id)
-    // dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
+  const offFocusRequirement = (id, isUniqueID = false) => {
     setSelectedNodeId(0)
+
     // Get requirement we are editing, and remove the user's name from it
     var requirement = JSON.stringify(
-      Tree_GetRequirementObject(storeTreeData, id, user.nickname, null)
+      Tree_GetRequirementObject(
+        storeTreeData,
+        id,
+        user.nickname,
+        null,
+        isUniqueID
+      )
     )
+
     setTimeout(() => {
       dispatch(sendReqAsync(requirement, current_doc._id)) // Send the updated requirement to the database
-      // dispatch(getTreeAsync(current_doc)) // Get the most up to date document from the db
       dispatch(setShouldPullFromDB(true)) // Start pulling documents from the database again
     }, 100)
   }
@@ -334,19 +343,17 @@ export default function Hierarchy({
    * The handler for node onDoubleClick events - tells the editor to scroll to the location of the node's section
    */
   const executeScroll = () => {
-    // console.log(selectedNodeId)
     scrollToElementFunction()
-    // console.log('Double click')
   }
 
   const exportDocOnClick = (selectedNodeId) => {
     print()
-    offFocusRequirement_versioning(selectedNodeId)
+    offFocusRequirement(selectedNodeId)
   }
 
   const saveDocOnClick = (selectedNodeId) => {
     dispatch(setModalObject({ visible: true, mode: 3 }))
-    offFocusRequirement_versioning(selectedNodeId)
+    offFocusRequirement(selectedNodeId)
   }
 
   return (
@@ -441,11 +448,19 @@ export default function Hierarchy({
                 : setSearchFocusIndex(0)
             }}
             generateNodeProps={(rowInfo) => {
-              // console.log(rowInfo.path); // Prints all node's info
               let nodeProps = {
                 onClick: (event) => onFocusRequirement(event, rowInfo.node),
-                // onBlur: (event) => offFocusRequirement(event, rowInfo.node),
                 onDoubleClick: executeScroll,
+                onDragStart: (event) =>
+                  offFocusRequirement(selectedNodeId, false),
+
+                onDragEnd: (event) => {
+                  if (rowInfo && rowInfo.node) {
+                    offFocusRequirement(rowInfo.node.uniqueID, true),
+                      moveNodeNotification(rowInfo.node.id)
+                  }
+                },
+
                 title: (
                   <span className="node-row-text">
                     <span className="node-ordering-title">
@@ -487,12 +502,6 @@ export default function Hierarchy({
                 rowInfo.node.isBeingEdited != user.nickname
                   ? ' disabled'
                   : '')
-              // if (rowInfo.node && selectedNodeId === rowInfo.node.id) {
-              //   nodeProps.className =
-              //     'selected-tree-node' + ' ' + nodeProps.className
-              //   // console.log(nodeProps);
-              // }
-
               return nodeProps
             }}
           />
@@ -506,7 +515,7 @@ export default function Hierarchy({
             <Dropdown
               options={versionList}
               onChange={_onDropdownSelect}
-              onFocus={() => offFocusRequirement_versioning(selectedNodeId)}
+              onFocus={() => offFocusRequirement(selectedNodeId)}
               value={currentDropDownVersion}
               placeholder="Select an option"
               className="dropdown-custom-wrapper"

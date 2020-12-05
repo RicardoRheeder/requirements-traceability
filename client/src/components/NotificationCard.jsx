@@ -8,8 +8,6 @@ export default function NotificationCard({ notification }) {
   }
 
   var arrayOfSentenceParts = notification.split('\n')
-  console.log(arrayOfSentenceParts)
-
   return arrayOfSentenceParts.length > 1 ? (
     <div className="notification-card">
       {sentenceConstructer(arrayOfSentenceParts)}

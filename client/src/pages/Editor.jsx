@@ -70,8 +70,6 @@ export default function Editor() {
     true
   )
   const storeTreeData = useSelector((state) => state.common.treeData, [])
-  // const selectedNodeId = useSelector((state) => state.common.selectedID)
-  // var selectedNodeId = 0
   const current_doc = useSelector((state) => state.document.current_doc)
   const userColorObject = useSelector(
     (state) => state.common.userColorObject,
@@ -88,11 +86,7 @@ export default function Editor() {
       shouldPullFromDB == true &&
       Object.keys(current_doc).length != 0
     ) {
-      console.log('Current doc')
-      console.log(current_doc)
-
       dispatch(getTreeAsync(current_doc))
-      // console.log('Pull tree from database')
 
       if (fetchedTree != null) {
         let treeFromDB = null
@@ -109,9 +103,7 @@ export default function Editor() {
 
   useEffect(() => {
     if (current_doc != null) {
-      // dispatch(getDocAsync(current_doc._id))
       dispatch(getDocCollaboratorsAsync(current_doc._id))
-      // updateTree(JSON.parse(current_doc.tree))
       setDocumentName(current_doc.title)
     }
   }, [])
@@ -127,7 +119,6 @@ export default function Editor() {
       if (tree && tree.length > 0 && !tree[0].hasOwnProperty('uniqueID')) {
         var td = Tree_Update(tree)
         dispatch(sendTreeAsync(JSON.stringify(td), current_doc._id))
-        // dispatch(getStatusesAsync(current_doc._id))
       }
     }
 
@@ -192,7 +183,6 @@ export default function Editor() {
       $('.navbar-root').remove()
       element.scrollIntoView(true, { behavior: 'smooth' })
       $('.app-root').prepend(navbar)
-      console.log('scrolled to element')
     }
   }
 
@@ -215,8 +205,6 @@ export default function Editor() {
         dispatch(sendReqAsync(requirement, current_doc._id)) // Send the updated requirement to the database
       }
 
-      // console.log('On Focus: ' + id + ' ' + selectedNodeId)
-      // dispatch(updateSelectedNodeID(id)) // Updating visual of node being selected
       setSelectedNodeId(id)
 
       // Get requirement we are editing, and add username
@@ -230,14 +218,11 @@ export default function Editor() {
       )
       setTimeout(() => {
         dispatch(sendReqAsync(requirement, current_doc._id)) // Send the updated requirement to the database
-        // dispatch(getTreeAsync(current_doc)) // Get the most up to date document from the db
       }, 100)
     }
   }
 
   const offFocusRequirement = (id) => {
-    // console.log('Off Focus: ' + id)
-    // dispatch(updateSelectedNodeID(0)) // Updating visual of node being deselected
     setSelectedNodeId(0)
     // Get requirement we are editing, and remove the user's name from it
     var requirement = JSON.stringify(
@@ -245,7 +230,6 @@ export default function Editor() {
     )
     setTimeout(() => {
       dispatch(sendReqAsync(requirement, current_doc._id)) // Send the updated requirement to the database
-      // dispatch(getTreeAsync(current_doc)) // Get the most up to date document from the db
       dispatch(setShouldPullFromDB(true)) // Start pulling documents from the database again
     }, 100)
   }
@@ -255,7 +239,6 @@ export default function Editor() {
    * @param {int} id - the ID of the currently selected node to push to Redux
    */
   const setSelectedNodeId = (id) => {
-    // console.log(id)
     selectedNodeId = id
   }
 
@@ -263,12 +246,7 @@ export default function Editor() {
     dispatch(
       UpdateUserNotificationsAsync(
         current_doc._id,
-        user.nickname +
-          " changed the title of document '" +
-          current_doc.title +
-          "' to '" +
-          documentName +
-          "'"
+        `${current_doc.title}:\n${user.nickname} changed the title of document ${current_doc.title} to ${documentName}`
       )
     )
     dispatch(setDocTitleAsync(current_doc._id, documentName))
@@ -290,7 +268,6 @@ export default function Editor() {
     window.test = paneRef
     var indentVal = String(level * 20) + 'px' // Used for the indenting of sections
     level += 1
-    // console.log(indentVal);
     return struct.map(
       ({ title, text, children, id, order, statusList, isBeingEdited }, i) => {
         return (
@@ -354,7 +331,6 @@ export default function Editor() {
               value={text}
               onChange={updateNodeText}
               onFocus={() => onFocusRequirement(id)}
-              // onBlur={() => offFocusRequirement(id)}
             ></TextareaAutosize>
             {/* If children exist, recurse into it, and create sections out of it */}
             {children != null ? (

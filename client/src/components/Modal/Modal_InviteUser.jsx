@@ -37,7 +37,6 @@ export default function Modal_InviteUser() {
   const handleChange = (e) => {
     const { value } = e.target
     setEmail({ ...email, email: value })
-    console.log(selectedDoc)
   }
   return (
     <div className="modal-root modal-root-child">

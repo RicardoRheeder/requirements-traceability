@@ -40,9 +40,7 @@ export default function CollaboratorPanel() {
   )
 
   if (currentDocument != null) {
-    // listOfUserObjects = currentDocument.collaborators
     listOfUserObjects = currentDocument
-    // console.log(listOfUserObjects)
   }
 
   const generateUserIcons = (userStruct) => {
