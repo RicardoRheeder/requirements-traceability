@@ -352,7 +352,15 @@ export default function Hierarchy({
   }
 
   function isAdmin(){
-    return true
+    if(fetchedUserInfo!=null&&current_doc!=null&&current_doc!=0){
+      if(fetchedUserInfo.info._id==current_doc.admin){
+        return true
+      }
+      else{
+        return false
+      }
+    }
+    return false
   }
 
   return (
@@ -529,7 +537,7 @@ export default function Hierarchy({
             EXPORT
           </button>
           <button
-            className={"orange-button hierarchy-button" + (isAdmin ? '' : ' disabled')}
+            className={"orange-button hierarchy-button" + (isAdmin() ? '' : ' disabled')}
             onClick={() => saveDocOnClick(selectedNodeId)}
           >
             Save Version
