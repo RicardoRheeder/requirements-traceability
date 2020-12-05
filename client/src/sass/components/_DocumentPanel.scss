@@ -25,10 +25,12 @@
     font-style: normal;
     font-variant: normal;
     font-weight: 700;
+    height: 110%;
     /* line-height: 20.4px; */
     text-align: left;
     margin: 5px;
-    width: max-content;
+    text-overflow: ellipsis;
+    overflow: hidden;
     white-space: nowrap;
   }
 
@@ -55,6 +57,7 @@
     padding: 2px;
     border-radius: 3px;
     font-size: 14px;
+    transform: translateY(-12px);
   }
 
   .satisfied {
