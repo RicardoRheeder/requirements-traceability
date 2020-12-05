@@ -28,11 +28,7 @@ export default function Modal_InviteUser() {
     dispatch(
       UpdateUserNotificationsAsync(
         selectedDoc._id,
-        user.nickname +
-          ' invited ' +
-          email.email.trim() +
-          ' to document: ' +
-          selectedDoc.title
+        `${selectedDoc.title}:\n${user.nickname} invited ${email.email.trim()}`
       )
     )
     dispatch(setModalObject({ visible: false, mode: 0 }))
