@@ -57,7 +57,8 @@ router.route('/create-document').post((req, res) => {
       // adding the document to the admins documents array
       User.findByIdAndUpdate(
         { _id: admin },
-        { $addToSet: { documents: newDocument._id } }
+        { $addToSet: { documents: newDocument._id } },
+        { new: true }
       )
         .then((user) =>
           res.json({
@@ -254,7 +255,8 @@ router.route('/remove-user/:id').patch((req, res) => {
 router.route('/update-tree/:id').patch((req, res) => {
   Document.findByIdAndUpdate(
     { _id: req.params.id },
-    { $set: { tree: req.body.tree } }
+    { $set: { tree: req.body.tree } },
+    { new: true }
   )
     .then((doc) => res.json('Tree structure updated within the doc: ' + doc))
     .catch((err) => res.status(400).json('Error: ' + err))
@@ -314,7 +316,7 @@ router.route('/commit-doc/:id').patch((req, res) => {
       $addToSet: { versions: JSON.stringify(newVersion) },
       $set: { tree: newTree },
     },
-    {new: true}
+    { new: true }
   )
     .then((doc) =>
       res.json({

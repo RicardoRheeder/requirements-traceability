@@ -15,9 +15,9 @@ import {
   GET_TREE_START,
   GET_TREE_FAILURE,
   GET_TREE_SUCCESS,
-  SEND_DOC_START,
-  SEND_DOC_FAILURE,
-  SEND_DOC_SUCCESS,
+  SEND_TREE_START,
+  SEND_TREE_FAILURE,
+  SEND_TREE_SUCCESS,
   SEND_REQ_START,
   SEND_REQ_FAILURE,
   SEND_REQ_SUCCESS,
@@ -255,7 +255,7 @@ export const commitTreeStart = () => {
 }
 
 export const commitTreeSuccess = (doc) => {
-  console.log("TEST COMMIT")
+  console.log('TEST COMMIT')
   console.log(doc.data.response)
   return {
     type: COMMIT_TREE_SUCCESS,
@@ -289,33 +289,35 @@ export const commitTreeAsync = (doc, docID, versionName) => {
 
 // Sending tree to database *******************************
 // Sending tree structure to database
-export const sendDocStart = () => {
+export const sendTreeStart = () => {
   return {
-    type: SEND_DOC_START,
+    type: SEND_TREE_START,
   }
 }
-export const sendDocSuccess = () => {
+export const sendTreeSuccess = (doc) => {
   return {
-    type: SEND_DOC_SUCCESS,
+    type: SEND_TREE_SUCCESS,
+    data: doc.data.response,
   }
 }
-export const sendDocFailure = () => {
+export const sendTreeFailure = (err) => {
   return {
-    type: SEND_REQ_FAILURE,
+    type: SEND_TREE_FAILURE,
+    data: err.data.message,
   }
 }
 
 //send the document (tree structure) to the backend
-export const sendDocAsync = (treeData, docID) => {
+export const sendTreeAsync = (treeData, docID) => {
   return (dispatch) => {
-    dispatch(sendDocStart())
+    dispatch(sendTreeStart())
     axios
       .patch(`${url}/documents/update-tree/${docID}`, { tree: treeData })
       .then((doc) => {
-        dispatch(sendDocSuccess(doc))
+        dispatch(sendTreeSuccess(doc))
       })
       .catch((err) => {
-        dispatch(sendDocFailure(err))
+        dispatch(sendTreeFailure(err))
       })
   }
 }
@@ -524,7 +526,7 @@ export const getStatusesFailure = (res) => {
 
 // get the statuses array asynchronously
 export const getStatusesAsync = (docID) => {
-  console.log("DOC ID")
+  console.log('DOC ID')
   console.log(docID)
   return (dispatch) => {
     dispatch(getStatusesStart())

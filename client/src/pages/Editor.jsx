@@ -29,7 +29,7 @@ import {
   getDocCollaboratorsAsync,
   getStatusesAsync,
   getTreeAsync,
-  sendDocAsync,
+  sendTreeAsync,
   sendReqAsync,
   sendReqAsyncOnUnmount,
   setCurrentDoc,
@@ -126,7 +126,7 @@ export default function Editor() {
       }
       if (tree && tree.length > 0 && !tree[0].hasOwnProperty('uniqueID')) {
         var td = Tree_Update(tree)
-        dispatch(sendDocAsync(JSON.stringify(td), current_doc._id))
+        dispatch(sendTreeAsync(JSON.stringify(td), current_doc._id))
         // dispatch(getStatusesAsync(current_doc._id))
       }
     }

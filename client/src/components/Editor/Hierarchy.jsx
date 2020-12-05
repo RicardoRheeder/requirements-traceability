@@ -19,7 +19,7 @@ import {
 } from '../../redux/stores/common/actions'
 import {
   getTreeAsync,
-  sendDocAsync,
+  sendTreeAsync,
   sendReqAsync,
 } from '../../redux/stores/document/actions'
 
@@ -76,7 +76,11 @@ export default function Hierarchy({
   function refreshVersionList() {
     let defaultOption = '0.0'
     let tempVersionsList = []
-    if (current_doc && current_doc.versions && current_doc.versions.length > 0) {
+    if (
+      current_doc &&
+      current_doc.versions &&
+      current_doc.versions.length > 0
+    ) {
       // looping over versions array and parsing
       current_doc.versions.forEach((version) => {
         const parsedVersion = JSON.parse(version)
@@ -186,7 +190,7 @@ export default function Hierarchy({
     setSelectedNodeId(0)
     updateTree(tree)
 
-    dispatch(sendDocAsync(JSON.stringify(tree), current_doc._id))
+    dispatch(sendTreeAsync(JSON.stringify(tree), current_doc._id))
   }
 
   /**
@@ -197,13 +201,11 @@ export default function Hierarchy({
     var td = Tree_InsertNode(customTreeData, selectedNodeId)
     updateTree(td)
 
-    dispatch(sendDocAsync(JSON.stringify(td), current_doc._id))
+    dispatch(sendTreeAsync(JSON.stringify(td), current_doc._id))
     dispatch(
       UpdateUserNotificationsAsync(
         current_doc._id,
-        user.nickname +
-          ' created a new requirement within ' +
-          current_doc.title
+        user.nickname + ' created a new requirement within ' + current_doc.title
       )
     )
   }
@@ -223,7 +225,7 @@ export default function Hierarchy({
     setSelectedNodeId(0)
     updateTree(td)
 
-    dispatch(sendDocAsync(JSON.stringify(td), current_doc._id))
+    dispatch(sendTreeAsync(JSON.stringify(td), current_doc._id))
     dispatch(
       UpdateUserNotificationsAsync(
         current_doc._id,
