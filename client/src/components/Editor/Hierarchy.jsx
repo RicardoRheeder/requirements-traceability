@@ -351,6 +351,10 @@ export default function Hierarchy({
     }
   }
 
+  function isAdmin(){
+    return true
+  }
+
   return (
     <div className="hierarchy-contents-container">
       {/* Tree Utilities */}
@@ -525,7 +529,7 @@ export default function Hierarchy({
             EXPORT
           </button>
           <button
-            className="orange-button hierarchy-button"
+            className={"orange-button hierarchy-button" + (isAdmin ? '' : ' disabled')}
             onClick={() => saveDocOnClick(selectedNodeId)}
           >
             Save Version

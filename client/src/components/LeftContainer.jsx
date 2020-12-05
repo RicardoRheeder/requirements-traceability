@@ -72,8 +72,7 @@ export default function LeftContainer() {
   }
 
   function isAdmin(){
-    console.log("HERE")
-    if(userInfo!=null&&selectedDoc!=0){
+    if(userInfo!=null&&selectedDoc!=0&&selectedDoc!=null){
       if(userInfo._id==selectedDoc.admin){
         return true
       }
