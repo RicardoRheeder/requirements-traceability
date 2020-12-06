@@ -33,7 +33,6 @@ export default function LeftContainer() {
       var lowerCaseTitle = docs[i].title.toLowerCase()
       var lowerCaseSearchValue = e.target.value.toLowerCase()
       if (lowerCaseTitle.includes(lowerCaseSearchValue)) {
-        console.log(docs[i].title + ' contains ' + e.target.value)
         matchingSearchs[matchingSearchs.length] = docs[i]
       }
     }
@@ -41,7 +40,6 @@ export default function LeftContainer() {
   }
 
   const RenderDocumentPanels = (listOfDocs) => {
-    console.log(listOfDocs)
     var orderedDocList = []
     for (let i = listOfDocs.length - 1; i >= 0; i--) {
       orderedDocList.push(listOfDocs[i])
