@@ -4,6 +4,7 @@ import { setModalObject } from '../redux/stores/common/actions'
 import { useAuth0 } from '@auth0/auth0-react'
 import { DocumentPanel } from './'
 import { fetchUserDocsAsync } from '../redux/stores/document/actions'
+import { fetchUserInfoAsync } from '../redux/stores/user/actions'
 import { useState } from 'react'
 
 export default function LeftContainer() {
@@ -13,6 +14,7 @@ export default function LeftContainer() {
   const selectedDoc = useSelector(
     (state) => state.common.selectedDocumentPanelObject
   )
+  const userInfo = useSelector((state) => state.user.info,'')
 
   const [searchboxIsEmpty, setSearchboxIsEmpty] = useState(true)
   const [orderedDocList, setOrderedDocList] = useState([])
@@ -61,7 +63,22 @@ export default function LeftContainer() {
   }
 
   const removeDocumentButton = () => {
-    dispatch(setModalObject({ visible: true, mode: 1 }))
+    dispatch(fetchUserInfoAsync(user))
+    if(userInfo._id==selectedDoc.admin){
+      dispatch(setModalObject({ visible: true, mode: 1 }))
+    }
+  }
+
+  function isAdmin(){
+    if(userInfo!=null&&selectedDoc!=0&&selectedDoc!=null){
+      if(userInfo._id==selectedDoc.admin){
+        return true
+      }
+      else{
+        return false
+      }
+    }
+    return false
   }
 
   return (
@@ -89,7 +106,7 @@ export default function LeftContainer() {
 
         <button
           className={
-            'orange-button add-remove-button ' + (selectedDoc ? '' : 'disabled')
+            'orange-button add-remove-button ' + (selectedDoc ? '' : 'disabled') + (isAdmin() ? '' : ' disabled')
           }
           onClick={removeDocumentButton}
         >

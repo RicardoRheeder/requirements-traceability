@@ -33,7 +33,7 @@ import {
   Tree_GetNodeTitle,
 } from '../../utils/TreeNodeHelperFunctions'
 import ReactDropdown from 'react-dropdown'
-import { UpdateUserNotificationsAsync } from '../../redux/stores/user/actions'
+import { fetchUserInfoAsync, UpdateUserNotificationsAsync } from '../../redux/stores/user/actions'
 
 export default function Hierarchy({
   scrollToElementFunction,
@@ -47,6 +47,7 @@ export default function Hierarchy({
   const currentSelectedDocVersion = useSelector(
     (state) => state.common.currentSelectedDocVersion
   )
+  const fetchedUserInfo = useSelector((state) => state.user)
   const CURRENTWORKINGVERSION = 'Current working version'
   // Keeps track of which node ID is selected: Value will update with the selectedID stored in Redux
   // const selectedNodeId = useSelector((state) => state.common.selectedID)
@@ -69,6 +70,7 @@ export default function Hierarchy({
   useEffect(() => {
     if (current_doc !== null) {
       refreshVersionList()
+      dispatch(fetchUserInfoAsync(user))
     }
   }, [current_doc])
 
@@ -352,8 +354,22 @@ export default function Hierarchy({
   }
 
   const saveDocOnClick = (selectedNodeId) => {
-    dispatch(setModalObject({ visible: true, mode: 3 }))
-    offFocusRequirement(selectedNodeId)
+    if(fetchedUserInfo.info._id==current_doc.admin){
+      dispatch(setModalObject({ visible: true, mode: 3 }))
+      offFocusRequirement(selectedNodeId)
+    }
+  }
+
+  function isAdmin(){
+    if(fetchedUserInfo!=null&&current_doc!=null&&current_doc!=0){
+      if(fetchedUserInfo.info._id==current_doc.admin){
+        return true
+      }
+      else{
+        return false
+      }
+    }
+    return false
   }
 
   return (
@@ -532,7 +548,7 @@ export default function Hierarchy({
             EXPORT
           </button>
           <button
-            className="orange-button hierarchy-button"
+            className={"orange-button hierarchy-button" + (isAdmin() ? '' : ' disabled')}
             onClick={() => saveDocOnClick(selectedNodeId)}
           >
             Save Version
