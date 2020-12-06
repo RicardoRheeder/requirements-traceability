@@ -107,7 +107,7 @@ export function Tree_InsertNode(customTreeData, selectedNodeID) {
  */
 export function Tree_DeleteNode(customTreeData, attr = 'id', targetID) {
   function parseData(TreeData) {
-    if(TreeData.length>1){
+    if(TreeData.length>0){
     var i = TreeData.length
     while (i--) {
       if (
@@ -115,7 +115,9 @@ export function Tree_DeleteNode(customTreeData, attr = 'id', targetID) {
         TreeData[i].hasOwnProperty(attr) &&
         TreeData[i][attr] === targetID
       ) {
+        if(TreeData[i].order!='1.'){
         TreeData.splice(i, 1)
+        }
         break
       } else if (TreeData[i].hasOwnProperty('children')) {
         parseData(TreeData[i]['children'])
