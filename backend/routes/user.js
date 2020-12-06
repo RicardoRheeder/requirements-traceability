@@ -290,7 +290,7 @@ router.route('/update/recent-notifications/:id').patch((req, res) => {
       .then((collabs) => {
         const collabsArray = collabs.collaborators
         // making sure there are collaborators
-        if (collabsArray.length > 1) {
+        if (collabsArray.length >= 1) {
           // looping over each collaborator and updating their notifications
           for (let i = 0; i < collabsArray.length; i++) {
             User.findById(collabsArray[i])

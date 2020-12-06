@@ -136,7 +136,7 @@ export function Tree_GetNodeTitle(customTreeData, targetID) {
         TreeData[i].hasOwnProperty('id') &&
         TreeData[i]['id'] === targetID
       ) {
-        reqName = TreeData[i]['title']
+        reqName = TreeData[i]['order'] + ' ' + TreeData[i]['title']
         break
       } else if (TreeData[i].hasOwnProperty('children')) {
         parseData(TreeData[i]['children'])
@@ -292,15 +292,19 @@ export function Tree_GetRequirementObject(
   localTree,
   targetID,
   localEditingUser,
-  desiredEditingUserState = null
+  desiredEditingUserState = null,
+  isUniqueID = false
 ) {
   function parseLocalTree(TreeData, targetID, req) {
     var i = TreeData.length
     while (i--) {
       if (
         TreeData[i] &&
-        TreeData[i].hasOwnProperty('id') &&
-        TreeData[i]['id'] === targetID
+        TreeData[i].hasOwnProperty('id') && 
+        (
+          (isUniqueID == false && TreeData[i]['id'] === targetID) || 
+          (isUniqueID == true && TreeData[i]['uniqueID'] === targetID)
+        )
       ) {
         if (
           TreeData[i]['isBeingEdited'] == localEditingUser ||

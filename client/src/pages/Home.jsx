@@ -30,7 +30,6 @@ function Home() {
     }
   }, [])
 
-  // console.log(recent_docs)
   return (
     <div className="home-root styled-background-blue">
       <div className="left-container">
