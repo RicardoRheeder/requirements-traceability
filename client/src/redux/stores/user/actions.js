@@ -124,7 +124,6 @@ export const UpdateUserRecentDocsSuccess = (docs) => {
   }
 }
 export const UpdateUserRecentDocsFailure = (errorMessage) => {
-  console.log(errorMessage)
   return {
     type: UPDATE_USER_RECENT_DOCS_FAILURE,
     payload: errorMessage.data.message,

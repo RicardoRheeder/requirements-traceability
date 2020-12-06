@@ -28,11 +28,7 @@ export default function Modal_InviteUser() {
     dispatch(
       UpdateUserNotificationsAsync(
         selectedDoc._id,
-        user.nickname +
-          ' invited ' +
-          email.email.trim() +
-          ' to document: ' +
-          selectedDoc.title
+        `${selectedDoc.title}:\n${user.nickname} invited ${email.email.trim()}`
       )
     )
     dispatch(setModalObject({ visible: false, mode: 0 }))
@@ -41,7 +37,6 @@ export default function Modal_InviteUser() {
   const handleChange = (e) => {
     const { value } = e.target
     setEmail({ ...email, email: value })
-    console.log(selectedDoc)
   }
   return (
     <div className="modal-root modal-root-child">

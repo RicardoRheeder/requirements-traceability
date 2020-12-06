@@ -28,9 +28,9 @@ export const GET_TREE_FAILURE = 'GET_TREE_FAILURE'
 export const GET_TREE_SUCCESS = 'GET_TREE_SUCCESS'
 
 // actions for sending the tree structure
-export const SEND_DOC_START = 'SEND_DOC_START'
-export const SEND_DOC_FAILURE = 'SEND_DOC_FAILURE'
-export const SEND_DOC_SUCCESS = 'SEND_DOC_SUCCESS'
+export const SEND_TREE_START = 'SEND_TREE_START'
+export const SEND_TREE_FAILURE = 'SEND_TREE_FAILURE'
+export const SEND_TREE_SUCCESS = 'SEND_TREE_SUCCESS'
 // actions for sending a requirement
 export const SEND_REQ_START = 'SEND_REQ_START'
 export const SEND_REQ_FAILURE = 'SEND_REQ_FAILURE'
