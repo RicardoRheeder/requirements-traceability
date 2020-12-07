@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run clean && webpack-dev-server --config ./build-config/webpack.dev.config.js",
     "build": "npm run clean && webpack --config ./build-config/webpack.config.js",
-    "deploy": "npm run build && gh-pages -d build",
+    "deploy": "npm run build && node server.js",
     "clean": "rm -Rf ./build/bundle.js ./build/index.html",
     "reset": "npm run clean && rm -Rf ./node_modules ./package-lock.json",
     "test": "jest",

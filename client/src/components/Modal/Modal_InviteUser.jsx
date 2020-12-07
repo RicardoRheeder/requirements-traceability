@@ -3,8 +3,11 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { setModalObject } from '../../redux/stores/common/actions'
 import { addUserToDocAsync } from '../../redux/stores/document/actions'
+import { useAuth0 } from '@auth0/auth0-react'
+import { UpdateUserNotificationsAsync } from '../../redux/stores/user/actions'
 
 export default function Modal_InviteUser() {
+  const { user } = useAuth0()
   const modalObject = useSelector((state) => state.common.modalObject, [])
   const selectedDoc = useSelector(
     (state) => state.common.selectedDocumentPanelObject
@@ -12,9 +15,7 @@ export default function Modal_InviteUser() {
   const { _id } = useSelector((state) => state.user.info)
 
   const dispatch = useDispatch()
-  const [email, setEmail] = useState({
-    email: '',
-  })
+  const [email, setEmail] = useState({ email: '' })
 
   const handleOnClick = () => {
     const request = {
@@ -23,6 +24,13 @@ export default function Modal_InviteUser() {
       email: email.email.trim(),
     }
     dispatch(addUserToDocAsync(request))
+
+    dispatch(
+      UpdateUserNotificationsAsync(
+        selectedDoc._id,
+        `${selectedDoc.title}:\n${user.nickname} invited ${email.email.trim()}`
+      )
+    )
     dispatch(setModalObject({ visible: false, mode: 0 }))
   }
 

@@ -34,11 +34,13 @@ export default function CollaboratorPanel() {
     (state) => state.common.userColorObject,
     {}
   )
-  const currentDocument = useSelector((state) => state.document.current_doc, {})
+  const currentDocument = useSelector(
+    (state) => state.document.current_document_collaborators,
+    {}
+  )
 
   if (currentDocument != null) {
-    listOfUserObjects = currentDocument.collaborators
-    // console.log(listOfUserObjects)
+    listOfUserObjects = currentDocument
   }
 
   const generateUserIcons = (userStruct) => {

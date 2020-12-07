@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setModalObject } from '../../redux/stores/common/actions'
+import {
+  setModalObject,
+  updateDataTree,
+} from '../../redux/stores/common/actions'
 import { useAuth0 } from '@auth0/auth0-react'
 import {
   fetchUserDocsAsync,
   commitTreeAsync,
   getDocAsync,
+  setFetchedTree,
 } from '../../redux/stores/document/actions'
 import { setCurrentDocVersion } from '../../redux/stores/common/actions'
 
@@ -18,7 +22,9 @@ export default function Modal_CommitDocument() {
 
   const dispatch = useDispatch()
   const userInfo = useSelector((state) => state.user.info)
-
+  const selectedDocumentPanelObject = useSelector(
+    (state) => state.common.selectedDocumentPanelObject
+  )
   const [doc, setDoc] = useState({
     title: '',
   })
@@ -26,12 +32,20 @@ export default function Modal_CommitDocument() {
   const commitDocumentToDB = () => {
     let docObject = { tree: JSON.stringify(storeTreeData) }
     let docID = selectedDocObject._id
+
     // committing the tree to the db (adding it to the versions array)
     dispatch(commitTreeAsync(docObject, docID, doc.title))
-    dispatch(fetchUserDocsAsync(user))
-    setTimeout(() => {
-      dispatch(getDocAsync(docID))
-    }, 250)
+    // console.log('selected DOC')
+    // console.log(selectedDocumentPanelObject)
+    // dispatch(updateDataTree(JSON.parse(selectedDocumentPanelObject.tree)))
+    // setTimeout(() => {
+    //   dispatch(setFetchedTree(JSON.parse(selectedDocumentPanelObject.tree)))
+    // }, 250)
+
+    // dispatch(fetchUserDocsAsync(user))
+    // setTimeout(() => {
+    // dispatch(getDocAsync(docID))
+    // }, 250)
     dispatch(setModalObject({ visible: false, mode: 0 }))
     dispatch(setCurrentDocVersion(CURRENTWORKINGVERSION))
   }

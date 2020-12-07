@@ -28,7 +28,6 @@ export default function Modal_SetRequirementStatus({ reqID = null }) {
   useEffect(() => {
     if (selectedDocObject != null) {
       dispatch(getStatusesAsync(selectedDocObject._id))
-      console.log('fetching statuses')
     }
   }, [])
 
@@ -78,14 +77,15 @@ export default function Modal_SetRequirementStatus({ reqID = null }) {
 
     var arrayOfKeys = Object.keys(fetchedStatuses)
     return arrayOfKeys.map((status, i) => {
-      // console.log(status)
       return (
         <span
+          key={i}
           onClick={() => {
             setSelectedIconName(status)
           }}
         >
           <StatusIcon
+            key={i}
             statusName={status}
             statusColor={fetchedStatuses[status]}
             isSelected={status == selectedIconName ? true : false}

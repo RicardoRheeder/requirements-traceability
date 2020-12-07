@@ -1,9 +1,5 @@
 image: node:14.12.0
 
-# workflow:
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH'
-
 stages:
   - build
 #  - confidence-check
@@ -30,7 +26,7 @@ install_dependencies:
 #    - selenium/standalone-firefox
 #  script:
 #    - npm run confidence-check --host=selenium__standalone-firefox
-    
+
 #e2e:chrome:
 #  stage: confidence-check
 #  services:
@@ -46,12 +42,11 @@ run_tests:
   artifacts:
     paths:
       - test_reports/
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH != "master"'
 
 deploy_doc_tracer:
   stage: deploy
   script:
+    # setup ssh
     - apt-get update -qq
     - apt-get install -qq git
     - 'which ssh-agent || ( apt-get install -qq openssh-client )'
@@ -59,7 +54,9 @@ deploy_doc_tracer:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    # deploy updates
     - ssh root@cmpt371.persea.ca "cd requirements-traceability/backend && git pull origin master && npm install && cd ../client && npm install"
+    - ssh root@cmpt371.persea.ca "cd requirements-traceability && pm2 startOrRestart ecosystem.config.yml"
   environment:
     name: doc_tracer
     url: cmpt371.persea.ca

@@ -1,9 +1,18 @@
 import React from 'react'
 
 export default function NotificationCard({ notification }) {
-  const style = {
-    color: 'blue',
-    fontSize: '20px',
+  const sentenceConstructer = (remainingSentenceParts) => {
+    return remainingSentenceParts.map((part) => {
+      return <div>{part}</div>
+    })
   }
-  return <div style={style}>{notification}</div>
+
+  var arrayOfSentenceParts = notification.split('\n')
+  return arrayOfSentenceParts.length > 1 ? (
+    <div className="notification-card">
+      {sentenceConstructer(arrayOfSentenceParts)}
+    </div>
+  ) : (
+    <div className="notification-card">{notification}</div>
+  )
 }
