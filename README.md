@@ -15,6 +15,7 @@ Change directory to "**client**".
 `cd client`
 
 **Important**: The front-end will not run if you do not have the '.env' file within the '**client**' folder. The '.env' file IS NOT pushed to the repository - it contains sensitive config info. Instead, it is pinned on the 'front-end' chat on Discord.
+This default file specifies the SERVER_URI as http://localhost:5000 . If your backend is running somewhere else, you should change it to point there.
 
 - Download the pinned env file from the front-end chat in Discord.
 - Move the downloaded env to the **client** folder.
@@ -29,17 +30,18 @@ Run the application.
 
 `npm start`
 
-The localhost URL will be visually displayed within the terminal window (http://localhost:9090/ by default). 
+The localhost URL will be visually displayed within the terminal window (http://localhost:9090/ by default).
 
 Navigate to the localhost URL.
 
 ## Back-end Usage
 
-Change directory to "**backend**" 
+Change directory to "**backend**"
 
 `cd backend`
 
-**Important**: The back-end will not run if you do not have the '.env' file within the '**backend**' folder. The '.env' file IS NOT pushed to the repository - it contains sensitive config info. Instead, it is pinned on the 'back-end' chat on Discord.
+**Important**: The back-end will not run if you do not have the '.env' file within the '**backend**' folder. The '.env' file IS NOT pushed to the repository - it contains sensitive config info. Instead, it is pinned on the
+'back-end' chat on Discord. This default file specifies the DB_URI as mongodb+srv://Faiz:Faiz12345@cluster0.iv5ky.mongodb.net/Cluster0?retryWrites=true&w=majority . If this is not where your database is running, you should change it to point there.
 
 - Download the pinned env file from the back-end chat in Discord.
 - Move the downloaded env to the **backend** folder.
@@ -48,11 +50,11 @@ Change directory to "**backend**"
 
 Download and install the project's dependencies defined in the package.json file and generates a node_modules folder with the installed modules.
 
-`npm install` 
+`npm install`
 
-Run the application 
+Run the application
 
-`node server` 
+`node server`
 
 Open your preferred browser and go to (http://localhost:5000)
 
@@ -62,10 +64,10 @@ With the recent integration of the back-end API and the front-end client, both e
 
 From within requirements-traceability\client: `npm start`
 
-From within requirements-traceability\backend: `node server` or `npm start` 
+From within requirements-traceability\backend: `node server` or `npm start`
 
 **Important**: Due to the MongoDB database not yet being hosted, to perform the API calls, you will need to be whitelisted for authorization to make calls to the database. For this, please message Faiz directly via Discord and provide him your public IP address.
 
-## Contact 
+## Contact
 
 If there are any issues running the project locally, please contact Ricardo or Faiz as a step of the procedure may have been missed.
