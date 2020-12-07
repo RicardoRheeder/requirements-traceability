@@ -134,5 +134,11 @@ describe("Tree Helper Functions", () =>{
         var testsap = TreeFuncts.Tree_CountSatisfiedReqs(testTree)
         expect(testsap).toMatchObject([1,4])
     })
+
+    test("should get node title", ()=>{
+        var testsap = TreeFuncts.Tree_GetNodeTitle(testTree, 4)
+        console.log(testsap)
+        expect(testsap).toBe("undefined LLRQ3")
+    })
     
 })
