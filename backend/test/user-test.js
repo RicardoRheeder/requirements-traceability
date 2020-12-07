@@ -31,7 +31,7 @@ describe('document routes', function() {
                 email: "jadyn2004@live.ca"
             }
             chai.request(server).post('/users/create-user').send(tuser).end((err,res) => {
-                res.should.have.status(200);
+                res.should.have.status(400);
                 done();
             }) 
         })
