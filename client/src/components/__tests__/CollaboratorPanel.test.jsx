@@ -22,7 +22,8 @@ describe("CollaboratorPanel", () => {
                   ]}
             },
             common: {
-                selectedDocumentPanelObject: {title: 'testdoc'}
+                selectedDocumentPanelObject: {title: 'testdoc'},
+                userColorObject: {testuser1: 'blue', testUser2: 'red'}
             },
             user: {
                 notifications: []

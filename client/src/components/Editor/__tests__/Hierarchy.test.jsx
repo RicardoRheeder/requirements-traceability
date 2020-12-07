@@ -33,6 +33,11 @@ describe("Hierarchy", () => {
             },
             document: {
                 current_doc: {versions: ["versionName=0.0", "versionName=1.1"],}
+            },
+            user:{
+                info:{
+                    _id: "test"
+                }
             }
         });
         JSON.parse = jest.fn().mockImplementation(() => {
@@ -58,6 +63,8 @@ describe("Hierarchy", () => {
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
+
+    
     
     
 });

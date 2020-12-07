@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Export document modal component renders 1`] = `ShallowWrapper {}`;
-
-exports[`Export document modal component renders with children 1`] = `ReactWrapper {}`;

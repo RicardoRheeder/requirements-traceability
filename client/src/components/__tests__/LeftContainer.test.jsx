@@ -34,6 +34,11 @@ describe("LeftContainer", () => {
     test("renders with children", () => {
         const wrapper = mount(<Provider store = {store}><LeftContainer/></Provider>);
         expect(wrapper.exists()).toBe(true);
+        const event = {
+            preventDefault() {},
+            target: { value: 'testdoc' }
+        };
+        wrapper.find('input').simulate('change', event)
         expect(wrapper).toMatchSnapshot();
     });
 });

@@ -231,10 +231,10 @@ export function Tree_UpdateIsBeingEdited(
         parseData(TreeData[i]['children'])
       }
     }
-    console.log(TreeData)
     return TreeData
   }
   var treeWithNewText = parseData(customTreeData)
+  
   return treeWithNewText
 }
 
