@@ -47,7 +47,7 @@ import { Tree_GetRequirementObject } from '../../../utils/TreeNodeHelperFunction
 
 const axios = require('axios').default
 
-const url = 'http://localhost:5000'
+const url = 'https://cmpt371.persea.ca/backend'
 
 // Create doc actions ***********************************************
 // action to start creating doc

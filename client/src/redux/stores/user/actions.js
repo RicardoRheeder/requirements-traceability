@@ -17,7 +17,7 @@ import {
 } from './actionTypes'
 
 const axios = require('axios').default
-const url = 'http://localhost:5000/users'
+const url = 'https://cmpt371.persea.ca/backend/users'
 
 /**
  * function to init the fetching of user info
