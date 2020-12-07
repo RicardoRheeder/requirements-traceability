@@ -14,7 +14,7 @@ app.use(cors())
 app.use(express.json())
 
 // connect to mongoDB atlas
-const uri = 'mongodb://172.17.0.2:27017'
+const uri = process.env.DB_URI
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const connection = mongoose.connection
