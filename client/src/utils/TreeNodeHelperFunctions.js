@@ -114,6 +114,9 @@ export function Tree_DeleteNode(customTreeData, attr = 'id', targetID) {
         TreeData[i].hasOwnProperty(attr) &&
         TreeData[i][attr] === targetID
       ) {
+        if(TreeData.length==1&&TreeData[0].order=='1.'){
+          break
+        }
         TreeData.splice(i, 1)
         break
       } else if (TreeData[i].hasOwnProperty('children')) {
