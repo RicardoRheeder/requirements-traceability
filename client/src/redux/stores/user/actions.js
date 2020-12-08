@@ -17,7 +17,7 @@ import {
 } from './actionTypes'
 
 const axios = require('axios').default
-const url = process.env.SERVER_URI + 'users'
+const url = process.env.SERVER_URI + '/users'
 
 /**
  * function to init the fetching of user info
