@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RightContainer renders 1`] = `ShallowWrapper {}`;
+
+exports[`RightContainer renders with children 1`] = `ReactWrapper {}`;

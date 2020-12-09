@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CollaboratorPanel renders 1`] = `ShallowWrapper {}`;
+
+exports[`CollaboratorPanel renders with children 1`] = `ReactWrapper {}`;

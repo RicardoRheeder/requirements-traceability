@@ -1,6 +1,6 @@
 import React from "react"
 import Enzyme, { shallow, mount} from "enzyme"
-import LeftContainer from "../LeftContainer"
+import CollaboratorPanel from "../CollaboratorPanel"
 import Adapter from "enzyme-adapter-react-16"
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store"
@@ -9,36 +9,36 @@ import configureStore from "redux-mock-store"
 const mockStore = configureStore([])
 Enzyme.configure({adapter: new Adapter() });
 
-describe("LeftContainer", () => {
+describe("CollaboratorPanel", () => {
     let store;
     beforeEach(() => {
         store = mockStore({
             document: {
                 documents: [{title: 'testdoc', versions: [], tree: null}],
-                versions: []
+                versions: [],
+                current_doc: {collaborators: [
+                    { _id: '111', username: 'testUser1' },
+                    { _id: '222', username: 'testUser2' },
+                  ]}
             },
             common: {
-                selectedDocumentPanelObject: {title: 'testdoc'}
+                selectedDocumentPanelObject: {title: 'testdoc'},
+                userColorObject: {testuser1: 'blue', testUser2: 'red'}
             },
             user: {
-                recent_docs: []
+                notifications: []
             }
             
         });
     });
     test("renders", () => {
-        const wrapper = shallow(<Provider store = {store}><LeftContainer/></Provider>);
+        const wrapper = shallow(<Provider store = {store}><CollaboratorPanel/></Provider>);
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
     test("renders with children", () => {
-        const wrapper = mount(<Provider store = {store}><LeftContainer/></Provider>);
+        const wrapper = mount(<Provider store = {store}><CollaboratorPanel/></Provider>);
         expect(wrapper.exists()).toBe(true);
-        const event = {
-            preventDefault() {},
-            target: { value: 'testdoc' }
-        };
-        wrapper.find('input').simulate('change', event)
         expect(wrapper).toMatchSnapshot();
     });
 });

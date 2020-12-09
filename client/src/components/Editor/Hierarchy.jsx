@@ -70,7 +70,10 @@ export default function Hierarchy({
   useEffect(() => {
     if (current_doc !== null) {
       refreshVersionList()
-      dispatch(fetchUserInfoAsync(user))
+      setTimeout(() => {
+        dispatch(fetchUserInfoAsync(user))
+      }, 100)
+      
     }
   }, [current_doc])
 

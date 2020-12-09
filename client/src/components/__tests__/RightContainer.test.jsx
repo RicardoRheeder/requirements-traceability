@@ -1,6 +1,6 @@
 import React from "react"
 import Enzyme, { shallow, mount} from "enzyme"
-import LeftContainer from "../LeftContainer"
+import RightContainer from "../RightContainer"
 import Adapter from "enzyme-adapter-react-16"
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store"
@@ -9,7 +9,7 @@ import configureStore from "redux-mock-store"
 const mockStore = configureStore([])
 Enzyme.configure({adapter: new Adapter() });
 
-describe("LeftContainer", () => {
+describe("RightContainer", () => {
     let store;
     beforeEach(() => {
         store = mockStore({
@@ -21,24 +21,19 @@ describe("LeftContainer", () => {
                 selectedDocumentPanelObject: {title: 'testdoc'}
             },
             user: {
-                recent_docs: []
+                notifications: []
             }
             
         });
     });
     test("renders", () => {
-        const wrapper = shallow(<Provider store = {store}><LeftContainer/></Provider>);
+        const wrapper = shallow(<Provider store = {store}><RightContainer/></Provider>);
         expect(wrapper.exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
     test("renders with children", () => {
-        const wrapper = mount(<Provider store = {store}><LeftContainer/></Provider>);
+        const wrapper = mount(<Provider store = {store}><RightContainer/></Provider>);
         expect(wrapper.exists()).toBe(true);
-        const event = {
-            preventDefault() {},
-            target: { value: 'testdoc' }
-        };
-        wrapper.find('input').simulate('change', event)
         expect(wrapper).toMatchSnapshot();
     });
 });

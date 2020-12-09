@@ -19,23 +19,31 @@ chai.use(chaiHttp);
 
 
 describe('document routes', function() {
-    beforeEach((done) => {
-        Document.remove({}, (err) => {
-            done();
-        });
-        
-    });
+    
 
     describe('/documents', () => {
         it('should get all the docs', (done) =>{
             chai.request(server).get('/documents').end((err,res) => {
                 res.should.have.status(200);
                 res.body.response.should.be.a('array'); 
-                res.body.response.should.be.empty
+                res.body.response.should.not.be.empty
                 done();
             })
             
         })   
+    })
+    it('should create a new document', ()=>{
+        it('should create a document', (done)=> {
+            let tdoc = {
+                title: "testdoc",
+                admin: "jadynt",
+                collaborators: null
+            }
+            chai.request(server).post('/documents/create-document').send(tdoc).end((err,res) => {
+                res.should.have.status(200);
+                done();
+            }) 
+        })
     })
     
 })

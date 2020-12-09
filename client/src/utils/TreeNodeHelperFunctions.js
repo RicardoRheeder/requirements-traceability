@@ -220,6 +220,7 @@ export function Tree_UpdateIsBeingEdited(
   editingUser = null
 ) {
   function parseData(TreeData) {
+    
     var i = TreeData.length
     while (i--) {
       if (
@@ -236,6 +237,7 @@ export function Tree_UpdateIsBeingEdited(
     return TreeData
   }
   var treeWithNewText = parseData(customTreeData)
+  
   return treeWithNewText
 }
 
